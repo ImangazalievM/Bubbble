@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">Bubbble</string>
+    <string name="popular">Популярные</string>
+    <string name="recently">Недавние</string>
+
+    <string name="by">от</string>
+    <string name="like">Лайк</string>
+    <string name="reply">Ответить</string>
+    <string name="copy">Копировать</string>
+
+    <string name="download_image">Загрузить изображение</string>
+    <string name="open_in_browser">Открыть в браузере</string>
+
+    <string name="check_network_message">Проверьте подключение к интернету</string>
+    <string name="load_failed_message">Ошибка загрузки, попробуйте еще раз!</string>
+    <string name="try_again_message">Попробовать снова</string>
+    <string name="empty_list">Пусто</string>
+
+    <string name="user_information">Информация</string>
+    <string name="user_follow">Подписаться</string>
+    <string name="an_error_occurred">Произошла ошибка</string>
+    <string name="an_error_occurred_while_loading_image">Произошла ошибка при загрузке изображения</string>
+    <string name="image_saved_to_downloads_folder">Изображение сохранено в папку загрузок</string>>
+
+    <string name="storage_access_title">Ошибка</string>
+    <string name="storage_access_rationale_message">Bubbble не может работать без доступа к файлам на устройстве. Пожалуйста предоставьте доступ к файлам.</string>
+    <string name="storage_access_message">Bubbble не может работать без доступа к файлам на устройстве. Чтобы включить этот доступ, откройте страницу Bubbbleа в системных настройках, и зайдите в раздел «Разрешения».</string>
+    <string name="storage_access_ok_button">OK</string>
+    <string name="storage_access_settings_button">Настройки</string>
+    <string name="no_comments">Комментариев нет</string>
+
+    <plurals name="likes">
+        <item quantity="zero">нет лайков</item>
+        <item quantity="one">%s лайк</item>
+        <item quantity="two">%s лайка</item>
+        <item quantity="few">%s лайка</item>
+        <item quantity="many">%s лайков</item>
+        <item quantity="other">%s лайков</item>
+    </plurals>
+
+    <plurals name="views">
+        <item quantity="zero">нет просмотров</item>
+        <item quantity="one">%s просмотр</item>
+        <item quantity="two">%s просмотра</item>
+        <item quantity="few">%s просмотра</item>
+        <item quantity="many">%s просмотров</item>
+        <item quantity="other">%s просмотров</item>
+    </plurals>
+
+    <plurals name="buckets">
+        <item quantity="zero">нет бакетов</item>
+        <item quantity="one">%s бакет</item>
+        <item quantity="two">%s бакета</item>
+        <item quantity="few">%s бакета</item>
+        <item quantity="many">%s бакетов</item>
+        <item quantity="other">%s бакетов</item>
+    </plurals>
+
+    <plurals name="shots">
+        <item quantity="zero">нет бакетов</item>
+        <item quantity="one">%s бакет</item>
+        <item quantity="two">%s бакета</item>
+        <item quantity="few">%s бакета</item>
+        <item quantity="many">%s бакетов</item>
+        <item quantity="other">%s бакетов</item>
+    </plurals>
+
+    <plurals name="followers">
+        <item quantity="zero">нет подписчиков</item>
+        <item quantity="one">%s подписчик</item>
+        <item quantity="two">%s подписчика</item>
+        <item quantity="few">%s подписчиков</item>
+        <item quantity="many">%s подписчиков</item>
+        <item quantity="other">%s подписчиков</item>
+    </plurals>
+
+    <plurals name="following">
+        <item quantity="zero">%s подписан</item>
+        <item quantity="one">%s подписан</item>
+        <item quantity="few">%s подписан</item>
+        <item quantity="many">%s подписан</item>
+        <item quantity="other">%s подписан</item>
+    </plurals>
+
+    <plurals name="projects">
+        <item quantity="zero">%s проектов</item>
+        <item quantity="one">%s проект</item>
+        <item quantity="two">%s проекта</item>
+        <item quantity="few">%s проектов</item>
+        <item quantity="many">%s проектов</item>
+        <item quantity="other">%s проектов</item>
+
+    </plurals>
+
+</resources>

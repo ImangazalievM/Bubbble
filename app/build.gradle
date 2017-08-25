@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+
+    defaultConfig {
+        applicationId "com.imangazalievm.bubbble"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+
+        buildConfigField "String", "DRIBBBLE_CLIENT_ID", "\"${dribbble_client_id}\""
+        buildConfigField "String", "DRIBBBLE_CLIENT_SECRET", "\"${dribbble_client_secret}\""
+        buildConfigField "String", "DRIBBBLE_CLIENT_ACCESS_TOKEN", "\"${dribbble_client_access_token}\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile libraries.supportAppCompat
+    compile libraries.supportDesign
+    compile libraries.supportCardView
+    compile libraries.customTabs
+
+    compile libraries.dagger
+    apt libraries.daggerCompiler
+
+    compile libraries.rxJava
+    compile libraries.rxAndroid
+
+    compile libraries.moxy
+    compile libraries.moxyAppCompat
+    apt libraries.moxyCompiler
+
+    //compile libraries.storio
+    //compile libraries.storioAnnotations
+    //apt libraries.storioApt
+
+    compile libraries.retrofit
+    compile libraries.retrofitGsonConverter
+    compile libraries.retrofitRxJavaAdapter
+
+    compile libraries.glide
+    compile libraries.calligraphy
+    compile libraries.photoView
+    compile(libraries.materialDrawer) {
+        transitive = true
+        exclude group: 'com.android.support'
+    }
+    compile (libraries.hashtagView)
+
+    compile libraries.rxpermissions
+
+    // Developer Tools
+    debugCompile libraries.okHttpLoggingInterceptor
+    debugCompile libraries.stetho
+    debugCompile libraries.stethoOkHttp
+    debugCompile libraries.leakCanary
+    releaseCompile libraries.leakCanaryNoOp
+
+    // Testing
+    testCompile libraries.junit
+    testCompile libraries.robolectric
+    testCompile libraries.assertJ
+    testCompile libraries.equalsVerifier
+    testCompile libraries.mockitoCore
+
+}
+
+configurations.all {
+    resolutionStrategy {
+        force libraries.okHttp
+        force libraries.supportAnnotaations
+    }
+}

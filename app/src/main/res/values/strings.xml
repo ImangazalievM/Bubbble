@@ -1,0 +1,77 @@
+<resources>
+    <string name="app_name">Bubbble</string>
+    <string name="popular">Popular</string>
+    <string name="recently">Recent</string>
+
+    <string name="by">by</string>
+    <string name="like">Like</string>
+    <string name="reply">Reply</string>
+    <string name="copy">Copy</string>
+
+    <string name="download_image">Download image</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="share">Share</string>
+    <string name="share_using">Share via</string>
+
+    <string name="load_failed_message">Load failed retry again!</string>
+    <string name="check_network_message">Check network connection</string>
+    <string name="try_again_message">Try again</string>
+    <string name="empty_list">Has no items</string>
+
+    <string name="user_information">Information</string>
+    <string name="user_follow">Follow</string>
+    <string name="an_error_occurred">An error occurred</string>
+    <string name="an_error_occurred_while_loading_image">An error occurred while loading image</string>
+    <string name="open_image_in_browser">Open in browser</string>
+    <string name="image_saved_to_downloads_folder">Image saved to downloads folder</string>
+
+    <string name="storage_access_title">Error</string>
+    <string name="storage_access_rationale_message">Bubbble cannot work properly with no access to files on the device storage. Please, allow access to your storage.</string>
+    <string name="storage_access_message">Bubbble cannot work properly with no access to files on the device storage. To enable the access please open Bubbble page in system Settings application, and click Permissions.</string>
+    <string name="storage_access_ok_button">OK</string>
+    <string name="storage_access_settings_button">Settings</string>
+    <string name="no_comments">No comments</string>
+
+    <plurals name="likes">
+        <item quantity="zero">%s likes</item>
+        <item quantity="one">%s like</item>
+        <item quantity="other">%s likes</item>
+    </plurals>
+
+    <plurals name="views">
+        <item quantity="zero">%s views</item>
+        <item quantity="one">%s view</item>
+        <item quantity="other">%s views</item>
+    </plurals>
+
+    <plurals name="buckets">
+        <item quantity="zero">%s buckets</item>
+        <item quantity="one">%s bucket</item>
+        <item quantity="other">%s buckets</item>
+    </plurals>
+
+    <plurals name="shots">
+        <item quantity="zero">%s shots</item>
+        <item quantity="one">%s shot</item>
+        <item quantity="other">%s shots</item>
+    </plurals>
+
+    <plurals name="followers">
+        <item quantity="zero">%s followers</item>
+        <item quantity="one">%s follower</item>
+        <item quantity="other">%s followers</item>
+    </plurals>
+
+    <plurals name="following">
+        <item quantity="zero">%s following</item>
+        <item quantity="one">%s following</item>
+        <item quantity="other">%s following</item>
+    </plurals>
+
+    <plurals name="projects">
+        <item quantity="zero">%s projects</item>
+        <item quantity="one">%s project</item>
+        <item quantity="other">%s projects</item>
+    </plurals>
+
+</resources>

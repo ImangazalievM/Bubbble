@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="status_bar_height">0dp</dimen>
+    <dimen name="shot_info_item_padding">14dp</dimen>
+    <dimen name="shot_normal_app_bar_height">300dp</dimen>
+    <dimen name="shot_collapsed_app_bar_height">168dp</dimen>
+
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="user_picture_size">112dp</dimen>
+</resources>

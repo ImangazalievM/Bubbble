@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shot_zoom_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/shot_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <include
+        android:id="@+id/loading_layout"
+        layout="@layout/view_loading"/>
+
+    <RelativeLayout
+        android:id="@+id/error_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/zoom_error_title"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/an_error_occurred"
+            android:textAppearance="@style/AppTheme.DefaultTextTheme"/>
+
+        <TextView
+            android:id="@+id/zoom_error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/zoom_error_title"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/an_error_occurred_while_loading_image"
+            android:textAppearance="@style/AppTheme.DefaultTextTheme"/>
+
+        <Button
+            android:id="@+id/open_in_browser_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/zoom_error_message"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/circle_button_pink_selector"
+            android:padding="16dp"
+            android:text="@string/open_in_browser"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/transparent_toolbar_background"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+</RelativeLayout>

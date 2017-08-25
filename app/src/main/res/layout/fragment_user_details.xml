@@ -1,0 +1,200 @@
+<?xml version="1" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_image_container"
+                    android:background="@color/grey_dark_200"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/padding_normal"
+                    android:paddingTop="@dimen/padding_normal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/user_shots_button"
+                            style="@style/UserInfoItemLayout">
+
+                            <TextView
+                                android:id="@+id/user_shots_count"
+                                style="@style/UserInfoItem"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_shot_white_24dp"
+                                android:text="28 shots" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/user_likes_button"
+                            style="@style/UserInfoItemLayout">
+
+                            <TextView
+                                android:id="@+id/user_likes_count"
+                                style="@style/UserInfoItem"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_like_white_24dp"
+                                android:text="156 likes" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/user_buckets_button"
+                            style="@style/UserInfoItemLayout">
+
+                            <TextView
+                                android:id="@+id/user_buckets_count"
+                                style="@style/UserInfoItem"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:drawableLeft="@drawable/ic_bucket_white_20dp"
+                                android:text="3 buckets" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/user_followers_button"
+                            style="@style/UserInfoItemLayout">
+
+                            <TextView
+                                android:id="@+id/user_followers_count"
+                                style="@style/UserInfoItem"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_user_white_24dp"
+                                android:text="257 followers" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/user_followings_button"
+                            style="@style/UserInfoItemLayout">
+
+                            <TextView
+                                android:id="@+id/user_followings_count"
+                                style="@style/UserInfoItem"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_user_lined_white_24dp"
+                                android:text="51 following" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/user_projects_button"
+                            style="@style/UserInfoItemLayout">
+
+                            <TextView
+                                android:id="@+id/user_projects_count"
+                                style="@style/UserInfoItem"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_folder_white_24dp"
+                                android:text="1 project" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal">
+
+                <FrameLayout
+                    android:id="@+id/user_location_button"
+                    style="@style/UserContactInfoItemLayout">
+
+                    <TextView
+                        android:id="@+id/user_location"
+                        style="@style/UserContactInfoItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:drawableLeft="@drawable/ic_location_white_24dp"
+                        android:text="San Francisco" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/user_twitter_button"
+                    style="@style/UserContactInfoItemLayout">
+
+                    <TextView
+                        android:id="@+id/user_twitter"
+                        style="@style/UserContactInfoItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_twitter_white_24dp"
+                        android:text="\@Dribbble" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/user_website_button"
+                    style="@style/UserContactInfoItemLayout">
+
+                    <TextView
+                        android:id="@+id/user_website"
+                        style="@style/UserContactInfoItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_web_white_24dp"
+                        android:text="https://dribbble.com"
+                        android:textSize="16sp" />
+                </FrameLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/loading_layout"
+            layout="@layout/view_loading" />
+
+        <include
+            android:id="@+id/no_network_layout"
+            layout="@layout/view_network_error"
+            android:visibility="gone" />
+
+    </FrameLayout>
+</android.support.v4.widget.NestedScrollView>

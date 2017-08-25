@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#222222</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">@color/pink_300</color>
+
+    <color name="white">#ffffff</color>
+    <color name="white_alpha">#88ffffff</color>
+    <color name="light_grey">#fff5f5f5</color>
+    <color name="grey_dark_100">#333333</color>
+    <color name="grey_dark_200">#393939</color>
+    <color name="grey_dark_300">#454545</color>
+    <color name="pink_100">#a6144e</color>
+    <color name="pink_200">#C2185B</color>
+    <color name="pink_300">#da1864</color>
+    <color name="scrim">#99323232</color>
+
+    <color name="dribbble_link">@color/pink_300</color>
+    <color name="dribbble_link_highlight">@color/pink_100</color>
+
+</resources>

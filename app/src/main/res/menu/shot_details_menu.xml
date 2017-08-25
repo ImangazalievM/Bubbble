@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        app:showAsAction="never"
+        android:id="@+id/download_shot_image"
+        android:title="@string/download_image"/>
+
+    <item
+        android:id="@+id/open_in_browser"
+        app:showAsAction="never"
+        android:title="@string/open_in_browser"/>
+
+</menu>
