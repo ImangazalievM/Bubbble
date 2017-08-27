@@ -8,4 +8,7 @@ public class Team {
     public String htmlUrl;
     public String avatarUrl;
 
+    public Team() {
+    }
+
 }

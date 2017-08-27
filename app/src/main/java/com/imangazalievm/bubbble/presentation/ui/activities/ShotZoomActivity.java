@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -27,7 +25,9 @@ import com.imangazalievm.bubbble.BubbbleApplication;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerShotZoomPresenterComponent;
 import com.imangazalievm.bubbble.di.ShotZoomPresenterComponent;
+import com.imangazalievm.bubbble.di.modules.ShotZoomPresenterModule;
 import com.imangazalievm.bubbble.domain.models.Shot;
+import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.ShotZoomPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.views.ShotZoomView;
 import com.imangazalievm.bubbble.presentation.ui.commons.AndroidPermissionsManager;
@@ -59,16 +59,18 @@ public class ShotZoomActivity extends MvpAppCompatActivity implements ShotZoomVi
 
     @ProvidePresenter
     ShotZoomPresenter providePresenter() {
-        ShotZoomPresenterComponent shotZoomPresenterComponent = DaggerShotZoomPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
-                .build();
-
-        AndroidPermissionsManager permissionsManager = new AndroidPermissionsManager(this);
-
+        PermissionsManager permissionsManager = new AndroidPermissionsManager(this);
         String shotTitle = getIntent().getStringExtra(KEY_SHOT_TITLE);
         String imageUrl = getIntent().getStringExtra(KEY_IMAGE_URL);
         String shotUrl = getIntent().getStringExtra(KEY_SHOT_URL);
-        return new ShotZoomPresenter(shotZoomPresenterComponent, permissionsManager, shotTitle, imageUrl, shotUrl);
+        ShotZoomPresenterModule presenterModule = new ShotZoomPresenterModule(permissionsManager, shotTitle, shotUrl, imageUrl);
+
+        ShotZoomPresenterComponent presenterComponent = DaggerShotZoomPresenterComponent.builder()
+                .applicationComponent(BubbbleApplication.component())
+                .shotZoomPresenterModule(presenterModule)
+                .build();
+
+        return presenterComponent.getPresenter();
     }
 
     @Override

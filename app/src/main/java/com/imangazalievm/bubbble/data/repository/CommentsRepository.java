@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble.data.repository;
 
-import com.imangazalievm.bubbble.data.repository.datastores.CommentsDataStore;
+import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.models.Comment;
 import com.imangazalievm.bubbble.domain.models.ShotCommentsRequestParams;
 import com.imangazalievm.bubbble.domain.repository.ICommentsRepository;
@@ -13,16 +13,15 @@ import io.reactivex.Single;
 
 public class CommentsRepository implements ICommentsRepository {
 
-    private CommentsDataStore commentsDataStore;
+    private DribbbleApiService dribbbleApiService;
 
     @Inject
-    public CommentsRepository(CommentsDataStore commentsDataStore) {
-        this.commentsDataStore = commentsDataStore;
+    public CommentsRepository(DribbbleApiService dribbbleApiService) {
+        this.dribbbleApiService = dribbbleApiService;
     }
 
-    @Override
     public Single<List<Comment>> getComments(ShotCommentsRequestParams requestParams) {
-        return commentsDataStore.getComments(requestParams);
+        return dribbbleApiService.getShotComments(requestParams.getShotId(), requestParams.getPage(), requestParams.getPageSize());
     }
 
 }

@@ -7,6 +7,7 @@ import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.interactors.ShotsInteractor;
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.domain.models.ShotsRequestParams;
+import com.imangazalievm.bubbble.presentation.commons.rx.RxSchedulersProvider;
 import com.imangazalievm.bubbble.presentation.mvp.views.ShotsView;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
@@ -21,17 +22,18 @@ public class ShotsPresenter extends MvpPresenter<ShotsView> {
     private static final int PAGE_SIZE = 20;
     private static final int MAX_PAGE_NUMBER = 25;
 
-    @Inject
-    ShotsInteractor shotsInteractor;
-
+    private ShotsInteractor shotsInteractor;
+    private RxSchedulersProvider rxSchedulersProvider;
     private String shotsSort;
     private int currentMaxPage = 1;
     private List<Shot> shots = new ArrayList<>();
     private boolean isShotsLoading = false;
 
-    public ShotsPresenter(ShotsPresenterComponent presenterComponent, String shotsSort) {
+    @Inject
+    public ShotsPresenter(ShotsInteractor shotsInteractor, RxSchedulersProvider rxSchedulersProvider, String shotsSort) {
+        this.shotsInteractor = shotsInteractor;
+        this.rxSchedulersProvider = rxSchedulersProvider;
         this.shotsSort = shotsSort;
-        presenterComponent.inject(this);
 
         loadMoreShots(currentMaxPage);
     }
@@ -41,6 +43,7 @@ public class ShotsPresenter extends MvpPresenter<ShotsView> {
         getViewState().showShotsLoadingMoreProgress();
         ShotsRequestParams shotsRequestParams = new ShotsRequestParams(shotsSort, page, PAGE_SIZE);
         shotsInteractor.getShots(shotsRequestParams)
+                .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
                 .subscribe(this::onShotsLoaded, this::onShotsLoadError);
     }
 

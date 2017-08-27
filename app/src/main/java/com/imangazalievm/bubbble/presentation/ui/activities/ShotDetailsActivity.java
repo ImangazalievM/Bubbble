@@ -28,11 +28,12 @@ import com.bumptech.glide.request.target.Target;
 import com.greenfrvr.hashtagview.HashtagView;
 import com.imangazalievm.bubbble.BubbbleApplication;
 import com.imangazalievm.bubbble.R;
-import com.imangazalievm.bubbble.di.DaggerShotDetailPresenterComponent;
-import com.imangazalievm.bubbble.di.ShotDetailPresenterComponent;
+import com.imangazalievm.bubbble.di.DaggerShotDetailsPresenterComponent;
+import com.imangazalievm.bubbble.di.ShotDetailsPresenterComponent;
+import com.imangazalievm.bubbble.di.modules.ShotDetailsPresenterModule;
 import com.imangazalievm.bubbble.domain.models.Comment;
 import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.presentation.mvp.commons.PermissionsManager;
+import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.ShotDetailsPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailView;
 import com.imangazalievm.bubbble.presentation.ui.adapters.ShotCommentsAdapter;
@@ -88,13 +89,16 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailVi
 
     @ProvidePresenter
     ShotDetailsPresenter providePresenter() {
-        ShotDetailPresenterComponent shotDetailPresenterComponent = DaggerShotDetailPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
-                .build();
-
         PermissionsManager permissionsManager = new AndroidPermissionsManager(this);
         long shotId = getIntent().getLongExtra(KEY_SHOT_ID, -1);
-        return new ShotDetailsPresenter(shotDetailPresenterComponent, permissionsManager, shotId);
+        ShotDetailsPresenterModule presenterModule = new ShotDetailsPresenterModule(permissionsManager, shotId);
+
+        ShotDetailsPresenterComponent presenterComponent = DaggerShotDetailsPresenterComponent.builder()
+                .applicationComponent(BubbbleApplication.component())
+                .shotDetailsPresenterModule(presenterModule)
+                .build();
+
+        return presenterComponent.getPresenter();
     }
 
     @Override

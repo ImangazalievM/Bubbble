@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble.data.repository;
 
-import com.imangazalievm.bubbble.data.repository.datastores.FollowersDataStore;
+import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.models.Follow;
 import com.imangazalievm.bubbble.domain.models.UserFollowersRequestParams;
 import com.imangazalievm.bubbble.domain.repository.IFollowersRepository;
@@ -13,16 +13,16 @@ import io.reactivex.Single;
 
 public class FollowersRepository implements IFollowersRepository {
 
-    private FollowersDataStore followersDataStore;
+    private DribbbleApiService dribbbleApiService;
 
     @Inject
-    public FollowersRepository(FollowersDataStore followersDataStore) {
-        this.followersDataStore = followersDataStore;
+    public FollowersRepository(DribbbleApiService dribbbleApiService) {
+        this.dribbbleApiService = dribbbleApiService;
     }
 
-    @Override
-    public Single<List<Follow>> getUserFollowers(UserFollowersRequestParams userFollowersRequestParams) {
-        return followersDataStore.getUserFollowers(userFollowersRequestParams);
+    public Single<List<Follow>> getUserFollowers(UserFollowersRequestParams requestParams) {
+        return dribbbleApiService.getUserFollowers(requestParams.getUserId(),
+                requestParams.getPage(), requestParams.getPageSize());
     }
 
 }

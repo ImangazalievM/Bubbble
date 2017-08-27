@@ -6,7 +6,6 @@ import android.content.Context;
 import com.imangazalievm.bubbble.data.network.DribbbleApiConstants;
 import com.imangazalievm.bubbble.di.ApplicationComponent;
 import com.imangazalievm.bubbble.di.DaggerApplicationComponent;
-import com.imangazalievm.bubbble.di.modules.AndroidModule;
 import com.imangazalievm.bubbble.di.modules.ApplicationModule;
 import com.imangazalievm.bubbble.di.modules.DataModule;
 
@@ -33,8 +32,7 @@ public class BubbbleApplication extends Application {
 
     public ApplicationComponent getComponent() {
         return DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule())
-                .androidModule(new AndroidModule(getApplicationContext()))
+                .applicationModule(new ApplicationModule(this))
                 .dataModule(new DataModule(DribbbleApiConstants.BASE_URL))
                 .build();
     }

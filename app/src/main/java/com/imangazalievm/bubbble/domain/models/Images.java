@@ -2,15 +2,11 @@ package com.imangazalievm.bubbble.domain.models;
 
 public class Images {
 
-
     private String hidpi;
     private String normal;
     private String teaser;
 
-    public Images(String hidpi, String normal, String teaser) {
-        this.hidpi = hidpi;
-        this.normal = normal;
-        this.teaser = teaser;
+    public Images() {
     }
 
     public String getHidpi() {

@@ -1,6 +1,8 @@
 package com.imangazalievm.bubbble.di.modules;
 
-import com.imangazalievm.bubbble.di.qualifiers.JobScheduler;
+import android.content.Context;
+
+import com.imangazalievm.bubbble.di.qualifiers.IoScheduler;
 import com.imangazalievm.bubbble.di.qualifiers.UiScheduler;
 
 import javax.inject.Singleton;
@@ -14,9 +16,15 @@ import io.reactivex.schedulers.Schedulers;
 @Module
 public class ApplicationModule {
 
+    private final Context context;
+
+    public ApplicationModule(Context context) {
+        this.context = context.getApplicationContext();
+    }
+
     @Provides
     @Singleton
-    @JobScheduler
+    @IoScheduler
     Scheduler provideJobScheduler() {
         return Schedulers.io();
     }
@@ -26,6 +34,12 @@ public class ApplicationModule {
     @UiScheduler
     Scheduler provideUiScheduler() {
         return AndroidSchedulers.mainThread();
+    }
+
+    @Provides
+    @Singleton
+    Context provideApplicationContext() {
+        return context;
     }
 
 }

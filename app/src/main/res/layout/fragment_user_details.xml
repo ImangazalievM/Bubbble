@@ -158,7 +158,8 @@
 
                 <FrameLayout
                     android:id="@+id/user_twitter_button"
-                    style="@style/UserContactInfoItemLayout">
+                    style="@style/UserContactInfoItemLayout"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/user_twitter"
@@ -171,7 +172,8 @@
 
                 <FrameLayout
                     android:id="@+id/user_website_button"
-                    style="@style/UserContactInfoItemLayout">
+                    style="@style/UserContactInfoItemLayout"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/user_website"

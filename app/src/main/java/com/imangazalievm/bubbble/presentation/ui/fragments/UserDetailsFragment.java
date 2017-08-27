@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -16,11 +15,15 @@ import com.imangazalievm.bubbble.BubbbleApplication;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerUserDetailsPresenterComponent;
 import com.imangazalievm.bubbble.di.UserDetailsPresenterComponent;
+import com.imangazalievm.bubbble.di.modules.UserDetailsPresenterModule;
 import com.imangazalievm.bubbble.domain.models.User;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.UserDetailsPresenter;
-import com.imangazalievm.bubbble.presentation.mvp.views.UserInfoView;
+import com.imangazalievm.bubbble.presentation.mvp.views.UserDetailsView;
+import com.imangazalievm.bubbble.presentation.utils.AppUtils;
 
-public class UserDetailsFragment extends MvpAppCompatFragment implements UserInfoView {
+import okhttp3.HttpUrl;
+
+public class UserDetailsFragment extends MvpAppCompatFragment implements UserDetailsView {
 
     private static final String USER_ID_ARG = "user_id";
 
@@ -37,11 +40,14 @@ public class UserDetailsFragment extends MvpAppCompatFragment implements UserInf
 
     @ProvidePresenter
     UserDetailsPresenter providePresenter() {
-        UserDetailsPresenterComponent userDetailsPresenterComponent = DaggerUserDetailsPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
-                .build();
         long userId = getArguments().getLong(USER_ID_ARG);
-        return new UserDetailsPresenter(userDetailsPresenterComponent, userId);
+
+        UserDetailsPresenterComponent presenterComponent = DaggerUserDetailsPresenterComponent.builder()
+                .applicationComponent(BubbbleApplication.component())
+                .userDetailsPresenterModule(new UserDetailsPresenterModule(userId))
+                .build();
+
+        return presenterComponent.getPresenter();
     }
 
     private View loadingLayout;
@@ -60,6 +66,12 @@ public class UserDetailsFragment extends MvpAppCompatFragment implements UserInf
     private TextView userFollowersCount;
     private TextView userFollowingCount;
     private TextView userProjectsCount;
+
+    private TextView userLocation;
+    private TextView userTwitter;
+    private TextView userWebsite;
+    private View userTwitterButton;
+    private View userWebsiteButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,6 +103,14 @@ public class UserDetailsFragment extends MvpAppCompatFragment implements UserInf
         userFollowersCount = (TextView) view.findViewById(R.id.user_followers_count);
         userFollowingCount = (TextView) view.findViewById(R.id.user_followings_count);
         userProjectsCount = (TextView) view.findViewById(R.id.user_projects_count);
+
+        userLocation = (TextView) view.findViewById(R.id.user_location);
+        userTwitter = (TextView) view.findViewById(R.id.user_twitter);
+        userWebsite = (TextView) view.findViewById(R.id.user_website);
+        userTwitterButton = view.findViewById(R.id.user_twitter_button);
+        userWebsiteButton = view.findViewById(R.id.user_website_button);
+        userTwitterButton.setOnClickListener(v -> shotsPresenter.onUserTwitterButtonClicked());
+        userWebsiteButton.setOnClickListener(v -> shotsPresenter.onUserWebsiteButtonClicked());
     }
 
     @Override
@@ -101,6 +121,23 @@ public class UserDetailsFragment extends MvpAppCompatFragment implements UserInf
         userFollowersCount.setText(getResources().getQuantityString(R.plurals.followers, user.getFollowersCount(), user.getFollowersCount()));
         userFollowingCount.setText(getResources().getQuantityString(R.plurals.following, user.getFollowingsCount(), user.getFollowingsCount()));
         userProjectsCount.setText(getResources().getQuantityString(R.plurals.projects, user.getProjectsCount(), user.getProjectsCount()));
+        userLocation.setText(user.getLocation());
+
+        String userTwitterUrl = user.getLinks().getTwitter();
+        if (userTwitterUrl != null) {
+            userTwitterButton.setVisibility(View.VISIBLE);
+            userTwitter.setText(getTwitterUserName(userTwitterUrl));
+        }
+
+        String userWebsiteUrl = user.getLinks().getWeb();
+        if (userWebsiteUrl != null) {
+            userWebsiteButton.setVisibility(View.VISIBLE);
+            userWebsite.setText(userWebsiteUrl);
+        }
+    }
+
+    private String getTwitterUserName(String twitterUrl) {
+        return HttpUrl.parse(twitterUrl).pathSegments().get(0);
     }
 
     @Override
@@ -124,8 +161,8 @@ public class UserDetailsFragment extends MvpAppCompatFragment implements UserInf
     }
 
     @Override
-    public void showUserProfileSharing(User user) {
-
+    public void openInBrowser(String url) {
+        AppUtils.openInChromeTab(getActivity(), url);
     }
 
 }

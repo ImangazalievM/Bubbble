@@ -1,15 +1,13 @@
 package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.di.UserShotsPresenterComponent;
 import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.interactors.UserShotsInteractor;
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.domain.models.UserShotsRequestParams;
+import com.imangazalievm.bubbble.presentation.commons.rx.RxSchedulersProvider;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserShotsView;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
@@ -23,17 +21,19 @@ public class UserShotsPresenter extends MvpPresenter<UserShotsView> {
 
     private static final int PAGE_SIZE = 20;
 
-    @Inject
-    UserShotsInteractor userShotsInteractor;
 
+    private UserShotsInteractor userShotsInteractor;
+    private RxSchedulersProvider rxSchedulersProvider;
     private long userId;
     private int currentMaxPage = 1;
     private List<Shot> shots = new ArrayList<>();
     private boolean isShotsLoading = false;
 
-    public UserShotsPresenter(UserShotsPresenterComponent presenterComponent, long userId) {
+    @Inject
+    public UserShotsPresenter(UserShotsInteractor userShotsInteractor, RxSchedulersProvider rxSchedulersProvider, long userId) {
+        this.userShotsInteractor = userShotsInteractor;
+        this.rxSchedulersProvider = rxSchedulersProvider;
         this.userId = userId;
-        presenterComponent.inject(this);
 
         loadMoreShots(currentMaxPage);
     }
@@ -43,6 +43,7 @@ public class UserShotsPresenter extends MvpPresenter<UserShotsView> {
         getViewState().showShotsLoadingMoreProgress();
         UserShotsRequestParams userShotsRequestParams = new UserShotsRequestParams(userId, page, PAGE_SIZE);
         userShotsInteractor.getUserShots(userShotsRequestParams)
+                .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
                 .subscribe(this::onShotsLoaded, this::onShotsLoadError);
     }
 

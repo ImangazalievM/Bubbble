@@ -1,14 +1,11 @@
 package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.Constants;
-import com.imangazalievm.bubbble.di.UserProfilePresenterComponent;
 import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.interactors.UserProfileInteractor;
 import com.imangazalievm.bubbble.domain.models.User;
+import com.imangazalievm.bubbble.presentation.commons.rx.RxSchedulersProvider;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserProfileView;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
@@ -17,22 +14,25 @@ import javax.inject.Inject;
 @InjectViewState
 public class UserProfilePresenter extends MvpPresenter<UserProfileView> {
 
-    @Inject
-    UserProfileInteractor userProfileInteractor;
 
+    private UserProfileInteractor userProfileInteractor;
+    private RxSchedulersProvider rxSchedulersProvider;
     private long userId;
     private User user;
 
-    public UserProfilePresenter(UserProfilePresenterComponent presenterComponent, long userId) {
-        presenterComponent.inject(this);
-
+    @Inject
+    public UserProfilePresenter(UserProfileInteractor userProfileInteractor, RxSchedulersProvider rxSchedulersProvider, long userId) {
+        this.userProfileInteractor = userProfileInteractor;
+        this.rxSchedulersProvider = rxSchedulersProvider;
         this.userId = userId;
+
         loadUser();
     }
 
     private void loadUser() {
         getViewState().showLoadingProgress();
         userProfileInteractor.getUser(userId)
+                .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
                 .subscribe(this::onUserLoaded, this::onUserLoadError);
     }
 

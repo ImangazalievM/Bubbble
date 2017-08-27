@@ -1,7 +1,7 @@
 package com.imangazalievm.bubbble.domain.interactors;
 
 
-import com.imangazalievm.bubbble.domain.usecases.SaveShotImageUseCase;
+import com.imangazalievm.bubbble.domain.repository.IImagesRepository;
 
 import javax.inject.Inject;
 
@@ -9,16 +9,15 @@ import io.reactivex.Completable;
 
 public class ShotZoomInteractor {
 
-    private SaveShotImageUseCase saveShotImageUseCase;
+    private IImagesRepository imagesRepository;
 
     @Inject
-    public ShotZoomInteractor(SaveShotImageUseCase saveShotImageUseCase) {
-        this.saveShotImageUseCase = saveShotImageUseCase;
+    public ShotZoomInteractor(IImagesRepository imagesRepository) {
+        this.imagesRepository = imagesRepository;
     }
 
-
     public Completable saveImage(String shotImageUrl) {
-        return saveShotImageUseCase.getCompletable(shotImageUrl);
+        return imagesRepository.saveImage(shotImageUrl);
     }
 
 }

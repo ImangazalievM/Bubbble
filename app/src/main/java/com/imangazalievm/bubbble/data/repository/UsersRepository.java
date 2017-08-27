@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble.data.repository;
 
-import com.imangazalievm.bubbble.data.repository.datastores.UsersDataStore;
+import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.models.User;
 import com.imangazalievm.bubbble.domain.repository.IUsersRepository;
 
@@ -10,17 +10,16 @@ import io.reactivex.Single;
 
 public class UsersRepository implements IUsersRepository {
 
-    private UsersDataStore usersDataStore;
+    private DribbbleApiService dribbbleApiService;
 
     @Inject
-    public UsersRepository(UsersDataStore usersDataStore) {
-        this.usersDataStore = usersDataStore;
+    public UsersRepository(DribbbleApiService dribbbleApiService) {
+        this.dribbbleApiService = dribbbleApiService;
     }
-
 
     @Override
     public Single<User> getUser(long userId) {
-        return usersDataStore.getUser(userId);
+        return dribbbleApiService.getUser(userId);
     }
 
 }

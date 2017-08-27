@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble.data.repository;
 
-import com.imangazalievm.bubbble.data.repository.datastores.ImagesDataStore;
+import com.imangazalievm.bubbble.data.filesystem.UrlImageSaver;
 import com.imangazalievm.bubbble.domain.repository.IImagesRepository;
 
 import javax.inject.Inject;
@@ -9,16 +9,18 @@ import io.reactivex.Completable;
 
 public class ImagesRepository implements IImagesRepository {
 
-    private ImagesDataStore imagesDataStore;
+    private UrlImageSaver urlImageSaver;
 
     @Inject
-    public ImagesRepository(ImagesDataStore imagesDataStore) {
-        this.imagesDataStore = imagesDataStore;
+    public ImagesRepository(UrlImageSaver urlImageSaver) {
+        this.urlImageSaver = urlImageSaver;
     }
 
-    @Override
     public Completable saveImage(String shotImageUrl) {
-        return imagesDataStore.saveImage(shotImageUrl);
+        return Completable.create(e -> {
+            urlImageSaver.saveImage(shotImageUrl);
+            e.onComplete();
+        });
     }
 
 }

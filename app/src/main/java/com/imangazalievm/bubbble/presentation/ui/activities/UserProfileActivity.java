@@ -28,6 +28,7 @@ import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerUserProfilePresenterComponent;
 import com.imangazalievm.bubbble.di.UserProfilePresenterComponent;
+import com.imangazalievm.bubbble.di.modules.UserProfilePresenterModule;
 import com.imangazalievm.bubbble.domain.models.User;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.UserProfilePresenter;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserProfileView;
@@ -76,11 +77,14 @@ public class UserProfileActivity extends BaseMvpActivity implements UserProfileV
 
     @ProvidePresenter
     UserProfilePresenter providePresenter() {
-        UserProfilePresenterComponent userProfilePresenterComponent = DaggerUserProfilePresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
-                .build();
         long userId = getIntent().getLongExtra(USER_ID, 0L);
-        return new UserProfilePresenter(userProfilePresenterComponent, userId);
+
+        UserProfilePresenterComponent presenterComponent = DaggerUserProfilePresenterComponent.builder()
+                .applicationComponent(BubbbleApplication.component())
+                .userProfilePresenterModule(new UserProfilePresenterModule(userId))
+                .build();
+
+        return presenterComponent.getPresenter();
     }
 
     @Override

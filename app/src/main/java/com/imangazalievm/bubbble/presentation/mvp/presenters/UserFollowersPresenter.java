@@ -2,11 +2,11 @@ package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.di.UserFollowersPresenterComponent;
 import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.interactors.UserFollowersInteractor;
 import com.imangazalievm.bubbble.domain.models.Follow;
 import com.imangazalievm.bubbble.domain.models.UserFollowersRequestParams;
+import com.imangazalievm.bubbble.presentation.commons.rx.RxSchedulersProvider;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserFollowersView;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
@@ -20,17 +20,19 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
 
     private static final int PAGE_SIZE = 20;
 
-    @Inject
-    UserFollowersInteractor userFollowersInteractor;
 
+    private UserFollowersInteractor userFollowersInteractor;
+    private RxSchedulersProvider rxSchedulersProvider;
     private long userId;
     private int currentMaxPage = 1;
     private List<Follow> followers = new ArrayList<>();
     private boolean isShotsLoading = false;
 
-    public UserFollowersPresenter(UserFollowersPresenterComponent presenterComponent, long userId) {
+    @Inject
+    public UserFollowersPresenter(UserFollowersInteractor userFollowersInteractor, RxSchedulersProvider rxSchedulersProvider, long userId) {
+        this.userFollowersInteractor = userFollowersInteractor;
+        this.rxSchedulersProvider = rxSchedulersProvider;
         this.userId = userId;
-        presenterComponent.inject(this);
 
         loadMoreShots(currentMaxPage);
     }
@@ -40,6 +42,7 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
         getViewState().showFollowersLoadingMoreProgress();
         UserFollowersRequestParams requestParams = new UserFollowersRequestParams(userId, page, PAGE_SIZE);
         userFollowersInteractor.getUserFollowers(requestParams)
+                .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
                 .subscribe(this::onFollowerssLoaded, this::onShotsLoadError);
     }
 
@@ -94,7 +97,7 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
     }
 
     public void onShotClick(int position) {
-        getViewState().openUserDetailsScreen(followers.get(position).getUser().getId());
+        getViewState().openUserDetailsScreen(followers.get(position).getFollower().getId());
     }
 
 

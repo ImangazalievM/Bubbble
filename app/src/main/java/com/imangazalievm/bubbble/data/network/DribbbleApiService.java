@@ -1,11 +1,10 @@
 package com.imangazalievm.bubbble.data.network;
 
-import com.imangazalievm.bubbble.data.network.responses.CommentResponse;
-import com.imangazalievm.bubbble.data.network.responses.FollowResponse;
-import com.imangazalievm.bubbble.data.network.responses.LikeResponse;
-import com.imangazalievm.bubbble.data.network.responses.ShotResponse;
-import com.imangazalievm.bubbble.data.network.responses.UserResponse;
+import com.imangazalievm.bubbble.domain.models.Comment;
+import com.imangazalievm.bubbble.domain.models.Follow;
+import com.imangazalievm.bubbble.domain.models.Like;
 import com.imangazalievm.bubbble.domain.models.Shot;
+import com.imangazalievm.bubbble.domain.models.User;
 
 import java.util.List;
 
@@ -23,19 +22,19 @@ public interface DribbbleApiService {
     /* Authenticated user methods */
 
     @GET("v1/user")
-    Single<UserResponse> getAuthenticatedUser();
+    Single<User> getAuthenticatedUser();
 
     @GET("v1/user/shots")
-    Single<List<ShotResponse>> getUserShots(@Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Shot>> getUserShots(@Query("page") int page, @Query("per_page") int pageSize);
 
     @GET("v1/user/likes")
-    Single<List<LikeResponse>> getUserLikes(@Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Like>> getUserLikes(@Query("page") int page, @Query("per_page") int pageSize);
 
     @GET("v1/shots/{shotId}/like")
-    Single<LikeResponse> liked(@Path("shotId") long shotId);
+    Single<Like> liked(@Path("shotId") long shotId);
 
     @POST("v1/shots/{shotId}/like")
-    Single<LikeResponse> like(@Path("shotId") long shotId);
+    Single<Like> like(@Path("shotId") long shotId);
 
     @DELETE("v1/shots/{shotId}/like")
     Completable unlike(@Path("shotId") long shotId);
@@ -52,34 +51,34 @@ public interface DribbbleApiService {
     /* Shots */
 
     @GET("v1/shots")
-    Single<List<ShotResponse>> getShots(@Query("sort") String sort, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Shot>> getShots(@Query("sort") String sort, @Query("page") int page, @Query("per_page") int pageSize);
 
     @GET("v1/shots/{shotId}")
-    Single<ShotResponse> getShot(@Path("shotId") long id);
+    Single<Shot> getShot(@Path("shotId") long id);
 
     @GET("v1/users/{userId}/shots")
-    Single<List<ShotResponse>> getUserShots(@Path("userId") long userId, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Shot>> getUserShots(@Path("userId") long userId, @Query("page") int page, @Query("per_page") int pageSize);
 
     @GET("v1/user/following/shots")
-    Single<List<ShotResponse>> getFollowing(@Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Shot>> getFollowing(@Query("page") int page, @Query("per_page") int pageSize);
 
     @GET("v1/shots/{shotId}/likes")
-    Single<List<LikeResponse>> getShotLikes(@Path("shotId") long shotId, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Like>> getShotLikes(@Path("shotId") long shotId, @Query("page") int page, @Query("per_page") int pageSize);
 
     /* Comments */
 
     @GET("v1/shots/{id}/comments")
-    Single<List<CommentResponse>> getShotComments(@Path("id") long id, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Comment>> getShotComments(@Path("id") long id, @Query("page") int page, @Query("per_page") int pageSize);
 
     /* Users */
 
     @GET("v1/users/{userId}")
-    Single<UserResponse> getUser(@Path("userId") long userId);
+    Single<User> getUser(@Path("userId") long userId);
 
     @GET("v1/users/{userId}/shots")
     Single<List<Shot>> getUsersShots(@Path("userId") long userId, @Query("page") int page, @Query("per_page") int pageSize);
 
     @GET("v1/users/{userId}/followers")
-    Single<List<FollowResponse>> getUserFollowers(@Path("userId") long userId, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Follow>> getUserFollowers(@Path("userId") long userId, @Query("page") int page, @Query("per_page") int pageSize);
 
 }

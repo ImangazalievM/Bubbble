@@ -16,6 +16,7 @@ import com.imangazalievm.bubbble.BubbbleApplication;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerShotsPresenterComponent;
 import com.imangazalievm.bubbble.di.ShotsPresenterComponent;
+import com.imangazalievm.bubbble.di.modules.ShotsPresenterModule;
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.ShotsPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.views.ShotsView;
@@ -27,12 +28,12 @@ import java.util.List;
 
 public class ShotsFragment extends MvpAppCompatFragment implements ShotsView {
 
-    private static final String SORT_ARG = "sort";
+    private static final String SORT_TYPE_ARG = "sort";
 
     public static ShotsFragment newInstance(String sort) {
         ShotsFragment fragment = new ShotsFragment();
         Bundle args = new Bundle();
-        args.putString(SORT_ARG, sort);
+        args.putString(SORT_TYPE_ARG, sort);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,11 +43,13 @@ public class ShotsFragment extends MvpAppCompatFragment implements ShotsView {
 
     @ProvidePresenter
     ShotsPresenter providePresenter() {
+        String sortType = getArguments().getString(SORT_TYPE_ARG);
+
         ShotsPresenterComponent shotsPresenterComponent = DaggerShotsPresenterComponent.builder()
                 .applicationComponent(BubbbleApplication.component())
+                .shotsPresenterModule(new ShotsPresenterModule(sortType))
                 .build();
-        String sort = getArguments().getString(SORT_ARG);
-        return new ShotsPresenter(shotsPresenterComponent, sort);
+        return shotsPresenterComponent.getPresenter();
     }
 
     private View snackBarContainer;

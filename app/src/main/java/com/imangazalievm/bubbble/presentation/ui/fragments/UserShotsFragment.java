@@ -18,6 +18,7 @@ import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerUserShotsPresenterComponent;
 import com.imangazalievm.bubbble.di.UserShotsPresenterComponent;
+import com.imangazalievm.bubbble.di.modules.UserShotsPresenterModule;
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.UserShotsPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserShotsView;
@@ -44,11 +45,14 @@ public class UserShotsFragment extends MvpAppCompatFragment implements UserShots
 
     @ProvidePresenter
     UserShotsPresenter providePresenter() {
-        UserShotsPresenterComponent shotsPresenterComponent = DaggerUserShotsPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
-                .build();
         long userId = getArguments().getLong(USER_ID_ARG);
-        return new UserShotsPresenter(shotsPresenterComponent, userId);
+
+        UserShotsPresenterComponent presenterComponent = DaggerUserShotsPresenterComponent.builder()
+                .applicationComponent(BubbbleApplication.component())
+                .userShotsPresenterModule(new UserShotsPresenterModule(userId))
+                .build();
+
+        return presenterComponent.getPresenter();
     }
 
     private View snackBarContainer;

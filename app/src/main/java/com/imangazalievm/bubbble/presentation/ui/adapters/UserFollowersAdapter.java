@@ -58,7 +58,7 @@ public class UserFollowersAdapter extends HeaderFooterAdapter<Follow> {
         if (holder instanceof FollowerViewHolder) {
             FollowerViewHolder followerViewHolder = (FollowerViewHolder) holder;
             Follow follow = getItem(position);
-            User user = follow.getUser();
+            User user = follow.getFollower();
             Glide.with(context)
                     .load(user.getAvatarUrl())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)

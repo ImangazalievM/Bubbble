@@ -34,41 +34,7 @@ public class User {
    private Date createdAt;
    private Date updatedAt;
 
-    public User(long id, String name, String username, String htmlUrl, String avatarUrl, String bio,
-                String location, Links links, int bucketsCount, int commentsReceivedCount, int followersCount,
-                int followingsCount, int likesCount, int likesReceivedCount, int projectsCount,
-                int reboundsReceivedCount, int shotsCount, int teamsCount, boolean canUploadShot,
-                String type, boolean pro, String bucketsUrl, String followersUrl, String followingUrl,
-                String likesUrl, String shotsUrl, String teamsUrl, Date createdAt, Date updatedAt) {
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.htmlUrl = htmlUrl;
-        this.avatarUrl = avatarUrl;
-        this.bio = bio;
-        this.links = links;
-        this.location = location;
-        this.bucketsCount = bucketsCount;
-        this.commentsReceivedCount = commentsReceivedCount;
-        this.followersCount = followersCount;
-        this.followingsCount = followingsCount;
-        this.likesCount = likesCount;
-        this.likesReceivedCount = likesReceivedCount;
-        this.projectsCount = projectsCount;
-        this.reboundsReceivedCount = reboundsReceivedCount;
-        this.shotsCount = shotsCount;
-        this.teamsCount = teamsCount;
-        this.canUploadShot = canUploadShot;
-        this.type = type;
-        this.pro = pro;
-        this.bucketsUrl = bucketsUrl;
-        this.followersUrl = followersUrl;
-        this.followingUrl = followingUrl;
-        this.likesUrl = likesUrl;
-        this.shotsUrl = shotsUrl;
-        this.teamsUrl = teamsUrl;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    public User() {
     }
 
     public long getId() {

@@ -4,8 +4,8 @@ package com.imangazalievm.bubbble.domain.interactors;
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.domain.models.User;
 import com.imangazalievm.bubbble.domain.models.UserShotsRequestParams;
-import com.imangazalievm.bubbble.domain.usecases.GetUserShotsUseCase;
-import com.imangazalievm.bubbble.domain.usecases.GetUserUseCase;
+import com.imangazalievm.bubbble.domain.repository.IShotsRepository;
+import com.imangazalievm.bubbble.domain.repository.IUsersRepository;
 
 import java.util.List;
 
@@ -15,22 +15,21 @@ import io.reactivex.Single;
 
 public class UserShotsInteractor {
 
-    private GetUserUseCase getUserUseCase;
-    private GetUserShotsUseCase getUserShotsUseCase;
+    private IUsersRepository usersRepository;
+    private IShotsRepository shotsRepository;
 
     @Inject
-    public UserShotsInteractor(GetUserUseCase getUserUseCase, GetUserShotsUseCase getUserShotsUseCase) {
-        this.getUserUseCase = getUserUseCase;
-        this.getUserShotsUseCase = getUserShotsUseCase;
+    public UserShotsInteractor(IUsersRepository usersRepository, IShotsRepository shotsRepository) {
+        this.usersRepository = usersRepository;
+        this.shotsRepository = shotsRepository;
     }
 
-
     public Single<User> getUser(long userId) {
-        return getUserUseCase.getSingle(userId);
+        return usersRepository.getUser(userId);
     }
 
     public Single<List<Shot>> getUserShots(UserShotsRequestParams requestParams) {
-        return getUserShotsUseCase.getSingle(requestParams);
+        return shotsRepository.getUserShots(requestParams);
     }
 
 }

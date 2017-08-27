@@ -11,7 +11,7 @@ import io.reactivex.Single;
 
 public interface IShotsRepository {
 
-    Single<List<Shot>> getShot(ShotsRequestParams shotsRequestParams);
+    Single<List<Shot>> getShots(ShotsRequestParams shotsRequestParams);
     Single<Shot> getShot(long shotId);
     Single<List<Shot>> getUserShots(UserShotsRequestParams requestParams);
 

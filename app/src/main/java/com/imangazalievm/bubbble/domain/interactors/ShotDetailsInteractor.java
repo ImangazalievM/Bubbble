@@ -2,11 +2,11 @@ package com.imangazalievm.bubbble.domain.interactors;
 
 
 import com.imangazalievm.bubbble.domain.models.Comment;
-import com.imangazalievm.bubbble.domain.models.ShotCommentsRequestParams;
 import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.domain.usecases.GetShotCommentsUseCase;
-import com.imangazalievm.bubbble.domain.usecases.GetShotUseCase;
-import com.imangazalievm.bubbble.domain.usecases.SaveShotImageUseCase;
+import com.imangazalievm.bubbble.domain.models.ShotCommentsRequestParams;
+import com.imangazalievm.bubbble.domain.repository.ICommentsRepository;
+import com.imangazalievm.bubbble.domain.repository.IImagesRepository;
+import com.imangazalievm.bubbble.domain.repository.IShotsRepository;
 
 import java.util.List;
 
@@ -17,30 +17,30 @@ import io.reactivex.Single;
 
 public class ShotDetailsInteractor {
 
-    private GetShotUseCase getShotUseCase;
-    private GetShotCommentsUseCase getShotCommentsUseCase;
-    private SaveShotImageUseCase saveShotImageUseCase;
+    private IShotsRepository shotsRepository;
+    private ICommentsRepository commentsRepository;
+    private IImagesRepository imagesRepository;
 
     @Inject
-    public ShotDetailsInteractor(GetShotUseCase getShotUseCase,
-                                 GetShotCommentsUseCase getShotCommentsUseCase,
-                                 SaveShotImageUseCase saveShotImageUseCase) {
-        this.getShotUseCase = getShotUseCase;
-        this.getShotCommentsUseCase = getShotCommentsUseCase;
-        this.saveShotImageUseCase = saveShotImageUseCase;
+    public ShotDetailsInteractor(IShotsRepository shotsRepository,
+                                 ICommentsRepository commentsRepository,
+                                 IImagesRepository imagesRepository) {
+        this.shotsRepository = shotsRepository;
+        this.commentsRepository = commentsRepository;
+        this.imagesRepository = imagesRepository;
     }
 
-
     public Single<Shot> getShot(long shotId) {
-        return getShotUseCase.getSingle(shotId);
+        return shotsRepository.getShot(shotId);
     }
 
     public Single<List<Comment>> getShotComments(ShotCommentsRequestParams shotCommentsRequestParams) {
-        return getShotCommentsUseCase.getSingle(shotCommentsRequestParams);
+        return commentsRepository
+                .getComments(shotCommentsRequestParams);
     }
 
     public Completable saveImage(String imageUrl) {
-        return saveShotImageUseCase.getCompletable(imageUrl);
+        return imagesRepository.saveImage(imageUrl);
     }
 
 }

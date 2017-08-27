@@ -4,21 +4,19 @@ package com.imangazalievm.bubbble.presentation.ui.commons;
 import android.Manifest;
 import android.app.Activity;
 
-import com.imangazalievm.bubbble.presentation.mvp.commons.Permission;
-import com.imangazalievm.bubbble.presentation.mvp.commons.PermissionRequestListener;
-import com.imangazalievm.bubbble.presentation.mvp.commons.PermissionResult;
-import com.imangazalievm.bubbble.presentation.mvp.commons.PermissionsManager;
+import com.imangazalievm.bubbble.presentation.commons.permissions.Permission;
+import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionRequestListener;
+import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionResult;
+import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import io.reactivex.Observable;
 
 public class AndroidPermissionsManager implements PermissionsManager {
 
-    private Activity activity;
     private RxPermissions rxPermissions;
 
     public AndroidPermissionsManager(Activity activity) {
-        this.activity = activity;
         this.rxPermissions = new RxPermissions(activity);
     }
 

@@ -24,27 +24,7 @@ public class Shot {
     private Team team;
     private boolean animated;
 
-    public Shot(long id, String title, String description, int width, int height, Images images,
-                int viewsCount, int likesCount, int bucketsCount, int commentsCount, Date createdAt, Date updatedAt,
-                String htmlUrl, String reboundSourceUrl, List<String> tags, User user, Team team, boolean animated) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.width = width;
-        this.height = height;
-        this.images = images;
-        this.viewsCount = viewsCount;
-        this.likesCount = likesCount;
-        this.bucketsCount = bucketsCount;
-        this.commentsCount = commentsCount;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.htmlUrl = htmlUrl;
-        this.reboundSourceUrl = reboundSourceUrl;
-        this.tags = tags;
-        this.user = user;
-        this.team = team;
-        this.animated = animated;
+    public Shot() {
     }
 
     public long getId() {
