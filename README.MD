@@ -37,7 +37,7 @@ Libraries and tools included:
 
 # Setup
 
-Replace in dribbble_client_id, dribbble_client_secret, dribbble_client_access_token in **gradle.properties** file to yours.  For more information please visit [this page](http://developer.dribbble.com/).
+Replace `dribbble_client_id`, `dribbble_client_secret`, `dribbble_client_access_token` in **gradle.properties** file to yours.  For more information please visit [this page](http://developer.dribbble.com/).
 
 # Screenshots
 
