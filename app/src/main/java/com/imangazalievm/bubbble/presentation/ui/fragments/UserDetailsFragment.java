@@ -97,16 +97,16 @@ public class UserDetailsFragment extends MvpAppCompatFragment implements UserDet
         userFollowingButton = view.findViewById(R.id.user_followings_button);
         userProjectsButton = view.findViewById(R.id.user_projects_button);
 
-        userShotsCount = (TextView) view.findViewById(R.id.user_shots_count);
-        userLikesCount = (TextView) view.findViewById(R.id.user_likes_count);
-        userBucketsCount = (TextView) view.findViewById(R.id.user_buckets_count);
-        userFollowersCount = (TextView) view.findViewById(R.id.user_followers_count);
-        userFollowingCount = (TextView) view.findViewById(R.id.user_followings_count);
-        userProjectsCount = (TextView) view.findViewById(R.id.user_projects_count);
+        userShotsCount = view.findViewById(R.id.user_shots_count);
+        userLikesCount = view.findViewById(R.id.user_likes_count);
+        userBucketsCount = view.findViewById(R.id.user_buckets_count);
+        userFollowersCount = view.findViewById(R.id.user_followers_count);
+        userFollowingCount = view.findViewById(R.id.user_followings_count);
+        userProjectsCount = view.findViewById(R.id.user_projects_count);
 
-        userLocation = (TextView) view.findViewById(R.id.user_location);
-        userTwitter = (TextView) view.findViewById(R.id.user_twitter);
-        userWebsite = (TextView) view.findViewById(R.id.user_website);
+        userLocation = view.findViewById(R.id.user_location);
+        userTwitter = view.findViewById(R.id.user_twitter);
+        userWebsite = view.findViewById(R.id.user_website);
         userTwitterButton = view.findViewById(R.id.user_twitter_button);
         userWebsiteButton = view.findViewById(R.id.user_website_button);
         userTwitterButton.setOnClickListener(v -> shotsPresenter.onUserTwitterButtonClicked());

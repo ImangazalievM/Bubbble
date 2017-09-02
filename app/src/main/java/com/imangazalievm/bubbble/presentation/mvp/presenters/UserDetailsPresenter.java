@@ -27,6 +27,13 @@ public class UserDetailsPresenter extends MvpPresenter<UserDetailsView> {
         this.rxSchedulersProvider = rxSchedulersProvider;
         this.userId = userId;
 
+
+    }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+
         loadUser();
     }
 

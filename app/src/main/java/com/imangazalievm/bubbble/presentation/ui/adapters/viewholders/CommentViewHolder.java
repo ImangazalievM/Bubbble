@@ -10,18 +10,18 @@ import com.imangazalievm.bubbble.presentation.ui.views.dribbbletextview.Dribbble
 
 public class CommentViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView userName;
-    public ImageView userAvatar;
-    public DribbbleTextView commentText;
-    public TextView likesCount;
+    public final TextView userName;
+    public final ImageView userAvatar;
+    public final DribbbleTextView commentText;
+    public final TextView likesCount;
 
     public CommentViewHolder(View itemView) {
         super(itemView);
 
-        userName = (TextView) itemView.findViewById(R.id.user_name);
-        userAvatar = (ImageView) itemView.findViewById(R.id.user_avatar);
-        commentText = (DribbbleTextView) itemView.findViewById(R.id.text);
-        likesCount = (TextView) itemView.findViewById(R.id.likes_count);
+        userName = itemView.findViewById(R.id.user_name);
+        userAvatar = itemView.findViewById(R.id.user_avatar);
+        commentText = itemView.findViewById(R.id.text);
+        likesCount = itemView.findViewById(R.id.likes_count);
     }
 
 }

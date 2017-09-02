@@ -25,6 +25,11 @@ public class UserProfilePresenter extends MvpPresenter<UserProfileView> {
         this.userProfileInteractor = userProfileInteractor;
         this.rxSchedulersProvider = rxSchedulersProvider;
         this.userId = userId;
+    }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
 
         loadUser();
     }

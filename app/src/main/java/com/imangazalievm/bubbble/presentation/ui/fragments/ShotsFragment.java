@@ -2,17 +2,19 @@ package com.imangazalievm.bubbble.presentation.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.imangazalievm.bubbble.BubbbleApplication;
+import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerShotsPresenterComponent;
 import com.imangazalievm.bubbble.di.ShotsPresenterComponent;
@@ -80,25 +82,20 @@ public class ShotsFragment extends MvpAppCompatFragment implements ShotsView {
         noNetworkLayout = view.findViewById(R.id.no_network_layout);
         noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> shotsPresenter.retryLoading());
 
-        shotsRecyclerView = (RecyclerView) view.findViewById(R.id.shotsRecyclerView);
+        shotsRecyclerView = view.findViewById(R.id.shotsRecyclerView);
         shotsListLayoutManager = new LinearLayoutManager(getContext());
         shotsRecyclerView.setLayoutManager(shotsListLayoutManager);
 
         shotsAdapter = new ShotsAdapter(getContext());
-        shotsRecyclerView.setAdapter(shotsAdapter);
         shotsAdapter.setOnItemClickListener(position -> shotsPresenter.onShotClick(position));
-
-        initLoadMoreScrollListener();
-        shotsRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-    }
-
-    private void initLoadMoreScrollListener() {
-        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
+        shotsAdapter.setOnRetryLoadMoreListener(() -> shotsPresenter.retryLoading());
+        shotsRecyclerView.setAdapter(shotsAdapter);
+        shotsRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
             @Override
             public void onLoadMore() {
                 shotsPresenter.onLoadMoreShotsRequest();
             }
-        };
+        });
     }
 
     @Override
@@ -119,12 +116,12 @@ public class ShotsFragment extends MvpAppCompatFragment implements ShotsView {
 
     @Override
     public void showShotsLoadingMoreProgress() {
-        shotsAdapter.showLoadingIndicator();
+        shotsAdapter.setLoadingMore(true);
     }
 
     @Override
     public void hideShotsLoadingMoreProgress() {
-        shotsAdapter.hideLoadingIndicator();
+        shotsAdapter.setLoadingMore(false);
     }
 
     @Override
@@ -143,10 +140,8 @@ public class ShotsFragment extends MvpAppCompatFragment implements ShotsView {
     }
 
     @Override
-    public void showNoNetworkMessage() {
-        Snackbar snackbar = Snackbar.make(snackBarContainer, R.string.check_network_message, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.try_again_message, v -> shotsPresenter.retryLoading());
-        snackbar.show();
+    public void showLoadMoreError() {
+        shotsAdapter.setLoadingError(true);
     }
 
 }

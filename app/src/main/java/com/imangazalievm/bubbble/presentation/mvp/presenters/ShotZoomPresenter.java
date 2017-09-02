@@ -34,6 +34,11 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
         this.shotTitle = shotTitle;
         this.shotUrl = shotUrl;
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
 
         showShot();
     }

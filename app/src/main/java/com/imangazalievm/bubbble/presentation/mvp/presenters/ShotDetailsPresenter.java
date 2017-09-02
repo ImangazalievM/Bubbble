@@ -38,6 +38,11 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailView> {
         this.rxSchedulersProvider = rxSchedulersProvider;
         this.permissionsManager = permissionsManager;
         this.shotId = shotId;
+    }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
 
         loadShot();
     }

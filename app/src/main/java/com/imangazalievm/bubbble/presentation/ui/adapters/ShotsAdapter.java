@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ShotsAdapter extends HeaderFooterAdapter<Shot> {
+public class ShotsAdapter extends LoadMoreAdapter<Shot> {
 
     public interface OnItemClickListener {
         void onShotItemClick(int position);
@@ -30,7 +30,7 @@ public class ShotsAdapter extends HeaderFooterAdapter<Shot> {
     private OnItemClickListener onItemClickListener;
 
     public ShotsAdapter(Context context) {
-        super(false, true);
+        super(false, false);
 
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
@@ -51,12 +51,9 @@ public class ShotsAdapter extends HeaderFooterAdapter<Shot> {
     }
 
     @Override
-    protected RecyclerView.ViewHolder getFooterViewHolder(LayoutInflater inflater, ViewGroup parent) {
-        return new LoadMoreViewHolder(layoutInflater.inflate(R.layout.item_load_more, parent, false));
-    }
-
-    @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+
         if (holder instanceof ShotViewHolder) {
             ShotViewHolder shotViewHolder = (ShotViewHolder) holder;
             Shot shot = getItem(position);
@@ -88,14 +85,6 @@ public class ShotsAdapter extends HeaderFooterAdapter<Shot> {
         }
     }
 
-    public void showLoadingIndicator() {
-        showFooter(true);
-    }
-
-    public void hideLoadingIndicator() {
-        showFooter(false);
-    }
-
     private class ShotViewHolder extends RecyclerView.ViewHolder {
 
         View shotLayout;
@@ -104,7 +93,7 @@ public class ShotsAdapter extends HeaderFooterAdapter<Shot> {
         ShotViewHolder(View itemView) {
             super(itemView);
             shotLayout = itemView.findViewById(R.id.shot_layout);
-            shotImage = (BadgedImageView) itemView.findViewById(R.id.shot_image);
+            shotImage = itemView.findViewById(R.id.shot_image);
         }
 
     }

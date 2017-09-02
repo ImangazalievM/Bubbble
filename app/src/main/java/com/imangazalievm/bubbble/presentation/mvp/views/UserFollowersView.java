@@ -22,6 +22,6 @@ public interface UserFollowersView extends MvpView {
     void openUserDetailsScreen(long userId);
     void showNoNetworkLayout();
     void hideNoNetworkLayout();
-    void showNoNetworkMessage();
+    void showLoadMoreError();
 
 }

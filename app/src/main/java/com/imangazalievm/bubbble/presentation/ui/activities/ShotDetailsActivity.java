@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.greenfrvr.hashtagview.HashtagView;
 import com.imangazalievm.bubbble.BubbbleApplication;
+import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerShotDetailsPresenterComponent;
 import com.imangazalievm.bubbble.di.ShotDetailsPresenterComponent;
@@ -112,10 +114,7 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailVi
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     private void initViews() {
@@ -138,23 +137,23 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailVi
         shotImage = (ImageView) findViewById(R.id.shot_image);
         shotImageProgressBar = (ProgressBar) findViewById(R.id.shot_image_progress_bar);
         shotDescription = getLayoutInflater().inflate(R.layout.item_shot_description, commentsList, false);
-        title = (TextView) shotDescription.findViewById(R.id.shot_title);
-        description = (DribbbleTextView) shotDescription.findViewById(R.id.shot_description);
+        title = shotDescription.findViewById(R.id.shot_title);
+        description = shotDescription.findViewById(R.id.shot_description);
         userProfileLayout = shotDescription.findViewById(R.id.user_profile_layout);
-        userName = (TextView) shotDescription.findViewById(R.id.user_name);
-        userAvatar = (ImageView) shotDescription.findViewById(R.id.user_avatar);
-        shotCreateDate = (TextView) shotDescription.findViewById(R.id.shot_create_date);
+        userName = shotDescription.findViewById(R.id.user_name);
+        userAvatar = shotDescription.findViewById(R.id.user_avatar);
+        shotCreateDate = shotDescription.findViewById(R.id.shot_create_date);
 
         shotImage.setOnClickListener(v -> shotDetailsPresenter.onImageClick());
         userProfileLayout.setOnClickListener(v -> shotDetailsPresenter.onShotAuthorProfileClick());
         description.setOnLinkClickListener(url -> shotDetailsPresenter.onLinkClicked(url));
         description.setOnUserSelectedListener(userId -> shotDetailsPresenter.onUserSelected(userId));
 
-        likesCount = (TextView) shotDescription.findViewById(R.id.shot_likes_count);
-        viewsCount = (TextView) shotDescription.findViewById(R.id.shot_views_count);
-        bucketsCount = (TextView) shotDescription.findViewById(R.id.shot_buckets_count);
-        shareShotButton = (TextView) shotDescription.findViewById(R.id.share_shot);
-        hashtagView =  (HashtagView) shotDescription.findViewById(R.id.shot_tags);
+        likesCount = shotDescription.findViewById(R.id.shot_likes_count);
+        viewsCount = shotDescription.findViewById(R.id.shot_views_count);
+        bucketsCount = shotDescription.findViewById(R.id.shot_buckets_count);
+        shareShotButton = shotDescription.findViewById(R.id.share_shot);
+        hashtagView = shotDescription.findViewById(R.id.shot_tags);
         hashtagView.addOnTagClickListener((item) -> {
             String tag = (String) item;
             shotDetailsPresenter.onTagClicked(tag);
@@ -219,18 +218,7 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailVi
         if (shot.getCommentsCount() > 0) {
             commentsList.addOnScrollListener(endlessRecyclerOnScrollListener);
         }
-
         showToolbarMenu();
-    }
-
-    @Override
-    public void showLoadingProgress() {
-        loadingLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoadingProgress() {
-        loadingLayout.setVisibility(View.GONE);
     }
 
     private void showToolbarMenu() {
@@ -249,6 +237,16 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailVi
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void showLoadingProgress() {
+        loadingLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingProgress() {
+        loadingLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -338,17 +336,5 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailVi
     public void hideImageLoadingProgress() {
         shotImageProgressBar.setVisibility(View.GONE);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
 
 }

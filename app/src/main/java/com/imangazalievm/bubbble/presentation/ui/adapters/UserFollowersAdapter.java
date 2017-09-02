@@ -17,7 +17,7 @@ import com.imangazalievm.bubbble.presentation.ui.adapters.viewholders.LoadMoreVi
 import com.imangazalievm.bubbble.presentation.ui.commons.glide.GlideCircleTransform;
 
 
-public class UserFollowersAdapter extends HeaderFooterAdapter<Follow> {
+public class UserFollowersAdapter extends LoadMoreAdapter<Follow> {
 
     public interface OnItemClickListener {
         void onFollowerItemClick(int position);
@@ -49,12 +49,9 @@ public class UserFollowersAdapter extends HeaderFooterAdapter<Follow> {
     }
 
     @Override
-    protected RecyclerView.ViewHolder getFooterViewHolder(LayoutInflater inflater, ViewGroup parent) {
-        return new LoadMoreViewHolder(layoutInflater.inflate(R.layout.item_load_more, parent, false));
-    }
-
-    @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+
         if (holder instanceof FollowerViewHolder) {
             FollowerViewHolder followerViewHolder = (FollowerViewHolder) holder;
             Follow follow = getItem(position);
@@ -95,25 +92,25 @@ public class UserFollowersAdapter extends HeaderFooterAdapter<Follow> {
 
     private class FollowerViewHolder extends RecyclerView.ViewHolder {
 
-        View userLayout;
-        ImageView userAvatar;
-        TextView userName;
-        TextView userLocation;
-        TextView userShotsCount;
-        TextView userShotsLabel;
-        TextView userFollowersCount;
-        TextView userFollowersLabel;
+        final View userLayout;
+        final ImageView userAvatar;
+        final TextView userName;
+        final TextView userLocation;
+        final TextView userShotsCount;
+        final TextView userShotsLabel;
+        final TextView userFollowersCount;
+        final TextView userFollowersLabel;
 
         FollowerViewHolder(View itemView) {
             super(itemView);
             userLayout = itemView.findViewById(R.id.user_container);
-            userAvatar = (ImageView) itemView.findViewById(R.id.user_avatar);
-            userName = (TextView) itemView.findViewById(R.id.user_name);
-            userLocation = (TextView) itemView.findViewById(R.id.user_location);
-            userShotsCount = (TextView) itemView.findViewById(R.id.user_shots_count);
-            userShotsLabel = (TextView) itemView.findViewById(R.id.user_shots_label);
-            userFollowersCount = (TextView) itemView.findViewById(R.id.user_followers_count);
-            userFollowersLabel = (TextView) itemView.findViewById(R.id.user_followers_label);
+            userAvatar = itemView.findViewById(R.id.user_avatar);
+            userName = itemView.findViewById(R.id.user_name);
+            userLocation = itemView.findViewById(R.id.user_location);
+            userShotsCount = itemView.findViewById(R.id.user_shots_count);
+            userShotsLabel = itemView.findViewById(R.id.user_shots_label);
+            userFollowersCount = itemView.findViewById(R.id.user_followers_count);
+            userFollowersLabel = itemView.findViewById(R.id.user_followers_label);
         }
 
     }

@@ -2,7 +2,6 @@ package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.di.UserShotsPresenterComponent;
 import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.interactors.UserShotsInteractor;
 import com.imangazalievm.bubbble.domain.models.Shot;
@@ -34,13 +33,18 @@ public class UserShotsPresenter extends MvpPresenter<UserShotsView> {
         this.userShotsInteractor = userShotsInteractor;
         this.rxSchedulersProvider = rxSchedulersProvider;
         this.userId = userId;
+    }
 
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+
+        getViewState().showShotsLoadingProgress();
         loadMoreShots(currentMaxPage);
     }
 
     private void loadMoreShots(int page) {
         isShotsLoading = true;
-        getViewState().showShotsLoadingMoreProgress();
         UserShotsRequestParams userShotsRequestParams = new UserShotsRequestParams(userId, page, PAGE_SIZE);
         userShotsInteractor.getUserShots(userShotsRequestParams)
                 .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
@@ -67,7 +71,7 @@ public class UserShotsPresenter extends MvpPresenter<UserShotsView> {
                 getViewState().showNoNetworkLayout();
             } else {
                 getViewState().hideShotsLoadingMoreProgress();
-                getViewState().showNoNetworkMessage();
+                getViewState().showLoadMoreError();
             }
         } else {
             DebugUtils.showDebugErrorMessage(throwable);
@@ -82,6 +86,8 @@ public class UserShotsPresenter extends MvpPresenter<UserShotsView> {
         if (isShotsLoading) {
             return;
         }
+
+        getViewState().showShotsLoadingMoreProgress();
         currentMaxPage++;
         loadMoreShots(currentMaxPage);
     }

@@ -83,7 +83,7 @@ public class UserShotsFragment extends MvpAppCompatFragment implements UserShots
         noNetworkLayout = view.findViewById(R.id.no_network_layout);
         noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> userShotsPresenter.retryLoading());
 
-        shotsRecyclerView = (RecyclerView) view.findViewById(R.id.shotsRecyclerView);
+        shotsRecyclerView = view.findViewById(R.id.shotsRecyclerView);
         shotsListLayoutManager = new LinearLayoutManager(getContext());
         shotsRecyclerView.setLayoutManager(shotsListLayoutManager);
 
@@ -122,12 +122,12 @@ public class UserShotsFragment extends MvpAppCompatFragment implements UserShots
 
     @Override
     public void showShotsLoadingMoreProgress() {
-        shotsAdapter.showLoadingIndicator();
+        shotsAdapter.setLoadingMore(true);
     }
 
     @Override
     public void hideShotsLoadingMoreProgress() {
-        shotsAdapter.hideLoadingIndicator();
+        shotsAdapter.setLoadingMore(false);
     }
 
     @Override
@@ -146,10 +146,8 @@ public class UserShotsFragment extends MvpAppCompatFragment implements UserShots
     }
 
     @Override
-    public void showNoNetworkMessage() {
-        Snackbar snackbar = Snackbar.make(snackBarContainer, R.string.check_network_message, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.try_again_message, v -> userShotsPresenter.retryLoading());
-        snackbar.show();
+    public void showLoadMoreError() {
+        shotsAdapter.setLoadingError(true);
     }
 
 }

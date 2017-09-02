@@ -83,7 +83,7 @@ public class UserFollowersFragment extends MvpAppCompatFragment implements UserF
         noNetworkLayout = view.findViewById(R.id.no_network_layout);
         noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> userFollowersPresenter.retryLoading());
 
-        followersRecyclerView = (RecyclerView) view.findViewById(R.id.shotsRecyclerView);
+        followersRecyclerView = view.findViewById(R.id.shotsRecyclerView);
         followersListLayoutManager = new LinearLayoutManager(getContext());
         followersRecyclerView.setLayoutManager(followersListLayoutManager);
 
@@ -146,10 +146,8 @@ public class UserFollowersFragment extends MvpAppCompatFragment implements UserF
     }
 
     @Override
-    public void showNoNetworkMessage() {
-        Snackbar snackbar = Snackbar.make(snackBarContainer, R.string.check_network_message, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.try_again_message, v -> userFollowersPresenter.retryLoading());
-        snackbar.show();
+    public void showLoadMoreError() {
+        userFollowersAdapter.setLoadingError(true);
     }
 
 }

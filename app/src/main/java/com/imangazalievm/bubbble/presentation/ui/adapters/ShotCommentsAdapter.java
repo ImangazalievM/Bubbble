@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ShotCommentsAdapter extends HeaderFooterAdapter<Comment> {
+public class ShotCommentsAdapter extends LoadMoreAdapter<Comment> {
 
     public interface OnLinkClickListener {
         void onLinkClicked(String url);
@@ -69,12 +69,13 @@ public class ShotCommentsAdapter extends HeaderFooterAdapter<Comment> {
 
     @Override
     protected RecyclerView.ViewHolder getFooterViewHolder(LayoutInflater inflater, ViewGroup parent) {
-        return noComments ? new NoCommentsViewHolder(layoutInflater.inflate(R.layout.item_no_comments, parent, false))
-                : new LoadMoreViewHolder(layoutInflater.inflate(R.layout.item_load_more, parent, false));
+        return noComments ? new NoCommentsViewHolder(layoutInflater, parent) : super.getFooterViewHolder(inflater, parent);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+
         if (holder instanceof CommentViewHolder) {
             CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
             Comment comment = getItem(position);

@@ -21,6 +21,6 @@ public interface UserShotsView extends MvpView {
     void openShotDetailsScreen(long shotId);
     void showNoNetworkLayout();
     void hideNoNetworkLayout();
-    void showNoNetworkMessage();
+    void showLoadMoreError();
 
 }
