@@ -3,7 +3,7 @@ package com.imangazalievm.bubbble.data.repository;
 import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.models.Follow;
 import com.imangazalievm.bubbble.domain.models.UserFollowersRequestParams;
-import com.imangazalievm.bubbble.domain.repository.IFollowersRepository;
+import com.imangazalievm.bubbble.domain.repository.FollowersRepository;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 
-public class FollowersRepository implements IFollowersRepository {
+public class FollowersRepositoryImpl implements FollowersRepository {
 
     private DribbbleApiService dribbbleApiService;
 
     @Inject
-    public FollowersRepository(DribbbleApiService dribbbleApiService) {
+    public FollowersRepositoryImpl(DribbbleApiService dribbbleApiService) {
         this.dribbbleApiService = dribbbleApiService;
     }
 

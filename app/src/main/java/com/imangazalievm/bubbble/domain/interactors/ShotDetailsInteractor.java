@@ -4,9 +4,9 @@ package com.imangazalievm.bubbble.domain.interactors;
 import com.imangazalievm.bubbble.domain.models.Comment;
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.domain.models.ShotCommentsRequestParams;
-import com.imangazalievm.bubbble.domain.repository.ICommentsRepository;
-import com.imangazalievm.bubbble.domain.repository.IImagesRepository;
-import com.imangazalievm.bubbble.domain.repository.IShotsRepository;
+import com.imangazalievm.bubbble.domain.repository.CommentsRepository;
+import com.imangazalievm.bubbble.domain.repository.ImagesRepository;
+import com.imangazalievm.bubbble.domain.repository.ShotsRepository;
 
 import java.util.List;
 
@@ -17,14 +17,14 @@ import io.reactivex.Single;
 
 public class ShotDetailsInteractor {
 
-    private IShotsRepository shotsRepository;
-    private ICommentsRepository commentsRepository;
-    private IImagesRepository imagesRepository;
+    private ShotsRepository shotsRepository;
+    private CommentsRepository commentsRepository;
+    private ImagesRepository imagesRepository;
 
     @Inject
-    public ShotDetailsInteractor(IShotsRepository shotsRepository,
-                                 ICommentsRepository commentsRepository,
-                                 IImagesRepository imagesRepository) {
+    public ShotDetailsInteractor(ShotsRepository shotsRepository,
+                                 CommentsRepository commentsRepository,
+                                 ImagesRepository imagesRepository) {
         this.shotsRepository = shotsRepository;
         this.commentsRepository = commentsRepository;
         this.imagesRepository = imagesRepository;

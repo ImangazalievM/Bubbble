@@ -3,7 +3,7 @@ package com.imangazalievm.bubbble.domain.interactors;
 
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.domain.models.ShotsRequestParams;
-import com.imangazalievm.bubbble.domain.repository.IShotsRepository;
+import com.imangazalievm.bubbble.domain.repository.ShotsRepository;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import io.reactivex.Single;
 
 public class ShotsInteractor {
 
-    private IShotsRepository shotsRepository;
+    private ShotsRepository shotsRepository;
 
     @Inject
-    public ShotsInteractor(IShotsRepository shotsRepository) {
+    public ShotsInteractor(ShotsRepository shotsRepository) {
         this.shotsRepository = shotsRepository;
     }
 

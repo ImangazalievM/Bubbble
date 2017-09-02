@@ -8,7 +8,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public interface IUsersRepository {
+public interface UsersRepository {
 
     Single<User> getUser(long userId);
 

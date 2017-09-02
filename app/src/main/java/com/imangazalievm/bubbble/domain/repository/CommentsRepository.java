@@ -8,7 +8,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public interface ICommentsRepository {
+public interface CommentsRepository {
 
     Single<List<Comment>> getComments(ShotCommentsRequestParams requestParams);
 

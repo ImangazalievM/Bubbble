@@ -4,8 +4,8 @@ package com.imangazalievm.bubbble.domain.interactors;
 import com.imangazalievm.bubbble.domain.models.Follow;
 import com.imangazalievm.bubbble.domain.models.User;
 import com.imangazalievm.bubbble.domain.models.UserFollowersRequestParams;
-import com.imangazalievm.bubbble.domain.repository.IFollowersRepository;
-import com.imangazalievm.bubbble.domain.repository.IUsersRepository;
+import com.imangazalievm.bubbble.domain.repository.FollowersRepository;
+import com.imangazalievm.bubbble.domain.repository.UsersRepository;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import io.reactivex.Single;
 
 public class UserFollowersInteractor {
 
-    private IUsersRepository usersRepository;
-    private IFollowersRepository followersRepository;
+    private UsersRepository usersRepository;
+    private FollowersRepository followersRepository;
 
     @Inject
-    public UserFollowersInteractor(IUsersRepository usersRepository, IFollowersRepository followersRepository) {
+    public UserFollowersInteractor(UsersRepository usersRepository, FollowersRepository followersRepository) {
         this.usersRepository = usersRepository;
         this.followersRepository = followersRepository;
     }

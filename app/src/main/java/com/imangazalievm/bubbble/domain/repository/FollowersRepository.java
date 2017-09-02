@@ -8,7 +8,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public interface IFollowersRepository {
+public interface FollowersRepository {
 
     Single<List<Follow>> getUserFollowers(UserFollowersRequestParams userFollowersRequestParams);
 

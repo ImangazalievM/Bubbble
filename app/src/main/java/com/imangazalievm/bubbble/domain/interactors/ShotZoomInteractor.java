@@ -1,7 +1,7 @@
 package com.imangazalievm.bubbble.domain.interactors;
 
 
-import com.imangazalievm.bubbble.domain.repository.IImagesRepository;
+import com.imangazalievm.bubbble.domain.repository.ImagesRepository;
 
 import javax.inject.Inject;
 
@@ -9,10 +9,10 @@ import io.reactivex.Completable;
 
 public class ShotZoomInteractor {
 
-    private IImagesRepository imagesRepository;
+    private ImagesRepository imagesRepository;
 
     @Inject
-    public ShotZoomInteractor(IImagesRepository imagesRepository) {
+    public ShotZoomInteractor(ImagesRepository imagesRepository) {
         this.imagesRepository = imagesRepository;
     }
 

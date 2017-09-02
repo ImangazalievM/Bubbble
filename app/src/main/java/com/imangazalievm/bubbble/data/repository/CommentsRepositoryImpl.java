@@ -3,7 +3,7 @@ package com.imangazalievm.bubbble.data.repository;
 import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.models.Comment;
 import com.imangazalievm.bubbble.domain.models.ShotCommentsRequestParams;
-import com.imangazalievm.bubbble.domain.repository.ICommentsRepository;
+import com.imangazalievm.bubbble.domain.repository.CommentsRepository;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 
-public class CommentsRepository implements ICommentsRepository {
+public class CommentsRepositoryImpl implements CommentsRepository {
 
     private DribbbleApiService dribbbleApiService;
 
     @Inject
-    public CommentsRepository(DribbbleApiService dribbbleApiService) {
+    public CommentsRepositoryImpl(DribbbleApiService dribbbleApiService) {
         this.dribbbleApiService = dribbbleApiService;
     }
 

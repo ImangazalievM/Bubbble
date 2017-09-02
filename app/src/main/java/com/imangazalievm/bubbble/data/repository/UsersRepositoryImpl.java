@@ -2,18 +2,18 @@ package com.imangazalievm.bubbble.data.repository;
 
 import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.models.User;
-import com.imangazalievm.bubbble.domain.repository.IUsersRepository;
+import com.imangazalievm.bubbble.domain.repository.UsersRepository;
 
 import javax.inject.Inject;
 
 import io.reactivex.Single;
 
-public class UsersRepository implements IUsersRepository {
+public class UsersRepositoryImpl implements UsersRepository {
 
     private DribbbleApiService dribbbleApiService;
 
     @Inject
-    public UsersRepository(DribbbleApiService dribbbleApiService) {
+    public UsersRepositoryImpl(DribbbleApiService dribbbleApiService) {
         this.dribbbleApiService = dribbbleApiService;
     }
 

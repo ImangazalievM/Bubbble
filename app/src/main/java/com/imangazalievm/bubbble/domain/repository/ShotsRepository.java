@@ -9,7 +9,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public interface IShotsRepository {
+public interface ShotsRepository {
 
     Single<List<Shot>> getShots(ShotsRequestParams shotsRequestParams);
     Single<Shot> getShot(long shotId);

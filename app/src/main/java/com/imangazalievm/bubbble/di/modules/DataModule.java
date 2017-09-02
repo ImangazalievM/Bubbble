@@ -11,18 +11,18 @@ import com.imangazalievm.bubbble.data.network.ErrorHandler;
 import com.imangazalievm.bubbble.data.network.NetworkChecker;
 import com.imangazalievm.bubbble.data.network.interceptors.DribbbleTokenInterceptor;
 import com.imangazalievm.bubbble.data.network.interceptors.NetworkCheckInterceptor;
-import com.imangazalievm.bubbble.data.repository.CommentsRepository;
-import com.imangazalievm.bubbble.data.repository.FollowersRepository;
-import com.imangazalievm.bubbble.data.repository.ImagesRepository;
-import com.imangazalievm.bubbble.data.repository.ShotsRepository;
-import com.imangazalievm.bubbble.data.repository.UsersRepository;
+import com.imangazalievm.bubbble.data.repository.CommentsRepositoryImpl;
+import com.imangazalievm.bubbble.data.repository.FollowersRepositoryImpl;
+import com.imangazalievm.bubbble.data.repository.ImagesRepositoryImpl;
+import com.imangazalievm.bubbble.data.repository.ShotsRepositoryImpl;
+import com.imangazalievm.bubbble.data.repository.UsersRepositoryImpl;
 import com.imangazalievm.bubbble.di.qualifiers.OkHttpInterceptors;
 import com.imangazalievm.bubbble.di.qualifiers.OkHttpNetworkInterceptors;
-import com.imangazalievm.bubbble.domain.repository.ICommentsRepository;
-import com.imangazalievm.bubbble.domain.repository.IFollowersRepository;
-import com.imangazalievm.bubbble.domain.repository.IImagesRepository;
-import com.imangazalievm.bubbble.domain.repository.IShotsRepository;
-import com.imangazalievm.bubbble.domain.repository.IUsersRepository;
+import com.imangazalievm.bubbble.domain.repository.CommentsRepository;
+import com.imangazalievm.bubbble.domain.repository.FollowersRepository;
+import com.imangazalievm.bubbble.domain.repository.ImagesRepository;
+import com.imangazalievm.bubbble.domain.repository.ShotsRepository;
+import com.imangazalievm.bubbble.domain.repository.UsersRepository;
 
 import java.util.List;
 
@@ -47,31 +47,31 @@ public class DataModule {
 
     @Provides
     @Singleton
-    IShotsRepository provideBookRepository(ShotsRepository bookRepository) {
+    ShotsRepository provideBookRepository(ShotsRepositoryImpl bookRepository) {
         return bookRepository;
     }
 
     @Provides
     @Singleton
-    ICommentsRepository provideCommentsRepository(CommentsRepository commentsRepository) {
+    CommentsRepository provideCommentsRepository(CommentsRepositoryImpl commentsRepository) {
         return commentsRepository;
     }
 
     @Provides
     @Singleton
-    IUsersRepository provideUsersRepository(UsersRepository usersRepository) {
+    UsersRepository provideUsersRepository(UsersRepositoryImpl usersRepository) {
         return usersRepository;
     }
 
     @Provides
     @Singleton
-    IFollowersRepository provideFollowersRepository(FollowersRepository followersRepository) {
+    FollowersRepository provideFollowersRepository(FollowersRepositoryImpl followersRepository) {
         return followersRepository;
     }
 
     @Provides
     @Singleton
-    IImagesRepository provideImagesRepository(ImagesRepository imagesRepository) {
+    ImagesRepository provideImagesRepository(ImagesRepositoryImpl imagesRepository) {
         return imagesRepository;
     }
 

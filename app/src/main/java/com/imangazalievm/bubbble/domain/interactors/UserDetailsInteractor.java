@@ -2,7 +2,7 @@ package com.imangazalievm.bubbble.domain.interactors;
 
 
 import com.imangazalievm.bubbble.domain.models.User;
-import com.imangazalievm.bubbble.domain.repository.IUsersRepository;
+import com.imangazalievm.bubbble.domain.repository.UsersRepository;
 
 import javax.inject.Inject;
 
@@ -10,10 +10,10 @@ import io.reactivex.Single;
 
 public class UserDetailsInteractor {
 
-    private IUsersRepository usersRepository;
+    private UsersRepository usersRepository;
 
     @Inject
-    public UserDetailsInteractor(IUsersRepository usersRepository) {
+    public UserDetailsInteractor(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 
