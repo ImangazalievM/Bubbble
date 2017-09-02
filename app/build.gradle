@@ -20,6 +20,40 @@ android {
         buildConfigField "String", "DRIBBBLE_CLIENT_ACCESS_TOKEN", "\"${dribbble_client_access_token}\""
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    signingConfigs {
+        bubbble {
+            storeFile file('keystore.jks')
+            storePassword 'bubbble'
+            keyAlias 'bubbble'
+            keyPassword 'bubbble'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.bubbble
+            applicationIdSuffix '.debug'
+            minifyEnabled false
+            debuggable true
+        }
+
+        release {
+            signingConfig signingConfigs.bubbble
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+
+    sourceSets {
+        test.java.srcDir 'src/unitTests/java'
+        test.java.srcDir 'src/integrationTests/java'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -27,10 +61,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 dependencies {
@@ -77,10 +107,9 @@ dependencies {
 
     // Testing
     testCompile libraries.junit
+    testCompile libraries.hamcrest
+    testCompile libraries.mockito
     testCompile libraries.robolectric
-    testCompile libraries.assertJ
-    testCompile libraries.equalsVerifier
-    testCompile libraries.mockitoCore
 
 }
 

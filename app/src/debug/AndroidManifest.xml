@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name="com.imangazalievm.bubbble.BubbbleApplication"
+        android:name=".BubbbleApplication"
         tools:replace=" android:name">
     </application>
 
