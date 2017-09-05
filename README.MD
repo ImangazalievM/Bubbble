@@ -1,5 +1,3 @@
-Sample project how to design Android application with Clean Architecture + MVP
-
 # Bubbble
 
 Bubbble is Dribbble client for Android.
