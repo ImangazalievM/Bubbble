@@ -59,11 +59,10 @@ public class ShotZoomActivity extends MvpAppCompatActivity implements ShotZoomVi
 
     @ProvidePresenter
     ShotZoomPresenter providePresenter() {
-        PermissionsManager permissionsManager = new AndroidPermissionsManager(this);
         String shotTitle = getIntent().getStringExtra(KEY_SHOT_TITLE);
         String imageUrl = getIntent().getStringExtra(KEY_IMAGE_URL);
         String shotUrl = getIntent().getStringExtra(KEY_SHOT_URL);
-        ShotZoomPresenterModule presenterModule = new ShotZoomPresenterModule(permissionsManager, shotTitle, shotUrl, imageUrl);
+        ShotZoomPresenterModule presenterModule = new ShotZoomPresenterModule(shotTitle, shotUrl, imageUrl);
 
         ShotZoomPresenterComponent presenterComponent = DaggerShotZoomPresenterComponent.builder()
                 .applicationComponent(BubbbleApplication.component())
@@ -80,7 +79,11 @@ public class ShotZoomActivity extends MvpAppCompatActivity implements ShotZoomVi
 
         initToolbar();
         initViews();
+
+        shotZoomPresenter.setPermissionsManager(new AndroidPermissionsManager(this));
     }
+
+
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);

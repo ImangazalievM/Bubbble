@@ -93,7 +93,7 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailVi
     ShotDetailsPresenter providePresenter() {
         PermissionsManager permissionsManager = new AndroidPermissionsManager(this);
         long shotId = getIntent().getLongExtra(KEY_SHOT_ID, -1);
-        ShotDetailsPresenterModule presenterModule = new ShotDetailsPresenterModule(permissionsManager, shotId);
+        ShotDetailsPresenterModule presenterModule = new ShotDetailsPresenterModule(shotId);
 
         ShotDetailsPresenterComponent presenterComponent = DaggerShotDetailsPresenterComponent.builder()
                 .applicationComponent(BubbbleApplication.component())

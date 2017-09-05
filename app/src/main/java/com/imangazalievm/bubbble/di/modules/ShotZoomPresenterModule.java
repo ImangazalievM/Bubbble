@@ -11,22 +11,14 @@ import dagger.Provides;
 @Module
 public class ShotZoomPresenterModule {
 
-    private PermissionsManager permissionsManager;
     private final String shotTitle;
     private final String shotUrl;
     private final String imageUrl;
 
-    public ShotZoomPresenterModule(PermissionsManager permissionsManager, String shotTitle, String shotUrl, String imageUrl) {
-        this.permissionsManager = permissionsManager;
+    public ShotZoomPresenterModule(String shotTitle, String shotUrl, String imageUrl) {
         this.shotTitle = shotTitle;
         this.shotUrl = shotUrl;
         this.imageUrl = imageUrl;
-    }
-
-    @Provides
-    @Presenter
-    public PermissionsManager getPermissionsManager() {
-        return permissionsManager;
     }
 
     @Provides

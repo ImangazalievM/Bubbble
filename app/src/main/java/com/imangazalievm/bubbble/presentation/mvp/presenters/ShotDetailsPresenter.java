@@ -32,12 +32,19 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailView> {
 
     @Inject
     public ShotDetailsPresenter(ShotDetailsInteractor shotDetailsInteractor,
-                                RxSchedulersProvider rxSchedulersProvider, PermissionsManager permissionsManager,
+                                RxSchedulersProvider rxSchedulersProvider,
                                 long shotId) {
         this.shotDetailsInteractor = shotDetailsInteractor;
         this.rxSchedulersProvider = rxSchedulersProvider;
-        this.permissionsManager = permissionsManager;
         this.shotId = shotId;
+    }
+
+    public void setPermissionsManager(PermissionsManager permissionsManager) {
+        this.permissionsManager = permissionsManager;
+    }
+
+    public void removePermissionsManager() {
+        permissionsManager = null;
     }
 
     @Override

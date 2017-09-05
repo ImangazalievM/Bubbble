@@ -9,18 +9,10 @@ import dagger.Provides;
 @Module
 public class ShotDetailsPresenterModule {
 
-    private PermissionsManager permissionsManager;
     private final long shotId;
 
-    public ShotDetailsPresenterModule(PermissionsManager permissionsManager, long shotId) {
-        this.permissionsManager = permissionsManager;
+    public ShotDetailsPresenterModule(long shotId) {
         this.shotId = shotId;
-    }
-
-    @Provides
-    @Presenter
-    public PermissionsManager getPermissionsManager() {
-        return permissionsManager;
     }
 
     @Provides
