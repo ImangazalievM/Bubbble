@@ -9,7 +9,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +23,6 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.imangazalievm.bubbble.BubbbleApplication;
-import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerUserProfilePresenterComponent;
 import com.imangazalievm.bubbble.di.UserProfilePresenterComponent;
@@ -80,7 +78,7 @@ public class UserProfileActivity extends BaseMvpActivity implements UserProfileV
         long userId = getIntent().getLongExtra(USER_ID, 0L);
 
         UserProfilePresenterComponent presenterComponent = DaggerUserProfilePresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
+                .applicationComponent(BubbbleApplication.getComponent())
                 .userProfilePresenterModule(new UserProfilePresenterModule(userId))
                 .build();
 

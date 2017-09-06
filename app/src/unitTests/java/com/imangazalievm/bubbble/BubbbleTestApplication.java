@@ -5,7 +5,7 @@ import com.imangazalievm.bubbble.di.ApplicationComponent;
 public class BubbbleTestApplication extends BubbbleApplication {
 
     @Override
-    public ApplicationComponent getComponent() {
+    public ApplicationComponent buildComponent() {
         return null;
     }
 

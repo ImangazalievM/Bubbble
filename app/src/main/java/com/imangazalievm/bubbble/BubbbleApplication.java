@@ -11,30 +11,30 @@ import com.imangazalievm.bubbble.di.modules.DataModule;
 
 public class BubbbleApplication extends Application {
 
-    private static ApplicationComponent mApplicationComponent;
-    private static BubbbleApplication sInstance;
+    private static ApplicationComponent applicationComponent;
+    private static BubbbleApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        sInstance = this;
-        mApplicationComponent = getComponent();
+        instance = this;
+        applicationComponent = buildComponent();
     }
 
-    public static Context getInstance() {
-        return sInstance;
-    }
-
-    public static ApplicationComponent component() {
-        return mApplicationComponent;
-    }
-
-    public ApplicationComponent getComponent() {
+    public ApplicationComponent buildComponent() {
         return DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .dataModule(new DataModule(DribbbleApiConstants.BASE_URL))
                 .build();
+    }
+
+    public static Context getInstance() {
+        return instance;
+    }
+
+    public static ApplicationComponent getComponent() {
+        return applicationComponent;
     }
 
 }

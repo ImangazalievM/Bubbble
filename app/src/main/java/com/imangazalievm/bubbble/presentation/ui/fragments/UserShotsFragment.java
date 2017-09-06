@@ -2,10 +2,8 @@ package com.imangazalievm.bubbble.presentation.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.imangazalievm.bubbble.BubbbleApplication;
-import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerUserShotsPresenterComponent;
 import com.imangazalievm.bubbble.di.UserShotsPresenterComponent;
@@ -48,7 +45,7 @@ public class UserShotsFragment extends MvpAppCompatFragment implements UserShots
         long userId = getArguments().getLong(USER_ID_ARG);
 
         UserShotsPresenterComponent presenterComponent = DaggerUserShotsPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
+                .applicationComponent(BubbbleApplication.getComponent())
                 .userShotsPresenterModule(new UserShotsPresenterModule(userId))
                 .build();
 

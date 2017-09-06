@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,7 +27,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.greenfrvr.hashtagview.HashtagView;
 import com.imangazalievm.bubbble.BubbbleApplication;
-import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerShotDetailsPresenterComponent;
 import com.imangazalievm.bubbble.di.ShotDetailsPresenterComponent;
@@ -96,7 +94,7 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailVi
         ShotDetailsPresenterModule presenterModule = new ShotDetailsPresenterModule(shotId);
 
         ShotDetailsPresenterComponent presenterComponent = DaggerShotDetailsPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
+                .applicationComponent(BubbbleApplication.getComponent())
                 .shotDetailsPresenterModule(presenterModule)
                 .build();
 

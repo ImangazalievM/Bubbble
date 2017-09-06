@@ -27,7 +27,6 @@ import com.imangazalievm.bubbble.di.DaggerShotZoomPresenterComponent;
 import com.imangazalievm.bubbble.di.ShotZoomPresenterComponent;
 import com.imangazalievm.bubbble.di.modules.ShotZoomPresenterModule;
 import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.ShotZoomPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.views.ShotZoomView;
 import com.imangazalievm.bubbble.presentation.ui.commons.AndroidPermissionsManager;
@@ -65,7 +64,7 @@ public class ShotZoomActivity extends MvpAppCompatActivity implements ShotZoomVi
         ShotZoomPresenterModule presenterModule = new ShotZoomPresenterModule(shotTitle, shotUrl, imageUrl);
 
         ShotZoomPresenterComponent presenterComponent = DaggerShotZoomPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
+                .applicationComponent(BubbbleApplication.getComponent())
                 .shotZoomPresenterModule(presenterModule)
                 .build();
 

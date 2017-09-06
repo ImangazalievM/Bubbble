@@ -2,7 +2,6 @@ package com.imangazalievm.bubbble.presentation.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import com.imangazalievm.bubbble.di.modules.UserFollowersPresenterModule;
 import com.imangazalievm.bubbble.domain.models.Follow;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.UserFollowersPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserFollowersView;
-import com.imangazalievm.bubbble.presentation.ui.activities.ShotDetailsActivity;
 import com.imangazalievm.bubbble.presentation.ui.activities.UserProfileActivity;
 import com.imangazalievm.bubbble.presentation.ui.adapters.UserFollowersAdapter;
 import com.imangazalievm.bubbble.presentation.ui.commons.EndlessRecyclerOnScrollListener;
@@ -47,7 +45,7 @@ public class UserFollowersFragment extends MvpAppCompatFragment implements UserF
         long userId = getArguments().getLong(USER_ID_ARG);
 
         UserFollowersPresenterComponent presenterComponent = DaggerUserFollowersPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
+                .applicationComponent(BubbbleApplication.getComponent())
                 .userFollowersPresenterModule(new UserFollowersPresenterModule(userId))
                 .build();
 

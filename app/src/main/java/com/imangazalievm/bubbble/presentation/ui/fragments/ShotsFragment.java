@@ -4,17 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.imangazalievm.bubbble.BubbbleApplication;
-import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.DaggerShotsPresenterComponent;
 import com.imangazalievm.bubbble.di.ShotsPresenterComponent;
@@ -48,7 +45,7 @@ public class ShotsFragment extends MvpAppCompatFragment implements ShotsView {
         String sortType = getArguments().getString(SORT_TYPE_ARG);
 
         ShotsPresenterComponent shotsPresenterComponent = DaggerShotsPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
+                .applicationComponent(BubbbleApplication.getComponent())
                 .shotsPresenterModule(new ShotsPresenterModule(sortType))
                 .build();
         return shotsPresenterComponent.getPresenter();

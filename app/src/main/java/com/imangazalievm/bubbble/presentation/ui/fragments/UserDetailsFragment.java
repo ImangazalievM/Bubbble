@@ -43,7 +43,7 @@ public class UserDetailsFragment extends MvpAppCompatFragment implements UserDet
         long userId = getArguments().getLong(USER_ID_ARG);
 
         UserDetailsPresenterComponent presenterComponent = DaggerUserDetailsPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.component())
+                .applicationComponent(BubbbleApplication.getComponent())
                 .userDetailsPresenterModule(new UserDetailsPresenterModule(userId))
                 .build();
 
