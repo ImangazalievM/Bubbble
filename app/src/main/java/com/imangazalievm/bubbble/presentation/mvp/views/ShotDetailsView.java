@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface ShotDetailView extends MvpView {
+public interface ShotDetailsView extends MvpView {
 
     void showShot(Shot shot);
     void showLoadingProgress();

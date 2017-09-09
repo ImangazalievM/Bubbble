@@ -82,7 +82,12 @@ public class ShotZoomActivity extends MvpAppCompatActivity implements ShotZoomVi
         shotZoomPresenter.setPermissionsManager(new AndroidPermissionsManager(this));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
+        shotZoomPresenter.removePermissionsManager();
+    }
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);

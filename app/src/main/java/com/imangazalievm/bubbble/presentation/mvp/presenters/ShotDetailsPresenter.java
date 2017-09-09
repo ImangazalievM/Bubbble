@@ -10,7 +10,7 @@ import com.imangazalievm.bubbble.domain.models.ShotCommentsRequestParams;
 import com.imangazalievm.bubbble.presentation.commons.permissions.Permission;
 import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
 import com.imangazalievm.bubbble.presentation.commons.rx.RxSchedulersProvider;
-import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailView;
+import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailsView;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 @InjectViewState
-public class ShotDetailsPresenter extends MvpPresenter<ShotDetailView> {
+public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
 
     private static final int COMMENTS_PAGE_SIZE = 20;
 

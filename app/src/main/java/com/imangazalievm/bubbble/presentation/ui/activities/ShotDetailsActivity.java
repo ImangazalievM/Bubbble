@@ -35,7 +35,7 @@ import com.imangazalievm.bubbble.domain.models.Comment;
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.ShotDetailsPresenter;
-import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailView;
+import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailsView;
 import com.imangazalievm.bubbble.presentation.ui.adapters.ShotCommentsAdapter;
 import com.imangazalievm.bubbble.presentation.ui.commons.AndroidPermissionsManager;
 import com.imangazalievm.bubbble.presentation.ui.commons.EndlessRecyclerOnScrollListener;
@@ -47,7 +47,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailView {
+public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailsView {
 
     private static final String KEY_SHOT_ID = "shot_id";
 
@@ -108,6 +108,15 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailVi
 
         initToolbar();
         initViews();
+
+        shotDetailsPresenter.setPermissionsManager(new AndroidPermissionsManager(this));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        shotDetailsPresenter.removePermissionsManager();
     }
 
     private void initToolbar() {

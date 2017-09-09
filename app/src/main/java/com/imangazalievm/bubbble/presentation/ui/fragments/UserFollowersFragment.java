@@ -87,7 +87,7 @@ public class UserFollowersFragment extends MvpAppCompatFragment implements UserF
 
         userFollowersAdapter = new UserFollowersAdapter(getContext());
         followersRecyclerView.setAdapter(userFollowersAdapter);
-        userFollowersAdapter.setOnItemClickListener(position -> userFollowersPresenter.onShotClick(position));
+        userFollowersAdapter.setOnItemClickListener(position -> userFollowersPresenter.onFollowerClick(position));
 
         initLoadMoreScrollListener();
         followersRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);

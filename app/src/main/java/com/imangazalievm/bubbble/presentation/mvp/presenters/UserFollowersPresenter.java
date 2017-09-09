@@ -29,7 +29,9 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
     private boolean isShotsLoading = false;
 
     @Inject
-    public UserFollowersPresenter(UserFollowersInteractor userFollowersInteractor, RxSchedulersProvider rxSchedulersProvider, long userId) {
+    public UserFollowersPresenter(UserFollowersInteractor userFollowersInteractor,
+                                  RxSchedulersProvider rxSchedulersProvider,
+                                  long userId) {
         this.userFollowersInteractor = userFollowersInteractor;
         this.rxSchedulersProvider = rxSchedulersProvider;
         this.userId = userId;
@@ -103,7 +105,7 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
         loadMoreShots(currentMaxPage);
     }
 
-    public void onShotClick(int position) {
+    public void onFollowerClick(int position) {
         getViewState().openUserDetailsScreen(followers.get(position).getFollower().getId());
     }
 
