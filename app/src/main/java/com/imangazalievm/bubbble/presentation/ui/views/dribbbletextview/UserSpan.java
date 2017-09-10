@@ -1,7 +1,6 @@
 package com.imangazalievm.bubbble.presentation.ui.views.dribbbletextview;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.View;
 
 import okhttp3.HttpUrl;

@@ -13,7 +13,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.domain.models.Follow;
 import com.imangazalievm.bubbble.domain.models.User;
-import com.imangazalievm.bubbble.presentation.ui.adapters.viewholders.LoadMoreViewHolder;
 import com.imangazalievm.bubbble.presentation.ui.commons.glide.GlideCircleTransform;
 
 

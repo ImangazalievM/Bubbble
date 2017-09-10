@@ -3,8 +3,6 @@ package com.imangazalievm.bubbble.presentation.ui.views.dribbbletextview;
 import android.content.res.ColorStateList;
 import android.view.View;
 
-import okhttp3.HttpUrl;
-
 public abstract class LinkSpan extends TouchableUrlSpan {
 
     public LinkSpan(String url, ColorStateList textColor) {

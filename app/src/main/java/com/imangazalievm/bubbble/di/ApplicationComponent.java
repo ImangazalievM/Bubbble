@@ -11,7 +11,6 @@ import com.imangazalievm.bubbble.domain.repository.UsersRepository;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import io.reactivex.Scheduler;
 import ru.caprice.cafe.di.modules.OkHttpInterceptorsModule;
 
 @Singleton

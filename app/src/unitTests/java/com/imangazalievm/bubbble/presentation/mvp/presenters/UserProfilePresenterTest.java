@@ -2,10 +2,7 @@ package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
 import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.interactors.UserProfileInteractor;
-import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.domain.models.ShotsRequestParams;
 import com.imangazalievm.bubbble.domain.models.User;
-import com.imangazalievm.bubbble.domain.models.UserShotsRequestParams;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserProfileView;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserProfileView$$State;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
@@ -14,17 +11,11 @@ import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.reactivex.Single;
 
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

@@ -5,7 +5,6 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.imangazalievm.bubbble.domain.models.Follow;
-import com.imangazalievm.bubbble.domain.models.Shot;
 
 import java.util.List;
 

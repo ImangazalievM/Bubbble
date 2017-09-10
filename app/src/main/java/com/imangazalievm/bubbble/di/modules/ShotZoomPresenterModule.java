@@ -1,7 +1,6 @@
 package com.imangazalievm.bubbble.di.modules;
 
 import com.imangazalievm.bubbble.di.scopes.Presenter;
-import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
 
 import javax.inject.Named;
 

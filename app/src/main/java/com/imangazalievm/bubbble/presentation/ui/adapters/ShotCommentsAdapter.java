@@ -2,24 +2,18 @@ package com.imangazalievm.bubbble.presentation.ui.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.domain.models.Comment;
 import com.imangazalievm.bubbble.presentation.ui.adapters.viewholders.CommentViewHolder;
-import com.imangazalievm.bubbble.presentation.ui.adapters.viewholders.LoadMoreViewHolder;
 import com.imangazalievm.bubbble.presentation.ui.adapters.viewholders.NoCommentsViewHolder;
 import com.imangazalievm.bubbble.presentation.ui.adapters.viewholders.ShotDescriptionViewHolder;
 import com.imangazalievm.bubbble.presentation.ui.commons.glide.GlideCircleTransform;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ShotCommentsAdapter extends LoadMoreAdapter<Comment> {

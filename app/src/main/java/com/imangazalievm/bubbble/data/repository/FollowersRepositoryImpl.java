@@ -21,8 +21,7 @@ public class FollowersRepositoryImpl implements FollowersRepository {
     }
 
     public Single<List<Follow>> getUserFollowers(UserFollowersRequestParams requestParams) {
-        return dribbbleApiService.getUserFollowers(requestParams.getUserId(),
-                requestParams.getPage(), requestParams.getPageSize());
+        return dribbbleApiService.getUserFollowers(requestParams.getUserId(), requestParams.getPage(), requestParams.getPageSize());
     }
 
 }

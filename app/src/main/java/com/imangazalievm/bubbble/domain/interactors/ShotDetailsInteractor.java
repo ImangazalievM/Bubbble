@@ -35,8 +35,7 @@ public class ShotDetailsInteractor {
     }
 
     public Single<List<Comment>> getShotComments(ShotCommentsRequestParams shotCommentsRequestParams) {
-        return commentsRepository
-                .getComments(shotCommentsRequestParams);
+        return commentsRepository.getComments(shotCommentsRequestParams);
     }
 
     public Completable saveImage(String imageUrl) {

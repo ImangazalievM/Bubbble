@@ -2,8 +2,6 @@ package com.imangazalievm.bubbble.di.modules;
 
 import com.imangazalievm.bubbble.di.scopes.Presenter;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
