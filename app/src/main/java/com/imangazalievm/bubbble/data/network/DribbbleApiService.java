@@ -25,10 +25,12 @@ public interface DribbbleApiService {
     Single<User> getAuthenticatedUser();
 
     @GET("v1/user/shots")
-    Single<List<Shot>> getUserShots(@Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Shot>> getUserShots(@Query("page") int page,
+                                    @Query("per_page") int pageSize);
 
     @GET("v1/user/likes")
-    Single<List<Like>> getUserLikes(@Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Like>> getUserLikes(@Query("page") int page,
+                                    @Query("per_page") int pageSize);
 
     @GET("v1/shots/{shotId}/like")
     Single<Like> liked(@Path("shotId") long shotId);
@@ -51,34 +53,42 @@ public interface DribbbleApiService {
     /* Shots */
 
     @GET("v1/shots")
-    Single<List<Shot>> getShots(@Query("sort") String sort, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Shot>> getShots(@Query("sort") String sort,
+                                @Query("page") int page,
+                                @Query("per_page") int pageSize);
 
     @GET("v1/shots/{shotId}")
     Single<Shot> getShot(@Path("shotId") long id);
 
     @GET("v1/users/{userId}/shots")
-    Single<List<Shot>> getUserShots(@Path("userId") long userId, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Shot>> getUserShots(@Path("userId") long userId,
+                                    @Query("page") int page,
+                                    @Query("per_page") int pageSize);
 
     @GET("v1/user/following/shots")
-    Single<List<Shot>> getFollowing(@Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Shot>> getFollowing(@Query("page") int page,
+                                    @Query("per_page") int pageSize);
 
     @GET("v1/shots/{shotId}/likes")
-    Single<List<Like>> getShotLikes(@Path("shotId") long shotId, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Like>> getShotLikes(@Path("shotId") long shotId,
+                                    @Query("page") int page,
+                                    @Query("per_page") int pageSize);
 
     /* Comments */
 
     @GET("v1/shots/{id}/comments")
-    Single<List<Comment>> getShotComments(@Path("id") long id, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Comment>> getShotComments(@Path("id") long id,
+                                          @Query("page") int page,
+                                          @Query("per_page") int pageSize);
 
     /* Users */
 
     @GET("v1/users/{userId}")
     Single<User> getUser(@Path("userId") long userId);
 
-    @GET("v1/users/{userId}/shots")
-    Single<List<Shot>> getUsersShots(@Path("userId") long userId, @Query("page") int page, @Query("per_page") int pageSize);
-
     @GET("v1/users/{userId}/followers")
-    Single<List<Follow>> getUserFollowers(@Path("userId") long userId, @Query("page") int page, @Query("per_page") int pageSize);
+    Single<List<Follow>> getUserFollowers(@Path("userId") long userId,
+                                          @Query("page") int page,
+                                          @Query("per_page") int pageSize);
 
 }
