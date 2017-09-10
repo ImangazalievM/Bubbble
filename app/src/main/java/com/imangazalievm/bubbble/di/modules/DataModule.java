@@ -16,6 +16,7 @@ import com.imangazalievm.bubbble.data.repository.CommentsRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.FollowersRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.ImagesRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.ShotsRepositoryImpl;
+import com.imangazalievm.bubbble.data.repository.TempPreferencesImpl;
 import com.imangazalievm.bubbble.data.repository.UsersRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.datasource.DribbbleSearchDataSource;
 import com.imangazalievm.bubbble.di.qualifiers.OkHttpInterceptors;
@@ -24,6 +25,7 @@ import com.imangazalievm.bubbble.domain.repository.CommentsRepository;
 import com.imangazalievm.bubbble.domain.repository.FollowersRepository;
 import com.imangazalievm.bubbble.domain.repository.ImagesRepository;
 import com.imangazalievm.bubbble.domain.repository.ShotsRepository;
+import com.imangazalievm.bubbble.domain.repository.TempPreferences;
 import com.imangazalievm.bubbble.domain.repository.UsersRepository;
 
 import java.util.List;
@@ -75,6 +77,12 @@ public class DataModule {
     @Singleton
     ImagesRepository provideImagesRepository(ImagesRepositoryImpl imagesRepository) {
         return imagesRepository;
+    }
+
+    @Provides
+    @Singleton
+    TempPreferences provideTempPreferences(TempPreferencesImpl tempPreferences) {
+        return tempPreferences;
     }
 
     @Provides
