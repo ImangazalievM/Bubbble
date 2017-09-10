@@ -55,6 +55,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
     }
 
     private void loadShot() {
+        getViewState().showLoadingProgress();
         shotDetailsInteractor.getShot(shotId)
                 .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
                 .subscribe(this::onShotLoaded, this::onShotLoadError);
@@ -66,7 +67,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
         getViewState().showShot(shot);
 
         if (shot.getCommentsCount() > 0) {
-            loadMoreComments(0);
+            loadMoreComments(1);
         } else {
             getViewState().showNoComments();
         }
@@ -91,7 +92,6 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
 
     public void retryLoading() {
         getViewState().hideNoNetworkLayout();
-        getViewState().showLoadingProgress();
         loadShot();
     }
 
@@ -118,15 +118,15 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
         loadMoreComments(currentMaxCommentsPage);
     }
 
-    public void onImageClick() {
+    public void onImageClicked() {
         getViewState().openShotImageScreen(shot);
     }
 
-    public void onLikeShotClick() {
+    public void onLikeShotClicked() {
 
     }
 
-    public void onShareShotClick() {
+    public void onShareShotClicked() {
         getViewState().showShotSharing(shot.getTitle(), shot.getHtmlUrl());
     }
 
@@ -156,15 +156,15 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
                 .subscribe(() -> getViewState().showImageSavedMessage(), DebugUtils::showDebugErrorMessage);
     }
 
-    public void onOpenInBrowserClicked() {
+    public void onOpenShotInBrowserClicked() {
         getViewState().openInBrowser(shot.getHtmlUrl());
     }
 
-    public void onShotAuthorProfileClick() {
+    public void onShotAuthorProfileClicked() {
         getViewState().openUserProfileScreen(shot.getUser().getId());
     }
 
-    public void onUserSelected(long userId) {
+    public void onCommentAuthorClick(long userId) {
         getViewState().openUserProfileScreen(userId);
     }
 

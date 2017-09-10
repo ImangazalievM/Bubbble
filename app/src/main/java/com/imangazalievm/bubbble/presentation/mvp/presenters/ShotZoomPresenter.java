@@ -51,7 +51,8 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
     }
 
     private void showShot() {
-        getViewState().showShot(imageUrl);
+        getViewState().showLoadingProgress();
+        getViewState().showShotImage(imageUrl);
     }
 
     public void onImageLoadSuccess() {
@@ -93,7 +94,7 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
         getViewState().openInBrowser(shotUrl);
     }
 
-    public void onShareClicked() {
+    public void onShareShotClicked() {
         getViewState().showShotSharing(shotTitle, shotUrl);
     }
 

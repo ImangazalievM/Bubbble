@@ -114,7 +114,7 @@ public class UserDetailsFragment extends MvpAppCompatFragment implements UserDet
     }
 
     @Override
-    public void showUser(User user) {
+    public void showUserInfo(User user) {
         userShotsCount.setText(getResources().getQuantityString(R.plurals.shots, user.getShotsCount(), user.getShotsCount()));
         userLikesCount.setText(getResources().getQuantityString(R.plurals.likes, user.getLikesCount(), user.getLikesCount()));
         userBucketsCount.setText(getResources().getQuantityString(R.plurals.buckets, user.getBucketsCount(), user.getBucketsCount()));

@@ -38,6 +38,7 @@ public class UserDetailsPresenter extends MvpPresenter<UserDetailsView> {
     }
 
     private void loadUser() {
+        getViewState().showLoadingProgress();
         userDetailsInteractor.getUser(userId)
                 .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
                 .subscribe(this::onUserLoadSuccess, this::onUserLoadError);
@@ -46,7 +47,7 @@ public class UserDetailsPresenter extends MvpPresenter<UserDetailsView> {
     private void onUserLoadSuccess(User user) {
         this.user = user;
         getViewState().hideLoadingProgress();
-        getViewState().showUser(user);
+        getViewState().showUserInfo(user);
     }
 
     private void onUserLoadError(Throwable throwable) {
@@ -60,7 +61,6 @@ public class UserDetailsPresenter extends MvpPresenter<UserDetailsView> {
 
     public void retryLoading() {
         getViewState().hideNoNetworkLayout();
-        getViewState().showLoadingProgress();
         loadUser();
     }
 

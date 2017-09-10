@@ -56,6 +56,11 @@ public class UserProfilePresenter extends MvpPresenter<UserProfileView> {
         }
     }
 
+    public void retryLoading() {
+        getViewState().hideNoNetworkLayout();
+        loadUser();
+    }
+
     public void onShareProfileClicked() {
         getViewState().showUserProfileSharing(user);
     }
@@ -72,11 +77,7 @@ public class UserProfilePresenter extends MvpPresenter<UserProfileView> {
         getViewState().openUserProfileScreen(userId);
     }
 
-    public void retryLoading() {
-        getViewState().hideNoNetworkLayout();
-        getViewState().showLoadingProgress();
-        loadUser();
-    }
+
 
     public void onBackPressed() {
         getViewState().closeScreen();

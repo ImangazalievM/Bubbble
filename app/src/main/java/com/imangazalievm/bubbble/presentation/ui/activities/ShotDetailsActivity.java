@@ -149,8 +149,8 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailsV
         userAvatar = shotDescription.findViewById(R.id.user_avatar);
         shotCreateDate = shotDescription.findViewById(R.id.shot_create_date);
 
-        shotImage.setOnClickListener(v -> shotDetailsPresenter.onImageClick());
-        userProfileLayout.setOnClickListener(v -> shotDetailsPresenter.onShotAuthorProfileClick());
+        shotImage.setOnClickListener(v -> shotDetailsPresenter.onImageClicked());
+        userProfileLayout.setOnClickListener(v -> shotDetailsPresenter.onShotAuthorProfileClicked());
         description.setOnLinkClickListener(url -> shotDetailsPresenter.onLinkClicked(url));
         description.setOnUserSelectedListener(userId -> shotDetailsPresenter.onCommentAuthorClick(userId));
 
@@ -165,8 +165,8 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailsV
             Toast.makeText(this, tag, Toast.LENGTH_SHORT).show();
         });
 
-        likesCount.setOnClickListener(v -> shotDetailsPresenter.onLikeShotClick());
-        shareShotButton.setOnClickListener(v -> shotDetailsPresenter.onShareShotClick());
+        likesCount.setOnClickListener(v -> shotDetailsPresenter.onLikeShotClicked());
+        shareShotButton.setOnClickListener(v -> shotDetailsPresenter.onShareShotClicked());
     }
 
     @Override

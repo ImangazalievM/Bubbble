@@ -26,7 +26,7 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
     private long userId;
     private int currentMaxPage = 1;
     private List<Follow> followers = new ArrayList<>();
-    private boolean isShotsLoading = false;
+    private boolean isFollowersLoading = false;
 
     @Inject
     public UserFollowersPresenter(UserFollowersInteractor userFollowersInteractor,
@@ -42,19 +42,19 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
         super.onFirstViewAttach();
 
         getViewState().showFollowersLoadingProgress();
-        loadMoreShots(currentMaxPage);
+        loadMoreFollowers(currentMaxPage);
     }
 
-    private void loadMoreShots(int page) {
-        isShotsLoading = true;
+    private void loadMoreFollowers(int page) {
+        isFollowersLoading = true;
         UserFollowersRequestParams requestParams = new UserFollowersRequestParams(userId, page, PAGE_SIZE);
         userFollowersInteractor.getUserFollowers(requestParams)
                 .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
-                .subscribe(this::onFollowersLoaded, this::onShotsLoadError);
+                .subscribe(this::onFollowersLoaded, this::onFollowersLoadError);
     }
 
     private void onFollowersLoaded(List<Follow> newFollowers) {
-        isShotsLoading = false;
+        isFollowersLoading = false;
         if (isFirstLoading()) {
             getViewState().hideFollowersLoadingProgress();
         } else {
@@ -65,8 +65,8 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
         getViewState().showNewFollowers(newFollowers);
     }
 
-    private void onShotsLoadError(Throwable throwable) {
-        isShotsLoading = true;
+    private void onFollowersLoadError(Throwable throwable) {
+        isFollowersLoading = true;
         if (throwable instanceof NoNetworkException) {
             if (isFirstLoading()) {
                 getViewState().hideFollowersLoadingProgress();
@@ -84,14 +84,14 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
         return currentMaxPage == 1;
     }
 
-    public void onLoadMoreShotsRequest() {
-        if (isShotsLoading) {
+    public void onLoadMoreFollowersRequest() {
+        if (isFollowersLoading) {
             return;
         }
 
         getViewState().showFollowersLoadingMoreProgress();
         currentMaxPage++;
-        loadMoreShots(currentMaxPage);
+        loadMoreFollowers(currentMaxPage);
     }
 
     public void retryLoading() {
@@ -102,10 +102,14 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
             getViewState().showFollowersLoadingMoreProgress();
         }
 
-        loadMoreShots(currentMaxPage);
+        loadMoreFollowers(currentMaxPage);
     }
 
     public void onFollowerClick(int position) {
+        System.out.println(followers.size());
+        System.out.println(followers.get(position));
+        System.out.println(followers.get(position).getFollower());
+        System.out.println(followers.get(position).getFollower().getId());
         getViewState().openUserDetailsScreen(followers.get(position).getFollower().getId());
     }
 

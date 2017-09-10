@@ -104,7 +104,7 @@ public class ShotZoomActivity extends MvpAppCompatActivity implements ShotZoomVi
     }
 
     @Override
-    public void showShot(String imageUrl) {
+    public void showShotImage(String imageUrl) {
         Glide.with(this)
                 .load(imageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -148,7 +148,7 @@ public class ShotZoomActivity extends MvpAppCompatActivity implements ShotZoomVi
                 shotZoomPresenter.onDownloadImageClicked();
                 return true;
             case R.id.share_shot:
-                shotZoomPresenter.onShareClicked();
+                shotZoomPresenter.onShareShotClicked();
                 return true;
             case R.id.open_in_browser:
                 shotZoomPresenter.onOpenInBrowserClicked();

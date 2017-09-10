@@ -97,7 +97,7 @@ public class UserFollowersFragment extends MvpAppCompatFragment implements UserF
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(followersListLayoutManager) {
             @Override
             public void onLoadMore() {
-                userFollowersPresenter.onLoadMoreShotsRequest();
+                userFollowersPresenter.onLoadMoreFollowersRequest();
             }
         };
     }

@@ -9,7 +9,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface ShotZoomView extends MvpView {
 
-    void showShot(String imageUrl);
+    void showShotImage(String imageUrl);
     void showLoadingProgress();
     void hideLoadingProgress();
     void showErrorLayout();

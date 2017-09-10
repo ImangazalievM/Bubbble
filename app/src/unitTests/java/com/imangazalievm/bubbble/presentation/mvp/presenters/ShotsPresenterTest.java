@@ -33,68 +33,72 @@ public class ShotsPresenterTest {
     private static final String TEST_SORT_TYPE = "sort_type";
 
     @Mock
-    ShotsInteractor interactorMock;
+    ShotsInteractor shotsInteractorMock;
     @Mock
     ShotsView shotsViewMock;
     @Mock
     ShotsView$$State shotsViewStateMock;
 
-    private ShotsPresenter presenter;
+    private ShotsPresenter shotsPresenter;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new ShotsPresenter(interactorMock, new TestRxSchedulerProvider(), TEST_SORT_TYPE);
-        presenter.setViewState(shotsViewStateMock);
+        shotsPresenter = new ShotsPresenter(shotsInteractorMock, new TestRxSchedulerProvider(), TEST_SORT_TYPE);
+        shotsPresenter.setViewState(shotsViewStateMock);
     }
 
     @Test
     public void shots_shouldLoadAndShowShotsOnFirstAttach() {
         //arrange
-        List<Shot> shots = new ArrayList<>();
-        when(interactorMock.getShots(any(ShotsRequestParams.class))).thenReturn(Single.just(shots));
+        List<Shot> shots = shots();
+        when(shotsInteractorMock.getShots(any(ShotsRequestParams.class)))
+                .thenReturn(Single.just(shots));
 
         //act
-        presenter.onFirstViewAttach();
+        shotsPresenter.onFirstViewAttach();
 
         // assert
         ArgumentCaptor<ShotsRequestParams> shotsCaptor = ArgumentCaptor.forClass(ShotsRequestParams.class);
-        verify(interactorMock).getShots(shotsCaptor.capture());
+        verify(shotsInteractorMock).getShots(shotsCaptor.capture());
         assertEquals(1, shotsCaptor.getValue().getPage());
         verify(shotsViewStateMock).showNewShots(shots);
     }
 
     @Test
-    public void shots_shouldCorrectLoadNextShots() {
+    public void onLoadMoreShotsRequest_shouldCorrectLoadNextShots() {
         //arrange
         List<Shot> newShots = shots();
-        when(interactorMock.getShots(any(ShotsRequestParams.class))).thenReturn(Single.just(newShots));
+        when(shotsInteractorMock.getShots(any(ShotsRequestParams.class)))
+                .thenReturn(Single.just(newShots));
 
         // act
-        presenter.onFirstViewAttach();
-        presenter.onLoadMoreShotsRequest();
-        presenter.onLoadMoreShotsRequest();
+        shotsPresenter.onFirstViewAttach();
+        shotsPresenter.onLoadMoreShotsRequest();
+        shotsPresenter.onLoadMoreShotsRequest();
 
         // assert
         ArgumentCaptor<ShotsRequestParams> shotsCaptor = ArgumentCaptor.forClass(ShotsRequestParams.class);
-        verify(interactorMock, times(3)).getShots(shotsCaptor.capture());
-        List<ShotsRequestParams> capturedsRequestParams = shotsCaptor.getAllValues();
-        assertEquals(1, capturedsRequestParams.get(0).getPage());
-        assertEquals(2, capturedsRequestParams.get(1).getPage());
-        assertEquals(3, capturedsRequestParams.get(2).getPage());
+        verify(shotsInteractorMock, times(3)).getShots(shotsCaptor.capture());
+        List<ShotsRequestParams> capturedRequestParams = shotsCaptor.getAllValues();
+        assertEquals(1, capturedRequestParams.get(0).getPage());
+        assertEquals(2, capturedRequestParams.get(1).getPage());
+        assertEquals(3, capturedRequestParams.get(2).getPage());
         verify(shotsViewStateMock, times(3)).showNewShots(newShots);
     }
 
     @Test
     public void shots_shouldShowNoNetworkLayout() {
         //arrange
-        when(interactorMock.getShots(any(ShotsRequestParams.class))).thenReturn(Single.error(new NoNetworkException()));
+        when(shotsInteractorMock.getShots(any(ShotsRequestParams.class)))
+                .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        presenter.onFirstViewAttach();
+        shotsPresenter.onFirstViewAttach();
 
         // assert
-        verify(interactorMock).getShots(any(ShotsRequestParams.class));
+        verify(shotsInteractorMock).getShots(any(ShotsRequestParams.class));
+        verify(shotsViewStateMock).hideShotsLoadingProgress();
         verify(shotsViewStateMock).showNoNetworkLayout();
     }
 
@@ -102,16 +106,16 @@ public class ShotsPresenterTest {
     public void retryLoading_shouldRetryLoadFirstPageAndShowProgress() {
         //arrange
         List<Shot> shots = shots();
-        when(interactorMock.getShots(any(ShotsRequestParams.class)))
+        when(shotsInteractorMock.getShots(any(ShotsRequestParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()))
                 .thenReturn(Single.just(shots));
 
         // act
-        presenter.onFirstViewAttach();
-        presenter.retryLoading();
+        shotsPresenter.onFirstViewAttach();
+        shotsPresenter.retryLoading();
 
         // assert
-        verify(interactorMock, times(2)).getShots(any(ShotsRequestParams.class));
+        verify(shotsInteractorMock, times(2)).getShots(any(ShotsRequestParams.class));
         verify(shotsViewStateMock).hideNoNetworkLayout();
         verify(shotsViewStateMock, times(2)).showShotsLoadingProgress();
     }
@@ -120,31 +124,31 @@ public class ShotsPresenterTest {
     public void retryLoading_shouldRetryLoadNextPageAndShowProgress() {
         //arrange
         List<Shot> shots = shots();
-        when(interactorMock.getShots(any(ShotsRequestParams.class)))
+        when(shotsInteractorMock.getShots(any(ShotsRequestParams.class)))
                 .thenReturn(Single.just(shots))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        presenter.onFirstViewAttach();
-        presenter.onLoadMoreShotsRequest();
-        presenter.retryLoading();
+        shotsPresenter.onFirstViewAttach();
+        shotsPresenter.onLoadMoreShotsRequest();
+        shotsPresenter.retryLoading();
 
         // assert
-        verify(interactorMock, times(3)).getShots(any(ShotsRequestParams.class));
+        verify(shotsInteractorMock, times(3)).getShots(any(ShotsRequestParams.class));
         verify(shotsViewStateMock, times(2)).showShotsLoadingMoreProgress();
     }
 
     @Test
     public void retryLoading_shouldHideProgressOnError() {
         //arrange
-        when(interactorMock.getShots(any(ShotsRequestParams.class)))
+        when(shotsInteractorMock.getShots(any(ShotsRequestParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        presenter.onFirstViewAttach();
+        shotsPresenter.onFirstViewAttach();
 
         // assert
-        verify(interactorMock, times(1)).getShots(any(ShotsRequestParams.class));
+        verify(shotsInteractorMock, times(1)).getShots(any(ShotsRequestParams.class));
         verify(shotsViewStateMock).hideShotsLoadingProgress();
     }
 
@@ -152,17 +156,32 @@ public class ShotsPresenterTest {
     public void retryLoading_shouldHideLoadingMoreProgressOnError() {
         //arrange
         List<Shot> shots = shots();
-        when(interactorMock.getShots(any(ShotsRequestParams.class)))
+        when(shotsInteractorMock.getShots(any(ShotsRequestParams.class)))
                 .thenReturn(Single.just(shots))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        presenter.onFirstViewAttach();
-        presenter.onLoadMoreShotsRequest();
+        shotsPresenter.onFirstViewAttach();
+        shotsPresenter.onLoadMoreShotsRequest();
 
         // assert
-        verify(interactorMock, times(2)).getShots(any(ShotsRequestParams.class));
+        verify(shotsInteractorMock, times(2)).getShots(any(ShotsRequestParams.class));
         verify(shotsViewStateMock).hideShotsLoadingMoreProgress();
+    }
+
+    @Test
+    public void onShotClick_shouldOpenShotDetailsScreen() {
+        //arrange
+        List<Shot> shots = shots();
+        when(shotsInteractorMock.getShots(any(ShotsRequestParams.class)))
+                .thenReturn(Single.just(shots));
+
+        // act
+        shotsPresenter.onFirstViewAttach();
+        shotsPresenter.onShotClick(2);
+
+        // assert
+        verify(shotsViewStateMock).openShotDetailsScreen(shots.get(2).getId());
     }
 
     private List<Shot> shots() {

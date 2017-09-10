@@ -10,7 +10,7 @@ import com.imangazalievm.bubbble.domain.models.User;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface UserDetailsView extends MvpView {
 
-    void showUser(User user);
+    void showUserInfo(User user);
     void showLoadingProgress();
     void hideLoadingProgress();
     void showNoNetworkLayout();
