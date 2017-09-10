@@ -58,7 +58,6 @@ public class UserShotsFragment extends MvpAppCompatFragment implements UserShots
     private RecyclerView shotsRecyclerView;
     private ShotsAdapter shotsAdapter;
     private LinearLayoutManager shotsListLayoutManager;
-    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,17 +84,12 @@ public class UserShotsFragment extends MvpAppCompatFragment implements UserShots
         shotsRecyclerView.setAdapter(shotsAdapter);
         shotsAdapter.setOnItemClickListener(position -> userShotsPresenter.onShotClick(position));
 
-        initLoadMoreScrollListener();
-        shotsRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-    }
-
-    private void initLoadMoreScrollListener() {
-        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
+        shotsRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
             @Override
             public void onLoadMore() {
                 userShotsPresenter.onLoadMoreShotsRequest();
             }
-        };
+        });
     }
 
     @Override

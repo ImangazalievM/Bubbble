@@ -58,8 +58,6 @@ public class UserFollowersFragment extends MvpAppCompatFragment implements UserF
     private RecyclerView followersRecyclerView;
     private UserFollowersAdapter userFollowersAdapter;
     private LinearLayoutManager followersListLayoutManager;
-    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,17 +84,12 @@ public class UserFollowersFragment extends MvpAppCompatFragment implements UserF
         followersRecyclerView.setAdapter(userFollowersAdapter);
         userFollowersAdapter.setOnItemClickListener(position -> userFollowersPresenter.onFollowerClick(position));
 
-        initLoadMoreScrollListener();
-        followersRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-    }
-
-    private void initLoadMoreScrollListener() {
-        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(followersListLayoutManager) {
+        followersRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(followersListLayoutManager) {
             @Override
             public void onLoadMore() {
                 userFollowersPresenter.onLoadMoreFollowersRequest();
             }
-        };
+        });
     }
 
     @Override
