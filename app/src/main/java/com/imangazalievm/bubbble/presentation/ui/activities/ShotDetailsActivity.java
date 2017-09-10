@@ -33,7 +33,6 @@ import com.imangazalievm.bubbble.di.ShotDetailsPresenterComponent;
 import com.imangazalievm.bubbble.di.modules.ShotDetailsPresenterModule;
 import com.imangazalievm.bubbble.domain.models.Comment;
 import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
 import com.imangazalievm.bubbble.presentation.mvp.presenters.ShotDetailsPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailsView;
 import com.imangazalievm.bubbble.presentation.ui.adapters.ShotCommentsAdapter;
@@ -89,7 +88,6 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailsV
 
     @ProvidePresenter
     ShotDetailsPresenter providePresenter() {
-        PermissionsManager permissionsManager = new AndroidPermissionsManager(this);
         long shotId = getIntent().getLongExtra(KEY_SHOT_ID, -1);
         ShotDetailsPresenterModule presenterModule = new ShotDetailsPresenterModule(shotId);
 
@@ -154,7 +152,7 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailsV
         shotImage.setOnClickListener(v -> shotDetailsPresenter.onImageClick());
         userProfileLayout.setOnClickListener(v -> shotDetailsPresenter.onShotAuthorProfileClick());
         description.setOnLinkClickListener(url -> shotDetailsPresenter.onLinkClicked(url));
-        description.setOnUserSelectedListener(userId -> shotDetailsPresenter.onUserSelected(userId));
+        description.setOnUserSelectedListener(userId -> shotDetailsPresenter.onCommentAuthorClick(userId));
 
         likesCount = shotDescription.findViewById(R.id.shot_likes_count);
         viewsCount = shotDescription.findViewById(R.id.shot_views_count);
@@ -220,7 +218,7 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailsV
         //comments
         commentsAdapter = new ShotCommentsAdapter(this, shotDescription);
         commentsAdapter.setOnLinkClickListener(url -> shotDetailsPresenter.onLinkClicked(url));
-        commentsAdapter.setOnUserSelectedListener(userId -> shotDetailsPresenter.onUserSelected(userId));
+        commentsAdapter.setOnUserSelectedListener(userId -> shotDetailsPresenter.onCommentAuthorClick(userId));
         commentsList.setAdapter(commentsAdapter);
         if (shot.getCommentsCount() > 0) {
             commentsList.addOnScrollListener(endlessRecyclerOnScrollListener);
@@ -239,7 +237,7 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailsV
                 shotDetailsPresenter.onDownloadImageClicked();
                 return true;
             case R.id.open_in_browser:
-                shotDetailsPresenter.onOpenInBrowserClicked();
+                shotDetailsPresenter.onOpenShotInBrowserClicked();
                 return true;
             default:
                 return false;
