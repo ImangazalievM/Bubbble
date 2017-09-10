@@ -51,14 +51,12 @@ public class ShotsFragment extends MvpAppCompatFragment implements ShotsView {
         return shotsPresenterComponent.getPresenter();
     }
 
-    private View snackBarContainer;
     private View loadingLayout;
     private View noNetworkLayout;
 
     private RecyclerView shotsRecyclerView;
     private ShotsAdapter shotsAdapter;
     private LinearLayoutManager shotsListLayoutManager;
-    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,8 +71,6 @@ public class ShotsFragment extends MvpAppCompatFragment implements ShotsView {
     }
 
     private void initViews(View view) {
-        snackBarContainer = view.findViewById(R.id.snack_bar_container);
-
         loadingLayout = view.findViewById(R.id.loading_layout);
         noNetworkLayout = view.findViewById(R.id.no_network_layout);
         noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> shotsPresenter.retryLoading());

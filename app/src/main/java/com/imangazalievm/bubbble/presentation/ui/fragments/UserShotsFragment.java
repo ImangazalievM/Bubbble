@@ -52,7 +52,6 @@ public class UserShotsFragment extends MvpAppCompatFragment implements UserShots
         return presenterComponent.getPresenter();
     }
 
-    private View snackBarContainer;
     private View loadingLayout;
     private View noNetworkLayout;
 
@@ -74,8 +73,6 @@ public class UserShotsFragment extends MvpAppCompatFragment implements UserShots
     }
 
     private void initViews(View view) {
-        snackBarContainer = view.findViewById(R.id.snack_bar_container);
-
         loadingLayout = view.findViewById(R.id.loading_layout);
         noNetworkLayout = view.findViewById(R.id.no_network_layout);
         noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> userShotsPresenter.retryLoading());

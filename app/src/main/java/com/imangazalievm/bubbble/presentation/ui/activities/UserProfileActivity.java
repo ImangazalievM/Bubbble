@@ -200,7 +200,7 @@ public class UserProfileActivity extends BaseMvpActivity implements UserProfileV
 
     private void setupProfilePager(User user) {
         UserProfilePagerAdapter userProfilePagerAdapter = new UserProfilePagerAdapter(getSupportFragmentManager());
-        userProfilePagerAdapter.addFragment(UserDetailsFragment.newInstance(this, user.getId()), getResources().getString(R.string.user_information));
+        userProfilePagerAdapter.addFragment(UserDetailsFragment.newInstance(user.getId()), getResources().getString(R.string.user_information));
         userProfilePagerAdapter.addFragment(UserShotsFragment.newInstance(user.getId()), getResources().getQuantityString(R.plurals.shots, user.getShotsCount(), user.getShotsCount()));
         userProfilePagerAdapter.addFragment(UserFollowersFragment.newInstance(user.getId()), getResources().getQuantityString(R.plurals.followers, user.getFollowersCount(), user.getFollowersCount()));
         userProfileViewPager.setAdapter(userProfilePagerAdapter);

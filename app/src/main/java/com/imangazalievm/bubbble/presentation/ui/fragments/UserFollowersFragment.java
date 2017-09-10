@@ -52,7 +52,6 @@ public class UserFollowersFragment extends MvpAppCompatFragment implements UserF
         return presenterComponent.getPresenter();
     }
 
-    private View snackBarContainer;
     private View loadingLayout;
     private View noNetworkLayout;
 
@@ -75,8 +74,6 @@ public class UserFollowersFragment extends MvpAppCompatFragment implements UserF
     }
 
     private void initViews(View view) {
-        snackBarContainer = view.findViewById(R.id.snack_bar_container);
-
         loadingLayout = view.findViewById(R.id.loading_layout);
         noNetworkLayout = view.findViewById(R.id.no_network_layout);
         noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> userFollowersPresenter.retryLoading());

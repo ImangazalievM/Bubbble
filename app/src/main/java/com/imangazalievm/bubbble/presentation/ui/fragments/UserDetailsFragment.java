@@ -27,7 +27,7 @@ public class UserDetailsFragment extends MvpAppCompatFragment implements UserDet
 
     private static final String USER_ID_ARG = "user_id";
 
-    public static UserDetailsFragment newInstance(Activity activity, long userId) {
+    public static UserDetailsFragment newInstance(long userId) {
         UserDetailsFragment fragment = new UserDetailsFragment();
         Bundle args = new Bundle();
         args.putLong(USER_ID_ARG, userId);
