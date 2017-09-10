@@ -28,6 +28,7 @@
     <string name="storage_access_ok_button">OK</string>
     <string name="storage_access_settings_button">Настройки</string>
     <string name="no_comments">Комментариев нет</string>
+    <string name="search">Поиск</string>
 
     <plurals name="likes">
         <item quantity="zero">нет лайков</item>

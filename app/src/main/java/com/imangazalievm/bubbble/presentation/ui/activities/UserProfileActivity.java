@@ -96,10 +96,8 @@ public class UserProfileActivity extends BaseMvpActivity implements UserProfileV
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.inflateMenu(R.menu.shots_search);
     }
 
     private void initViews() {

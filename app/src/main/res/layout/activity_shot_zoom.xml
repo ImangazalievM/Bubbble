@@ -36,7 +36,7 @@
             android:id="@+id/zoom_error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/zoom_error_title"
+            android:layout_below="@+id/zoom_error_title"
             android:gravity="center"
             android:padding="16dp"
             android:text="@string/an_error_occurred_while_loading_image"

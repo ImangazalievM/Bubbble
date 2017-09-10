@@ -11,7 +11,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 2
-        versionName "1.0.1"
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -86,6 +86,7 @@ dependencies {
     compile libraries.retrofit
     compile libraries.retrofitGsonConverter
     compile libraries.retrofitRxJavaAdapter
+    compile libraries.jsoup
 
     compile libraries.glide
     compile libraries.calligraphy

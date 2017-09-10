@@ -31,6 +31,7 @@
     <string name="storage_access_ok_button">OK</string>
     <string name="storage_access_settings_button">Settings</string>
     <string name="no_comments">No comments</string>
+    <string name="search">Search</string>
 
     <plurals name="likes">
         <item quantity="zero">%s likes</item>

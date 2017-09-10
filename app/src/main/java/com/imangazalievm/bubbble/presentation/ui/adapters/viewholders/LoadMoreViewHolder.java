@@ -26,7 +26,6 @@ public class LoadMoreViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void showError(boolean loadingError) {
-        Log.d(Constants.TAG, "showError: " + loadingError);
         loadMoreProgressBar.setVisibility(loadingError ? View.GONE : View.VISIBLE);
         loadMoreErrorLayout.setVisibility(loadingError ? View.VISIBLE : View.GONE);
     }

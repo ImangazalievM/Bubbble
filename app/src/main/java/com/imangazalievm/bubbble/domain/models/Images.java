@@ -9,6 +9,12 @@ public class Images {
     public Images() {
     }
 
+    public Images(String hidpi, String normal, String teaser) {
+        this.hidpi = hidpi;
+        this.normal = normal;
+        this.teaser = teaser;
+    }
+
     public String getHidpi() {
         return hidpi;
     }
@@ -22,7 +28,7 @@ public class Images {
     }
 
     public String best() {
-        return hidpi != null ? hidpi : normal;
+        return hidpi != null ? hidpi : normal != null ? normal : teaser;
     }
 
 }

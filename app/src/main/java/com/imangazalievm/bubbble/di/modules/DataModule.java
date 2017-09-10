@@ -6,6 +6,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.imangazalievm.bubbble.BuildConfig;
+import com.imangazalievm.bubbble.data.network.DribbbleApiConstants;
 import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.data.network.ErrorHandler;
 import com.imangazalievm.bubbble.data.network.NetworkChecker;
@@ -16,6 +17,7 @@ import com.imangazalievm.bubbble.data.repository.FollowersRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.ImagesRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.ShotsRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.UsersRepositoryImpl;
+import com.imangazalievm.bubbble.data.repository.datasource.DribbbleSearchDataSource;
 import com.imangazalievm.bubbble.di.qualifiers.OkHttpInterceptors;
 import com.imangazalievm.bubbble.di.qualifiers.OkHttpNetworkInterceptors;
 import com.imangazalievm.bubbble.domain.repository.CommentsRepository;
@@ -73,6 +75,12 @@ public class DataModule {
     @Singleton
     ImagesRepository provideImagesRepository(ImagesRepositoryImpl imagesRepository) {
         return imagesRepository;
+    }
+
+    @Provides
+    @Singleton
+    DribbbleSearchDataSource provideDribbbleSearchDataSource(OkHttpClient okHttpClient) {
+        return new DribbbleSearchDataSource(okHttpClient, DribbbleApiConstants.DRIBBBLE_URL);
     }
 
     @Provides

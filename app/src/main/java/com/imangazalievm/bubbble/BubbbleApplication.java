@@ -25,7 +25,7 @@ public class BubbbleApplication extends Application {
     public ApplicationComponent buildComponent() {
         return DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
-                .dataModule(new DataModule(DribbbleApiConstants.BASE_URL))
+                .dataModule(new DataModule(DribbbleApiConstants.DRIBBBLE_API_URL))
                 .build();
     }
 

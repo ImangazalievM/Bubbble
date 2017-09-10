@@ -3,8 +3,10 @@ package com.imangazalievm.bubbble.data.repository;
 import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.data.network.DribbbleApiConstants;
 import com.imangazalievm.bubbble.data.network.DribbbleApiService;
+import com.imangazalievm.bubbble.data.repository.datasource.DribbbleSearchDataSource;
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.domain.models.ShotsRequestParams;
+import com.imangazalievm.bubbble.domain.models.ShotsSearchRequestParams;
 import com.imangazalievm.bubbble.domain.models.UserShotsRequestParams;
 import com.imangazalievm.bubbble.domain.repository.ShotsRepository;
 
@@ -17,10 +19,12 @@ import io.reactivex.Single;
 public class ShotsRepositoryImpl implements ShotsRepository {
 
     private DribbbleApiService dribbbleApiService;
+    private DribbbleSearchDataSource dribbbleSearchDataSource;
 
     @Inject
-    public ShotsRepositoryImpl(DribbbleApiService dribbbleApiService) {
+    public ShotsRepositoryImpl(DribbbleApiService dribbbleApiService, DribbbleSearchDataSource dribbbleSearchDataSource) {
         this.dribbbleApiService = dribbbleApiService;
+        this.dribbbleSearchDataSource = dribbbleSearchDataSource;
     }
 
     @Override
@@ -39,6 +43,12 @@ public class ShotsRepositoryImpl implements ShotsRepository {
     @Override
     public Single<List<Shot>> getUserShots(UserShotsRequestParams requestParams) {
         return dribbbleApiService.getUserShots(requestParams.getUserId(), requestParams.getPage(), requestParams.getPageSize());
+    }
+
+    @Override
+    public Single<List<Shot>> search(ShotsSearchRequestParams requestParams) {
+        return dribbbleSearchDataSource.search(requestParams.getSearchQuery(), requestParams.getSort(),
+                requestParams.getPage(), requestParams.getPageSize());
     }
 
 }

@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".presentation.ui.activities.ShotsSearchActivity" />
+
         <activity android:name=".presentation.ui.activities.ShotDetailsActivity" />
 
         <activity android:name=".presentation.ui.activities.ShotZoomActivity" />

@@ -2,8 +2,8 @@ package com.imangazalievm.bubbble.data.network;
 
 public interface DribbbleApiConstants {
 
-    String BASE_URL = "https://api.dribbble.com/";
-    String DATE_FORMAT = "yyyy/MM/dd HH:mm:ss Z";
+    String DRIBBBLE_URL = "https://dribbble.com";
+    String DRIBBBLE_API_URL = "https://api.dribbble.com";
 
     String SHOTS_SORT_POPULAR = "";
     String SHOTS_SORT_RECENT = "recent";

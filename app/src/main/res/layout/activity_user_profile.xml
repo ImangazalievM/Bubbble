@@ -129,6 +129,7 @@
                     android:gravity="top"
                     android:minHeight="?actionBarSize"
                     app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:titleMarginTop="13dp">
 
@@ -138,8 +139,8 @@
                         android:layout_height="match_parent"
                         android:ellipsize="end"
                         android:gravity="center"
-                        android:paddingLeft="16dp"
                         android:maxLines="1"
+                        android:paddingLeft="16dp"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:visibility="invisible" />
