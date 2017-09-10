@@ -27,7 +27,7 @@ Libraries and tools included:
 - [x] User profile screen
 - [x] Shot sharing
 - [x] Shot image downloading
-- [ ] Search by shots
+- [x] Search by shots
 - [ ] User authentication
 - [ ] Shots liking
 - [ ] Comments liking
