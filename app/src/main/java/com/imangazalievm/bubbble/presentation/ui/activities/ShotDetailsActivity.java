@@ -227,7 +227,7 @@ public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailsV
     }
 
     private void showToolbarMenu() {
-        toolbar.inflateMenu(R.menu.shot_details_menu);
+        toolbar.inflateMenu(R.menu.shot_details);
         toolbar.setOnMenuItemClickListener(this::onToolbarItemSelected);
     }
 

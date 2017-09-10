@@ -138,7 +138,7 @@ public class ShotZoomActivity extends MvpAppCompatActivity implements ShotZoomVi
     }
 
     private void showToolbarMenu() {
-        toolbar.inflateMenu(R.menu.shot_zoom_menu);
+        toolbar.inflateMenu(R.menu.shot_zoom);
         toolbar.setOnMenuItemClickListener(this::onToolbarItenSelected);
     }
 

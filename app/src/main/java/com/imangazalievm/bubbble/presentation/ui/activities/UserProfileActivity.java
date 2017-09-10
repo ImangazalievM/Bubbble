@@ -248,7 +248,7 @@ public class UserProfileActivity extends BaseMvpActivity implements UserProfileV
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.user_profile_menu, menu);
+        getMenuInflater().inflate(R.menu.user_profile, menu);
         return true;
     }
 
