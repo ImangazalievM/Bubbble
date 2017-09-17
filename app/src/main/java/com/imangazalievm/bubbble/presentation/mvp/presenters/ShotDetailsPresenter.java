@@ -9,6 +9,7 @@ import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.domain.models.ShotCommentsRequestParams;
 import com.imangazalievm.bubbble.presentation.commons.permissions.Permission;
 import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
+import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManagerHolder;
 import com.imangazalievm.bubbble.presentation.commons.rx.RxSchedulersProvider;
 import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailsView;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
@@ -24,7 +25,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
 
     private ShotDetailsInteractor shotDetailsInteractor;
     private RxSchedulersProvider rxSchedulersProvider;
-    private PermissionsManager permissionsManager;
+    private PermissionsManagerHolder permissionsManagerHolder;
     private long shotId;
     private Shot shot;
     private int currentMaxCommentsPage = 1;
@@ -32,19 +33,21 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
 
     @Inject
     public ShotDetailsPresenter(ShotDetailsInteractor shotDetailsInteractor,
+                                PermissionsManagerHolder permissionsManagerHolder,
                                 RxSchedulersProvider rxSchedulersProvider,
                                 long shotId) {
         this.shotDetailsInteractor = shotDetailsInteractor;
+        this.permissionsManagerHolder = permissionsManagerHolder;
         this.rxSchedulersProvider = rxSchedulersProvider;
         this.shotId = shotId;
     }
 
     public void setPermissionsManager(PermissionsManager permissionsManager) {
-        this.permissionsManager = permissionsManager;
+        permissionsManagerHolder.setPermissionsManager(permissionsManager);
     }
 
     public void removePermissionsManager() {
-        permissionsManager = null;
+        permissionsManagerHolder.removePermissionsManager();
     }
 
     @Override
@@ -131,10 +134,10 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
     }
 
     public void onDownloadImageClicked() {
-        if (permissionsManager.checkPermissionGranted(Permission.READ_EXTERNAL_STORAGE)) {
+        if (permissionsManagerHolder.checkPermissionGranted(Permission.READ_EXTERNAL_STORAGE)) {
             saveShotImage();
         } else {
-            permissionsManager.requestPermission(Permission.READ_EXTERNAL_STORAGE, permissionResult -> {
+            permissionsManagerHolder.requestPermission(Permission.READ_EXTERNAL_STORAGE, permissionResult -> {
                 if (permissionResult.granted) {
                     saveShotImage();
                 } else if (permissionResult.shouldShowRequestPermissionRationale) {

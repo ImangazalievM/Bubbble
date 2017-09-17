@@ -5,6 +5,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.imangazalievm.bubbble.domain.interactors.ShotZoomInteractor;
 import com.imangazalievm.bubbble.presentation.commons.permissions.Permission;
 import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
+import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManagerHolder;
 import com.imangazalievm.bubbble.presentation.commons.rx.RxSchedulersProvider;
 import com.imangazalievm.bubbble.presentation.mvp.views.ShotZoomView;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
@@ -17,18 +18,20 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
 
     private ShotZoomInteractor shotZoomInteractor;
     private RxSchedulersProvider rxSchedulersProvider;
-    private PermissionsManager permissionsManager;
+    private PermissionsManagerHolder permissionsManagerHolder;
     private String shotTitle;
     private String shotUrl;
     private String imageUrl;
 
     @Inject
     public ShotZoomPresenter(ShotZoomInteractor shotZoomInteractor,
+                             PermissionsManagerHolder permissionsManagerHolder,
                              RxSchedulersProvider rxSchedulersProvider,
                              @Named("shot_title") String shotTitle,
                              @Named("shot_url") String shotUrl,
                              @Named("image_url") String imageUrl) {
         this.shotZoomInteractor = shotZoomInteractor;
+        this.permissionsManagerHolder = permissionsManagerHolder;
         this.rxSchedulersProvider = rxSchedulersProvider;
         this.shotTitle = shotTitle;
         this.shotUrl = shotUrl;
@@ -36,11 +39,11 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
     }
 
     public void setPermissionsManager(PermissionsManager permissionsManager) {
-        this.permissionsManager = permissionsManager;
+        permissionsManagerHolder.setPermissionsManager(permissionsManager);
     }
 
     public void removePermissionsManager() {
-        permissionsManager = null;
+        permissionsManagerHolder.removePermissionsManager();
     }
 
     @Override
@@ -65,10 +68,10 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
     }
 
     public void onDownloadImageClicked() {
-        if (permissionsManager.checkPermissionGranted(Permission.READ_EXTERNAL_STORAGE)) {
+        if (permissionsManagerHolder.checkPermissionGranted(Permission.READ_EXTERNAL_STORAGE)) {
             saveShotImage();
         } else {
-            permissionsManager.requestPermission(Permission.READ_EXTERNAL_STORAGE, permissionResult -> {
+            permissionsManagerHolder.requestPermission(Permission.READ_EXTERNAL_STORAGE, permissionResult -> {
                 if (permissionResult.granted) {
                     saveShotImage();
                 } else if (permissionResult.shouldShowRequestPermissionRationale) {
