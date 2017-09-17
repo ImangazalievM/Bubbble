@@ -1,4 +1,4 @@
-package ru.caprice.cafe.di.modules;
+package com.imangazalievm.bubbble.di.modules;
 
 import android.support.annotation.NonNull;
 
