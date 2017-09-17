@@ -10,6 +10,8 @@
 
     <string name="download_image">Загрузить изображение</string>
     <string name="open_in_browser">Открыть в браузере</string>
+    <string name="share">Поделиться</string>
+    <string name="share_using">Поделиться с помощью</string>
 
     <string name="check_network_message">Проверьте подключение к интернету</string>
     <string name="load_failed_message">Ошибка загрузки, попробуйте еще раз!</string>
@@ -19,7 +21,8 @@
     <string name="user_information">Информация</string>
     <string name="user_follow">Подписаться</string>
     <string name="an_error_occurred">Произошла ошибка</string>
-    <string name="an_error_occurred_while_loading_image">Произошла ошибка при загрузке изображения</string>
+    <string name="an_error_occurred_while_loading_image">Произошла ошибка при загрузке изображения</string>4
+    <string name="open_image_in_browser">Открыть в браузере</string>
     <string name="image_saved_to_downloads_folder">Изображение сохранено в папку загрузок</string>>
 
     <string name="storage_access_title">Ошибка</string>
