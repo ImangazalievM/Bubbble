@@ -54,13 +54,6 @@ android {
         test.java.srcDir 'src/integrationTests/java'
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
 }
 
 dependencies {
