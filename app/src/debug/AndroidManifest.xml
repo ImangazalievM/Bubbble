@@ -3,9 +3,6 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.imangazalievm.bubbble">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
     <application
         android:name=".BubbbleApplication"
         tools:replace=" android:name">
