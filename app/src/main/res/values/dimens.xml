@@ -7,4 +7,6 @@
 
     <dimen name="padding_normal">16dp</dimen>
     <dimen name="user_picture_size">112dp</dimen>
+
+    <dimen name="toolbar_with_tabs_height">112dp</dimen>
 </resources>

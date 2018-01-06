@@ -80,9 +80,6 @@ public class MainActivity extends BaseMvpActivity implements MainView {
         viewPager.setAdapter(shotsPagerAdapter);
     }
 
-
-
-
     @Override
     public void openSearchScreen(String searchQuery) {
         startActivity(ShotsSearchActivity.buildIntent(this, searchQuery));

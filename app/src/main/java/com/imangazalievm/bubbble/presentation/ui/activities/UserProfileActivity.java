@@ -97,7 +97,27 @@ public class UserProfileActivity extends BaseMvpActivity implements UserProfileV
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
-        toolbar.inflateMenu(R.menu.shots_search);
+        toolbar.inflateMenu(R.menu.user_profile);
+        toolbar.setOnMenuItemClickListener(item -> onMenuItemClick(item));
+
+    }
+
+    private boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                shotDetailPresenter.onBackPressed();
+                return true;
+
+            case R.id.share_profile:
+                shotDetailPresenter.onShareProfileClicked();
+                return true;
+
+            case R.id.open_in_browser:
+                shotDetailPresenter.onOpenInBrowserClicked();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initViews() {
@@ -243,32 +263,5 @@ public class UserProfileActivity extends BaseMvpActivity implements UserProfileV
     public void closeScreen() {
         finish();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.user_profile, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                shotDetailPresenter.onBackPressed();
-                return true;
-
-            case R.id.share_profile:
-                shotDetailPresenter.onShareProfileClicked();
-                return true;
-
-            case R.id.open_in_browser:
-                shotDetailPresenter.onOpenInBrowserClicked();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
 
 }
