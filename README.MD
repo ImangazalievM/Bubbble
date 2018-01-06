@@ -4,19 +4,19 @@ Bubbble is Dribbble client for Android.
 
 This app showcases the MVP pattern and Uncle Bob Martin's Clean Architecture approach.
 
-Libraries and tools included:
-- Google AppCompat Support Libraries
-- Google Material Design Support Libraries
+Libraries and tools used:
+
+- Google Support Libraries
 - RxJava 2 - for reactive programming
 - Dagger 2 - for dependency injection
 - Retrofit 2 - for Networking
 - Gson - for parsing the JSON responses
-- Moxy - for MVP pattern implementation
+- [Moxy] - for MVP pattern implementation
 - Glide - for image loading
 - Calligraphy - for custom fonts
 - Material Drawer - for sliding menu
 - Stetho - for debugging
-- JUnit - for testing
+- JUnit - for unit testing
 - Mockito - for mocking & stubbing objects
 - Espresso - for instrumentation tests
 
