@@ -7,6 +7,7 @@ import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams;
 import com.imangazalievm.bubbble.domain.global.repository.CommentsRepository;
 import com.imangazalievm.bubbble.domain.global.repository.ImagesRepository;
 import com.imangazalievm.bubbble.domain.global.repository.ShotsRepository;
+import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 
 import java.util.List;
 
@@ -20,26 +21,32 @@ public class ShotDetailsInteractor {
     private ShotsRepository shotsRepository;
     private CommentsRepository commentsRepository;
     private ImagesRepository imagesRepository;
+    private SchedulersProvider schedulersProvider;
 
     @Inject
     public ShotDetailsInteractor(ShotsRepository shotsRepository,
                                  CommentsRepository commentsRepository,
-                                 ImagesRepository imagesRepository) {
+                                 ImagesRepository imagesRepository,
+                                 SchedulersProvider schedulersProvider) {
         this.shotsRepository = shotsRepository;
         this.commentsRepository = commentsRepository;
         this.imagesRepository = imagesRepository;
+        this.schedulersProvider = schedulersProvider;
     }
 
     public Single<Shot> getShot(long shotId) {
-        return shotsRepository.getShot(shotId);
+        return shotsRepository.getShot(shotId)
+                .subscribeOn(schedulersProvider.io());
     }
 
     public Single<List<Comment>> getShotComments(ShotCommentsRequestParams shotCommentsRequestParams) {
-        return commentsRepository.getComments(shotCommentsRequestParams);
+        return commentsRepository.getComments(shotCommentsRequestParams)
+                .subscribeOn(schedulersProvider.io());
     }
 
     public Completable saveImage(String imageUrl) {
-        return imagesRepository.saveImage(imageUrl);
+        return imagesRepository.saveImage(imageUrl)
+                .subscribeOn(schedulersProvider.io());
     }
 
 }

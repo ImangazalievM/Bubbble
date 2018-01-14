@@ -6,7 +6,7 @@ import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.userprofile.UserFollowersInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Follow;
 import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams;
-import com.imangazalievm.bubbble.presentation.mvp.global.RxSchedulersProvider;
+import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
 
 
     private UserFollowersInteractor userFollowersInteractor;
-    private RxSchedulersProvider rxSchedulersProvider;
+    private SchedulersProvider schedulersProvider;
     private long userId;
     private int currentMaxPage = 1;
     private List<Follow> followers = new ArrayList<>();
@@ -29,10 +29,10 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
 
     @Inject
     public UserFollowersPresenter(UserFollowersInteractor userFollowersInteractor,
-                                  RxSchedulersProvider rxSchedulersProvider,
+                                  SchedulersProvider schedulersProvider,
                                   long userId) {
         this.userFollowersInteractor = userFollowersInteractor;
-        this.rxSchedulersProvider = rxSchedulersProvider;
+        this.schedulersProvider = schedulersProvider;
         this.userId = userId;
     }
 
@@ -48,7 +48,7 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
         isFollowersLoading = true;
         UserFollowersRequestParams requestParams = new UserFollowersRequestParams(userId, page, PAGE_SIZE);
         userFollowersInteractor.getUserFollowers(requestParams)
-                .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
+                .observeOn(schedulersProvider.mainThread())
                 .subscribe(this::onFollowersLoaded, this::onFollowersLoadError);
     }
 

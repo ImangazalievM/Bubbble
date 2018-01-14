@@ -7,7 +7,7 @@ import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
-import com.imangazalievm.bubbble.presentation.mvp.global.RxSchedulersProvider;
+import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class ShotsSearchPresenter extends MvpPresenter<ShotsSearchView> {
     private static final int MAX_PAGE_NUMBER = 25;
 
     private ShotsSearchInteractor shotsSearchInteractor;
-    private RxSchedulersProvider rxSchedulersProvider;
+    private SchedulersProvider schedulersProvider;
     private String searchQuery;
     private String sort;
     private List<Shot> shots = new ArrayList<>();
@@ -31,10 +31,10 @@ public class ShotsSearchPresenter extends MvpPresenter<ShotsSearchView> {
 
     @Inject
     public ShotsSearchPresenter(ShotsSearchInteractor shotsSearchInteractor,
-                                RxSchedulersProvider rxSchedulersProvider,
+                                SchedulersProvider schedulersProvider,
                                 String searchQuery) {
         this.shotsSearchInteractor = shotsSearchInteractor;
-        this.rxSchedulersProvider = rxSchedulersProvider;
+        this.schedulersProvider = schedulersProvider;
         this.searchQuery = searchQuery;
         this.sort = Constants.SHOTS_SORT_POPULAR;
     }
@@ -57,7 +57,7 @@ public class ShotsSearchPresenter extends MvpPresenter<ShotsSearchView> {
         isShotsLoading = true;
         ShotsSearchRequestParams shotsRequestParams = new ShotsSearchRequestParams(searchQuery, sort, page, PAGE_SIZE);
         shotsSearchInteractor.search(shotsRequestParams)
-                .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
+                .observeOn(schedulersProvider.mainThread())
                 .subscribe(this::onShotsLoaded, this::onShotsLoadError);
     }
 

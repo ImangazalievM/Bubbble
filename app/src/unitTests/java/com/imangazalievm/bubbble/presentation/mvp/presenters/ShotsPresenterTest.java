@@ -7,7 +7,7 @@ import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams;
 import com.imangazalievm.bubbble.presentation.mvp.shotslist.ShotsPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.shotslist.ShotsView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
-import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
+import com.imangazalievm.bubbble.test.TestSchedulerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class ShotsPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new ShotsPresenter(interactor, new TestRxSchedulerProvider(), TEST_SORT_TYPE);
+        presenter = new ShotsPresenter(interactor, new TestSchedulerProvider(), TEST_SORT_TYPE);
     }
 
     @Test

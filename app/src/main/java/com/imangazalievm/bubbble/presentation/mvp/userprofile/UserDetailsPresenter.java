@@ -5,7 +5,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor;
 import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.presentation.mvp.global.RxSchedulersProvider;
+import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
 import javax.inject.Inject;
@@ -14,16 +14,16 @@ import javax.inject.Inject;
 public class UserDetailsPresenter extends MvpPresenter<UserDetailsView> {
 
     private UserDetailsInteractor userDetailsInteractor;
-    private RxSchedulersProvider rxSchedulersProvider;
+    private SchedulersProvider schedulersProvider;
     private long userId;
     private User user;
 
     @Inject
     public UserDetailsPresenter(UserDetailsInteractor userDetailsInteractor,
-                                RxSchedulersProvider rxSchedulersProvider,
+                                SchedulersProvider schedulersProvider,
                                 long userId) {
         this.userDetailsInteractor = userDetailsInteractor;
-        this.rxSchedulersProvider = rxSchedulersProvider;
+        this.schedulersProvider = schedulersProvider;
         this.userId = userId;
 
 
@@ -39,7 +39,7 @@ public class UserDetailsPresenter extends MvpPresenter<UserDetailsView> {
     private void loadUser() {
         getViewState().showLoadingProgress();
         userDetailsInteractor.getUser(userId)
-                .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
+                .observeOn(schedulersProvider.mainThread())
                 .subscribe(this::onUserLoadSuccess, this::onUserLoadError);
     }
 

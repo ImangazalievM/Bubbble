@@ -6,7 +6,7 @@ import com.imangazalievm.bubbble.domain.global.models.User;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserProfilePresenter;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserProfileView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
-import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
+import com.imangazalievm.bubbble.test.TestSchedulerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public class UserProfilePresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new UserProfilePresenter(interactor, new TestRxSchedulerProvider(), TEST_USER_ID);
+        presenter = new UserProfilePresenter(interactor, new TestSchedulerProvider(), TEST_USER_ID);
     }
 
     @Test

@@ -9,7 +9,7 @@ import com.imangazalievm.bubbble.presentation.mvp.global.permissions.Permissions
 import com.imangazalievm.bubbble.presentation.mvp.shotzoom.ShotZoomPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.shotzoom.ShotZoomView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
-import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
+import com.imangazalievm.bubbble.test.TestSchedulerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class ShotZoomPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new ShotZoomPresenter(interactor, new TestRxSchedulerProvider(),
+        presenter = new ShotZoomPresenter(interactor, new TestSchedulerProvider(),
                 TEST_SHOT_TITLE, TEST_SHOT_URL, TEST_SHOT_IMAGE_URL);
         presenter.setPermissionsManager(permissionsManager);
     }

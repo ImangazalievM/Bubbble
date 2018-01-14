@@ -7,10 +7,10 @@ import com.imangazalievm.bubbble.domain.shotdetails.ShotDetailsInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Comment;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams;
+import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.mvp.global.permissions.Permission;
 import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionsManager;
 import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionsManagerHolder;
-import com.imangazalievm.bubbble.presentation.mvp.global.RxSchedulersProvider;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
     private static final int COMMENTS_PAGE_SIZE = 20;
 
     private ShotDetailsInteractor shotDetailsInteractor;
-    private RxSchedulersProvider rxSchedulersProvider;
+    private SchedulersProvider schedulersProvider;
     private PermissionsManagerHolder permissionsManagerHolder;
     private long shotId;
     private Shot shot;
@@ -32,11 +32,11 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
 
     @Inject
     public ShotDetailsPresenter(ShotDetailsInteractor shotDetailsInteractor,
-                                RxSchedulersProvider rxSchedulersProvider,
+                                SchedulersProvider schedulersProvider,
                                 long shotId) {
         this.shotDetailsInteractor = shotDetailsInteractor;
         this.permissionsManagerHolder = new PermissionsManagerHolder();
-        this.rxSchedulersProvider = rxSchedulersProvider;
+        this.schedulersProvider = schedulersProvider;
         this.shotId = shotId;
     }
 
@@ -58,7 +58,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
     private void loadShot() {
         getViewState().showLoadingProgress();
         shotDetailsInteractor.getShot(shotId)
-                .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
+                .observeOn(schedulersProvider.mainThread())
                 .subscribe(this::onShotLoaded, this::onShotLoadError);
     }
 
@@ -100,7 +100,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
         isCommentsLoading = true;
         ShotCommentsRequestParams shotCommentsRequestParams = new ShotCommentsRequestParams(shotId, page, COMMENTS_PAGE_SIZE);
         shotDetailsInteractor.getShotComments(shotCommentsRequestParams)
-                .compose(rxSchedulersProvider.getIoToMainTransformerSingle())
+                .observeOn(schedulersProvider.mainThread())
                 .subscribe(this::onCommentsLoaded, DebugUtils::showDebugErrorMessage);
     }
 
@@ -153,7 +153,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
 
     private void saveShotImage() {
         shotDetailsInteractor.saveImage(shot.getImages().best())
-                .compose(rxSchedulersProvider.getIoToMainTransformerCompletable())
+                .observeOn(schedulersProvider.mainThread())
                 .subscribe(() -> getViewState().showImageSavedMessage(), DebugUtils::showDebugErrorMessage);
     }
 
