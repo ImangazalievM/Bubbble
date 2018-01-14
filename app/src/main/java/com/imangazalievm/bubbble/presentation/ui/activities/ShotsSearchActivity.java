@@ -52,9 +52,6 @@ public class ShotsSearchActivity extends BaseMvpActivity implements ShotsSearchV
         return shotsPresenterComponent.getPresenter();
     }
 
-    private CoordinatorLayout shotDetailContainer;
-    private Toolbar toolbar;
-
     private View loadingLayout;
     private View noNetworkLayout;
 
