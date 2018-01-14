@@ -14,15 +14,15 @@ public class RxSchedulersProvider {
     public RxSchedulersProvider() {
     }
 
-    public CompletableTransformer getIoToMainTransformerCompletableCompletable() {
+    public CompletableTransformer getIoToMainTransformerCompletable() {
         return objectObservable -> objectObservable
-                .subscribeOn(getIOScheduler())
+                .subscribeOn(getIoScheduler())
                 .observeOn(getMainThreadScheduler());
     }
 
     public <T> SingleTransformer<T, T> getIoToMainTransformerSingle()  {
         return objectObservable -> objectObservable
-                .subscribeOn(getIOScheduler())
+                .subscribeOn(getIoScheduler())
                 .observeOn(getMainThreadScheduler());
     }
 
@@ -42,7 +42,7 @@ public class RxSchedulersProvider {
         return AndroidSchedulers.mainThread();
     }
 
-    public Scheduler getIOScheduler() {
+    public Scheduler getIoScheduler() {
         return Schedulers.io();
     }
 

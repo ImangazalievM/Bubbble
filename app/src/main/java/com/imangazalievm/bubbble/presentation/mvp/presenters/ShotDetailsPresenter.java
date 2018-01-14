@@ -33,11 +33,10 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
 
     @Inject
     public ShotDetailsPresenter(ShotDetailsInteractor shotDetailsInteractor,
-                                PermissionsManagerHolder permissionsManagerHolder,
                                 RxSchedulersProvider rxSchedulersProvider,
                                 long shotId) {
         this.shotDetailsInteractor = shotDetailsInteractor;
-        this.permissionsManagerHolder = permissionsManagerHolder;
+        this.permissionsManagerHolder = new PermissionsManagerHolder();
         this.rxSchedulersProvider = rxSchedulersProvider;
         this.shotId = shotId;
     }
@@ -155,7 +154,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
 
     private void saveShotImage() {
         shotDetailsInteractor.saveImage(shot.getImages().best())
-                .compose(rxSchedulersProvider.getIoToMainTransformerCompletableCompletable())
+                .compose(rxSchedulersProvider.getIoToMainTransformerCompletable())
                 .subscribe(() -> getViewState().showImageSavedMessage(), DebugUtils::showDebugErrorMessage);
     }
 

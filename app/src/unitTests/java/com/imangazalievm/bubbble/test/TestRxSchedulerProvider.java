@@ -8,7 +8,7 @@ import io.reactivex.schedulers.Schedulers;
 public class TestRxSchedulerProvider extends RxSchedulersProvider {
 
     @Override
-    public Scheduler getIOScheduler() {
+    public Scheduler getIoScheduler() {
         return Schedulers.trampoline();
     }
 

@@ -25,13 +25,12 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
 
     @Inject
     public ShotZoomPresenter(ShotZoomInteractor shotZoomInteractor,
-                             PermissionsManagerHolder permissionsManagerHolder,
                              RxSchedulersProvider rxSchedulersProvider,
                              @Named("shot_title") String shotTitle,
                              @Named("shot_url") String shotUrl,
                              @Named("image_url") String imageUrl) {
         this.shotZoomInteractor = shotZoomInteractor;
-        this.permissionsManagerHolder = permissionsManagerHolder;
+        this.permissionsManagerHolder = new PermissionsManagerHolder();
         this.rxSchedulersProvider = rxSchedulersProvider;
         this.shotTitle = shotTitle;
         this.shotUrl = shotUrl;
@@ -89,7 +88,7 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
 
     private void saveShotImage() {
         shotZoomInteractor.saveImage(imageUrl)
-                .compose(rxSchedulersProvider.getIoToMainTransformerCompletableCompletable())
+                .compose(rxSchedulersProvider.getIoToMainTransformerCompletable())
                 .subscribe(() -> getViewState().showImageSavedMessage(), DebugUtils::showDebugErrorMessage);
     }
 

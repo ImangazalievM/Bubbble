@@ -38,8 +38,6 @@ public class UserFollowersPresenterTest {
     UserFollowersInteractor userFollowersInteractorMock;
     @Mock
     UserFollowersView userFollowersViewMock;
-    @Mock
-    UserFollowersView$$State userFollowersViewStateMock;
 
     private UserFollowersPresenter userFollowersPresenter;
 
@@ -47,7 +45,6 @@ public class UserFollowersPresenterTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         userFollowersPresenter = new UserFollowersPresenter(userFollowersInteractorMock, new TestRxSchedulerProvider(), TEST_USER_ID);
-        userFollowersPresenter.setViewState(userFollowersViewStateMock);
     }
 
     @Test
@@ -57,13 +54,13 @@ public class UserFollowersPresenterTest {
         when(userFollowersInteractorMock.getUserFollowers(any(UserFollowersRequestParams.class))).thenReturn(Single.just(follows));
 
         //act
-        userFollowersPresenter.onFirstViewAttach();
+        userFollowersPresenter.attachView(userFollowersViewMock);
 
         // assert
         ArgumentCaptor<UserFollowersRequestParams> followersCaptor = ArgumentCaptor.forClass(UserFollowersRequestParams.class);
         verify(userFollowersInteractorMock).getUserFollowers(followersCaptor.capture());
         assertEquals(1, followersCaptor.getValue().getPage());
-        verify(userFollowersViewStateMock).showNewFollowers(follows);
+        verify(userFollowersViewMock).showNewFollowers(follows);
     }
 
     @Test
@@ -74,7 +71,7 @@ public class UserFollowersPresenterTest {
                 .thenReturn(Single.just(follows));
 
         // act
-        userFollowersPresenter.onFirstViewAttach();
+        userFollowersPresenter.attachView(userFollowersViewMock);
         userFollowersPresenter.onLoadMoreFollowersRequest();
         userFollowersPresenter.onLoadMoreFollowersRequest();
 
@@ -85,7 +82,7 @@ public class UserFollowersPresenterTest {
         assertEquals(1, capturedsRequestParams.get(0).getPage());
         assertEquals(2, capturedsRequestParams.get(1).getPage());
         assertEquals(3, capturedsRequestParams.get(2).getPage());
-        verify(userFollowersViewStateMock, times(3)).showNewFollowers(follows);
+        verify(userFollowersViewMock, times(3)).showNewFollowers(follows);
     }
 
     @Test
@@ -95,12 +92,12 @@ public class UserFollowersPresenterTest {
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userFollowersPresenter.onFirstViewAttach();
+        userFollowersPresenter.attachView(userFollowersViewMock);
 
         // assert
         verify(userFollowersInteractorMock).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewStateMock).hideFollowersLoadingProgress();
-        verify(userFollowersViewStateMock).showNoNetworkLayout();
+        verify(userFollowersViewMock).hideFollowersLoadingProgress();
+        verify(userFollowersViewMock).showNoNetworkLayout();
     }
 
     @Test
@@ -112,13 +109,13 @@ public class UserFollowersPresenterTest {
                 .thenReturn(Single.just(follows));
 
         // act
-        userFollowersPresenter.onFirstViewAttach();
+        userFollowersPresenter.attachView(userFollowersViewMock);
         userFollowersPresenter.retryLoading();
 
         // assert
         verify(userFollowersInteractorMock, times(2)).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewStateMock).hideNoNetworkLayout();
-        verify(userFollowersViewStateMock, times(2)).showFollowersLoadingProgress();
+        verify(userFollowersViewMock).hideNoNetworkLayout();
+        verify(userFollowersViewMock, times(2)).showFollowersLoadingProgress();
     }
 
     @Test
@@ -130,13 +127,13 @@ public class UserFollowersPresenterTest {
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userFollowersPresenter.onFirstViewAttach();
+        userFollowersPresenter.attachView(userFollowersViewMock);
         userFollowersPresenter.onLoadMoreFollowersRequest();
         userFollowersPresenter.retryLoading();
 
         // assert
         verify(userFollowersInteractorMock, times(3)).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewStateMock, times(2)).showFollowersLoadingMoreProgress();
+        verify(userFollowersViewMock, times(2)).showFollowersLoadingMoreProgress();
     }
 
     @Test
@@ -146,11 +143,11 @@ public class UserFollowersPresenterTest {
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userFollowersPresenter.onFirstViewAttach();
+        userFollowersPresenter.attachView(userFollowersViewMock);
 
         // assert
         verify(userFollowersInteractorMock, times(1)).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewStateMock).hideFollowersLoadingProgress();
+        verify(userFollowersViewMock).hideFollowersLoadingProgress();
     }
 
     @Test
@@ -162,12 +159,12 @@ public class UserFollowersPresenterTest {
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userFollowersPresenter.onFirstViewAttach();
+        userFollowersPresenter.attachView(userFollowersViewMock);
         userFollowersPresenter.onLoadMoreFollowersRequest();
 
         // assert
         verify(userFollowersInteractorMock, times(2)).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewStateMock).hideFollowersLoadingMoreProgress();
+        verify(userFollowersViewMock).hideFollowersLoadingMoreProgress();
     }
 
     @Test
@@ -183,11 +180,11 @@ public class UserFollowersPresenterTest {
                 .thenReturn(Single.just(follows));
 
         // act
-        userFollowersPresenter.onFirstViewAttach();
+        userFollowersPresenter.attachView(userFollowersViewMock);
         userFollowersPresenter.onFollowerClick(2);
 
         // assert
-        verify(userFollowersViewStateMock).openUserDetailsScreen(TEST_USER_ID);
+        verify(userFollowersViewMock).openUserDetailsScreen(TEST_USER_ID);
     }
 
     private List<Follow> follows() {

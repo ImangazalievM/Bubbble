@@ -60,7 +60,6 @@ ext.libraries = [
         storioApt               : "com.pushtorefresh.storio:sqlite-annotations-processor:$versions.storio",
 
         okHttp                  : "com.squareup.okhttp3:okhttp:$versions.okHttp",
-        okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$versions.okHttp",
         retrofit                : "com.squareup.retrofit2:retrofit:$versions.retrofit",
         retrofitGsonConverter   : "com.squareup.retrofit2:converter-gson:$versions.retrofit",
         retrofitRxJavaAdapter   : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
@@ -69,6 +68,7 @@ ext.libraries = [
         // Developer Tools
         stetho                  : "com.facebook.stetho:stetho:$versions.stetho",
         stethoOkHttp            : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
+        okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$versions.okHttp",
         leakCanary              : "com.squareup.leakcanary:leakcanary-android:$versions.leakCanary",
         leakCanaryNoOp          : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakCanary",
 
