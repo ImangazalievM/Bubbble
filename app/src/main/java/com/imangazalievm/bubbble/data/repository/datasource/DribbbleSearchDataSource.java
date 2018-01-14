@@ -4,9 +4,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.imangazalievm.bubbble.Constants;
-import com.imangazalievm.bubbble.domain.models.Images;
-import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.domain.models.User;
+import com.imangazalievm.bubbble.domain.global.models.Images;
+import com.imangazalievm.bubbble.domain.global.models.Shot;
+import com.imangazalievm.bubbble.domain.global.models.User;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;

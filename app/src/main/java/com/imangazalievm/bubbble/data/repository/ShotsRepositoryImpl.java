@@ -4,11 +4,11 @@ import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.data.network.DribbbleApiConstants;
 import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.data.repository.datasource.DribbbleSearchDataSource;
-import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.domain.models.ShotsRequestParams;
-import com.imangazalievm.bubbble.domain.models.ShotsSearchRequestParams;
-import com.imangazalievm.bubbble.domain.models.UserShotsRequestParams;
-import com.imangazalievm.bubbble.domain.repository.ShotsRepository;
+import com.imangazalievm.bubbble.domain.global.models.Shot;
+import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams;
+import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
+import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams;
+import com.imangazalievm.bubbble.domain.global.repository.ShotsRepository;
 
 import java.util.List;
 

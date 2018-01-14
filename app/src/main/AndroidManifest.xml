@@ -16,21 +16,21 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".presentation.ui.activities.MainActivity">
+            android:name=".presentation.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.ui.activities.ShotsSearchActivity" />
+        <activity android:name=".presentation.ui.shotssearch.ShotsSearchActivity" />
 
-        <activity android:name=".presentation.ui.activities.ShotDetailsActivity" />
+        <activity android:name=".presentation.ui.shotdetails.ShotDetailsActivity" />
 
-        <activity android:name=".presentation.ui.activities.ShotZoomActivity" />
+        <activity android:name=".presentation.ui.shotzoom.ShotZoomActivity" />
 
         <activity
-            android:name=".presentation.ui.activities.UserProfileActivity"
+            android:name=".presentation.ui.userprofile.UserProfileActivity"
             android:theme="@style/AppTheme.TranslucentStatusBarActivityTheme" />
 
     </application>

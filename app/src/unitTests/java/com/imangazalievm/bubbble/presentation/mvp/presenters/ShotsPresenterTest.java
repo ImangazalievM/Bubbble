@@ -1,10 +1,11 @@
 package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
-import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.interactors.ShotsInteractor;
-import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.domain.models.ShotsRequestParams;
-import com.imangazalievm.bubbble.presentation.mvp.views.ShotsView;
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
+import com.imangazalievm.bubbble.domain.shotslist.ShotsInteractor;
+import com.imangazalievm.bubbble.domain.global.models.Shot;
+import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams;
+import com.imangazalievm.bubbble.presentation.mvp.shotslist.ShotsPresenter;
+import com.imangazalievm.bubbble.presentation.mvp.shotslist.ShotsView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 

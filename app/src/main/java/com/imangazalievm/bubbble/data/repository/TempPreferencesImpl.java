@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.imangazalievm.bubbble.BuildConfig;
-import com.imangazalievm.bubbble.domain.repository.TempPreferences;
+import com.imangazalievm.bubbble.domain.global.repository.TempPreferences;
 
 import javax.inject.Inject;
 

@@ -1,7 +1,7 @@
 package com.imangazalievm.bubbble.data.network.interceptors;
 
 import com.imangazalievm.bubbble.data.network.NetworkChecker;
-import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;

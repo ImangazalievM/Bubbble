@@ -2,8 +2,8 @@ package com.imangazalievm.bubbble.di.modules;
 
 import android.support.annotation.NonNull;
 
-import com.imangazalievm.bubbble.di.qualifiers.OkHttpInterceptors;
-import com.imangazalievm.bubbble.di.qualifiers.OkHttpNetworkInterceptors;
+import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpInterceptors;
+import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpNetworkInterceptors;
 
 import java.util.List;
 

@@ -1,12 +1,13 @@
 package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
-import com.imangazalievm.bubbble.domain.interactors.ShotZoomInteractor;
-import com.imangazalievm.bubbble.domain.models.Images;
-import com.imangazalievm.bubbble.presentation.commons.permissions.Permission;
-import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionRequestListener;
-import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionResult;
-import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
-import com.imangazalievm.bubbble.presentation.mvp.views.ShotZoomView;
+import com.imangazalievm.bubbble.domain.shotzoom.ShotZoomInteractor;
+import com.imangazalievm.bubbble.domain.global.models.Images;
+import com.imangazalievm.bubbble.presentation.mvp.global.permissions.Permission;
+import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionRequestListener;
+import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionResult;
+import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionsManager;
+import com.imangazalievm.bubbble.presentation.mvp.shotzoom.ShotZoomPresenter;
+import com.imangazalievm.bubbble.presentation.mvp.shotzoom.ShotZoomView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 

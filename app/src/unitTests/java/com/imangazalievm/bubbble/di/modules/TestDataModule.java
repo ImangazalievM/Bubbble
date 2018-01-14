@@ -16,13 +16,13 @@ import com.imangazalievm.bubbble.data.repository.FollowersRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.ImagesRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.ShotsRepositoryImpl;
 import com.imangazalievm.bubbble.data.repository.UsersRepositoryImpl;
-import com.imangazalievm.bubbble.di.qualifiers.OkHttpInterceptors;
-import com.imangazalievm.bubbble.di.qualifiers.OkHttpNetworkInterceptors;
-import com.imangazalievm.bubbble.domain.repository.CommentsRepository;
-import com.imangazalievm.bubbble.domain.repository.FollowersRepository;
-import com.imangazalievm.bubbble.domain.repository.ImagesRepository;
-import com.imangazalievm.bubbble.domain.repository.ShotsRepository;
-import com.imangazalievm.bubbble.domain.repository.UsersRepository;
+import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpInterceptors;
+import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpNetworkInterceptors;
+import com.imangazalievm.bubbble.domain.global.repository.CommentsRepository;
+import com.imangazalievm.bubbble.domain.global.repository.FollowersRepository;
+import com.imangazalievm.bubbble.domain.global.repository.ImagesRepository;
+import com.imangazalievm.bubbble.domain.global.repository.ShotsRepository;
+import com.imangazalievm.bubbble.domain.global.repository.UsersRepository;
 
 import java.util.List;
 

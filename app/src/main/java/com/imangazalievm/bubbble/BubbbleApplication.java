@@ -4,10 +4,10 @@ import android.app.Application;
 import android.content.Context;
 
 import com.imangazalievm.bubbble.data.network.DribbbleApiConstants;
-import com.imangazalievm.bubbble.di.ApplicationComponent;
-import com.imangazalievm.bubbble.di.DaggerApplicationComponent;
-import com.imangazalievm.bubbble.di.modules.ApplicationModule;
-import com.imangazalievm.bubbble.di.modules.DataModule;
+import com.imangazalievm.bubbble.di.global.ApplicationComponent;
+import com.imangazalievm.bubbble.di.global.ApplicationModule;
+import com.imangazalievm.bubbble.di.global.DaggerApplicationComponent;
+import com.imangazalievm.bubbble.di.global.DataModule;
 
 public class BubbbleApplication extends Application {
 

@@ -1,5 +1,6 @@
 package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
+import com.imangazalievm.bubbble.presentation.mvp.main.MainPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.views.MainView$$State;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 

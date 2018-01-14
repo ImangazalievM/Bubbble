@@ -1,17 +1,18 @@
 package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
-import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.interactors.ShotDetailsInteractor;
-import com.imangazalievm.bubbble.domain.models.Comment;
-import com.imangazalievm.bubbble.domain.models.Images;
-import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.domain.models.ShotCommentsRequestParams;
-import com.imangazalievm.bubbble.domain.models.User;
-import com.imangazalievm.bubbble.presentation.commons.permissions.Permission;
-import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionRequestListener;
-import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionResult;
-import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
-import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailsView;
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
+import com.imangazalievm.bubbble.domain.shotdetails.ShotDetailsInteractor;
+import com.imangazalievm.bubbble.domain.global.models.Comment;
+import com.imangazalievm.bubbble.domain.global.models.Images;
+import com.imangazalievm.bubbble.domain.global.models.Shot;
+import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams;
+import com.imangazalievm.bubbble.domain.global.models.User;
+import com.imangazalievm.bubbble.presentation.mvp.global.permissions.Permission;
+import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionRequestListener;
+import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionResult;
+import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionsManager;
+import com.imangazalievm.bubbble.presentation.mvp.shotdetails.ShotDetailsPresenter;
+import com.imangazalievm.bubbble.presentation.mvp.shotdetails.ShotDetailsView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 

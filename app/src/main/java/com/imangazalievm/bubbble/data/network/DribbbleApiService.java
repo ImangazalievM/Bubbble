@@ -1,10 +1,10 @@
 package com.imangazalievm.bubbble.data.network;
 
-import com.imangazalievm.bubbble.domain.models.Comment;
-import com.imangazalievm.bubbble.domain.models.Follow;
-import com.imangazalievm.bubbble.domain.models.Like;
-import com.imangazalievm.bubbble.domain.models.Shot;
-import com.imangazalievm.bubbble.domain.models.User;
+import com.imangazalievm.bubbble.domain.global.models.Comment;
+import com.imangazalievm.bubbble.domain.global.models.Follow;
+import com.imangazalievm.bubbble.domain.global.models.Like;
+import com.imangazalievm.bubbble.domain.global.models.Shot;
+import com.imangazalievm.bubbble.domain.global.models.User;
 
 import java.util.List;
 

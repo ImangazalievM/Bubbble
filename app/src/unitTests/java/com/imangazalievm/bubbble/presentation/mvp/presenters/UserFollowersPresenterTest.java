@@ -1,11 +1,12 @@
 package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
-import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.interactors.UserFollowersInteractor;
-import com.imangazalievm.bubbble.domain.models.Follow;
-import com.imangazalievm.bubbble.domain.models.User;
-import com.imangazalievm.bubbble.domain.models.UserFollowersRequestParams;
-import com.imangazalievm.bubbble.presentation.mvp.views.UserFollowersView;
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
+import com.imangazalievm.bubbble.domain.userprofile.UserFollowersInteractor;
+import com.imangazalievm.bubbble.domain.global.models.Follow;
+import com.imangazalievm.bubbble.domain.global.models.User;
+import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams;
+import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserFollowersPresenter;
+import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserFollowersView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 

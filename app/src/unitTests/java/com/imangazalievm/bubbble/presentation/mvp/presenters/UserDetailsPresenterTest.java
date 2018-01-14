@@ -1,10 +1,11 @@
 package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
-import com.imangazalievm.bubbble.domain.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.interactors.UserDetailsInteractor;
-import com.imangazalievm.bubbble.domain.models.Links;
-import com.imangazalievm.bubbble.domain.models.User;
-import com.imangazalievm.bubbble.presentation.mvp.views.UserDetailsView;
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
+import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor;
+import com.imangazalievm.bubbble.domain.global.models.Links;
+import com.imangazalievm.bubbble.domain.global.models.User;
+import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserDetailsPresenter;
+import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserDetailsView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 
