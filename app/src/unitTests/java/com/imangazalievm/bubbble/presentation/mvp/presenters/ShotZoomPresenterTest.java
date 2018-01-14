@@ -7,7 +7,6 @@ import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionRequ
 import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionResult;
 import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
 import com.imangazalievm.bubbble.presentation.mvp.views.ShotZoomView;
-import com.imangazalievm.bubbble.presentation.mvp.views.ShotZoomView$$State;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 
@@ -35,20 +34,19 @@ public class ShotZoomPresenterTest {
     private static final String TEST_SHOT_IMAGE_URL = "https://test-url.com/image.png";
 
     @Mock
-    ShotZoomInteractor shotZoomInteractorMock;
+    private ShotZoomInteractor interactor;
     @Mock
-    ShotZoomView shotZoomViewMock;
+    private ShotZoomView view;
     @Mock
-    PermissionsManager permissionsManagerMock;
-
-    private ShotZoomPresenter shotZoomPresenter;
+    private PermissionsManager permissionsManager;
+    private ShotZoomPresenter presenter;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        shotZoomPresenter = new ShotZoomPresenter(shotZoomInteractorMock, new TestRxSchedulerProvider(),
+        presenter = new ShotZoomPresenter(interactor, new TestRxSchedulerProvider(),
                 TEST_SHOT_TITLE, TEST_SHOT_URL, TEST_SHOT_IMAGE_URL);
-        shotZoomPresenter.setPermissionsManager(permissionsManagerMock);
+        presenter.setPermissionsManager(permissionsManager);
     }
 
     @Test
@@ -56,11 +54,11 @@ public class ShotZoomPresenterTest {
         //arrange
 
         //act
-        shotZoomPresenter.attachView(shotZoomViewMock);
+        presenter.attachView(view);
 
         // assert
-        verify(shotZoomViewMock).showLoadingProgress();
-        verify(shotZoomViewMock).showShotImage(TEST_SHOT_IMAGE_URL);
+        verify(view).showLoadingProgress();
+        verify(view).showShotImage(TEST_SHOT_IMAGE_URL);
     }
 
     @Test
@@ -68,11 +66,11 @@ public class ShotZoomPresenterTest {
         //arrange
 
         // act
-        shotZoomPresenter.attachView(shotZoomViewMock);
-        shotZoomPresenter.onImageLoadSuccess();
+        presenter.attachView(view);
+        presenter.onImageLoadSuccess();
 
         // assert
-        verify(shotZoomViewMock).hideLoadingProgress();
+        verify(view).hideLoadingProgress();
     }
 
     @Test
@@ -80,12 +78,12 @@ public class ShotZoomPresenterTest {
         //arrange
 
         // act
-        shotZoomPresenter.attachView(shotZoomViewMock);
-        shotZoomPresenter.onImageLoadError();
+        presenter.attachView(view);
+        presenter.onImageLoadError();
 
         // assert
-        verify(shotZoomViewMock).hideLoadingProgress();
-        verify(shotZoomViewMock).showErrorLayout();
+        verify(view).hideLoadingProgress();
+        verify(view).showErrorLayout();
     }
 
     @Test
@@ -98,20 +96,20 @@ public class ShotZoomPresenterTest {
         };
 
         doAnswer(permissionRequestAnswer)
-                .when(permissionsManagerMock)
+                .when(permissionsManager)
                 .requestPermission(eq(Permission.READ_EXTERNAL_STORAGE), any(PermissionRequestListener.class));
 
         Images images = mock(Images.class);
         when(images.best()).thenReturn(TEST_SHOT_IMAGE_URL);
-        when(shotZoomInteractorMock.saveImage(TEST_SHOT_IMAGE_URL))
+        when(interactor.saveImage(TEST_SHOT_IMAGE_URL))
                 .thenReturn(Completable.complete());
 
         // act
-        shotZoomPresenter.attachView(shotZoomViewMock);
-        shotZoomPresenter.onDownloadImageClicked();
+        presenter.attachView(view);
+        presenter.onDownloadImageClicked();
 
         // assert
-        verify(shotZoomInteractorMock).saveImage(TEST_SHOT_IMAGE_URL);
+        verify(interactor).saveImage(TEST_SHOT_IMAGE_URL);
     }
 
     @Test
@@ -124,15 +122,15 @@ public class ShotZoomPresenterTest {
         };
 
         doAnswer(permissionRequestAnswer)
-                .when(permissionsManagerMock)
+                .when(permissionsManager)
                 .requestPermission(eq(Permission.READ_EXTERNAL_STORAGE), any(PermissionRequestListener.class));
 
         // act
-        shotZoomPresenter.attachView(shotZoomViewMock);
-        shotZoomPresenter.onDownloadImageClicked();
+        presenter.attachView(view);
+        presenter.onDownloadImageClicked();
 
         // assert
-        verify(shotZoomViewMock).showStorageAccessRationaleMessage();
+        verify(view).showStorageAccessRationaleMessage();
     }
 
     @Test
@@ -145,15 +143,15 @@ public class ShotZoomPresenterTest {
         };
 
         doAnswer(permissionRequestAnswer)
-                .when(permissionsManagerMock)
+                .when(permissionsManager)
                 .requestPermission(eq(Permission.READ_EXTERNAL_STORAGE), any(PermissionRequestListener.class));
 
         // act
-        shotZoomPresenter.attachView(shotZoomViewMock);
-        shotZoomPresenter.onDownloadImageClicked();
+        presenter.attachView(view);
+        presenter.onDownloadImageClicked();
 
         // assert
-        verify(shotZoomViewMock).showAllowStorageAccessMessage();
+        verify(view).showAllowStorageAccessMessage();
     }
 
     @Test
@@ -161,11 +159,11 @@ public class ShotZoomPresenterTest {
         //arrange
 
         // act
-        shotZoomPresenter.attachView(shotZoomViewMock);
-        shotZoomPresenter.onAppSettingsButtonClicked();
+        presenter.attachView(view);
+        presenter.onAppSettingsButtonClicked();
 
         // assert
-        verify(shotZoomViewMock).openAppSettingsScreen();
+        verify(view).openAppSettingsScreen();
     }
 
 
@@ -174,11 +172,11 @@ public class ShotZoomPresenterTest {
         //arrange
 
         // act
-        shotZoomPresenter.attachView(shotZoomViewMock);
-        shotZoomPresenter.onShareShotClicked();
+        presenter.attachView(view);
+        presenter.onShareShotClicked();
 
         // assert
-        verify(shotZoomViewMock).showShotSharing(TEST_SHOT_TITLE, TEST_SHOT_URL);
+        verify(view).showShotSharing(TEST_SHOT_TITLE, TEST_SHOT_URL);
     }
 
     @Test
@@ -186,11 +184,11 @@ public class ShotZoomPresenterTest {
         //arrange
 
         // act
-        shotZoomPresenter.attachView(shotZoomViewMock);
-        shotZoomPresenter.onOpenInBrowserClicked();
+        presenter.attachView(view);
+        presenter.onOpenInBrowserClicked();
 
         // assert
-        verify(shotZoomViewMock).openInBrowser(TEST_SHOT_URL);
+        verify(view).openInBrowser(TEST_SHOT_URL);
     }
 
 }

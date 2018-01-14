@@ -5,7 +5,6 @@ import com.imangazalievm.bubbble.domain.interactors.UserShotsInteractor;
 import com.imangazalievm.bubbble.domain.models.Shot;
 import com.imangazalievm.bubbble.domain.models.UserShotsRequestParams;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserShotsView;
-import com.imangazalievm.bubbble.presentation.mvp.views.UserShotsView$$State;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 
@@ -33,156 +32,152 @@ public class UserShotsPresenterTest {
     private static final long TEST_USER_ID = 5864664L;
 
     @Mock
-    UserShotsInteractor userShotsInteractorMock;
+    private UserShotsInteractor interactor;
     @Mock
-    UserShotsView userShotsViewMock;
-    @Mock
-    UserShotsView$$State userShotsViewStateMock;
-
-    private UserShotsPresenter userShotsPresenter;
+    private UserShotsView view;
+    private UserShotsPresenter presenter;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        userShotsPresenter = new UserShotsPresenter(userShotsInteractorMock, new TestRxSchedulerProvider(), TEST_USER_ID);
-        userShotsPresenter.setViewState(userShotsViewStateMock);
+        presenter = new UserShotsPresenter(interactor, new TestRxSchedulerProvider(), TEST_USER_ID);
     }
 
     @Test
     public void shots_shouldLoadAndShowShotsOnFirstAttach() {
         //arrange
         List<Shot> shots = shots();
-        when(userShotsInteractorMock.getUserShots(any(UserShotsRequestParams.class)))
+        when(interactor.getUserShots(any(UserShotsRequestParams.class)))
                 .thenReturn(Single.just(shots));
 
         //act
-        userShotsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
         ArgumentCaptor<UserShotsRequestParams> shotsCaptor = ArgumentCaptor.forClass(UserShotsRequestParams.class);
-        verify(userShotsInteractorMock).getUserShots(shotsCaptor.capture());
+        verify(interactor).getUserShots(shotsCaptor.capture());
         assertEquals(1, shotsCaptor.getValue().getPage());
-        verify(userShotsViewStateMock).showShotsLoadingProgress();
-        verify(userShotsViewStateMock).showNewShots(shots);
+        verify(view).showShotsLoadingProgress();
+        verify(view).showNewShots(shots);
     }
 
     @Test
     public void shots_shouldCorrectLoadNextShots() {
         //arrange
         List<Shot> newShots = shots();
-        when(userShotsInteractorMock.getUserShots(any(UserShotsRequestParams.class)))
+        when(interactor.getUserShots(any(UserShotsRequestParams.class)))
                 .thenReturn(Single.just(newShots));
 
         // act
-        userShotsPresenter.onFirstViewAttach();
-        userShotsPresenter.onLoadMoreShotsRequest();
-        userShotsPresenter.onLoadMoreShotsRequest();
+        presenter.attachView(view);
+        presenter.onLoadMoreShotsRequest();
+        presenter.onLoadMoreShotsRequest();
 
         // assert
         ArgumentCaptor<UserShotsRequestParams> shotsCaptor = ArgumentCaptor.forClass(UserShotsRequestParams.class);
-        verify(userShotsInteractorMock, times(3)).getUserShots(shotsCaptor.capture());
+        verify(interactor, times(3)).getUserShots(shotsCaptor.capture());
         List<UserShotsRequestParams> capturedsRequestParams = shotsCaptor.getAllValues();
         assertEquals(1, capturedsRequestParams.get(0).getPage());
         assertEquals(2, capturedsRequestParams.get(1).getPage());
         assertEquals(3, capturedsRequestParams.get(2).getPage());
-        verify(userShotsViewStateMock, times(3)).showNewShots(newShots);
+        verify(view, times(3)).showNewShots(newShots);
     }
 
     @Test
     public void shots_shouldShowNoNetworkLayout() {
         //arrange
-        when(userShotsInteractorMock.getUserShots(any(UserShotsRequestParams.class)))
+        when(interactor.getUserShots(any(UserShotsRequestParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userShotsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
-        verify(userShotsInteractorMock).getUserShots(any(UserShotsRequestParams.class));
-        verify(userShotsViewStateMock).hideShotsLoadingProgress();
-        verify(userShotsViewStateMock).showNoNetworkLayout();
+        verify(interactor).getUserShots(any(UserShotsRequestParams.class));
+        verify(view).hideShotsLoadingProgress();
+        verify(view).showNoNetworkLayout();
     }
 
     @Test
     public void retryLoading_shouldRetryLoadFirstPageAndShowProgress() {
         //arrange
         List<Shot> shots = shots();
-        when(userShotsInteractorMock.getUserShots(any(UserShotsRequestParams.class)))
+        when(interactor.getUserShots(any(UserShotsRequestParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()))
                 .thenReturn(Single.just(shots));
 
         // act
-        userShotsPresenter.onFirstViewAttach();
-        userShotsPresenter.retryLoading();
+        presenter.attachView(view);
+        presenter.retryLoading();
 
         // assert
-        verify(userShotsInteractorMock, times(2)).getUserShots(any(UserShotsRequestParams.class));
-        verify(userShotsViewStateMock).hideNoNetworkLayout();
-        verify(userShotsViewStateMock, times(2)).showShotsLoadingProgress();
+        verify(interactor, times(2)).getUserShots(any(UserShotsRequestParams.class));
+        verify(view).hideNoNetworkLayout();
+        verify(view, times(2)).showShotsLoadingProgress();
     }
 
     @Test
     public void retryLoading_shouldRetryLoadNextPageAndShowProgress() {
         //arrange
         List<Shot> shots = shots();
-        when(userShotsInteractorMock.getUserShots(any(UserShotsRequestParams.class)))
+        when(interactor.getUserShots(any(UserShotsRequestParams.class)))
                 .thenReturn(Single.just(shots))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userShotsPresenter.onFirstViewAttach();
-        userShotsPresenter.onLoadMoreShotsRequest();
-        userShotsPresenter.retryLoading();
+        presenter.attachView(view);
+        presenter.onLoadMoreShotsRequest();
+        presenter.retryLoading();
 
         // assert
-        verify(userShotsInteractorMock, times(3)).getUserShots(any(UserShotsRequestParams.class));
-        verify(userShotsViewStateMock, times(2)).showShotsLoadingMoreProgress();
+        verify(interactor, times(3)).getUserShots(any(UserShotsRequestParams.class));
+        verify(view, times(2)).showShotsLoadingMoreProgress();
     }
 
     @Test
     public void retryLoading_shouldHideProgressOnError() {
         //arrange
-        when(userShotsInteractorMock.getUserShots(any(UserShotsRequestParams.class)))
+        when(interactor.getUserShots(any(UserShotsRequestParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userShotsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
-        verify(userShotsInteractorMock, times(1)).getUserShots(any(UserShotsRequestParams.class));
-        verify(userShotsViewStateMock).hideShotsLoadingProgress();
+        verify(interactor, times(1)).getUserShots(any(UserShotsRequestParams.class));
+        verify(view).hideShotsLoadingProgress();
     }
 
     @Test
     public void retryLoading_shouldHideLoadingMoreProgressOnError() {
         //arrange
         List<Shot> shots = shots();
-        when(userShotsInteractorMock.getUserShots(any(UserShotsRequestParams.class)))
+        when(interactor.getUserShots(any(UserShotsRequestParams.class)))
                 .thenReturn(Single.just(shots))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userShotsPresenter.onFirstViewAttach();
-        userShotsPresenter.onLoadMoreShotsRequest();
+        presenter.attachView(view);
+        presenter.onLoadMoreShotsRequest();
 
         // assert
-        verify(userShotsInteractorMock, times(2)).getUserShots(any(UserShotsRequestParams.class));
-        verify(userShotsViewStateMock).hideShotsLoadingMoreProgress();
+        verify(interactor, times(2)).getUserShots(any(UserShotsRequestParams.class));
+        verify(view).hideShotsLoadingMoreProgress();
     }
 
     @Test
     public void onShotClick_shouldOpenShotDetailsScreen() {
         //arrange
         List<Shot> shots = shots();
-        when(userShotsInteractorMock.getUserShots(any(UserShotsRequestParams.class)))
+        when(interactor.getUserShots(any(UserShotsRequestParams.class)))
                 .thenReturn(Single.just(shots));
 
         // act
-        userShotsPresenter.onFirstViewAttach();
-        userShotsPresenter.onShotClick(2);
+        presenter.attachView(view);
+        presenter.onShotClick(2);
 
         // assert
-        verify(userShotsViewStateMock).openShotDetailsScreen(shots.get(2).getId());
+        verify(view).openShotDetailsScreen(shots.get(2).getId());
     }
 
     private List<Shot> shots() {

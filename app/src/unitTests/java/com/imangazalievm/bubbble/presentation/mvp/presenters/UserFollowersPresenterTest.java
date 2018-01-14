@@ -6,7 +6,6 @@ import com.imangazalievm.bubbble.domain.models.Follow;
 import com.imangazalievm.bubbble.domain.models.User;
 import com.imangazalievm.bubbble.domain.models.UserFollowersRequestParams;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserFollowersView;
-import com.imangazalievm.bubbble.presentation.mvp.views.UserFollowersView$$State;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 
@@ -35,136 +34,135 @@ public class UserFollowersPresenterTest {
     private static final long TEST_USER_ID = 5864664L;
 
     @Mock
-    UserFollowersInteractor userFollowersInteractorMock;
+    private UserFollowersInteractor interactor;
     @Mock
-    UserFollowersView userFollowersViewMock;
-
-    private UserFollowersPresenter userFollowersPresenter;
+    private UserFollowersView view;
+    private UserFollowersPresenter presenter;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        userFollowersPresenter = new UserFollowersPresenter(userFollowersInteractorMock, new TestRxSchedulerProvider(), TEST_USER_ID);
+        presenter = new UserFollowersPresenter(interactor, new TestRxSchedulerProvider(), TEST_USER_ID);
     }
 
     @Test
     public void followers_shouldLoadAndShowUserFollowersOnFirstAttach() {
         //arrange
         List<Follow> follows = follows();
-        when(userFollowersInteractorMock.getUserFollowers(any(UserFollowersRequestParams.class))).thenReturn(Single.just(follows));
+        when(interactor.getUserFollowers(any(UserFollowersRequestParams.class))).thenReturn(Single.just(follows));
 
         //act
-        userFollowersPresenter.attachView(userFollowersViewMock);
+        presenter.attachView(view);
 
         // assert
         ArgumentCaptor<UserFollowersRequestParams> followersCaptor = ArgumentCaptor.forClass(UserFollowersRequestParams.class);
-        verify(userFollowersInteractorMock).getUserFollowers(followersCaptor.capture());
+        verify(interactor).getUserFollowers(followersCaptor.capture());
         assertEquals(1, followersCaptor.getValue().getPage());
-        verify(userFollowersViewMock).showNewFollowers(follows);
+        verify(view).showNewFollowers(follows);
     }
 
     @Test
     public void onLoadMoreFollowersRequest_shouldCorrectLoadNextFollowers() {
         //arrange
         List<Follow> follows = follows();
-        when(userFollowersInteractorMock.getUserFollowers(any(UserFollowersRequestParams.class)))
+        when(interactor.getUserFollowers(any(UserFollowersRequestParams.class)))
                 .thenReturn(Single.just(follows));
 
         // act
-        userFollowersPresenter.attachView(userFollowersViewMock);
-        userFollowersPresenter.onLoadMoreFollowersRequest();
-        userFollowersPresenter.onLoadMoreFollowersRequest();
+        presenter.attachView(view);
+        presenter.onLoadMoreFollowersRequest();
+        presenter.onLoadMoreFollowersRequest();
 
         // assert
         ArgumentCaptor<UserFollowersRequestParams> followersCaptor = ArgumentCaptor.forClass(UserFollowersRequestParams.class);
-        verify(userFollowersInteractorMock, times(3)).getUserFollowers(followersCaptor.capture());
+        verify(interactor, times(3)).getUserFollowers(followersCaptor.capture());
         List<UserFollowersRequestParams> capturedsRequestParams = followersCaptor.getAllValues();
         assertEquals(1, capturedsRequestParams.get(0).getPage());
         assertEquals(2, capturedsRequestParams.get(1).getPage());
         assertEquals(3, capturedsRequestParams.get(2).getPage());
-        verify(userFollowersViewMock, times(3)).showNewFollowers(follows);
+        verify(view, times(3)).showNewFollowers(follows);
     }
 
     @Test
     public void followers_shouldShowNoNetworkLayout() {
         //arrange
-        when(userFollowersInteractorMock.getUserFollowers(any(UserFollowersRequestParams.class)))
+        when(interactor.getUserFollowers(any(UserFollowersRequestParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userFollowersPresenter.attachView(userFollowersViewMock);
+        presenter.attachView(view);
 
         // assert
-        verify(userFollowersInteractorMock).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewMock).hideFollowersLoadingProgress();
-        verify(userFollowersViewMock).showNoNetworkLayout();
+        verify(interactor).getUserFollowers(any(UserFollowersRequestParams.class));
+        verify(view).hideFollowersLoadingProgress();
+        verify(view).showNoNetworkLayout();
     }
 
     @Test
     public void retryLoading_shouldRetryLoadFirstPageAndShowProgress() {
         //arrange
         List<Follow> follows = follows();
-        when(userFollowersInteractorMock.getUserFollowers(any(UserFollowersRequestParams.class)))
+        when(interactor.getUserFollowers(any(UserFollowersRequestParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()))
                 .thenReturn(Single.just(follows));
 
         // act
-        userFollowersPresenter.attachView(userFollowersViewMock);
-        userFollowersPresenter.retryLoading();
+        presenter.attachView(view);
+        presenter.retryLoading();
 
         // assert
-        verify(userFollowersInteractorMock, times(2)).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewMock).hideNoNetworkLayout();
-        verify(userFollowersViewMock, times(2)).showFollowersLoadingProgress();
+        verify(interactor, times(2)).getUserFollowers(any(UserFollowersRequestParams.class));
+        verify(view).hideNoNetworkLayout();
+        verify(view, times(2)).showFollowersLoadingProgress();
     }
 
     @Test
     public void retryLoading_shouldRetryLoadNextPageAndShowProgress() {
         //arrange
         List<Follow> follows = follows();
-        when(userFollowersInteractorMock.getUserFollowers(any(UserFollowersRequestParams.class)))
+        when(interactor.getUserFollowers(any(UserFollowersRequestParams.class)))
                 .thenReturn(Single.just(follows))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userFollowersPresenter.attachView(userFollowersViewMock);
-        userFollowersPresenter.onLoadMoreFollowersRequest();
-        userFollowersPresenter.retryLoading();
+        presenter.attachView(view);
+        presenter.onLoadMoreFollowersRequest();
+        presenter.retryLoading();
 
         // assert
-        verify(userFollowersInteractorMock, times(3)).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewMock, times(2)).showFollowersLoadingMoreProgress();
+        verify(interactor, times(3)).getUserFollowers(any(UserFollowersRequestParams.class));
+        verify(view, times(2)).showFollowersLoadingMoreProgress();
     }
 
     @Test
     public void retryLoading_shouldHideProgressOnError() {
         //arrange
-        when(userFollowersInteractorMock.getUserFollowers(any(UserFollowersRequestParams.class)))
+        when(interactor.getUserFollowers(any(UserFollowersRequestParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userFollowersPresenter.attachView(userFollowersViewMock);
+        presenter.attachView(view);
 
         // assert
-        verify(userFollowersInteractorMock, times(1)).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewMock).hideFollowersLoadingProgress();
+        verify(interactor, times(1)).getUserFollowers(any(UserFollowersRequestParams.class));
+        verify(view).hideFollowersLoadingProgress();
     }
 
     @Test
     public void retryLoading_shouldHideLoadingMoreProgressOnError() {
         //arrange
         List<Follow> follows = follows();
-        when(userFollowersInteractorMock.getUserFollowers(any(UserFollowersRequestParams.class)))
+        when(interactor.getUserFollowers(any(UserFollowersRequestParams.class)))
                 .thenReturn(Single.just(follows))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userFollowersPresenter.attachView(userFollowersViewMock);
-        userFollowersPresenter.onLoadMoreFollowersRequest();
+        presenter.attachView(view);
+        presenter.onLoadMoreFollowersRequest();
 
         // assert
-        verify(userFollowersInteractorMock, times(2)).getUserFollowers(any(UserFollowersRequestParams.class));
-        verify(userFollowersViewMock).hideFollowersLoadingMoreProgress();
+        verify(interactor, times(2)).getUserFollowers(any(UserFollowersRequestParams.class));
+        verify(view).hideFollowersLoadingMoreProgress();
     }
 
     @Test
@@ -176,15 +174,15 @@ public class UserFollowersPresenterTest {
         when(follow.getFollower()).thenReturn(follower);
         List<Follow> follows = follows();
         follows.set(2, follow);
-        when(userFollowersInteractorMock.getUserFollowers(any(UserFollowersRequestParams.class)))
+        when(interactor.getUserFollowers(any(UserFollowersRequestParams.class)))
                 .thenReturn(Single.just(follows));
 
         // act
-        userFollowersPresenter.attachView(userFollowersViewMock);
-        userFollowersPresenter.onFollowerClick(2);
+        presenter.attachView(view);
+        presenter.onFollowerClick(2);
 
         // assert
-        verify(userFollowersViewMock).openUserDetailsScreen(TEST_USER_ID);
+        verify(view).openUserDetailsScreen(TEST_USER_ID);
     }
 
     private List<Follow> follows() {

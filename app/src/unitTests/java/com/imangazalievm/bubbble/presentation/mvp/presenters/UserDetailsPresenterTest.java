@@ -5,7 +5,6 @@ import com.imangazalievm.bubbble.domain.interactors.UserDetailsInteractor;
 import com.imangazalievm.bubbble.domain.models.Links;
 import com.imangazalievm.bubbble.domain.models.User;
 import com.imangazalievm.bubbble.presentation.mvp.views.UserDetailsView;
-import com.imangazalievm.bubbble.presentation.mvp.views.UserDetailsView$$State;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 
@@ -28,68 +27,64 @@ public class UserDetailsPresenterTest {
     private static final long TEST_USER_ID = 5864664L;
 
     @Mock
-    UserDetailsInteractor userDetailsInteractorMock;
+    private UserDetailsInteractor interactor;
     @Mock
-    UserDetailsView userDetailsViewMock;
-    @Mock
-    UserDetailsView$$State userDetailsViewStateMock;
-
-    private UserDetailsPresenter userDetailsPresenter;
+    private UserDetailsView view;
+    private UserDetailsPresenter presenter;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        userDetailsPresenter = new UserDetailsPresenter(userDetailsInteractorMock, new TestRxSchedulerProvider(), TEST_USER_ID);
-        userDetailsPresenter.setViewState(userDetailsViewStateMock);
+        presenter = new UserDetailsPresenter(interactor, new TestRxSchedulerProvider(), TEST_USER_ID);
     }
 
     @Test
     public void user_shouldLoadAndShowUserInfoOnFirstAttach() {
         //arrange
         User user = new User();
-        when(userDetailsInteractorMock.getUser(TEST_USER_ID))
+        when(interactor.getUser(TEST_USER_ID))
                 .thenReturn(Single.just(user));
 
         //act
-        userDetailsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
-        verify(userDetailsInteractorMock).getUser(TEST_USER_ID);
-        verify(userDetailsViewStateMock).showLoadingProgress();
-        verify(userDetailsViewStateMock).showUserInfo(user);
+        verify(interactor).getUser(TEST_USER_ID);
+        verify(view).showLoadingProgress();
+        verify(view).showUserInfo(user);
     }
 
     @Test
     public void shot_shouldShowNoNetworkLayout() {
         //arrange
-        when(userDetailsInteractorMock.getUser(TEST_USER_ID))
+        when(interactor.getUser(TEST_USER_ID))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        userDetailsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
-        verify(userDetailsInteractorMock).getUser(TEST_USER_ID);
-        verify(userDetailsViewStateMock).hideLoadingProgress();
-        verify(userDetailsViewStateMock).showNoNetworkLayout();
+        verify(interactor).getUser(TEST_USER_ID);
+        verify(view).hideLoadingProgress();
+        verify(view).showNoNetworkLayout();
     }
 
     @Test
     public void retryLoading_shouldRetryLoadUserShowProgress() {
         //arrange
         User user = new User();
-        when(userDetailsInteractorMock.getUser(TEST_USER_ID))
+        when(interactor.getUser(TEST_USER_ID))
                 .thenReturn(Single.error(new NoNetworkException()))
                 .thenReturn(Single.just(user));
 
         // act
-        userDetailsPresenter.onFirstViewAttach();
-        userDetailsPresenter.retryLoading();
+        presenter.attachView(view);
+        presenter.retryLoading();
 
         // assert
-        verify(userDetailsInteractorMock, times(2)).getUser(TEST_USER_ID);
-        verify(userDetailsViewStateMock).hideNoNetworkLayout();
-        verify(userDetailsViewStateMock, times(2)).showLoadingProgress();
+        verify(interactor, times(2)).getUser(TEST_USER_ID);
+        verify(view).hideNoNetworkLayout();
+        verify(view, times(2)).showLoadingProgress();
     }
 
     @Test
@@ -100,16 +95,16 @@ public class UserDetailsPresenterTest {
         when(links.getTwitter()).thenReturn(testTwitterAccountLink);
         User user = mock(User.class);
         when(user.getLinks()).thenReturn(links);
-        when(userDetailsInteractorMock.getUser(TEST_USER_ID))
+        when(interactor.getUser(TEST_USER_ID))
                 .thenReturn(Single.just(user));
 
         //act
-        userDetailsPresenter.onFirstViewAttach();
-        userDetailsPresenter.onUserTwitterButtonClicked();
+        presenter.attachView(view);
+        presenter.onUserTwitterButtonClicked();
 
         // assert
-        verify(userDetailsInteractorMock).getUser(TEST_USER_ID);
-        verify(userDetailsViewStateMock).openInBrowser(testTwitterAccountLink);
+        verify(interactor).getUser(TEST_USER_ID);
+        verify(view).openInBrowser(testTwitterAccountLink);
     }
 
     @Test
@@ -120,16 +115,16 @@ public class UserDetailsPresenterTest {
         when(links.getWeb()).thenReturn(testUserWebSiteUrl);
         User user = mock(User.class);
         when(user.getLinks()).thenReturn(links);
-        when(userDetailsInteractorMock.getUser(TEST_USER_ID))
+        when(interactor.getUser(TEST_USER_ID))
                 .thenReturn(Single.just(user));
 
         //act
-        userDetailsPresenter.onFirstViewAttach();
-        userDetailsPresenter.onUserWebsiteButtonClicked();
+        presenter.attachView(view);
+        presenter.onUserWebsiteButtonClicked();
 
         // assert
-        verify(userDetailsInteractorMock).getUser(TEST_USER_ID);
-        verify(userDetailsViewStateMock).openInBrowser(testUserWebSiteUrl);
+        verify(interactor).getUser(TEST_USER_ID);
+        verify(view).openInBrowser(testUserWebSiteUrl);
     }
 
 }

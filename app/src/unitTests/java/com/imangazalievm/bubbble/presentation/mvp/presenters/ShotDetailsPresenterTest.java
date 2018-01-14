@@ -11,7 +11,7 @@ import com.imangazalievm.bubbble.presentation.commons.permissions.Permission;
 import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionRequestListener;
 import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionResult;
 import com.imangazalievm.bubbble.presentation.commons.permissions.PermissionsManager;
-import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailsView$$State;
+import com.imangazalievm.bubbble.presentation.mvp.views.ShotDetailsView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestRxSchedulerProvider;
 
@@ -48,116 +48,112 @@ public class ShotDetailsPresenterTest {
     private static final Long TEST_USER_ID = 1962179L;
 
     @Mock
-    ShotDetailsInteractor shotDetailsInteractorMock;
+    private ShotDetailsInteractor interactor;
     @Mock
-    ShotDetailsPresenter shotsDetailsViewMock;
+    private ShotDetailsView view;
     @Mock
-    ShotDetailsView$$State shotDetailsViewStateMock;
-    @Mock
-    PermissionsManager permissionsManagerMock;
-
-    private ShotDetailsPresenter shotDetailsPresenter;
+    private PermissionsManager permissionsManagerMock;
+    private ShotDetailsPresenter presenter;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        shotDetailsPresenter = new ShotDetailsPresenter(shotDetailsInteractorMock, new TestRxSchedulerProvider(), TEST_SHOT_ID);
-        shotDetailsPresenter.setViewState(shotDetailsViewStateMock);
-        shotDetailsPresenter.setPermissionsManager(permissionsManagerMock);
+        presenter = new ShotDetailsPresenter(interactor, new TestRxSchedulerProvider(), TEST_SHOT_ID);
+        presenter.setPermissionsManager(permissionsManagerMock);
     }
 
     @Test
     public void shot_shouldLoadShotOnFirstAttach() {
         //arrange
         Shot shot = new Shot();
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(shot));
 
         //act
-        shotDetailsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
         ArgumentCaptor<Long> shotsCaptor = ArgumentCaptor.forClass(Long.class);
-        verify(shotDetailsInteractorMock).getShot(shotsCaptor.capture());
+        verify(interactor).getShot(shotsCaptor.capture());
         assertEquals(TEST_SHOT_ID, shotsCaptor.getValue());
-        verify(shotDetailsViewStateMock).showLoadingProgress();
-        verify(shotDetailsViewStateMock).showShot(shot);
+        verify(view).showLoadingProgress();
+        verify(view).showShot(shot);
     }
 
     @Test
     public void shot_shouldShowNoNetworkLayout() {
         //arrange
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
-        verify(shotDetailsInteractorMock).getShot(TEST_SHOT_ID);
-        verify(shotDetailsViewStateMock).hideLoadingProgress();
-        verify(shotDetailsViewStateMock).showNoNetworkLayout();
+        verify(interactor).getShot(TEST_SHOT_ID);
+        verify(view).hideLoadingProgress();
+        verify(view).showNoNetworkLayout();
     }
 
     @Test
     public void retryLoading_shouldRetryLoadShotAndShowProgress() {
         //arrange
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.error(new NoNetworkException()))
                 .thenReturn(Single.just(new Shot()));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.retryLoading();
+        presenter.attachView(view);
+        presenter.retryLoading();
 
         // assert
-        verify(shotDetailsInteractorMock, times(2)).getShot(TEST_SHOT_ID);
-        verify(shotDetailsViewStateMock).hideNoNetworkLayout();
-        verify(shotDetailsViewStateMock, times(2)).showLoadingProgress();
+        verify(interactor, times(2)).getShot(TEST_SHOT_ID);
+        verify(view).hideNoNetworkLayout();
+        verify(view, times(2)).showLoadingProgress();
     }
 
     @Test
     public void retryLoading_shouldHideProgressOnError() {
         //arrange
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
-        verify(shotDetailsInteractorMock, times(1)).getShot(TEST_SHOT_ID);
-        verify(shotDetailsViewStateMock).hideLoadingProgress();
+        verify(interactor, times(1)).getShot(TEST_SHOT_ID);
+        verify(view).hideLoadingProgress();
     }
 
     @Test
     public void onImageLoadError_shouldHideImageLoadingProgressOnError() {
         //arrange
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onImageLoadError();
+        presenter.attachView(view);
+        presenter.onImageLoadError();
 
         // assert
-        verify(shotDetailsInteractorMock, times(1)).getShot(TEST_SHOT_ID);
-        verify(shotDetailsViewStateMock).hideImageLoadingProgress();
+        verify(interactor, times(1)).getShot(TEST_SHOT_ID);
+        verify(view).hideImageLoadingProgress();
     }
 
     @Test
     public void onImageLoadError_shouldHideImageLoadingProgressOnSuccess() {
         //arrange
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(new Shot()));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onImageLoadSuccess();
+        presenter.attachView(view);
+        presenter.onImageLoadSuccess();
 
         // assert
-        verify(shotDetailsInteractorMock, times(1)).getShot(TEST_SHOT_ID);
-        verify(shotDetailsViewStateMock).hideImageLoadingProgress();
+        verify(interactor, times(1)).getShot(TEST_SHOT_ID);
+        verify(view).hideImageLoadingProgress();
     }
 
     @Test
@@ -165,14 +161,14 @@ public class ShotDetailsPresenterTest {
         //arrange
         Shot shot = mock(Shot.class);
         when(shot.getCommentsCount()).thenReturn(0);
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(new Shot()));
 
         //act
-        shotDetailsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
-        verify(shotDetailsViewStateMock).showNoComments();
+        verify(view).showNoComments();
     }
 
     @Test
@@ -180,20 +176,20 @@ public class ShotDetailsPresenterTest {
         //arrange
         Shot shot = mock(Shot.class);
         when(shot.getCommentsCount()).thenReturn(3);
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(shot));
 
         List<Comment> comments = comments();
-        when(shotDetailsInteractorMock.getShotComments(any(ShotCommentsRequestParams.class)))
+        when(interactor.getShotComments(any(ShotCommentsRequestParams.class)))
                 .thenReturn(Single.just(comments));
 
         //act
-        shotDetailsPresenter.onFirstViewAttach();
+        presenter.attachView(view);
 
         // assert
-        verify(shotDetailsInteractorMock).getShot(TEST_SHOT_ID);
-        verify(shotDetailsInteractorMock).getShotComments(any(ShotCommentsRequestParams.class));
-        verify(shotDetailsViewStateMock).showNewComments(comments);
+        verify(interactor).getShot(TEST_SHOT_ID);
+        verify(interactor).getShotComments(any(ShotCommentsRequestParams.class));
+        verify(view).showNewComments(comments);
     }
 
     @Test
@@ -201,42 +197,42 @@ public class ShotDetailsPresenterTest {
         //arrange
         Shot shot = mock(Shot.class);
         when(shot.getCommentsCount()).thenReturn(3);
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(shot));
 
         List<Comment> newComments = comments();
-        when(shotDetailsInteractorMock.getShotComments(any(ShotCommentsRequestParams.class)))
+        when(interactor.getShotComments(any(ShotCommentsRequestParams.class)))
                 .thenReturn(Single.just(newComments));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onLoadMoreCommentsRequest();
-        shotDetailsPresenter.onLoadMoreCommentsRequest();
+        presenter.attachView(view);
+        presenter.onLoadMoreCommentsRequest();
+        presenter.onLoadMoreCommentsRequest();
 
         // assert
         ArgumentCaptor<ShotCommentsRequestParams> shotsCaptor = ArgumentCaptor.forClass(ShotCommentsRequestParams.class);
-        verify(shotDetailsInteractorMock, times(3)).getShotComments(shotsCaptor.capture());
+        verify(interactor, times(3)).getShotComments(shotsCaptor.capture());
         List<ShotCommentsRequestParams> capturedRequestParams = shotsCaptor.getAllValues();
         assertEquals(1, capturedRequestParams.get(0).getPage());
         assertEquals(2, capturedRequestParams.get(1).getPage());
         assertEquals(3, capturedRequestParams.get(2).getPage());
-        verify(shotDetailsViewStateMock, times(3)).showNewComments(newComments);
+        verify(view, times(3)).showNewComments(newComments);
     }
 
     @Test
     public void onImageClick_shouldOpenShotImageScreenScreen() {
         //arrange
         Shot shot = new Shot();
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(shot));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onImageClicked();
+        presenter.attachView(view);
+        presenter.onImageClicked();
 
         // assert
-        verify(shotDetailsInteractorMock).getShot(TEST_SHOT_ID);
-        verify(shotDetailsViewStateMock).openShotImageScreen(shot);
+        verify(interactor).getShot(TEST_SHOT_ID);
+        verify(view).openShotImageScreen(shot);
     }
 
     @Test
@@ -245,16 +241,16 @@ public class ShotDetailsPresenterTest {
         Shot shot = mock(Shot.class);
         when(shot.getTitle()).thenReturn(TEST_SHOT_TITLE);
         when(shot.getHtmlUrl()).thenReturn(TEST_SHOT_URL);
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(shot));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onShareShotClicked();
+        presenter.attachView(view);
+        presenter.onShareShotClicked();
 
         // assert
-        verify(shotDetailsInteractorMock).getShot(TEST_SHOT_ID);
-        verify(shotDetailsViewStateMock).showShotSharing(TEST_SHOT_TITLE, TEST_SHOT_URL);
+        verify(interactor).getShot(TEST_SHOT_ID);
+        verify(view).showShotSharing(TEST_SHOT_TITLE, TEST_SHOT_URL);
     }
 
     @Test
@@ -275,17 +271,17 @@ public class ShotDetailsPresenterTest {
         Shot shot = mock(Shot.class);
         when(shot.getId()).thenReturn(TEST_SHOT_ID);
         when(shot.getImages()).thenReturn(images);
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(shot));
-        when(shotDetailsInteractorMock.saveImage(TEST_SHOT_IMAGE_URL))
+        when(interactor.saveImage(TEST_SHOT_IMAGE_URL))
                 .thenReturn(Completable.complete());
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onDownloadImageClicked();
+        presenter.attachView(view);
+        presenter.onDownloadImageClicked();
 
         // assert
-        verify(shotDetailsInteractorMock).saveImage(TEST_SHOT_IMAGE_URL);
+        verify(interactor).saveImage(TEST_SHOT_IMAGE_URL);
     }
 
     @Test
@@ -301,15 +297,15 @@ public class ShotDetailsPresenterTest {
                 .when(permissionsManagerMock)
                 .requestPermission(eq(Permission.READ_EXTERNAL_STORAGE), any(PermissionRequestListener.class));
 
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(new Shot()));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onDownloadImageClicked();
+        presenter.attachView(view);
+        presenter.onDownloadImageClicked();
 
         // assert
-        verify(shotDetailsViewStateMock).showStorageAccessRationaleMessage();
+        verify(view).showStorageAccessRationaleMessage();
     }
 
     @Test
@@ -325,29 +321,29 @@ public class ShotDetailsPresenterTest {
                 .when(permissionsManagerMock)
                 .requestPermission(eq(Permission.READ_EXTERNAL_STORAGE), any(PermissionRequestListener.class));
 
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(new Shot()));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onDownloadImageClicked();
+        presenter.attachView(view);
+        presenter.onDownloadImageClicked();
 
         // assert
-        verify(shotDetailsViewStateMock).showAllowStorageAccessMessage();
+        verify(view).showAllowStorageAccessMessage();
     }
 
     @Test
     public void onAppSettingsButtonClicked_shouldOpenAppSettingsScreen() {
         //arrange
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(new Shot()));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onAppSettingsButtonClicked();
+        presenter.attachView(view);
+        presenter.onAppSettingsButtonClicked();
 
         // assert
-        verify(shotDetailsViewStateMock).openAppSettingsScreen();
+        verify(view).openAppSettingsScreen();
     }
 
     @Test
@@ -355,15 +351,15 @@ public class ShotDetailsPresenterTest {
         //arrange
         Shot shot = mock(Shot.class);
         when(shot.getHtmlUrl()).thenReturn(TEST_SHOT_URL);
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(shot));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onOpenShotInBrowserClicked();
+        presenter.attachView(view);
+        presenter.onOpenShotInBrowserClicked();
 
         // assert
-        verify(shotDetailsViewStateMock).openInBrowser(TEST_SHOT_URL);
+        verify(view).openInBrowser(TEST_SHOT_URL);
     }
 
     @Test
@@ -373,47 +369,47 @@ public class ShotDetailsPresenterTest {
         when(shotAuthor.getId()).thenReturn(TEST_USER_ID);
         Shot shot = mock(Shot.class);
         when(shot.getUser()).thenReturn(shotAuthor);
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(shot));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onShotAuthorProfileClicked();
+        presenter.attachView(view);
+        presenter.onShotAuthorProfileClicked();
 
         // assert
-        verify(shotDetailsViewStateMock).openUserProfileScreen(TEST_USER_ID);
+        verify(view).openUserProfileScreen(TEST_USER_ID);
     }
 
     @Test
     public void onCommentAuthorClick_shouldOpenUserDetailsScreen() {
         //arrange
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(new Shot()));
 
         User commentAuthor = mock(User.class);
         when(commentAuthor.getId()).thenReturn(TEST_USER_ID);
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onCommentAuthorClick(TEST_USER_ID);
+        presenter.attachView(view);
+        presenter.onCommentAuthorClick(TEST_USER_ID);
 
         // assert
-        verify(shotDetailsViewStateMock).openUserProfileScreen(TEST_USER_ID);
+        verify(view).openUserProfileScreen(TEST_USER_ID);
     }
 
     @Test
     public void onLinkClicked_shouldOpenBrowserScreen() {
         //arrange
         Shot shot = new Shot();
-        when(shotDetailsInteractorMock.getShot(TEST_SHOT_ID))
+        when(interactor.getShot(TEST_SHOT_ID))
                 .thenReturn(Single.just(shot));
 
         // act
-        shotDetailsPresenter.onFirstViewAttach();
-        shotDetailsPresenter.onLinkClicked(TEST_SHOT_URL);
+        presenter.attachView(view);
+        presenter.onLinkClicked(TEST_SHOT_URL);
 
         // assert
-        verify(shotDetailsViewStateMock).openInBrowser(TEST_SHOT_URL);
+        verify(view).openInBrowser(TEST_SHOT_URL);
     }
 
     private List<Comment> comments() {
