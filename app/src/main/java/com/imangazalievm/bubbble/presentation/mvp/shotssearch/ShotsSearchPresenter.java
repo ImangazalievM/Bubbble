@@ -57,7 +57,7 @@ public class ShotsSearchPresenter extends MvpPresenter<ShotsSearchView> {
         isShotsLoading = true;
         ShotsSearchRequestParams shotsRequestParams = new ShotsSearchRequestParams(searchQuery, sort, page, PAGE_SIZE);
         shotsSearchInteractor.search(shotsRequestParams)
-                .observeOn(schedulersProvider.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(this::onShotsLoaded, this::onShotsLoadError);
     }
 

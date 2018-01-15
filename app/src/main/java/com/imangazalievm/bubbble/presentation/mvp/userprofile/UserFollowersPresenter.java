@@ -48,7 +48,7 @@ public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
         isFollowersLoading = true;
         UserFollowersRequestParams requestParams = new UserFollowersRequestParams(userId, page, PAGE_SIZE);
         userFollowersInteractor.getUserFollowers(requestParams)
-                .observeOn(schedulersProvider.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(this::onFollowersLoaded, this::onFollowersLoadError);
     }
 

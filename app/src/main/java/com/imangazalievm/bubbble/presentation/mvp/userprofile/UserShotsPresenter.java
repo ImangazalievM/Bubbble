@@ -48,7 +48,7 @@ public class UserShotsPresenter extends MvpPresenter<UserShotsView> {
         isShotsLoading = true;
         UserShotsRequestParams userShotsRequestParams = new UserShotsRequestParams(userId, page, PAGE_SIZE);
         userShotsInteractor.getUserShots(userShotsRequestParams)
-                .observeOn(schedulersProvider.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(this::onShotsLoaded, this::onShotsLoadError);
     }
 

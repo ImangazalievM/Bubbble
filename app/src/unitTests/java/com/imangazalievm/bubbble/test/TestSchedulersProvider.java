@@ -10,7 +10,7 @@ public class TestSchedulersProvider extends SchedulersProvider {
     private final TestScheduler testScheduler = new TestScheduler();
 
     @Override
-    public Scheduler mainThread() {
+    public Scheduler ui() {
         return testScheduler;
     }
 

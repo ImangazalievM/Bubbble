@@ -87,7 +87,7 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
 
     private void saveShotImage() {
         shotZoomInteractor.saveImage(imageUrl)
-                .observeOn(schedulersProvider.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(() -> getViewState().showImageSavedMessage(), DebugUtils::showDebugErrorMessage);
     }
 

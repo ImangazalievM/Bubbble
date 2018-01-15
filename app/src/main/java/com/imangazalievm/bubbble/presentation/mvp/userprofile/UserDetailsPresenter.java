@@ -39,7 +39,7 @@ public class UserDetailsPresenter extends MvpPresenter<UserDetailsView> {
     private void loadUser() {
         getViewState().showLoadingProgress();
         userDetailsInteractor.getUser(userId)
-                .observeOn(schedulersProvider.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(this::onUserLoadSuccess, this::onUserLoadError);
     }
 

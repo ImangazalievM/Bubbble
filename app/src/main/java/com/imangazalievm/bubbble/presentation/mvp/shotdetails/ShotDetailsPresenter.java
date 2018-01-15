@@ -58,7 +58,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
     private void loadShot() {
         getViewState().showLoadingProgress();
         shotDetailsInteractor.getShot(shotId)
-                .observeOn(schedulersProvider.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(this::onShotLoaded, this::onShotLoadError);
     }
 
@@ -100,7 +100,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
         isCommentsLoading = true;
         ShotCommentsRequestParams shotCommentsRequestParams = new ShotCommentsRequestParams(shotId, page, COMMENTS_PAGE_SIZE);
         shotDetailsInteractor.getShotComments(shotCommentsRequestParams)
-                .observeOn(schedulersProvider.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(this::onCommentsLoaded, DebugUtils::showDebugErrorMessage);
     }
 
@@ -153,7 +153,7 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
 
     private void saveShotImage() {
         shotDetailsInteractor.saveImage(shot.getImages().best())
-                .observeOn(schedulersProvider.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(() -> getViewState().showImageSavedMessage(), DebugUtils::showDebugErrorMessage);
     }
 

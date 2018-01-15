@@ -36,7 +36,7 @@ public class UserProfilePresenter extends MvpPresenter<UserProfileView> {
     private void loadUser() {
         getViewState().showLoadingProgress();
         userProfileInteractor.getUser(userId)
-                .observeOn(schedulersProvider.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(this::onUserLoaded, this::onUserLoadError);
     }
 

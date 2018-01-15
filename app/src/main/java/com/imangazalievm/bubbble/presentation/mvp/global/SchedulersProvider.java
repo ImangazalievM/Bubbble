@@ -14,7 +14,7 @@ public class SchedulersProvider {
     public SchedulersProvider() {
     }
 
-    public Scheduler mainThread() {
+    public Scheduler ui() {
         return AndroidSchedulers.mainThread();
     }
 
