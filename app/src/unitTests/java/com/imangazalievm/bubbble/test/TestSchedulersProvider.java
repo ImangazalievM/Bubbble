@@ -10,6 +10,11 @@ public class TestSchedulersProvider extends SchedulersProvider {
     private final TestScheduler testScheduler = new TestScheduler();
 
     @Override
+    public Scheduler mainThread() {
+        return testScheduler;
+    }
+
+    @Override
     public Scheduler computation() {
         return testScheduler;
     }
@@ -21,6 +26,11 @@ public class TestSchedulersProvider extends SchedulersProvider {
 
     @Override
     public Scheduler newThread() {
+        return testScheduler;
+    }
+
+    @Override
+    public Scheduler trampoline() {
         return testScheduler;
     }
 
