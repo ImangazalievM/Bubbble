@@ -21,7 +21,7 @@ public class UrlImageSaver {
         this.destinationFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
     }
 
-    public void saveImage(String imageUrl) throws IOException {
+    public void saveImage(String imageUrl) {
         String imageFileName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1, imageUrl.length());
         Uri uri = Uri.parse(imageUrl);
 

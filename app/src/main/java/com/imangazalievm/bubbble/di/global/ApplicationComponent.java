@@ -1,11 +1,11 @@
 package com.imangazalievm.bubbble.di.global;
 
 import com.imangazalievm.bubbble.di.modules.OkHttpInterceptorsModule;
-import com.imangazalievm.bubbble.domain.global.repository.CommentsRepository;
-import com.imangazalievm.bubbble.domain.global.repository.FollowersRepository;
-import com.imangazalievm.bubbble.domain.global.repository.ImagesRepository;
-import com.imangazalievm.bubbble.domain.global.repository.ShotsRepository;
-import com.imangazalievm.bubbble.domain.global.repository.UsersRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.CommentsRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.FollowersRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.ImagesRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.ShotsRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.UsersRepository;
 
 import javax.inject.Singleton;
 

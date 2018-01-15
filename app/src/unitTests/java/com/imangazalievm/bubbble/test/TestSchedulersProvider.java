@@ -5,7 +5,7 @@ import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
-public class TestSchedulerProvider extends SchedulersProvider {
+public class TestSchedulersProvider extends SchedulersProvider {
 
     @Override
     public Scheduler computation() {

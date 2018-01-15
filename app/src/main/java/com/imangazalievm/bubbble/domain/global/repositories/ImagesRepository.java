@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.domain.global.repository;
+package com.imangazalievm.bubbble.domain.global.repositories;
 
 
 import io.reactivex.Completable;

@@ -2,7 +2,7 @@ package com.imangazalievm.bubbble.domain.userprofile;
 
 
 import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.domain.global.repository.UsersRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.UsersRepository;
 import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 
 import javax.inject.Inject;

@@ -1,9 +1,9 @@
-package com.imangazalievm.bubbble.data.repository;
+package com.imangazalievm.bubbble.data.repositories;
 
 import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.global.models.Follow;
 import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams;
-import com.imangazalievm.bubbble.domain.global.repository.FollowersRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.FollowersRepository;
 
 import java.util.List;
 

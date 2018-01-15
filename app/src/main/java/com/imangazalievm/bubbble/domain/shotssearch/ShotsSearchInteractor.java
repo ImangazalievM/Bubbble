@@ -3,7 +3,7 @@ package com.imangazalievm.bubbble.domain.shotssearch;
 
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
-import com.imangazalievm.bubbble.domain.global.repository.ShotsRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.ShotsRepository;
 import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 
 import java.util.List;

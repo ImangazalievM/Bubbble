@@ -8,7 +8,7 @@ import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserFollowersPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserFollowersView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
-import com.imangazalievm.bubbble.test.TestSchedulerProvider;
+import com.imangazalievm.bubbble.test.TestSchedulersProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class UserFollowersPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new UserFollowersPresenter(interactor, new TestSchedulerProvider(), TEST_USER_ID);
+        presenter = new UserFollowersPresenter(interactor, new TestSchedulersProvider(), TEST_USER_ID);
     }
 
     @Test

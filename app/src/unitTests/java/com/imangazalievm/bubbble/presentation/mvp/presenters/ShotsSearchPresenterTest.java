@@ -7,7 +7,7 @@ import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
 import com.imangazalievm.bubbble.presentation.mvp.shotssearch.ShotsSearchPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.shotssearch.ShotsSearchView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
-import com.imangazalievm.bubbble.test.TestSchedulerProvider;
+import com.imangazalievm.bubbble.test.TestSchedulersProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class ShotsSearchPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new ShotsSearchPresenter(interactor, new TestSchedulerProvider(), TEST_SEARCH_REQUEST);
+        presenter = new ShotsSearchPresenter(interactor, new TestSchedulersProvider(), TEST_SEARCH_REQUEST);
     }
 
     @Test

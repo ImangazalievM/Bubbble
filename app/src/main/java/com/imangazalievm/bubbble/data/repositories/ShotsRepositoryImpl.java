@@ -1,14 +1,14 @@
-package com.imangazalievm.bubbble.data.repository;
+package com.imangazalievm.bubbble.data.repositories;
 
 import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.data.network.DribbbleApiConstants;
 import com.imangazalievm.bubbble.data.network.DribbbleApiService;
-import com.imangazalievm.bubbble.data.repository.datasource.DribbbleSearchDataSource;
+import com.imangazalievm.bubbble.data.repositories.datasource.DribbbleSearchDataSource;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams;
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
 import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams;
-import com.imangazalievm.bubbble.domain.global.repository.ShotsRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.ShotsRepository;
 
 import java.util.List;
 

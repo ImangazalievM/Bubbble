@@ -7,7 +7,7 @@ import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserShotsPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserShotsView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
-import com.imangazalievm.bubbble.test.TestSchedulerProvider;
+import com.imangazalievm.bubbble.test.TestSchedulersProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class UserShotsPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new UserShotsPresenter(interactor, new TestSchedulerProvider(), TEST_USER_ID);
+        presenter = new UserShotsPresenter(interactor, new TestSchedulersProvider(), TEST_USER_ID);
     }
 
     @Test

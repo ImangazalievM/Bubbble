@@ -1,7 +1,7 @@
 package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
 import com.imangazalievm.bubbble.presentation.mvp.main.MainPresenter;
-import com.imangazalievm.bubbble.presentation.mvp.views.MainView$$State;
+import com.imangazalievm.bubbble.presentation.mvp.main.MainView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 
 import org.junit.Before;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 public class MainPresenterTest {
 
     @Mock
-    private MainView$$State view;
+    private MainView view;
     private MainPresenter presenter;
 
     @Before

@@ -1,8 +1,8 @@
-package com.imangazalievm.bubbble.data.repository;
+package com.imangazalievm.bubbble.data.repositories;
 
 import com.imangazalievm.bubbble.data.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.domain.global.repository.UsersRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.UsersRepository;
 
 import javax.inject.Inject;
 

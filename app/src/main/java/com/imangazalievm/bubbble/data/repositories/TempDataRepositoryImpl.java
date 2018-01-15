@@ -1,17 +1,17 @@
-package com.imangazalievm.bubbble.data.repository;
+package com.imangazalievm.bubbble.data.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.imangazalievm.bubbble.BuildConfig;
-import com.imangazalievm.bubbble.domain.global.repository.TempPreferences;
+import com.imangazalievm.bubbble.domain.global.repositories.TempDataRepository;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public class TempPreferencesImpl implements TempPreferences {
+public class TempDataRepositoryImpl implements TempDataRepository {
 
     private static final String APP_PREFS_FILE_NAME = "app_preferences";
     private static final String PREF_API_TOKEN = "api_token";
@@ -19,7 +19,7 @@ public class TempPreferencesImpl implements TempPreferences {
     private SharedPreferences prefs;
 
     @Inject
-    public TempPreferencesImpl(Context context) {
+    public TempDataRepositoryImpl(Context context) {
         this.prefs = context.getSharedPreferences(APP_PREFS_FILE_NAME, Context.MODE_PRIVATE);
     }
 

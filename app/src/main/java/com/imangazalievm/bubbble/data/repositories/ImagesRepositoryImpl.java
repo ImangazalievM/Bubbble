@@ -1,7 +1,7 @@
-package com.imangazalievm.bubbble.data.repository;
+package com.imangazalievm.bubbble.data.repositories;
 
 import com.imangazalievm.bubbble.data.filesystem.UrlImageSaver;
-import com.imangazalievm.bubbble.domain.global.repository.ImagesRepository;
+import com.imangazalievm.bubbble.domain.global.repositories.ImagesRepository;
 
 import javax.inject.Inject;
 

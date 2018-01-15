@@ -7,6 +7,7 @@ import com.imangazalievm.bubbble.domain.global.models.Images;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams;
 import com.imangazalievm.bubbble.domain.global.models.User;
+import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.mvp.global.permissions.Permission;
 import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionRequestListener;
 import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionResult;
@@ -14,7 +15,6 @@ import com.imangazalievm.bubbble.presentation.mvp.global.permissions.Permissions
 import com.imangazalievm.bubbble.presentation.mvp.shotdetails.ShotDetailsPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.shotdetails.ShotDetailsView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
-import com.imangazalievm.bubbble.test.TestSchedulerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class ShotDetailsPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new ShotDetailsPresenter(interactor, new TestSchedulerProvider(), TEST_SHOT_ID);
+        presenter = new ShotDetailsPresenter(interactor, new SchedulersProvider(), TEST_SHOT_ID);
         presenter.setPermissionsManager(permissionsManagerMock);
     }
 
