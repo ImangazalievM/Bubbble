@@ -1,10 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'com.neenbedankt.android-apt' dont need anymore
+//apply plugin: 'me.tatarka.retrolambda' dont need anymore
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
 
     defaultConfig {
         applicationId "com.imangazalievm.bubbble"
@@ -56,53 +55,53 @@ android {
 }
 
 dependencies {
-    compile libraries.supportAppCompat
-    compile libraries.supportDesign
-    compile libraries.supportCardView
-    compile libraries.customTabs
+    implementation libraries.supportAppCompat
+    implementation libraries.supportDesign
+    implementation libraries.supportCardView
+    implementation libraries.customTabs
 
-    compile libraries.dagger
-    apt libraries.daggerCompiler
+    implementation libraries.dagger
+    annotationProcessor libraries.daggerCompiler
 
-    compile libraries.rxJava
-    compile libraries.rxAndroid
+    implementation libraries.rxJava
+    implementation libraries.rxAndroid
 
-    compile libraries.moxy
-    compile libraries.moxyAppCompat
-    apt libraries.moxyCompiler
+    implementation libraries.moxy
+    implementation libraries.moxyAppCompat
+    annotationProcessor libraries.moxyCompiler
 
-    //compile libraries.storio
-    //compile libraries.storioAnnotations
+    //implementation libraries.storio
+    //implementation libraries.storioAnnotations
     //apt libraries.storioApt
 
-    compile libraries.retrofit
-    compile libraries.retrofitGsonConverter
-    compile libraries.retrofitRxJavaAdapter
-    compile libraries.jsoup
+    implementation libraries.retrofit
+    implementation libraries.retrofitGsonConverter
+    implementation libraries.retrofitRxJavaAdapter
+    implementation libraries.jsoup
 
-    compile libraries.glide
-    compile libraries.calligraphy
-    compile libraries.photoView
-    compile(libraries.materialDrawer) {
+    implementation libraries.glide
+    implementation libraries.calligraphy
+    implementation libraries.photoView
+    implementation(libraries.materialDrawer) {
         transitive = true
         exclude group: 'com.android.support'
     }
-    compile (libraries.hashtagView)
+    implementation (libraries.hashtagView)
 
-    compile libraries.rxpermissions
+    implementation libraries.rxpermissions
 
     // Developer Tools
-    debugCompile libraries.okHttpLoggingInterceptor
-    debugCompile libraries.stetho
-    debugCompile libraries.stethoOkHttp
-    debugCompile libraries.leakCanary
-    releaseCompile libraries.leakCanaryNoOp
+    debugImplementation libraries.okHttpLoggingInterceptor
+    debugImplementation libraries.stetho
+    debugImplementation libraries.stethoOkHttp
+    debugImplementation libraries.leakCanary
+    releaseImplementation libraries.leakCanaryNoOp
 
     // Testing
-    testCompile libraries.junit
-    testCompile libraries.hamcrest
-    testCompile libraries.mockito
-    testCompile libraries.robolectric
+    testImplementation libraries.junit
+    testImplementation libraries.hamcrest
+    testImplementation libraries.mockito
+    testImplementation libraries.robolectric
 
 }
 

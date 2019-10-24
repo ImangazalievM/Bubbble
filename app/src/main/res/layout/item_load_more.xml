@@ -11,7 +11,7 @@
 
         <ProgressBar
             android:id="@+id/load_more_comments_progress"
-            style="?android:attr/android:progressBarStyleSmall"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center" />
