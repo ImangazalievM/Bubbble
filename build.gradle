@@ -4,10 +4,11 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.android.tools.build:gradle:3.5.0' //3.4.2 is latest
+        //classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8' @link: https://stackoverflow.com/a/42574851
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
     }
 }
