@@ -1,15 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.imangazalievm.bubbble"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 29
         versionCode 2
         versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -53,57 +51,56 @@ android {
         test.java.srcDir 'src/integrationTests/java'
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    compile libraries.supportAppCompat
-    compile libraries.supportDesign
-    compile libraries.supportCardView
-    compile libraries.customTabs
+    implementation libraries.supportAppCompat
+    implementation libraries.supportDesign
+    implementation libraries.supportCardView
+    implementation libraries.customTabs
 
-    compile libraries.dagger
-    apt libraries.daggerCompiler
+    implementation libraries.dagger
+    annotationProcessor libraries.daggerCompiler
 
-    compile libraries.rxJava
-    compile libraries.rxAndroid
+    implementation libraries.rxJava
+    implementation libraries.rxAndroid
 
-    compile libraries.moxy
-    compile libraries.moxyAppCompat
-    apt libraries.moxyCompiler
+    implementation libraries.moxy
+    implementation libraries.moxyAppCompat
+    annotationProcessor libraries.moxyCompiler
 
-    //compile libraries.storio
-    //compile libraries.storioAnnotations
-    //apt libraries.storioApt
+    implementation libraries.retrofit
+    implementation libraries.retrofitGsonConverter
+    implementation libraries.retrofitRxJavaAdapter
+    implementation libraries.jsoup
 
-    compile libraries.retrofit
-    compile libraries.retrofitGsonConverter
-    compile libraries.retrofitRxJavaAdapter
-    compile libraries.jsoup
-
-    compile libraries.glide
-    compile libraries.calligraphy
-    compile libraries.photoView
-    compile(libraries.materialDrawer) {
+    implementation libraries.glide
+    implementation libraries.calligraphy
+    implementation libraries.photoView
+    implementation(libraries.materialDrawer) {
         transitive = true
         exclude group: 'com.android.support'
     }
-    compile (libraries.hashtagView)
+    implementation(libraries.hashtagView)
 
-    compile libraries.rxpermissions
+    implementation libraries.rxpermissions
 
     // Developer Tools
-    debugCompile libraries.okHttpLoggingInterceptor
-    debugCompile libraries.stetho
-    debugCompile libraries.stethoOkHttp
-    debugCompile libraries.leakCanary
-    releaseCompile libraries.leakCanaryNoOp
+    debugImplementation libraries.okHttpLoggingInterceptor
+    debugImplementation libraries.stetho
+    debugImplementation libraries.stethoOkHttp
+    debugImplementation libraries.leakCanary
+    releaseImplementation libraries.leakCanaryNoOp
 
     // Testing
-    testCompile libraries.junit
-    testCompile libraries.hamcrest
-    testCompile libraries.mockito
-    testCompile libraries.robolectric
-
+    testImplementation libraries.junit
+    testImplementation libraries.hamcrest
+    testImplementation libraries.mockito
+    testImplementation libraries.robolectric
 }
 
 configurations.all {
