@@ -14,8 +14,10 @@ public class ShotZoomInteractor {
     private SchedulersProvider schedulersProvider;
 
     @Inject
-    public ShotZoomInteractor(ImagesRepository imagesRepository,
-                              SchedulersProvider schedulersProvider) {
+    public ShotZoomInteractor(
+            ImagesRepository imagesRepository,
+            SchedulersProvider schedulersProvider
+    ) {
         this.imagesRepository = imagesRepository;
         this.schedulersProvider = schedulersProvider;
     }

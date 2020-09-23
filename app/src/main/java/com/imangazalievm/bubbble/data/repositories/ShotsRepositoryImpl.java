@@ -22,7 +22,10 @@ public class ShotsRepositoryImpl implements ShotsRepository {
     private DribbbleSearchDataSource dribbbleSearchDataSource;
 
     @Inject
-    public ShotsRepositoryImpl(DribbbleApiService dribbbleApiService, DribbbleSearchDataSource dribbbleSearchDataSource) {
+    public ShotsRepositoryImpl(
+            DribbbleApiService dribbbleApiService,
+            DribbbleSearchDataSource dribbbleSearchDataSource
+    ) {
         this.dribbbleApiService = dribbbleApiService;
         this.dribbbleSearchDataSource = dribbbleSearchDataSource;
     }
@@ -42,13 +45,21 @@ public class ShotsRepositoryImpl implements ShotsRepository {
 
     @Override
     public Single<List<Shot>> getUserShots(UserShotsRequestParams requestParams) {
-        return dribbbleApiService.getUserShots(requestParams.getUserId(), requestParams.getPage(), requestParams.getPageSize());
+        return dribbbleApiService.getUserShots(
+                requestParams.getUserId(),
+                requestParams.getPage(),
+                requestParams.getPageSize()
+        );
     }
 
     @Override
     public Single<List<Shot>> search(ShotsSearchRequestParams requestParams) {
-        return dribbbleSearchDataSource.search(requestParams.getSearchQuery(), requestParams.getSort(),
-                requestParams.getPage(), requestParams.getPageSize());
+        return dribbbleSearchDataSource.search(
+                requestParams.getSearchQuery(),
+                requestParams.getSort(),
+                requestParams.getPage(),
+                requestParams.getPageSize()
+        );
     }
 
 }

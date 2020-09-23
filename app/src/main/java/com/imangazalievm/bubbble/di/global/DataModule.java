@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble.di.global;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;

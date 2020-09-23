@@ -23,11 +23,13 @@ public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
     private String imageUrl;
 
     @Inject
-    public ShotZoomPresenter(ShotZoomInteractor shotZoomInteractor,
-                             SchedulersProvider schedulersProvider,
-                             @Named("shot_title") String shotTitle,
-                             @Named("shot_url") String shotUrl,
-                             @Named("image_url") String imageUrl) {
+    public ShotZoomPresenter(
+            ShotZoomInteractor shotZoomInteractor,
+            SchedulersProvider schedulersProvider,
+            @Named("shot_title") String shotTitle,
+            @Named("shot_url") String shotUrl,
+            @Named("image_url") String imageUrl
+    ) {
         this.shotZoomInteractor = shotZoomInteractor;
         this.permissionsManagerHolder = new PermissionsManagerHolder();
         this.schedulersProvider = schedulersProvider;

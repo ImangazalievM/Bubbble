@@ -24,10 +24,12 @@ public class ShotDetailsInteractor {
     private SchedulersProvider schedulersProvider;
 
     @Inject
-    public ShotDetailsInteractor(ShotsRepository shotsRepository,
-                                 CommentsRepository commentsRepository,
-                                 ImagesRepository imagesRepository,
-                                 SchedulersProvider schedulersProvider) {
+    public ShotDetailsInteractor(
+            ShotsRepository shotsRepository,
+            CommentsRepository commentsRepository,
+            ImagesRepository imagesRepository,
+            SchedulersProvider schedulersProvider
+    ) {
         this.shotsRepository = shotsRepository;
         this.commentsRepository = commentsRepository;
         this.imagesRepository = imagesRepository;
@@ -39,7 +41,9 @@ public class ShotDetailsInteractor {
                 .subscribeOn(schedulersProvider.io());
     }
 
-    public Single<List<Comment>> getShotComments(ShotCommentsRequestParams shotCommentsRequestParams) {
+    public Single<List<Comment>> getShotComments(
+            ShotCommentsRequestParams shotCommentsRequestParams
+    ) {
         return commentsRepository.getComments(shotCommentsRequestParams)
                 .subscribeOn(schedulersProvider.io());
     }

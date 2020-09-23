@@ -2,8 +2,8 @@ package com.imangazalievm.bubbble.presentation.utils;
 
 import android.app.Activity;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.app.ShareCompat;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.app.ShareCompat;
 
 import com.imangazalievm.bubbble.R;
 

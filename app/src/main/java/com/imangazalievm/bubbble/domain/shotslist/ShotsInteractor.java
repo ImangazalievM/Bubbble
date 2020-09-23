@@ -18,8 +18,10 @@ public class ShotsInteractor {
     private SchedulersProvider schedulersProvider;
 
     @Inject
-    public ShotsInteractor(ShotsRepository shotsRepository,
-                           SchedulersProvider schedulersProvider) {
+    public ShotsInteractor(
+            ShotsRepository shotsRepository,
+            SchedulersProvider schedulersProvider
+    ) {
         this.shotsRepository = shotsRepository;
         this.schedulersProvider = schedulersProvider;
     }

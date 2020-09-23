@@ -1,7 +1,7 @@
 package com.imangazalievm.bubbble.test;
 
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.imangazalievm.bubbble.BubbbleTestApplication;
 import com.imangazalievm.bubbble.BuildConfig;

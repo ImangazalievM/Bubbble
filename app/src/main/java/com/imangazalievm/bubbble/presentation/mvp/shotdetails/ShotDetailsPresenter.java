@@ -3,10 +3,10 @@ package com.imangazalievm.bubbble.presentation.mvp.shotdetails;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.shotdetails.ShotDetailsInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Comment;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams;
+import com.imangazalievm.bubbble.domain.shotdetails.ShotDetailsInteractor;
 import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.mvp.global.permissions.Permission;
 import com.imangazalievm.bubbble.presentation.mvp.global.permissions.PermissionsManager;
@@ -31,9 +31,11 @@ public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
     private boolean isCommentsLoading = false;
 
     @Inject
-    public ShotDetailsPresenter(ShotDetailsInteractor shotDetailsInteractor,
-                                SchedulersProvider schedulersProvider,
-                                long shotId) {
+    public ShotDetailsPresenter(
+            ShotDetailsInteractor shotDetailsInteractor,
+            SchedulersProvider schedulersProvider,
+            long shotId
+    ) {
         this.shotDetailsInteractor = shotDetailsInteractor;
         this.permissionsManagerHolder = new PermissionsManagerHolder();
         this.schedulersProvider = schedulersProvider;

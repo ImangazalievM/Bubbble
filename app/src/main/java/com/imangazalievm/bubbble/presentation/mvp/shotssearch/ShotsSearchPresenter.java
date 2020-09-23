@@ -4,9 +4,9 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
+import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor;
 import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
@@ -30,9 +30,11 @@ public class ShotsSearchPresenter extends MvpPresenter<ShotsSearchView> {
     private boolean isShotsLoading = false;
 
     @Inject
-    public ShotsSearchPresenter(ShotsSearchInteractor shotsSearchInteractor,
-                                SchedulersProvider schedulersProvider,
-                                String searchQuery) {
+    public ShotsSearchPresenter(
+            ShotsSearchInteractor shotsSearchInteractor,
+            SchedulersProvider schedulersProvider,
+            String searchQuery
+    ) {
         this.shotsSearchInteractor = shotsSearchInteractor;
         this.schedulersProvider = schedulersProvider;
         this.searchQuery = searchQuery;

@@ -3,8 +3,8 @@ package com.imangazalievm.bubbble.presentation.mvp.userprofile;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor;
 import com.imangazalievm.bubbble.domain.global.models.User;
+import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor;
 import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.utils.DebugUtils;
 
@@ -19,9 +19,11 @@ public class UserDetailsPresenter extends MvpPresenter<UserDetailsView> {
     private User user;
 
     @Inject
-    public UserDetailsPresenter(UserDetailsInteractor userDetailsInteractor,
-                                SchedulersProvider schedulersProvider,
-                                long userId) {
+    public UserDetailsPresenter(
+            UserDetailsInteractor userDetailsInteractor,
+            SchedulersProvider schedulersProvider,
+            long userId
+    ) {
         this.userDetailsInteractor = userDetailsInteractor;
         this.schedulersProvider = schedulersProvider;
         this.userId = userId;

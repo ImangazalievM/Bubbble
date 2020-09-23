@@ -15,8 +15,10 @@ public class UserProfileInteractor {
     private SchedulersProvider schedulersProvider;
 
     @Inject
-    public UserProfileInteractor(UsersRepository usersRepository,
-                                 SchedulersProvider schedulersProvider) {
+    public UserProfileInteractor(
+            UsersRepository usersRepository,
+            SchedulersProvider schedulersProvider
+    ) {
         this.usersRepository = usersRepository;
         this.schedulersProvider = schedulersProvider;
     }
