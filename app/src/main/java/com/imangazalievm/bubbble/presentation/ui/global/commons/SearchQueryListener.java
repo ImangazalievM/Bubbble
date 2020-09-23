@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble.presentation.ui.global.commons;
 
-import android.support.v7.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 
 public class SearchQueryListener implements SearchView.OnQueryTextListener {
 

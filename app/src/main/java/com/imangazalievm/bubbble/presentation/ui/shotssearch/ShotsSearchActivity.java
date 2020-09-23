@@ -3,13 +3,14 @@ package com.imangazalievm.bubbble.presentation.ui.shotssearch;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -22,14 +23,14 @@ import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.presentation.mvp.shotssearch.ShotsSearchPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.shotssearch.ShotsSearchView;
 import com.imangazalievm.bubbble.presentation.ui.global.adapters.ShotsAdapter;
-import com.imangazalievm.bubbble.presentation.ui.global.BaseMvpActivity;
+import com.imangazalievm.bubbble.presentation.ui.global.base.MvpAppCompatActivity;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.EndlessRecyclerOnScrollListener;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.SearchQueryListener;
 import com.imangazalievm.bubbble.presentation.ui.shotdetails.ShotDetailsActivity;
 
 import java.util.List;
 
-public class ShotsSearchActivity extends BaseMvpActivity implements ShotsSearchView {
+public class ShotsSearchActivity extends MvpAppCompatActivity implements ShotsSearchView {
 
     private static final String KEY_SEARCH_QUERY = "key_search_query";
 

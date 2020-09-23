@@ -1,14 +1,13 @@
 package com.imangazalievm.bubbble.presentation.ui.userprofile;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.imangazalievm.bubbble.BubbbleApplication;
@@ -20,6 +19,7 @@ import com.imangazalievm.bubbble.domain.global.models.Follow;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserFollowersPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserFollowersView;
 import com.imangazalievm.bubbble.presentation.ui.global.adapters.UserFollowersAdapter;
+import com.imangazalievm.bubbble.presentation.ui.global.base.MvpAppCompatFragment;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.EndlessRecyclerOnScrollListener;
 
 import java.util.List;

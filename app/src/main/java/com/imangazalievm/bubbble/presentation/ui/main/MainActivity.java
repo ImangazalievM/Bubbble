@@ -1,25 +1,26 @@
 package com.imangazalievm.bubbble.presentation.ui.main;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.material.tabs.TabLayout;
 import com.imangazalievm.bubbble.Constants;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.presentation.mvp.main.MainPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.main.MainView;
-import com.imangazalievm.bubbble.presentation.ui.shotssearch.ShotsSearchActivity;
-import com.imangazalievm.bubbble.presentation.ui.global.BaseMvpActivity;
+import com.imangazalievm.bubbble.presentation.ui.global.base.MvpAppCompatActivity;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.SearchQueryListener;
 import com.imangazalievm.bubbble.presentation.ui.shotslist.ShotsFragment;
+import com.imangazalievm.bubbble.presentation.ui.shotssearch.ShotsSearchActivity;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 
-public class MainActivity extends BaseMvpActivity implements MainView {
+public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     private ViewPager shotsViewPager;
     private TabLayout tabLayout;

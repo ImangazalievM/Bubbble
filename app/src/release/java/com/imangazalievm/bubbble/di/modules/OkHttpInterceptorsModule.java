@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble.di.modules;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpInterceptors;
 import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpNetworkInterceptors;

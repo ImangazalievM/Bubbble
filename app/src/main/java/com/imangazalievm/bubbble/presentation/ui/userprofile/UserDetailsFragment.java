@@ -1,13 +1,12 @@
 package com.imangazalievm.bubbble.presentation.ui.userprofile;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.imangazalievm.bubbble.BubbbleApplication;
@@ -18,6 +17,7 @@ import com.imangazalievm.bubbble.di.userprofile.UserDetailsPresenterModule;
 import com.imangazalievm.bubbble.domain.global.models.User;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserDetailsPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserDetailsView;
+import com.imangazalievm.bubbble.presentation.ui.global.base.MvpAppCompatFragment;
 import com.imangazalievm.bubbble.presentation.utils.AppUtils;
 
 import okhttp3.HttpUrl;

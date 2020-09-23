@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
@@ -29,6 +28,7 @@ import com.imangazalievm.bubbble.di.shotzoom.ShotZoomPresenterModule;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.presentation.mvp.shotzoom.ShotZoomPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.shotzoom.ShotZoomView;
+import com.imangazalievm.bubbble.presentation.ui.global.base.MvpAppCompatActivity;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.AndroidPermissionsManager;
 import com.imangazalievm.bubbble.presentation.utils.AppUtils;
 

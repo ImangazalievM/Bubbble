@@ -13,7 +13,6 @@ Libraries and tools used:
 - Gson - for parsing the JSON responses
 - [Moxy] - for MVP pattern implementation
 - Glide - for image loading
-- Calligraphy - for custom fonts
 - Material Drawer - for sliding menu
 - Stetho - for debugging
 - JUnit - for unit testing

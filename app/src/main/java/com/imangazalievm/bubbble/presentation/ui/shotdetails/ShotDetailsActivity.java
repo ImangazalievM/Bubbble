@@ -5,18 +5,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -25,6 +25,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.snackbar.Snackbar;
 import com.greenfrvr.hashtagview.HashtagView;
 import com.imangazalievm.bubbble.BubbbleApplication;
 import com.imangazalievm.bubbble.R;
@@ -35,21 +36,21 @@ import com.imangazalievm.bubbble.domain.global.models.Comment;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.presentation.mvp.shotdetails.ShotDetailsPresenter;
 import com.imangazalievm.bubbble.presentation.mvp.shotdetails.ShotDetailsView;
-import com.imangazalievm.bubbble.presentation.ui.global.BaseMvpActivity;
-import com.imangazalievm.bubbble.presentation.ui.userprofile.UserProfileActivity;
 import com.imangazalievm.bubbble.presentation.ui.global.adapters.ShotCommentsAdapter;
+import com.imangazalievm.bubbble.presentation.ui.global.base.MvpAppCompatActivity;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.AndroidPermissionsManager;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.EndlessRecyclerOnScrollListener;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.glide.GlideCircleTransform;
 import com.imangazalievm.bubbble.presentation.ui.global.views.dribbbletextview.DribbbleTextView;
 import com.imangazalievm.bubbble.presentation.ui.shotzoom.ShotZoomActivity;
+import com.imangazalievm.bubbble.presentation.ui.userprofile.UserProfileActivity;
 import com.imangazalievm.bubbble.presentation.utils.AppUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class ShotDetailsActivity extends BaseMvpActivity implements ShotDetailsView {
+public class ShotDetailsActivity extends MvpAppCompatActivity implements ShotDetailsView {
 
     private static final String KEY_SHOT_ID = "shot_id";
 

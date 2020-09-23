@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble.di.modules;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpInterceptors;

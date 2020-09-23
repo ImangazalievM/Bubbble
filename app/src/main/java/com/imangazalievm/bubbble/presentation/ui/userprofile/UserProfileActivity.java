@@ -3,12 +3,6 @@ package com.imangazalievm.bubbble.presentation.ui.userprofile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -17,10 +11,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.tabs.TabLayout;
 import com.imangazalievm.bubbble.BubbbleApplication;
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.di.userprofile.DaggerUserProfilePresenterComponent;
@@ -29,13 +30,13 @@ import com.imangazalievm.bubbble.di.userprofile.UserProfilePresenterModule;
 import com.imangazalievm.bubbble.domain.global.models.User;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserProfilePresenter;
 import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserProfileView;
-import com.imangazalievm.bubbble.presentation.ui.global.BaseMvpActivity;
+import com.imangazalievm.bubbble.presentation.ui.global.base.MvpAppCompatActivity;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.glide.GlideBlurTransformation;
 import com.imangazalievm.bubbble.presentation.ui.global.commons.glide.GlideCircleTransform;
 import com.imangazalievm.bubbble.presentation.ui.global.views.dribbbletextview.DribbbleTextView;
 import com.imangazalievm.bubbble.presentation.utils.AppUtils;
 
-public class UserProfileActivity extends BaseMvpActivity implements UserProfileView {
+public class UserProfileActivity extends MvpAppCompatActivity implements UserProfileView {
 
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = -0.3f;
