@@ -21,10 +21,10 @@ public interface DribbbleApiService {
 
     /* Authenticated user methods */
 
-    @GET("v1/user")
+    @GET("user")
     Single<User> getAuthenticatedUser();
 
-    @GET("v1/user/shots")
+    @GET("user/shots")
     Single<List<Shot>> getUserShots(
             @Query("page") int page,
             @Query("per_page") int pageSize
@@ -36,50 +36,50 @@ public interface DribbbleApiService {
             @Query("per_page") int pageSize
     );
 
-    @GET("v1/shots/{shotId}/like")
+    @GET("shots/{shotId}/like")
     Single<Like> liked(@Path("shotId") long shotId);
 
-    @POST("v1/shots/{shotId}/like")
+    @POST("shots/{shotId}/like")
     Single<Like> like(@Path("shotId") long shotId);
 
-    @DELETE("v1/shots/{shotId}/like")
+    @DELETE("shots/{shotId}/like")
     Completable unlike(@Path("shotId") long shotId);
 
-    @GET("v1/user/following/{userId}")
+    @GET("user/following/{userId}")
     Completable following(@Path("userId") long userId);
 
-    @PUT("v1/users/{userId}/follow")
+    @PUT("users/{userId}/follow")
     Completable follow(@Path("userId") long userId);
 
-    @DELETE("v1/users/{userId}/follow")
+    @DELETE("users/{userId}/follow")
     Completable unfollow(@Path("userId") long userId);
 
     /* Shots */
 
-    @GET("v1/shots")
+    @GET("shots")
     Single<List<Shot>> getShots(
             @Query("sort") String sort,
             @Query("page") int page,
             @Query("per_page") int pageSize
     );
 
-    @GET("v1/shots/{shotId}")
+    @GET("shots/{shotId}")
     Single<Shot> getShot(@Path("shotId") long id);
 
-    @GET("v1/users/{userId}/shots")
+    @GET("users/{userId}/shots")
     Single<List<Shot>> getUserShots(
             @Path("userId") long userId,
             @Query("page") int page,
             @Query("per_page") int pageSize
     );
 
-    @GET("v1/user/following/shots")
+    @GET("user/following/shots")
     Single<List<Shot>> getFollowing(
             @Query("page") int page,
             @Query("per_page") int pageSize
     );
 
-    @GET("v1/shots/{shotId}/likes")
+    @GET("shots/{shotId}/likes")
     Single<List<Like>> getShotLikes(
             @Path("shotId") long shotId,
             @Query("page") int page,
@@ -88,7 +88,7 @@ public interface DribbbleApiService {
 
     /* Comments */
 
-    @GET("v1/shots/{id}/comments")
+    @GET("shots/{id}/comments")
     Single<List<Comment>> getShotComments(
             @Path("id") long id,
             @Query("page") int page,
@@ -97,10 +97,10 @@ public interface DribbbleApiService {
 
     /* Users */
 
-    @GET("v1/users/{userId}")
+    @GET("users/{userId}")
     Single<User> getUser(@Path("userId") long userId);
 
-    @GET("v1/users/{userId}/followers")
+    @GET("users/{userId}/followers")
     Single<List<Follow>> getUserFollowers(
             @Path("userId") long userId,
             @Query("page") int page,
