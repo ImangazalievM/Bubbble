@@ -13,6 +13,6 @@ import dagger.Component
 )
 interface UserDetailsPresenterComponent {
 
-    fun getPresenter(): UserDetailsPresenter?
+    fun getPresenter(): UserDetailsPresenter
 
 }
