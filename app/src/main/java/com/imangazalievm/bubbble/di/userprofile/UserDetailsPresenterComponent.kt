@@ -1,15 +1,18 @@
-package com.imangazalievm.bubbble.di.userprofile;
+package com.imangazalievm.bubbble.di.userprofile
 
-import com.imangazalievm.bubbble.di.global.ApplicationComponent;
-import com.imangazalievm.bubbble.di.global.scopes.Presenter;
-import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserDetailsPresenter;
-
-import dagger.Component;
+import com.imangazalievm.bubbble.di.global.scopes.Presenter
+import com.imangazalievm.bubbble.di.global.ApplicationComponent
+import com.imangazalievm.bubbble.di.userprofile.UserDetailsPresenterModule
+import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserDetailsPresenter
+import dagger.Component
 
 @Presenter
-@Component(dependencies = ApplicationComponent.class, modules = UserDetailsPresenterModule.class)
-public interface UserDetailsPresenterComponent {
+@Component(
+    dependencies = [ApplicationComponent::class],
+    modules = [UserDetailsPresenterModule::class]
+)
+interface UserDetailsPresenterComponent {
 
-    UserDetailsPresenter getPresenter();
+    fun getPresenter(): UserDetailsPresenter?
 
 }

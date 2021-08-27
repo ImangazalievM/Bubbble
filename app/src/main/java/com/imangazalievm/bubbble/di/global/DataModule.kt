@@ -1,145 +1,136 @@
-package com.imangazalievm.bubbble.di.global;
+package com.imangazalievm.bubbble.di.global
 
-import androidx.annotation.NonNull;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.imangazalievm.bubbble.BuildConfig;
-import com.imangazalievm.bubbble.data.network.DribbbleApiConstants;
-import com.imangazalievm.bubbble.data.network.DribbbleApiService;
-import com.imangazalievm.bubbble.data.network.ErrorHandler;
-import com.imangazalievm.bubbble.data.network.NetworkChecker;
-import com.imangazalievm.bubbble.data.network.interceptors.DribbbleTokenInterceptor;
-import com.imangazalievm.bubbble.data.network.interceptors.NetworkCheckInterceptor;
-import com.imangazalievm.bubbble.data.repositories.CommentsRepositoryImpl;
-import com.imangazalievm.bubbble.data.repositories.FollowersRepositoryImpl;
-import com.imangazalievm.bubbble.data.repositories.ImagesRepositoryImpl;
-import com.imangazalievm.bubbble.data.repositories.ShotsRepositoryImpl;
-import com.imangazalievm.bubbble.data.repositories.TempPreferencesImpl;
-import com.imangazalievm.bubbble.data.repositories.UsersRepositoryImpl;
-import com.imangazalievm.bubbble.data.repositories.datasource.DribbbleSearchDataSource;
-import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpInterceptors;
-import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpNetworkInterceptors;
-import com.imangazalievm.bubbble.domain.global.repositories.CommentsRepository;
-import com.imangazalievm.bubbble.domain.global.repositories.FollowersRepository;
-import com.imangazalievm.bubbble.domain.global.repositories.ImagesRepository;
-import com.imangazalievm.bubbble.domain.global.repositories.ShotsRepository;
-import com.imangazalievm.bubbble.domain.global.repositories.TempPreferences;
-import com.imangazalievm.bubbble.domain.global.repositories.UsersRepository;
-
-import java.util.List;
-
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import android.util.Log
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.imangazalievm.bubbble.BuildConfig
+import com.imangazalievm.bubbble.data.repositories.ShotsRepositoryImpl
+import com.imangazalievm.bubbble.domain.global.repositories.ShotsRepository
+import com.imangazalievm.bubbble.data.repositories.CommentsRepositoryImpl
+import com.imangazalievm.bubbble.domain.global.repositories.CommentsRepository
+import com.imangazalievm.bubbble.data.repositories.UsersRepositoryImpl
+import com.imangazalievm.bubbble.domain.global.repositories.UsersRepository
+import com.imangazalievm.bubbble.data.repositories.FollowersRepositoryImpl
+import com.imangazalievm.bubbble.domain.global.repositories.FollowersRepository
+import com.imangazalievm.bubbble.data.repositories.ImagesRepositoryImpl
+import com.imangazalievm.bubbble.domain.global.repositories.ImagesRepository
+import com.imangazalievm.bubbble.data.repositories.TempPreferencesImpl
+import com.imangazalievm.bubbble.domain.global.repositories.TempPreferences
+import okhttp3.OkHttpClient
+import com.imangazalievm.bubbble.data.repositories.datasource.DribbbleSearchDataSource
+import com.imangazalievm.bubbble.data.network.DribbbleApiConstants
+import com.imangazalievm.bubbble.data.network.NetworkChecker
+import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpInterceptors
+import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpNetworkInterceptors
+import com.imangazalievm.bubbble.data.network.interceptors.NetworkCheckInterceptor
+import com.imangazalievm.bubbble.data.network.interceptors.DribbbleTokenInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import com.imangazalievm.bubbble.data.network.DribbbleApiService
+import com.imangazalievm.bubbble.data.network.ErrorHandler
+import com.moczul.ok2curl.CurlInterceptor
+import dagger.Module
+import dagger.Provides
+import okhttp3.Interceptor
+import javax.inject.Singleton
 
 @Module
-public class DataModule {
+class DataModule(private val baseUrl: String) {
 
-    private final String baseUrl;
-
-    public DataModule(String baseUrl) {
-        this.baseUrl = baseUrl;
+    @Provides
+    @Singleton
+    fun provideBookRepository(bookRepository: ShotsRepositoryImpl): ShotsRepository {
+        return bookRepository
     }
 
     @Provides
     @Singleton
-    ShotsRepository provideBookRepository(ShotsRepositoryImpl bookRepository) {
-        return bookRepository;
+    fun provideCommentsRepository(commentsRepository: CommentsRepositoryImpl): CommentsRepository {
+        return commentsRepository
     }
 
     @Provides
     @Singleton
-    CommentsRepository provideCommentsRepository(CommentsRepositoryImpl commentsRepository) {
-        return commentsRepository;
+    fun provideUsersRepository(usersRepository: UsersRepositoryImpl): UsersRepository {
+        return usersRepository
     }
 
     @Provides
     @Singleton
-    UsersRepository provideUsersRepository(UsersRepositoryImpl usersRepository) {
-        return usersRepository;
+    fun provideFollowersRepository(followersRepository: FollowersRepositoryImpl): FollowersRepository {
+        return followersRepository
     }
 
     @Provides
     @Singleton
-    FollowersRepository provideFollowersRepository(FollowersRepositoryImpl followersRepository) {
-        return followersRepository;
+    fun provideImagesRepository(imagesRepository: ImagesRepositoryImpl): ImagesRepository {
+        return imagesRepository
     }
 
     @Provides
     @Singleton
-    ImagesRepository provideImagesRepository(ImagesRepositoryImpl imagesRepository) {
-        return imagesRepository;
+    fun provideTempPreferences(tempPreferences: TempPreferencesImpl): TempPreferences {
+        return tempPreferences
     }
 
     @Provides
     @Singleton
-    TempPreferences provideTempPreferences(TempPreferencesImpl tempPreferences) {
-        return tempPreferences;
+    fun provideDribbbleSearchDataSource(okHttpClient: OkHttpClient): DribbbleSearchDataSource {
+        return DribbbleSearchDataSource(okHttpClient, DribbbleApiConstants.DRIBBBLE_URL)
     }
 
     @Provides
     @Singleton
-    DribbbleSearchDataSource provideDribbbleSearchDataSource(OkHttpClient okHttpClient) {
-        return new DribbbleSearchDataSource(okHttpClient, DribbbleApiConstants.DRIBBBLE_URL);
-    }
-
-    @Provides
-    @NonNull
-    @Singleton
-    public OkHttpClient provideOkHttpClient(NetworkChecker networkChecker,
-                                            @OkHttpInterceptors @NonNull List<Interceptor> interceptors,
-                                            @OkHttpNetworkInterceptors @NonNull List<Interceptor> networkInterceptors) {
-        final OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
-        okHttpBuilder.addInterceptor(new NetworkCheckInterceptor(networkChecker));
-        okHttpBuilder.addInterceptor(new DribbbleTokenInterceptor(BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN));
-
-        for (Interceptor interceptor : interceptors) {
-            okHttpBuilder.addInterceptor(interceptor);
+    fun provideOkHttpClient(
+        networkChecker: NetworkChecker,
+        @OkHttpInterceptors interceptors: List<@JvmSuppressWildcards Interceptor>,
+        @OkHttpNetworkInterceptors networkInterceptors: List<@JvmSuppressWildcards Interceptor>
+    ): OkHttpClient {
+        val okHttpBuilder = OkHttpClient.Builder()
+        okHttpBuilder.addInterceptor(NetworkCheckInterceptor(networkChecker))
+        okHttpBuilder.addInterceptor(DribbbleTokenInterceptor(BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN))
+        for (interceptor in interceptors) {
+            okHttpBuilder.addInterceptor(interceptor)
+        }
+        for (networkInterceptor in networkInterceptors) {
+            okHttpBuilder.addNetworkInterceptor(networkInterceptor)
         }
 
-        for (Interceptor networkInterceptor : networkInterceptors) {
-            okHttpBuilder.addNetworkInterceptor(networkInterceptor);
-        }
-
-        return okHttpBuilder.build();
+        val curlInterceptor = CurlInterceptor { curl -> Log.d("okhttp.OkHttpClient", curl) }
+        okHttpBuilder.addNetworkInterceptor(curlInterceptor)
+        return okHttpBuilder.build()
     }
 
     @Provides
     @Singleton
-    Retrofit provideRetrofit(OkHttpClient okHttpClient) {
-        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-        return new Retrofit.Builder()
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(baseUrl)
-                .build();
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create()
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .baseUrl(baseUrl)
+            .build()
     }
 
     @Provides
     @Singleton
-    Gson provideGson() {
-        return new Gson();
+    fun provideGson(): Gson {
+        return Gson()
     }
 
     @Provides
     @Singleton
-    ErrorHandler provideErrorHandler(Gson gson) {
-        return new ErrorHandler(gson);
+    fun provideErrorHandler(gson: Gson): ErrorHandler {
+        return ErrorHandler(gson)
     }
 
     @Provides
     @Singleton
-    DribbbleApiService provideApi(Retrofit retrofit) {
-        return retrofit.create(DribbbleApiService.class);
+    fun provideApi(retrofit: Retrofit): DribbbleApiService {
+        return retrofit.create(DribbbleApiService::class.java)
     }
-
 }

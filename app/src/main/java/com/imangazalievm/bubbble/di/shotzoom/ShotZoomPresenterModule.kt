@@ -1,43 +1,35 @@
-package com.imangazalievm.bubbble.di.shotzoom;
+package com.imangazalievm.bubbble.di.shotzoom
 
-import com.imangazalievm.bubbble.di.global.scopes.Presenter;
-
-import javax.inject.Named;
-
-import dagger.Module;
-import dagger.Provides;
+import com.imangazalievm.bubbble.di.global.scopes.Presenter
+import dagger.Module
+import dagger.Provides
+import javax.inject.Named
 
 @Module
-public class ShotZoomPresenterModule {
-
-    private final String shotTitle;
-    private final String shotUrl;
-    private final String imageUrl;
-
-    public ShotZoomPresenterModule(String shotTitle, String shotUrl, String imageUrl) {
-        this.shotTitle = shotTitle;
-        this.shotUrl = shotUrl;
-        this.imageUrl = imageUrl;
-    }
+class ShotZoomPresenterModule(
+    private val shotTitle: String,
+    private val shotUrl: String,
+    private val imageUrl: String
+) {
 
     @Provides
     @Presenter
     @Named("shot_title")
-    public String getShotTitle() {
+    fun getShotTitle(): String {
         return shotTitle;
     }
 
     @Provides
     @Presenter
     @Named("shot_url")
-    public String getShotUrl() {
+    fun getShotUrl(): String {
         return shotUrl;
     }
 
     @Provides
     @Presenter
     @Named("image_url")
-    public String getImageUrl() {
+    fun getImageUrl(): String {
         return imageUrl;
     }
 

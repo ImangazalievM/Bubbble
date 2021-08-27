@@ -1,25 +1,15 @@
-package com.imangazalievm.bubbble.di.global;
+package com.imangazalievm.bubbble.di.global
 
-import android.content.Context;
-
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
+import android.content.Context
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-public class ApplicationModule {
-
-    private final Context context;
-
-    public ApplicationModule(Context context) {
-        this.context = context.getApplicationContext();
-    }
+class ApplicationModule(private val context: Context) {
 
     @Provides
     @Singleton
-    Context provideApplicationContext() {
-        return context;
-    }
+    fun provideApplicationContext(): Context = context
 
 }

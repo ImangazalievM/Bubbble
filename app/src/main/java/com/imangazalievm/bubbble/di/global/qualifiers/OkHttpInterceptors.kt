@@ -1,14 +1,11 @@
-package com.imangazalievm.bubbble.di.global.qualifiers;
+package com.imangazalievm.bubbble.di.global.qualifiers
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
+import kotlin.annotation.MustBeDocumented
+import kotlin.annotation.Retention
+import kotlin.annotation.AnnotationRetention
+import javax.inject.Qualifier
 
-import javax.inject.Qualifier;
-
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-@Documented
+@MustBeDocumented
 @Qualifier
-@Retention(RUNTIME)
-public @interface OkHttpInterceptors {
-}
+@Retention(AnnotationRetention.RUNTIME)
+annotation class OkHttpInterceptors

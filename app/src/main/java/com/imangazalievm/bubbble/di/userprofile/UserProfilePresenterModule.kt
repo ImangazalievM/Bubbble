@@ -1,23 +1,14 @@
-package com.imangazalievm.bubbble.di.userprofile;
+package com.imangazalievm.bubbble.di.userprofile
 
-import com.imangazalievm.bubbble.di.global.scopes.Presenter;
-
-import dagger.Module;
-import dagger.Provides;
+import com.imangazalievm.bubbble.di.global.scopes.Presenter
+import dagger.Module
+import dagger.Provides
 
 @Module
-public class UserProfilePresenterModule {
-
-    private final long userId;
-
-    public UserProfilePresenterModule(long userId) {
-        this.userId = userId;
-    }
+class UserProfilePresenterModule(private val userId: Long) {
 
     @Provides
     @Presenter
-    long provideUserId() {
-        return userId;
-    }
+    fun provideUserId(): Long = userId
 
 }

@@ -1,15 +1,15 @@
-package com.imangazalievm.bubbble.di.shotslist;
+package com.imangazalievm.bubbble.di.shotslist
 
-import com.imangazalievm.bubbble.di.global.ApplicationComponent;
-import com.imangazalievm.bubbble.di.global.scopes.Presenter;
-import com.imangazalievm.bubbble.presentation.mvp.shotslist.ShotsPresenter;
-
-import dagger.Component;
+import com.imangazalievm.bubbble.di.global.scopes.Presenter
+import com.imangazalievm.bubbble.di.global.ApplicationComponent
+import com.imangazalievm.bubbble.di.shotslist.ShotsPresenterModule
+import com.imangazalievm.bubbble.presentation.mvp.shotslist.ShotsPresenter
+import dagger.Component
 
 @Presenter
-@Component(dependencies = ApplicationComponent.class, modules = ShotsPresenterModule.class)
-public interface ShotsPresenterComponent {
+@Component(dependencies = [ApplicationComponent::class], modules = [ShotsPresenterModule::class])
+interface ShotsPresenterComponent {
 
-    ShotsPresenter getPresenter();
+    fun getPresenter(): ShotsPresenter
 
 }

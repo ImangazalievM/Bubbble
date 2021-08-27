@@ -1,23 +1,14 @@
-package com.imangazalievm.bubbble.di.shotssearch;
+package com.imangazalievm.bubbble.di.shotssearch
 
-import com.imangazalievm.bubbble.di.global.scopes.Presenter;
-
-import dagger.Module;
-import dagger.Provides;
+import com.imangazalievm.bubbble.di.global.scopes.Presenter
+import dagger.Module
+import dagger.Provides
 
 @Module
-public class ShotsSearchPresenterModule {
-
-    private final String searchQuery;
-
-    public ShotsSearchPresenterModule(String searchQuery) {
-        this.searchQuery = searchQuery;
-    }
+class ShotsSearchPresenterModule(private val searchQuery: String) {
 
     @Provides
     @Presenter
-    String provideSearchQuery() {
-        return searchQuery;
-    }
+    fun provideSearchQuery(): String = searchQuery
 
 }

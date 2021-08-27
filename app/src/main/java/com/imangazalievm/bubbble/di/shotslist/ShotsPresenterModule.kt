@@ -1,23 +1,14 @@
-package com.imangazalievm.bubbble.di.shotslist;
+package com.imangazalievm.bubbble.di.shotslist
 
-import com.imangazalievm.bubbble.di.global.scopes.Presenter;
-
-import dagger.Module;
-import dagger.Provides;
+import com.imangazalievm.bubbble.di.global.scopes.Presenter
+import dagger.Module
+import dagger.Provides
 
 @Module
-public class ShotsPresenterModule {
-
-    private final String sortType;
-
-    public ShotsPresenterModule(String sortType) {
-        this.sortType = sortType;
-    }
+class ShotsPresenterModule(private val sortType: String) {
 
     @Provides
     @Presenter
-    String provideSortType() {
-        return sortType;
-    }
+    fun provideSortType(): String = sortType
 
 }
