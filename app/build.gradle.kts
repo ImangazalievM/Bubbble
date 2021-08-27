@@ -87,7 +87,7 @@ dependencies {
 
     implementation(Dependencies.Old.moxy)
     implementation(Dependencies.Old.moxyAppCompat)
-    annotationProcessor(Dependencies.Old.moxyCompiler)
+    kapt(Dependencies.Old.moxyCompiler)
 
     implementation(Dependencies.Old.retrofit)
     implementation(Dependencies.Old.retrofitGsonConverter)
