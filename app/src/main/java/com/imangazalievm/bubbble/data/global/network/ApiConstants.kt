@@ -1,6 +1,6 @@
-package com.imangazalievm.bubbble.data.network
+package com.imangazalievm.bubbble.data.global.network
 
-object DribbbleApiConstants {
+object ApiConstants {
 
     const val DRIBBBLE_API_URL = "https://api.dribbble.com/v2/"
 

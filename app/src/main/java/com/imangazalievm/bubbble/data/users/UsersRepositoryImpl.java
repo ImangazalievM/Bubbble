@@ -1,6 +1,6 @@
-package com.imangazalievm.bubbble.data.repositories;
+package com.imangazalievm.bubbble.data.users;
 
-import com.imangazalievm.bubbble.data.network.DribbbleApiService;
+import com.imangazalievm.bubbble.data.global.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.global.models.User;
 import com.imangazalievm.bubbble.domain.global.repositories.UsersRepository;
 

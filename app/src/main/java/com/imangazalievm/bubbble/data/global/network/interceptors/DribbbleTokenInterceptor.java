@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.data.network.interceptors;
+package com.imangazalievm.bubbble.data.global.network.interceptors;
 
 import java.io.IOException;
 

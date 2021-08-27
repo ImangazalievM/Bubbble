@@ -1,9 +1,9 @@
-package com.imangazalievm.bubbble.data.repositories;
+package com.imangazalievm.bubbble.data.shots;
 
 import com.imangazalievm.bubbble.Constants;
-import com.imangazalievm.bubbble.data.network.DribbbleApiConstants;
-import com.imangazalievm.bubbble.data.network.DribbbleApiService;
-import com.imangazalievm.bubbble.data.repositories.datasource.DribbbleSearchDataSource;
+import com.imangazalievm.bubbble.data.global.network.ApiConstants;
+import com.imangazalievm.bubbble.data.global.network.Dribbble;
+import com.imangazalievm.bubbble.data.global.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams;
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
@@ -33,7 +33,7 @@ public class ShotsRepositoryImpl implements ShotsRepository {
     @Override
     public Single<List<Shot>> getShots(ShotsRequestParams requestParams) {
         String sort = requestParams.getSort().equals(Constants.SHOTS_SORT_POPULAR) ?
-                DribbbleApiConstants.SHOTS_SORT_POPULAR : DribbbleApiConstants.SHOTS_SORT_RECENT;
+                Dribbble.Shots.type_popular : Dribbble.Shots.type_recent;
 
         return dribbbleApiService.getShots(sort, requestParams.getPage(), requestParams.getPageSize());
     }

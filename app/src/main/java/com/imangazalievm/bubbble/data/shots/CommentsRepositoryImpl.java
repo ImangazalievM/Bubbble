@@ -1,6 +1,6 @@
-package com.imangazalievm.bubbble.data.repositories;
+package com.imangazalievm.bubbble.data.shots;
 
-import com.imangazalievm.bubbble.data.network.DribbbleApiService;
+import com.imangazalievm.bubbble.data.global.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.global.models.Comment;
 import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams;
 import com.imangazalievm.bubbble.domain.global.repositories.CommentsRepository;

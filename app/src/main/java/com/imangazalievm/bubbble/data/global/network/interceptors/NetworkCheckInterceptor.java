@@ -1,6 +1,6 @@
-package com.imangazalievm.bubbble.data.network.interceptors;
+package com.imangazalievm.bubbble.data.global.network.interceptors;
 
-import com.imangazalievm.bubbble.data.network.NetworkChecker;
+import com.imangazalievm.bubbble.data.global.network.NetworkChecker;
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
 
 import java.io.IOException;

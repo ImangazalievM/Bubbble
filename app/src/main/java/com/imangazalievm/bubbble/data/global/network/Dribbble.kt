@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.data.network
+package com.imangazalievm.bubbble.data.global.network
 
 import android.net.Uri
 

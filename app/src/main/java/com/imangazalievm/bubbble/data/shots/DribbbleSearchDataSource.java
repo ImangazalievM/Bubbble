@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.data.repositories.datasource;
+package com.imangazalievm.bubbble.data.shots;
 
 import android.text.TextUtils;
 import android.util.Log;

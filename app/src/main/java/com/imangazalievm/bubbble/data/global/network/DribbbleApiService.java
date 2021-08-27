@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.data.network;
+package com.imangazalievm.bubbble.data.global.network;
 
 import com.imangazalievm.bubbble.domain.global.models.Comment;
 import com.imangazalievm.bubbble.domain.global.models.Follow;

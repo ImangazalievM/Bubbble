@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.data.repositories;
+package com.imangazalievm.bubbble.data.global.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
