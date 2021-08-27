@@ -105,9 +105,10 @@ dependencies {
     implementation(Dependencies.Old.rxpermissions)
 
     // Developer Tools
-    debugImplementation(Dependencies.Old.okHttpLoggingInterceptor)
-    debugImplementation(Dependencies.Old.stetho)
-    debugImplementation(Dependencies.Old.stethoOkHttp)
+    debugImplementation("com.facebook.stetho:stetho:1.5.1")
+    debugImplementation("com.facebook.stetho:stetho-okhttp3:1.5.1")
+    debugImplementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    debugImplementation("com.github.mrmike:ok2curl:0.6.0")
     debugImplementation(Dependencies.Old.leakCanary)
     releaseImplementation(Dependencies.Old.leakCanaryNoOp)
 

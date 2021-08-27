@@ -45,10 +45,6 @@ object Dependencies {
         const val jsoup = "org.jsoup:jsoup:1.7.2"
 
         // Developer Tools
-        const val stetho = "com.facebook.stetho:stetho:1.3.1"
-        const val stethoOkHttp = "com.facebook.stetho:stetho-okhttp3:1.3.1"
-        const val okHttpLoggingInterceptor =
-            "com.squareup.okhttp3:logging-interceptor:3.2.0"
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:1.5"
         const val leakCanaryNoOp =
             "com.squareup.leakcanary:leakcanary-android-no-op:1.5"
