@@ -3,8 +3,8 @@ package com.imangazalievm.bubbble.presentation.mvp.presenters;
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.userprofile.UserProfileInteractor;
 import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserProfilePresenter;
-import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserProfileView;
+import com.imangazalievm.bubbble.presentation.userprofile.UserProfilePresenter;
+import com.imangazalievm.bubbble.presentation.userprofile.UserProfileView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestSchedulersProvider;
 

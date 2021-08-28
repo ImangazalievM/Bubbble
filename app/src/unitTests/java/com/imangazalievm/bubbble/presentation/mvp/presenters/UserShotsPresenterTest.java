@@ -4,8 +4,8 @@ import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.userprofile.UserShotsInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams;
-import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserShotsPresenter;
-import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserShotsView;
+import com.imangazalievm.bubbble.presentation.userprofile.shots.UserShotsPresenter;
+import com.imangazalievm.bubbble.presentation.userprofile.shots.UserShotsView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestSchedulersProvider;
 

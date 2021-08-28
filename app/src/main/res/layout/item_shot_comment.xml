@@ -36,7 +36,7 @@
                     android:textAppearance="@style/AppTheme.DefaultTextTheme"
                     android:textSize="17sp"/>
 
-                <com.imangazalievm.bubbble.presentation.ui.global.views.dribbbletextview.DribbbleTextView
+                <com.imangazalievm.bubbble.presentation.global.ui.views.dribbbletextview.DribbbleTextView
                     android:textColorHighlight="@color/dribbble_link_highlight"
                     android:textColorLink="@color/dribbble_link"
                     android:id="@+id/text"

@@ -2,8 +2,7 @@ package com.imangazalievm.bubbble.di.userprofile
 
 import com.imangazalievm.bubbble.di.global.scopes.Presenter
 import com.imangazalievm.bubbble.di.global.ApplicationComponent
-import com.imangazalievm.bubbble.di.userprofile.UserShotsPresenterModule
-import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserShotsPresenter
+import com.imangazalievm.bubbble.presentation.userprofile.shots.UserShotsPresenter
 import dagger.Component
 
 @Presenter

@@ -2,7 +2,7 @@ package com.imangazalievm.bubbble.domain.shotzoom;
 
 
 import com.imangazalievm.bubbble.data.shots.ImagesRepository;
-import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
 
 import javax.inject.Inject;
 

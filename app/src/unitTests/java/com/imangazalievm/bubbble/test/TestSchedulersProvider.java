@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble.test;
 
-import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
 
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.TestScheduler;

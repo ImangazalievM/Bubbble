@@ -6,7 +6,7 @@ import com.imangazalievm.bubbble.data.users.UsersRepository;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.User;
 import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams;
-import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
 
 import java.util.List;
 

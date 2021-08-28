@@ -2,8 +2,7 @@ package com.imangazalievm.bubbble.di.shotslist
 
 import com.imangazalievm.bubbble.di.global.scopes.Presenter
 import com.imangazalievm.bubbble.di.global.ApplicationComponent
-import com.imangazalievm.bubbble.di.shotslist.ShotsPresenterModule
-import com.imangazalievm.bubbble.presentation.mvp.shotslist.ShotsPresenter
+import com.imangazalievm.bubbble.presentation.shotslist.ShotsPresenter
 import dagger.Component
 
 @Presenter

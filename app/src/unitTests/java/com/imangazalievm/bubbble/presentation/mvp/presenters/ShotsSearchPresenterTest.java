@@ -4,8 +4,8 @@ import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
-import com.imangazalievm.bubbble.presentation.mvp.shotssearch.ShotsSearchPresenter;
-import com.imangazalievm.bubbble.presentation.mvp.shotssearch.ShotsSearchView;
+import com.imangazalievm.bubbble.presentation.shotssearch.ShotsSearchPresenter;
+import com.imangazalievm.bubbble.presentation.shotssearch.ShotsSearchView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestSchedulersProvider;
 

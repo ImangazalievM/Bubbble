@@ -5,8 +5,8 @@ import com.imangazalievm.bubbble.domain.userprofile.UserFollowersInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Follow;
 import com.imangazalievm.bubbble.domain.global.models.User;
 import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams;
-import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserFollowersPresenter;
-import com.imangazalievm.bubbble.presentation.mvp.userprofile.UserFollowersView;
+import com.imangazalievm.bubbble.presentation.userprofile.followers.UserFollowersPresenter;
+import com.imangazalievm.bubbble.presentation.userprofile.followers.UserFollowersView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
 import com.imangazalievm.bubbble.test.TestSchedulersProvider;
 
