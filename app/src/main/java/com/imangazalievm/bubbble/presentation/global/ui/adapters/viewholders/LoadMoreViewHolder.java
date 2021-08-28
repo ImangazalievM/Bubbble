@@ -1,11 +1,12 @@
 package com.imangazalievm.bubbble.presentation.global.ui.adapters.viewholders;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.imangazalievm.bubbble.R;
 

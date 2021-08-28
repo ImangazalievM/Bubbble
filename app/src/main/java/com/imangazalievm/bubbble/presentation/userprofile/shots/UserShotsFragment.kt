@@ -1,9 +1,7 @@
 package com.imangazalievm.bubbble.presentation.userprofile.shots
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -14,12 +12,14 @@ import com.imangazalievm.bubbble.di.userprofile.DaggerUserShotsPresenterComponen
 import com.imangazalievm.bubbble.di.userprofile.UserShotsPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotsAdapter
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatFragment
+import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpFragment
 import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
 import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity
 
-class UserShotsFragment : MvpAppCompatFragment(), UserShotsView {
-    
+class UserShotsFragment : BaseMvpFragment(), UserShotsView {
+
+    override val layoutRes: Int = R.layout.fragment_shots
+
     @InjectPresenter
     lateinit var userShotsPresenter: UserShotsPresenter
     
@@ -27,7 +27,7 @@ class UserShotsFragment : MvpAppCompatFragment(), UserShotsView {
     fun providePresenter(): UserShotsPresenter {
         val userId = requireArguments().getLong(USER_ID_ARG)
         val presenterComponent = DaggerUserShotsPresenterComponent.builder()
-            .applicationComponent(BubbbleApplication.getComponent())
+            .applicationComponent(BubbbleApplication.component)
             .userShotsPresenterModule(UserShotsPresenterModule(userId))
             .build()
         return presenterComponent.getPresenter()
@@ -47,14 +47,6 @@ class UserShotsFragment : MvpAppCompatFragment(), UserShotsView {
     }
     private val shotsListLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(context)
-    }
-    
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_shots, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -2,13 +2,14 @@ package com.imangazalievm.bubbble.presentation.global.ui.commons;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.util.AttributeSet;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import android.view.View;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.Canvas;
+import android.util.AttributeSet;
+import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 

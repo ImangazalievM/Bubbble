@@ -1,139 +1,126 @@
-package com.imangazalievm.bubbble.presentation.userprofile.followers;
+package com.imangazalievm.bubbble.presentation.userprofile.followers
 
-import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.imangazalievm.bubbble.BubbbleApplication.Companion.component
+import com.imangazalievm.bubbble.R
+import com.imangazalievm.bubbble.di.userprofile.DaggerUserFollowersPresenterComponent
+import com.imangazalievm.bubbble.di.userprofile.UserFollowersPresenterModule
+import com.imangazalievm.bubbble.domain.global.models.Follow
+import com.imangazalievm.bubbble.presentation.global.ui.adapters.UserFollowersAdapter
+import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpFragment
+import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
+import com.imangazalievm.bubbble.presentation.userprofile.UserProfileActivity
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.imangazalievm.bubbble.BubbbleApplication;
-import com.imangazalievm.bubbble.R;
-import com.imangazalievm.bubbble.di.userprofile.DaggerUserFollowersPresenterComponent;
-import com.imangazalievm.bubbble.di.userprofile.UserFollowersPresenterComponent;
-import com.imangazalievm.bubbble.di.userprofile.UserFollowersPresenterModule;
-import com.imangazalievm.bubbble.domain.global.models.Follow;
-import com.imangazalievm.bubbble.presentation.userprofile.UserProfileActivity;
-import com.imangazalievm.bubbble.presentation.global.ui.adapters.UserFollowersAdapter;
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatFragment;
-import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener;
+class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
 
-import java.util.List;
-
-public class UserFollowersFragment extends MvpAppCompatFragment implements UserFollowersView {
-
-    private static final String USER_ID_ARG = "user_id";
-
-    public static UserFollowersFragment newInstance(long userId) {
-        UserFollowersFragment fragment = new UserFollowersFragment();
-        Bundle args = new Bundle();
-        args.putLong(USER_ID_ARG, userId);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    override val layoutRes: Int = R.layout.fragment_shots
 
     @InjectPresenter
-    UserFollowersPresenter userFollowersPresenter;
+    lateinit var userFollowersPresenter: UserFollowersPresenter
 
     @ProvidePresenter
-    UserFollowersPresenter providePresenter() {
-        long userId = getArguments().getLong(USER_ID_ARG);
-
-        UserFollowersPresenterComponent presenterComponent = DaggerUserFollowersPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.getComponent())
-                .userFollowersPresenterModule(new UserFollowersPresenterModule(userId))
-                .build();
-
-        return presenterComponent.getPresenter();
+    fun providePresenter(): UserFollowersPresenter {
+        val userId = requireArguments().getLong(USER_ID_ARG)
+        val presenterComponent = DaggerUserFollowersPresenterComponent.builder()
+            .applicationComponent(component)
+            .userFollowersPresenterModule(UserFollowersPresenterModule(userId))
+            .build()
+        return presenterComponent.getPresenter()
     }
 
-    private View loadingLayout;
-    private View noNetworkLayout;
-
-    private RecyclerView followersRecyclerView;
-    private UserFollowersAdapter userFollowersAdapter;
-    private LinearLayoutManager followersListLayoutManager;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_shots, container, false);
+    private val loadingLayout: View by lazy {
+        requireView().findViewById(R.id.loading_layout)
+    }
+    private val noNetworkLayout: View by lazy {
+        requireView().findViewById(R.id.no_network_layout)
+    }
+    private val followersRecyclerView: RecyclerView by lazy {
+        requireView().findViewById(R.id.shotsRecyclerView)
+    }
+    private val userFollowersAdapter: UserFollowersAdapter by lazy {
+        UserFollowersAdapter(context)
+    }
+    private val followersListLayoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(context)
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        initViews(view);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews(view)
     }
 
-    private void initViews(View view) {
-        loadingLayout = view.findViewById(R.id.loading_layout);
-        noNetworkLayout = view.findViewById(R.id.no_network_layout);
-        noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> userFollowersPresenter.retryLoading());
+    private fun initViews(view: View) {
 
-        followersRecyclerView = view.findViewById(R.id.shotsRecyclerView);
-        followersListLayoutManager = new LinearLayoutManager(getContext());
-        followersRecyclerView.setLayoutManager(followersListLayoutManager);
-
-        userFollowersAdapter = new UserFollowersAdapter(getContext());
-        followersRecyclerView.setAdapter(userFollowersAdapter);
-        userFollowersAdapter.setOnItemClickListener(position -> userFollowersPresenter.onFollowerClick(position));
-
-        followersRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(followersListLayoutManager) {
-            @Override
-            public void onLoadMore() {
-                userFollowersPresenter.onLoadMoreFollowersRequest();
+        noNetworkLayout.findViewById<View>(R.id.retry_button)
+            .setOnClickListener { userFollowersPresenter.retryLoading() }
+        followersRecyclerView.layoutManager = followersListLayoutManager
+        followersRecyclerView.adapter = userFollowersAdapter
+        userFollowersAdapter.setOnItemClickListener { position: Int ->
+            userFollowersPresenter.onFollowerClick(
+                position
+            )
+        }
+        followersRecyclerView.addOnScrollListener(object :
+            EndlessRecyclerOnScrollListener(followersListLayoutManager) {
+            override fun onLoadMore() {
+                userFollowersPresenter.onLoadMoreFollowersRequest()
             }
-        });
+        })
     }
 
-    @Override
-    public void showNewFollowers(List<Follow> newFollowers) {
-        followersRecyclerView.setVisibility(View.VISIBLE);
-        userFollowersAdapter.addItems(newFollowers);
+    override fun showNewFollowers(newFollowers: List<Follow>) {
+        followersRecyclerView.visibility = View.VISIBLE
+        userFollowersAdapter.addItems(newFollowers)
     }
 
-    @Override
-    public void showFollowersLoadingProgress() {
-        loadingLayout.setVisibility(View.VISIBLE);
+    override fun showFollowersLoadingProgress() {
+        loadingLayout.visibility = View.VISIBLE
     }
 
-    @Override
-    public void hideFollowersLoadingProgress() {
-        loadingLayout.setVisibility(View.GONE);
+    override fun hideFollowersLoadingProgress() {
+        loadingLayout.visibility = View.GONE
     }
 
-    @Override
-    public void showFollowersLoadingMoreProgress() {
-        userFollowersAdapter.showLoadingIndicator();
+    override fun showFollowersLoadingMoreProgress() {
+        userFollowersAdapter.showLoadingIndicator()
     }
 
-    @Override
-    public void hideFollowersLoadingMoreProgress() {
-        userFollowersAdapter.hideLoadingIndicator();
+    override fun hideFollowersLoadingMoreProgress() {
+        userFollowersAdapter.hideLoadingIndicator()
     }
 
-    @Override
-    public void openUserDetailsScreen(long userId) {
-        startActivity(UserProfileActivity.buildIntent(getActivity(), userId));
+    override fun openUserDetailsScreen(userId: Long) {
+        startActivity(UserProfileActivity.buildIntent(activity, userId))
     }
 
-    @Override
-    public void showNoNetworkLayout() {
-        noNetworkLayout.setVisibility(View.VISIBLE);
+    override fun showNoNetworkLayout() {
+        noNetworkLayout.visibility = View.VISIBLE
     }
 
-    @Override
-    public void hideNoNetworkLayout() {
-        noNetworkLayout.setVisibility(View.GONE);
+    override fun hideNoNetworkLayout() {
+        noNetworkLayout.visibility = View.GONE
     }
 
-    @Override
-    public void showLoadMoreError() {
-        userFollowersAdapter.setLoadingError(true);
+    override fun showLoadMoreError() {
+        userFollowersAdapter.setLoadingError(true)
+    }
+
+    companion object {
+        private const val USER_ID_ARG = "user_id"
+
+        @JvmStatic
+        fun newInstance(userId: Long): UserFollowersFragment {
+            val fragment = UserFollowersFragment()
+            val args = Bundle()
+            args.putLong(USER_ID_ARG, userId)
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 }

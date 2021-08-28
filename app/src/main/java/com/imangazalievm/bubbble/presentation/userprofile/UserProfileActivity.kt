@@ -1,265 +1,278 @@
-package com.imangazalievm.bubbble.presentation.userprofile;
+package com.imangazalievm.bubbble.presentation.userprofile
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.view.animation.AlphaAnimation
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.viewpager.widget.ViewPager
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.tabs.TabLayout
+import com.imangazalievm.bubbble.BubbbleApplication.Companion.component
+import com.imangazalievm.bubbble.R
+import com.imangazalievm.bubbble.di.userprofile.DaggerUserProfilePresenterComponent
+import com.imangazalievm.bubbble.di.userprofile.UserProfilePresenterModule
+import com.imangazalievm.bubbble.domain.global.models.User
+import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
+import com.imangazalievm.bubbble.presentation.global.ui.commons.glide.GlideBlurTransformation
+import com.imangazalievm.bubbble.presentation.global.ui.commons.glide.GlideCircleTransform
+import com.imangazalievm.bubbble.presentation.global.ui.views.dribbbletextview.DribbbleTextView
+import com.imangazalievm.bubbble.presentation.global.utils.AppUtils
+import com.imangazalievm.bubbble.presentation.userprofile.UserProfileActivity
+import com.imangazalievm.bubbble.presentation.userprofile.details.UserDetailsFragment
+import com.imangazalievm.bubbble.presentation.userprofile.followers.UserFollowersFragment
+import com.imangazalievm.bubbble.presentation.userprofile.shots.UserShotsFragment
+import kotlin.math.abs
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.viewpager.widget.ViewPager;
+class UserProfileActivity : BaseMvpActivity(), UserProfileView {
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.tabs.TabLayout;
-import com.imangazalievm.bubbble.BubbbleApplication;
-import com.imangazalievm.bubbble.R;
-import com.imangazalievm.bubbble.di.userprofile.DaggerUserProfilePresenterComponent;
-import com.imangazalievm.bubbble.di.userprofile.UserProfilePresenterComponent;
-import com.imangazalievm.bubbble.di.userprofile.UserProfilePresenterModule;
-import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.presentation.userprofile.details.UserDetailsFragment;
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatActivity;
-import com.imangazalievm.bubbble.presentation.global.ui.commons.glide.GlideBlurTransformation;
-import com.imangazalievm.bubbble.presentation.global.ui.commons.glide.GlideCircleTransform;
-import com.imangazalievm.bubbble.presentation.global.ui.views.dribbbletextview.DribbbleTextView;
-import com.imangazalievm.bubbble.presentation.global.utils.AppUtils;
-import com.imangazalievm.bubbble.presentation.userprofile.followers.UserFollowersFragment;
-import com.imangazalievm.bubbble.presentation.userprofile.shots.UserShotsFragment;
+    override val layoutRes: Int = R.layout.activity_user_profile
 
-public class UserProfileActivity extends MvpAppCompatActivity implements UserProfileView {
-
-    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
-    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = -0.3f;
-    private static final int ALPHA_ANIMATIONS_DURATION = 200;
-
-    private static final String USER_ID = "user_id";
-
-    public static Intent buildIntent(Context context, long userId) {
-        Intent intent = new Intent(context, UserProfileActivity.class);
-        intent.putExtra(USER_ID, userId);
-        return intent;
+    private val loadingLayout: View by lazy {
+        findViewById(R.id.loading_layout)
+    }
+    private val noNetworkLayout: View by lazy {
+        findViewById(R.id.no_network_layout)
+    }
+    private val appBarLayout: AppBarLayout by lazy {
+        findViewById(R.id.app_bar_layout)
+    }
+    private val toolbarTitle: TextView by lazy {
+        findViewById(R.id.toolbar_title)
+    }
+    private val userAvatarContainer: RelativeLayout by lazy {
+        findViewById(R.id.header_image_container)
+    }
+    private val headerBackground: ImageView by lazy {
+        findViewById(R.id.header_background)
+    }
+    private val userAvatar: ImageView by lazy {
+        findViewById(R.id.user_avatar)
+    }
+    private val userName: TextView by lazy {
+        findViewById(R.id.user_name)
+    }
+    private val userBio: DribbbleTextView by lazy {
+        findViewById(R.id.user_bio)
+    }
+    private val followButton: TextView by lazy {
+        findViewById(R.id.user_follow_button)
+    }
+    private val userProfileViewPager: ViewPager by lazy {
+        findViewById(R.id.user_profile_pager)
+    }
+    private val userProfilePagerTabs: TabLayout by lazy {
+        findViewById(R.id.user_profile_pager_tabs)
+    }
+    private val userProfileContainer: CoordinatorLayout by lazy {
+        findViewById(R.id.user_profile_container)
     }
 
-    private View loadingLayout;
-    private View noNetworkLayout;
-
-    private CoordinatorLayout userProfileContainer;
-    private AppBarLayout appBarLayout;
-    private RelativeLayout userAvatarContainer;
-    private TextView toolbarTitle;
-    private ImageView headerBackground;
-    private ImageView userAvatar;
-    private TextView userName;
-    private DribbbleTextView userBio;
-    private TextView followButton;
-    private ViewPager userProfileViewPager;
-    private TabLayout userProfilePagerTabs;
-
-    private boolean isTheTitleVisible = false;
+    private var isTheTitleVisible = false
 
     @InjectPresenter
-    UserProfilePresenter shotDetailPresenter;
+    lateinit var shotDetailPresenter: UserProfilePresenter
 
     @ProvidePresenter
-    UserProfilePresenter providePresenter() {
-        long userId = getIntent().getLongExtra(USER_ID, 0L);
-
-        UserProfilePresenterComponent presenterComponent = DaggerUserProfilePresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.getComponent())
-                .userProfilePresenterModule(new UserProfilePresenterModule(userId))
-                .build();
-
-        return presenterComponent.getPresenter();
+    fun providePresenter(): UserProfilePresenter {
+        val userId = intent.getLongExtra(USER_ID, 0L)
+        val presenterComponent = DaggerUserProfilePresenterComponent.builder()
+            .applicationComponent(component)
+            .userProfilePresenterModule(UserProfilePresenterModule(userId))
+            .build()
+        return presenterComponent.getPresenter()
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        initToolbar();
-        initViews();
+        initToolbar()
+        initViews()
     }
 
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish());
-        toolbar.inflateMenu(R.menu.user_profile);
-        toolbar.setOnMenuItemClickListener(item -> onMenuItemClick(item));
-
+    private fun initToolbar() {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener { finish() }
+        toolbar.inflateMenu(R.menu.user_profile)
+        toolbar.setOnMenuItemClickListener { item: MenuItem -> onMenuItemClick(item) }
     }
 
-    private boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                shotDetailPresenter.onBackPressed();
-                return true;
-
-            case R.id.share_profile:
-                shotDetailPresenter.onShareProfileClicked();
-                return true;
-
-            case R.id.open_in_browser:
-                shotDetailPresenter.onOpenInBrowserClicked();
-                return true;
+    private fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                shotDetailPresenter.onBackPressed()
+                return true
+            }
+            R.id.share_profile -> {
+                shotDetailPresenter.onShareProfileClicked()
+                return true
+            }
+            R.id.open_in_browser -> {
+                shotDetailPresenter.onOpenInBrowserClicked()
+                return true
+            }
         }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    private void initViews() {
-        loadingLayout = findViewById(R.id.loading_layout);
-        noNetworkLayout = findViewById(R.id.no_network_layout);
-        noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> shotDetailPresenter.retryLoading());
-
-        userProfileContainer = (CoordinatorLayout) findViewById(R.id.user_profile_container);
-        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
-        appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            int maxScroll = appBarLayout.getTotalScrollRange();
-            float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
-            handleToolbarTitleVisibility(percentage);
-        });
-
-        toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        userAvatarContainer = (RelativeLayout) findViewById(R.id.header_image_container);
-        headerBackground = (ImageView) findViewById(R.id.header_background);
-        userAvatar = (ImageView) findViewById(R.id.user_avatar);
-        userName = (TextView) findViewById(R.id.user_name);
-        userBio = (DribbbleTextView) findViewById(R.id.user_bio);
-        followButton = (TextView) findViewById(R.id.user_follow_button);
-
-        userBio.setOnLinkClickListener(url -> shotDetailPresenter.onLinkClicked(url));
-        userBio.setOnUserSelectedListener(useId -> shotDetailPresenter.onUserSelected(useId));
-        followButton.setOnClickListener(v -> Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show());
-
-        userProfileViewPager = (ViewPager) findViewById(R.id.user_profile_pager);
-        userProfilePagerTabs = (TabLayout) findViewById(R.id.user_profile_pager_tabs);
-        userProfilePagerTabs.setupWithViewPager(userProfileViewPager);
-
-        initParallaxValues();
+    private fun initViews() {
+        noNetworkLayout.findViewById<View>(R.id.retry_button)
+            .setOnClickListener { shotDetailPresenter.retryLoading() }
+        appBarLayout.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout: AppBarLayout, verticalOffset: Int ->
+            val maxScroll = appBarLayout.totalScrollRange
+            val percentage = abs(verticalOffset).toFloat() / maxScroll.toFloat()
+            handleToolbarTitleVisibility(percentage)
+        })
+        userBio.setOnLinkClickListener { url: String -> shotDetailPresenter.onLinkClicked(url) }
+        userBio.setOnUserSelectedListener { useId: Long ->
+            shotDetailPresenter.onUserSelected(
+                useId
+            )
+        }
+        followButton.setOnClickListener { v: View? ->
+            Toast.makeText(
+                this,
+                "Coming soon",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        userProfilePagerTabs.setupWithViewPager(userProfileViewPager)
+        initParallaxValues()
     }
 
-    private void initParallaxValues() {
-        CollapsingToolbarLayout.LayoutParams headerBackgroundLp =
-                (CollapsingToolbarLayout.LayoutParams) headerBackground.getLayoutParams();
-        headerBackgroundLp.setParallaxMultiplier(PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR);
-        headerBackground.setLayoutParams(headerBackgroundLp);
-
-        CollapsingToolbarLayout.LayoutParams userAvatarContainerContainerLp =
-                (CollapsingToolbarLayout.LayoutParams) userAvatarContainer.getLayoutParams();
-        userAvatarContainerContainerLp.setParallaxMultiplier(PERCENTAGE_TO_HIDE_TITLE_DETAILS);
-        userAvatarContainer.setLayoutParams(userAvatarContainerContainerLp);
-
-
+    private fun initParallaxValues() {
+        val headerBackgroundLp =
+            headerBackground.layoutParams as CollapsingToolbarLayout.LayoutParams
+        headerBackgroundLp.parallaxMultiplier = PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR
+        headerBackground.layoutParams = headerBackgroundLp
+        val userAvatarContainerContainerLp =
+            userAvatarContainer.layoutParams as CollapsingToolbarLayout.LayoutParams
+        userAvatarContainerContainerLp.parallaxMultiplier = PERCENTAGE_TO_HIDE_TITLE_DETAILS
+        userAvatarContainer.layoutParams = userAvatarContainerContainerLp
     }
 
-    private void handleToolbarTitleVisibility(float percentage) {
+    private fun handleToolbarTitleVisibility(percentage: Float) {
         if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
             if (!isTheTitleVisible) {
-                startAlphaAnimation(toolbarTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
-                isTheTitleVisible = true;
+                startAlphaAnimation(toolbarTitle, ALPHA_ANIMATIONS_DURATION.toLong(), View.VISIBLE)
+                isTheTitleVisible = true
             }
         } else {
             if (isTheTitleVisible) {
-                startAlphaAnimation(toolbarTitle, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
-                isTheTitleVisible = false;
+                startAlphaAnimation(
+                    toolbarTitle,
+                    ALPHA_ANIMATIONS_DURATION.toLong(),
+                    View.INVISIBLE
+                )
+                isTheTitleVisible = false
             }
         }
     }
 
-    public static void startAlphaAnimation(View v, long duration, int visibility) {
-        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
-                ? new AlphaAnimation(0f, 1f)
-                : new AlphaAnimation(1f, 0f);
-
-        alphaAnimation.setDuration(duration);
-        alphaAnimation.setFillAfter(true);
-        v.startAnimation(alphaAnimation);
+    override fun showUser(user: User) {
+        userProfileContainer.visibility = View.VISIBLE
+        toolbarTitle.text = user.name
+        userName.text = user.name
+        if (user.bio != null || !user.bio.isEmpty()) {
+            userBio.visibility = View.VISIBLE
+            userBio.setHtmlText(user.bio)
+        }
+        Glide.with(this)
+            .load(user.avatarUrl)
+            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            .transform(GlideCircleTransform(this))
+            .into(userAvatar)
+        Glide.with(this)
+            .load(user.avatarUrl)
+            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            .bitmapTransform(GlideBlurTransformation(this, 25))
+            .into(headerBackground)
+        setupProfilePager(user)
     }
 
+    private fun setupProfilePager(user: User) {
+        val userProfilePagerAdapter = UserProfilePagerAdapter(supportFragmentManager)
+        userProfilePagerAdapter.addFragment(
+            UserDetailsFragment.newInstance(user.id),
+            resources.getString(R.string.user_information)
+        )
+        userProfilePagerAdapter.addFragment(
+            UserShotsFragment.newInstance(user.id),
+            resources.getQuantityString(R.plurals.shots, user.shotsCount, user.shotsCount)
+        )
+        userProfilePagerAdapter.addFragment(
+            UserFollowersFragment.newInstance(user.id),
+            resources.getQuantityString(
+                R.plurals.followers,
+                user.followersCount,
+                user.followersCount
+            )
+        )
+        userProfileViewPager.adapter = userProfilePagerAdapter
+    }
 
-    @Override
-    public void showUser(User user) {
-        userProfileContainer.setVisibility(View.VISIBLE);
-        toolbarTitle.setText(user.getName());
-        userName.setText(user.getName());
-        if (user.getBio() != null || !user.getBio().isEmpty()) {
-            userBio.setVisibility(View.VISIBLE);
-            userBio.setHtmlText(user.getBio());
+    override fun showLoadingProgress() {
+        loadingLayout.visibility = View.VISIBLE
+    }
+
+    override fun hideLoadingProgress() {
+        loadingLayout.visibility = View.GONE
+    }
+
+    override fun showNoNetworkLayout() {
+        noNetworkLayout.visibility = View.VISIBLE
+    }
+
+    override fun hideNoNetworkLayout() {
+        noNetworkLayout.visibility = View.GONE
+    }
+
+    override fun openUserProfileScreen(userId: Long) {
+        startActivity(buildIntent(this, userId))
+    }
+
+    override fun openInBrowser(url: String) {
+        AppUtils.openInChromeTab(this, url)
+    }
+
+    override fun showUserProfileSharing(user: User) {
+        AppUtils.sharePlainText(this, String.format("%s - %s", user.name, user.htmlUrl))
+    }
+
+    override fun closeScreen() {
+        finish()
+    }
+
+    companion object {
+        private const val PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f
+        private const val PERCENTAGE_TO_HIDE_TITLE_DETAILS = -0.3f
+        private const val ALPHA_ANIMATIONS_DURATION = 200
+        private const val USER_ID = "user_id"
+        fun buildIntent(context: Context?, userId: Long): Intent {
+            val intent = Intent(context, UserProfileActivity::class.java)
+            intent.putExtra(USER_ID, userId)
+            return intent
         }
 
-        Glide.with(this)
-                .load(user.getAvatarUrl())
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .transform(new GlideCircleTransform(this))
-                .into(userAvatar);
-
-        Glide.with(this)
-                .load(user.getAvatarUrl())
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .bitmapTransform(new GlideBlurTransformation(this, 25))
-                .into(headerBackground);
-
-        setupProfilePager(user);
+        fun startAlphaAnimation(v: View, duration: Long, visibility: Int) {
+            val alphaAnimation =
+                if (visibility == View.VISIBLE) AlphaAnimation(0f, 1f) else AlphaAnimation(1f, 0f)
+            alphaAnimation.duration = duration
+            alphaAnimation.fillAfter = true
+            v.startAnimation(alphaAnimation)
+        }
     }
-
-    private void setupProfilePager(User user) {
-        UserProfilePagerAdapter userProfilePagerAdapter = new UserProfilePagerAdapter(getSupportFragmentManager());
-        userProfilePagerAdapter.addFragment(UserDetailsFragment.newInstance(user.getId()), getResources().getString(R.string.user_information));
-        userProfilePagerAdapter.addFragment(UserShotsFragment.newInstance(user.getId()), getResources().getQuantityString(R.plurals.shots, user.getShotsCount(), user.getShotsCount()));
-        userProfilePagerAdapter.addFragment(UserFollowersFragment.newInstance(user.getId()), getResources().getQuantityString(R.plurals.followers, user.getFollowersCount(), user.getFollowersCount()));
-        userProfileViewPager.setAdapter(userProfilePagerAdapter);
-    }
-
-    @Override
-    public void showLoadingProgress() {
-        loadingLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoadingProgress() {
-        loadingLayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showNoNetworkLayout() {
-        noNetworkLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideNoNetworkLayout() {
-        noNetworkLayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void openUserProfileScreen(long userId) {
-        startActivity(UserProfileActivity.buildIntent(this, userId));
-    }
-
-    @Override
-    public void openInBrowser(String url) {
-        AppUtils.openInChromeTab(this, url);
-    }
-
-    @Override
-    public void showUserProfileSharing(User user) {
-        AppUtils.sharePlainText(this, String.format("%s - %s", user.getName(), user.getHtmlUrl()));
-    }
-
-    @Override
-    public void closeScreen() {
-        finish();
-    }
-
 }

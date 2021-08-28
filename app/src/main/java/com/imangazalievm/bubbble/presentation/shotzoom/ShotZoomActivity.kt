@@ -1,225 +1,226 @@
-package com.imangazalievm.bubbble.presentation.shotzoom;
+package com.imangazalievm.bubbble.presentation.shotzoom
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.Settings;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.provider.Settings
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.github.chrisbanes.photoview.PhotoView
+import com.google.android.material.snackbar.Snackbar
+import com.imangazalievm.bubbble.BubbbleApplication.Companion.component
+import com.imangazalievm.bubbble.R
+import com.imangazalievm.bubbble.di.shotzoom.DaggerShotZoomPresenterComponent
+import com.imangazalievm.bubbble.di.shotzoom.ShotZoomPresenterModule
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
+import com.imangazalievm.bubbble.presentation.global.ui.commons.AndroidPermissionsManager
+import com.imangazalievm.bubbble.presentation.global.utils.AppUtils
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-import com.github.chrisbanes.photoview.PhotoView;
-import com.imangazalievm.bubbble.BubbbleApplication;
-import com.imangazalievm.bubbble.R;
-import com.imangazalievm.bubbble.di.shotzoom.DaggerShotZoomPresenterComponent;
-import com.imangazalievm.bubbble.di.shotzoom.ShotZoomPresenterComponent;
-import com.imangazalievm.bubbble.di.shotzoom.ShotZoomPresenterModule;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatActivity;
-import com.imangazalievm.bubbble.presentation.global.ui.commons.AndroidPermissionsManager;
-import com.imangazalievm.bubbble.presentation.global.utils.AppUtils;
+class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
-public class ShotZoomActivity extends MvpAppCompatActivity implements ShotZoomView {
+    override val layoutRes: Int = R.layout.activity_shot_zoom
 
-    private static final String KEY_SHOT_TITLE = "shot_title";
-    private static final String KEY_SHOT_URL = "shot_url";
-    private static final String KEY_IMAGE_URL = "image_url";
-
-    public static Intent buildIntent(Context context, Shot shot) {
-        Intent intent = new Intent(context, ShotZoomActivity.class);
-        intent.putExtra(KEY_SHOT_TITLE, shot.getTitle());
-        intent.putExtra(KEY_SHOT_URL, shot.getHtmlUrl());
-        intent.putExtra(KEY_IMAGE_URL, shot.getImages().best());
-        return intent;
+    private val toolbar: Toolbar by lazy {
+        findViewById(R.id.toolbar)
     }
-
-    private Toolbar toolbar;
-    private ViewGroup shotZoomContainer;
-    private View loadingLayout;
-    private View errorLayout;
-
-    private PhotoView shotImage;
+    private val shotImage: PhotoView by lazy {
+        findViewById(R.id.shot_image)
+    }
+    private val shotZoomContainer: ViewGroup by lazy {
+        findViewById(R.id.shot_zoom_container)
+    }
+    private val loadingLayout: View by lazy {
+        findViewById(R.id.loading_layout)
+    }
+    private val errorLayout: View by lazy {
+        findViewById(R.id.error_layout)
+    }
 
     @InjectPresenter
-    ShotZoomPresenter shotZoomPresenter;
+    lateinit var shotZoomPresenter: ShotZoomPresenter
 
     @ProvidePresenter
-    ShotZoomPresenter providePresenter() {
-        String shotTitle = getIntent().getStringExtra(KEY_SHOT_TITLE);
-        String imageUrl = getIntent().getStringExtra(KEY_IMAGE_URL);
-        String shotUrl = getIntent().getStringExtra(KEY_SHOT_URL);
-        ShotZoomPresenterModule presenterModule = new ShotZoomPresenterModule(shotTitle, shotUrl, imageUrl);
-
-        ShotZoomPresenterComponent presenterComponent = DaggerShotZoomPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.getComponent())
-                .shotZoomPresenterModule(presenterModule)
-                .build();
-
-        return presenterComponent.getPresenter();
+    fun providePresenter(): ShotZoomPresenter {
+        val shotTitle = intent.getStringExtra(KEY_SHOT_TITLE)
+        val imageUrl = intent.getStringExtra(KEY_IMAGE_URL)
+        val shotUrl = intent.getStringExtra(KEY_SHOT_URL)
+        val presenterModule = ShotZoomPresenterModule(shotTitle, shotUrl, imageUrl)
+        val presenterComponent = DaggerShotZoomPresenterComponent.builder()
+            .applicationComponent(component)
+            .shotZoomPresenterModule(presenterModule)
+            .build()
+        return presenterComponent.getPresenter()
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shot_zoom);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        initToolbar();
-        initViews();
-
-        shotZoomPresenter.setPermissionsManager(new AndroidPermissionsManager(this));
+        initToolbar()
+        initViews()
+        shotZoomPresenter.setPermissionsManager(AndroidPermissionsManager(this))
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        shotZoomPresenter.removePermissionsManager();
+    override fun onDestroy() {
+        super.onDestroy()
+        shotZoomPresenter.removePermissionsManager()
     }
 
-    private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish());
+    private fun initToolbar() {
+        toolbar.setNavigationOnClickListener { finish() }
     }
 
-    private void initViews() {
-        shotZoomContainer = (ViewGroup) findViewById(R.id.shot_zoom_container);
-        loadingLayout = findViewById(R.id.loading_layout);
-        errorLayout = findViewById(R.id.error_layout);
-        errorLayout.findViewById(R.id.open_in_browser_button).setOnClickListener(v -> shotZoomPresenter.onOpenInBrowserClicked());
-
-        shotImage = (PhotoView) findViewById(R.id.shot_image);
+    private fun initViews() {
+        errorLayout.findViewById<View>(R.id.open_in_browser_button)
+            .setOnClickListener { shotZoomPresenter.onOpenInBrowserClicked() }
     }
 
-    @Override
-    public void showShotImage(String imageUrl) {
+    override fun showShotImage(imageUrl: String) {
         Glide.with(this)
-                .load(imageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .crossFade()
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        shotZoomPresenter.onImageLoadError();
-                        return false;
-                    }
+            .load(imageUrl)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .crossFade()
+            .listener(object : RequestListener<String?, GlideDrawable?> {
+                override fun onException(
+                    e: Exception,
+                    model: String?,
+                    target: Target<GlideDrawable?>,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    shotZoomPresenter.onImageLoadError()
+                    return false
+                }
 
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        shotZoomPresenter.onImageLoadSuccess();
-                        return false;
-                    }
-                })
-                .into(shotImage);
-
-        showToolbarMenu();
+                override fun onResourceReady(
+                    resource: GlideDrawable?,
+                    model: String?,
+                    target: Target<GlideDrawable?>,
+                    isFromMemoryCache: Boolean,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    shotZoomPresenter.onImageLoadSuccess()
+                    return false
+                }
+            })
+            .into(shotImage)
+        showToolbarMenu()
     }
 
-    @Override
-    public void showLoadingProgress() {
-        loadingLayout.setVisibility(View.VISIBLE);
+    override fun showLoadingProgress() {
+        loadingLayout.visibility = View.VISIBLE
     }
 
-    @Override
-    public void hideLoadingProgress() {
-        loadingLayout.setVisibility(View.GONE);
+    override fun hideLoadingProgress() {
+        loadingLayout.visibility = View.GONE
     }
 
-    private void showToolbarMenu() {
-        toolbar.inflateMenu(R.menu.shot_zoom);
-        toolbar.setOnMenuItemClickListener(this::onToolbarItenSelected);
+    private fun showToolbarMenu() {
+        toolbar.inflateMenu(R.menu.shot_zoom)
+        toolbar.setOnMenuItemClickListener { item: MenuItem -> onToolbarItenSelected(item) }
     }
 
-    private boolean onToolbarItenSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.download_shot_image:
-                shotZoomPresenter.onDownloadImageClicked();
-                return true;
-            case R.id.share_shot:
-                shotZoomPresenter.onShareShotClicked();
-                return true;
-            case R.id.open_in_browser:
-                shotZoomPresenter.onOpenInBrowserClicked();
-                return true;
-            default:
-                return false;
+    private fun onToolbarItenSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.download_shot_image -> {
+                shotZoomPresenter.onDownloadImageClicked()
+                true
+            }
+            R.id.share_shot -> {
+                shotZoomPresenter.onShareShotClicked()
+                true
+            }
+            R.id.open_in_browser -> {
+                shotZoomPresenter.onOpenInBrowserClicked()
+                true
+            }
+            else -> false
         }
     }
 
-    @Override
-    public void showShotSharing(String shotTitle, String shotUrl) {
-        AppUtils.sharePlainText(this, String.format("%s - %s", shotTitle, shotUrl));
+    override fun showShotSharing(shotTitle: String, shotUrl: String) {
+        AppUtils.sharePlainText(this, String.format("%s - %s", shotTitle, shotUrl))
     }
 
-    @Override
-    public void openInBrowser(String url) {
-        AppUtils.openInChromeTab(this, url);
+    override fun openInBrowser(url: String) {
+        AppUtils.openInChromeTab(this, url)
     }
 
-    @Override
-    public void showErrorLayout() {
-        errorLayout.setVisibility(View.VISIBLE);
+    override fun showErrorLayout() {
+        errorLayout.visibility = View.VISIBLE
     }
 
-    @Override
-    public void hideErrorLayout() {
-        errorLayout.setVisibility(View.GONE);
+    override fun hideErrorLayout() {
+        errorLayout.visibility = View.GONE
     }
 
-    @Override
-    public void showImageSavedMessage() {
-        Snackbar.make(shotZoomContainer, R.string.image_saved_to_downloads_folder, Snackbar.LENGTH_LONG)
-                .show();
+    override fun showImageSavedMessage() {
+        Snackbar.make(
+            shotZoomContainer,
+            R.string.image_saved_to_downloads_folder,
+            Snackbar.LENGTH_LONG
+        )
+            .show()
     }
 
-    @Override
-    public void showStorageAccessRationaleMessage() {
-        new AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
-                .setTitle(R.string.storage_access_title)
-                .setMessage(R.string.storage_access_rationale_message)
-                .setPositiveButton(R.string.storage_access_ok_button, (dialog, which) -> shotZoomPresenter.onDownloadImageClicked())
-                .show();
+    override fun showStorageAccessRationaleMessage() {
+        AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
+            .setTitle(R.string.storage_access_title)
+            .setMessage(R.string.storage_access_rationale_message)
+            .setPositiveButton(R.string.storage_access_ok_button) { dialog: DialogInterface?, which: Int -> shotZoomPresenter.onDownloadImageClicked() }
+            .show()
     }
 
-    @Override
-    public void showAllowStorageAccessMessage() {
-        new AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
-                .setTitle(R.string.storage_access_title)
-                .setMessage(R.string.storage_access_message)
-                .setPositiveButton(R.string.storage_access_settings_button, (dialog, which) -> shotZoomPresenter.onAppSettingsButtonClicked())
-                .show();
+    override fun showAllowStorageAccessMessage() {
+        AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
+            .setTitle(R.string.storage_access_title)
+            .setMessage(R.string.storage_access_message)
+            .setPositiveButton(R.string.storage_access_settings_button) { dialog: DialogInterface?, which: Int -> shotZoomPresenter.onAppSettingsButtonClicked() }
+            .show()
     }
 
-    @Override
-    public void openAppSettingsScreen() {
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getPackageName(), null);
-        intent.setData(uri);
-        startActivity(intent);
+    override fun openAppSettingsScreen() {
+        val intent = Intent()
+        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        val uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivity(intent)
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
+    companion object {
+
+        private const val KEY_SHOT_TITLE = "shot_title"
+        private const val KEY_SHOT_URL = "shot_url"
+        private const val KEY_IMAGE_URL = "image_url"
+
+        fun buildIntent(context: Context?, shot: Shot): Intent {
+            val intent = Intent(context, ShotZoomActivity::class.java)
+            intent.putExtra(KEY_SHOT_TITLE, shot.title)
+            intent.putExtra(KEY_SHOT_URL, shot.htmlUrl)
+            intent.putExtra(KEY_IMAGE_URL, shot.images.best())
+            return intent
+        }
+    }
 
 }

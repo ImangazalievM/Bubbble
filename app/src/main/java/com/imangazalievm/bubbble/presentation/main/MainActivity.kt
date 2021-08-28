@@ -10,13 +10,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.material.tabs.TabLayout
 import com.imangazalievm.bubbble.Constants
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatActivity
+import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
 import com.imangazalievm.bubbble.presentation.global.ui.commons.SearchQueryListener
 import com.imangazalievm.bubbble.presentation.shotslist.ShotsFragment.Companion.newInstance
 import com.imangazalievm.bubbble.presentation.shotssearch.ShotsSearchActivity.Companion.buildIntent
 import com.mikepenz.materialdrawer.DrawerBuilder
 
-class MainActivity : MvpAppCompatActivity(), MainView {
+class MainActivity : BaseMvpActivity(), MainView {
+
+    override val layoutRes: Int = R.layout.activity_main
 
     private val shotsViewPager: ViewPager by lazy {
         findViewById(R.id.shots_pager)
@@ -30,7 +32,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
         val toolbar = initToolbar()
         initDrawer(toolbar)
         initViews()

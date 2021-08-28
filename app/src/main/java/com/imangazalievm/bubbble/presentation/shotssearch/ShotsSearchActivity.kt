@@ -17,21 +17,23 @@ import com.imangazalievm.bubbble.di.shotssearch.DaggerShotsSearchPresenterCompon
 import com.imangazalievm.bubbble.di.shotssearch.ShotsSearchPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotsAdapter
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatActivity
+import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
 import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
 import com.imangazalievm.bubbble.presentation.global.ui.commons.SearchQueryListener
 import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity
 
-class ShotsSearchActivity : MvpAppCompatActivity(), ShotsSearchView {
-    
+class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
+
+    override val layoutRes: Int = R.layout.activity_shots_search
+
     @InjectPresenter
     lateinit var shotsSearchPresenter: ShotsSearchPresenter
-    
+
     @ProvidePresenter
     fun providePresenter(): ShotsSearchPresenter {
         val searchQuery = intent.getStringExtra(KEY_SEARCH_QUERY)
         val shotsPresenterComponent = DaggerShotsSearchPresenterComponent.builder()
-            .applicationComponent(BubbbleApplication.getComponent())
+            .applicationComponent(BubbbleApplication.component)
             .shotsSearchPresenterModule(ShotsSearchPresenterModule(searchQuery))
             .build()
         return shotsPresenterComponent.getPresenter()
@@ -52,10 +54,10 @@ class ShotsSearchActivity : MvpAppCompatActivity(), ShotsSearchView {
     private val shotsListLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(this)
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shots_search)
+
         initToolbar()
         initViews()
     }
@@ -145,6 +147,7 @@ class ShotsSearchActivity : MvpAppCompatActivity(), ShotsSearchView {
 
     companion object {
         private const val KEY_SEARCH_QUERY = "key_search_query"
+
         @JvmStatic
         fun buildIntent(context: Context?, searchQuery: String?): Intent {
             val intent = Intent(context, ShotsSearchActivity::class.java)

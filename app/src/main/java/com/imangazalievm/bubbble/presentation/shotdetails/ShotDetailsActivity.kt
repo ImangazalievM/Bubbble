@@ -1,57 +1,53 @@
 package com.imangazalievm.bubbble.presentation.shotdetails
 
 import android.content.Context
-import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.recyclerview.widget.RecyclerView
-import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotCommentsAdapter
-import com.imangazalievm.bubbble.presentation.global.ui.views.dribbbletextview.DribbbleTextView
-import com.greenfrvr.hashtagview.HashtagView
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity
-import com.imangazalievm.bubbble.di.shotdetails.ShotDetailsPresenterModule
-import com.imangazalievm.bubbble.di.shotdetails.ShotDetailsPresenterComponent
-import com.imangazalievm.bubbble.di.shotdetails.DaggerShotDetailsPresenterComponent
-import com.imangazalievm.bubbble.BubbbleApplication
-import android.os.Bundle
-import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.presentation.global.ui.commons.AndroidPermissionsManager
-import com.greenfrvr.hashtagview.HashtagView.TagsClickListener
-import android.widget.Toast
-import com.imangazalievm.bubbble.domain.global.models.Shot
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
-import com.imangazalievm.bubbble.presentation.global.ui.commons.glide.GlideCircleTransform
-import com.google.android.material.snackbar.Snackbar
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.snackbar.Snackbar
+import com.greenfrvr.hashtagview.HashtagView
+import com.imangazalievm.bubbble.BubbbleApplication
+import com.imangazalievm.bubbble.R
+import com.imangazalievm.bubbble.di.shotdetails.DaggerShotDetailsPresenterComponent
+import com.imangazalievm.bubbble.di.shotdetails.ShotDetailsPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.Comment
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatActivity
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotCommentsAdapter
+import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
+import com.imangazalievm.bubbble.presentation.global.ui.commons.AndroidPermissionsManager
+import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
+import com.imangazalievm.bubbble.presentation.global.ui.commons.glide.GlideCircleTransform
+import com.imangazalievm.bubbble.presentation.global.ui.views.dribbbletextview.DribbbleTextView
 import com.imangazalievm.bubbble.presentation.global.utils.AppUtils
-import com.imangazalievm.bubbble.presentation.userprofile.UserProfileActivity
+import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity
 import com.imangazalievm.bubbble.presentation.shotzoom.ShotZoomActivity
-import java.lang.Exception
+import com.imangazalievm.bubbble.presentation.userprofile.UserProfileActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ShotDetailsActivity : MvpAppCompatActivity(), ShotDetailsView {
+class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
+    override val layoutRes: Int = R.layout.activity_shot_details
 
     private val toolbar: Toolbar by lazy {
         findViewById(R.id.toolbar)
@@ -139,7 +135,7 @@ class ShotDetailsActivity : MvpAppCompatActivity(), ShotDetailsView {
         val shotId = intent.getLongExtra(KEY_SHOT_ID, -1)
         val presenterModule = ShotDetailsPresenterModule(shotId)
         val presenterComponent = DaggerShotDetailsPresenterComponent.builder()
-            .applicationComponent(BubbbleApplication.getComponent())
+            .applicationComponent(BubbbleApplication.component)
             .shotDetailsPresenterModule(presenterModule)
             .build()
         return presenterComponent.getPresenter()
@@ -147,8 +143,6 @@ class ShotDetailsActivity : MvpAppCompatActivity(), ShotDetailsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shot_details)
-
 
         toolbar.setNavigationOnClickListener { finish() }
         initViews()

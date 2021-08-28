@@ -1,8 +1,9 @@
 package com.imangazalievm.bubbble.presentation.global.ui.adapters.viewholders;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.imangazalievm.bubbble.R;
 
