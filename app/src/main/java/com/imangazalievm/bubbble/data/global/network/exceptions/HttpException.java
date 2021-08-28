@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.domain.global.exceptions;
+package com.imangazalievm.bubbble.data.global.network.exceptions;
 
 public class HttpException extends RuntimeException {
 

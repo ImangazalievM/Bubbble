@@ -1,25 +1,20 @@
-package com.imangazalievm.bubbble.data.shots;
+package com.imangazalievm.bubbble.data.shots
 
-import com.imangazalievm.bubbble.data.global.filesystem.UrlImageSaver;
+import com.imangazalievm.bubbble.data.global.filesystem.UrlImageSaver
+import io.reactivex.Completable
+import io.reactivex.CompletableOnSubscribe
+import io.reactivex.CompletableEmitter
+import javax.inject.Inject
 
-import javax.inject.Inject;
+class ImagesRepository @Inject constructor(
+    private val urlImageSaver: UrlImageSaver
+) {
 
-import io.reactivex.Completable;
-
-public class ImagesRepository {
-
-    private UrlImageSaver urlImageSaver;
-
-    @Inject
-    public ImagesRepository(UrlImageSaver urlImageSaver) {
-        this.urlImageSaver = urlImageSaver;
-    }
-
-    public Completable saveImage(String shotImageUrl) {
-        return Completable.create(e -> {
-            urlImageSaver.saveImage(shotImageUrl);
-            e.onComplete();
-        });
+    fun saveImage(shotImageUrl: String?): Completable {
+        return Completable.create { e: CompletableEmitter ->
+            urlImageSaver.saveImage(shotImageUrl)
+            e.onComplete()
+        }
     }
 
 }

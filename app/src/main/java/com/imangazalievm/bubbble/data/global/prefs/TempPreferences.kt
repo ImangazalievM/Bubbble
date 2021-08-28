@@ -1,38 +1,39 @@
-package com.imangazalievm.bubbble.data.global.prefs;
+package com.imangazalievm.bubbble.data.global.prefs
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Context
+import android.content.SharedPreferences
+import com.imangazalievm.bubbble.BuildConfig
+import io.reactivex.Completable
+import io.reactivex.Single
+import javax.inject.Inject
 
-import com.imangazalievm.bubbble.BuildConfig;
+class TempPreferences @Inject constructor(context: Context) {
 
-import javax.inject.Inject;
+    private val prefs: SharedPreferences
 
-import io.reactivex.Completable;
-import io.reactivex.Single;
-
-public class TempPreferences {
-
-    private static final String APP_PREFS_FILE_NAME = "app_preferences";
-    private static final String PREF_API_TOKEN = "api_token";
-
-    private SharedPreferences prefs;
-
-    @Inject
-    public TempPreferences(Context context) {
-        this.prefs = context.getSharedPreferences(APP_PREFS_FILE_NAME, Context.MODE_PRIVATE);
+    init {
+        prefs = context.getSharedPreferences(APP_PREFS_FILE_NAME, Context.MODE_PRIVATE)
     }
 
-    public Completable saveToken(String token) {
-        return Completable.fromAction(() -> prefs.edit().putString(PREF_API_TOKEN, token).apply());
+    fun saveToken(token: String?): Completable {
+        return Completable.fromAction { prefs.edit().putString(PREF_API_TOKEN, token).apply() }
     }
 
-    public Single<String> getToken() {
-        return Single.fromCallable(() -> prefs.getString(PREF_API_TOKEN, BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN));
+    val token: Single<String?>
+        get() = Single.fromCallable {
+            prefs.getString(
+                PREF_API_TOKEN,
+                BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN
+            )
+        }
+
+    fun clearToken(): Completable {
+        return Completable.fromAction { prefs.edit().putString(PREF_API_TOKEN, null).apply() }
     }
 
-    public Completable clearToken() {
-        return Completable.fromAction(() -> prefs.edit().putString(PREF_API_TOKEN, null).apply());
-
+    companion object {
+        private const val APP_PREFS_FILE_NAME = "app_preferences"
+        private const val PREF_API_TOKEN = "api_token"
     }
 
 }

@@ -1,38 +1,37 @@
-package com.imangazalievm.bubbble.data.global.prefs;
+package com.imangazalievm.bubbble.data.global.prefs
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Context
+import android.content.SharedPreferences
+import com.imangazalievm.bubbble.BuildConfig
+import io.reactivex.Completable
+import com.imangazalievm.bubbble.data.global.prefs.TempDataRepository
+import io.reactivex.Single
+import javax.inject.Inject
 
-import com.imangazalievm.bubbble.BuildConfig;
-
-import javax.inject.Inject;
-
-import io.reactivex.Completable;
-import io.reactivex.Single;
-
-public class TempDataRepository {
-
-    private static final String APP_PREFS_FILE_NAME = "app_preferences";
-    private static final String PREF_API_TOKEN = "api_token";
-
-    private SharedPreferences prefs;
-
-    @Inject
-    public TempDataRepository(Context context) {
-        this.prefs = context.getSharedPreferences(APP_PREFS_FILE_NAME, Context.MODE_PRIVATE);
+class TempDataRepository @Inject constructor(context: Context) {
+    private val prefs: SharedPreferences
+    fun saveToken(token: String?): Completable {
+        return Completable.fromAction { prefs.edit().putString(PREF_API_TOKEN, token).apply() }
     }
 
-    public Completable saveToken(String token) {
-        return Completable.fromAction(() -> prefs.edit().putString(PREF_API_TOKEN, token).apply());
+    val token: Single<String?>
+        get() = Single.fromCallable {
+            prefs.getString(
+                PREF_API_TOKEN,
+                BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN
+            )
+        }
+
+    fun clearToken(): Completable {
+        return Completable.fromAction { prefs.edit().putString(PREF_API_TOKEN, null).apply() }
     }
 
-    public Single<String> getToken() {
-        return Single.fromCallable(() -> prefs.getString(PREF_API_TOKEN, BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN));
+    companion object {
+        private const val APP_PREFS_FILE_NAME = "app_preferences"
+        private const val PREF_API_TOKEN = "api_token"
     }
 
-    public Completable clearToken() {
-        return Completable.fromAction(() -> prefs.edit().putString(PREF_API_TOKEN, null).apply());
-
+    init {
+        prefs = context.getSharedPreferences(APP_PREFS_FILE_NAME, Context.MODE_PRIVATE)
     }
-
 }
