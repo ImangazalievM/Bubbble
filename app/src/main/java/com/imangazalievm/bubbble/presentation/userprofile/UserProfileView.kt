@@ -1,26 +1,33 @@
-package com.imangazalievm.bubbble.presentation.userprofile;
+package com.imangazalievm.bubbble.presentation.userprofile
 
-import com.arellomobile.mvp.MvpView;
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-import com.imangazalievm.bubbble.domain.global.models.User;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.MvpView
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
+import com.imangazalievm.bubbble.domain.global.models.User
 
+@StateStrategyType(AddToEndSingleStrategy::class)
+interface UserProfileView : MvpView {
 
-@StateStrategyType(AddToEndSingleStrategy.class)
-public interface UserProfileView extends MvpView {
+    fun showUser(user: User)
 
-    void showUser(User user);
-    void showLoadingProgress();
-    void hideLoadingProgress();
-    void showNoNetworkLayout();
-    void hideNoNetworkLayout();
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void openUserProfileScreen(long userId);
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void openInBrowser(String shotUrl);
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void showUserProfileSharing(User user);
-    void closeScreen();
+    fun showLoadingProgress()
+
+    fun hideLoadingProgress()
+
+    fun showNoNetworkLayout()
+
+    fun hideNoNetworkLayout()
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun openUserProfileScreen(userId: Long)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun openInBrowser(shotUrl: String)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showUserProfileSharing(user: User)
+
+    fun closeScreen()
 
 }

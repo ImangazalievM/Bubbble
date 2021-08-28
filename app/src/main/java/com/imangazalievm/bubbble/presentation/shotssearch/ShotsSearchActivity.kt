@@ -1,167 +1,155 @@
-package com.imangazalievm.bubbble.presentation.shotssearch;
+package com.imangazalievm.bubbble.presentation.shotssearch
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.view.Menu
+import android.view.View
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.imangazalievm.bubbble.BubbbleApplication
+import com.imangazalievm.bubbble.R
+import com.imangazalievm.bubbble.di.shotssearch.DaggerShotsSearchPresenterComponent
+import com.imangazalievm.bubbble.di.shotssearch.ShotsSearchPresenterModule
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotsAdapter
+import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatActivity
+import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
+import com.imangazalievm.bubbble.presentation.global.ui.commons.SearchQueryListener
+import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity
 
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.imangazalievm.bubbble.BubbbleApplication;
-import com.imangazalievm.bubbble.R;
-import com.imangazalievm.bubbble.di.shotssearch.DaggerShotsSearchPresenterComponent;
-import com.imangazalievm.bubbble.di.shotssearch.ShotsSearchPresenterComponent;
-import com.imangazalievm.bubbble.di.shotssearch.ShotsSearchPresenterModule;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
-import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotsAdapter;
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatActivity;
-import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener;
-import com.imangazalievm.bubbble.presentation.global.ui.commons.SearchQueryListener;
-import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity;
-
-import java.util.List;
-
-public class ShotsSearchActivity extends MvpAppCompatActivity implements ShotsSearchView {
-
-    private static final String KEY_SEARCH_QUERY = "key_search_query";
-
-    public static Intent buildIntent(Context context, String searchQuery) {
-        Intent intent = new Intent(context, ShotsSearchActivity.class);
-        intent.putExtra(KEY_SEARCH_QUERY, searchQuery);
-        return intent;
-    }
-
+class ShotsSearchActivity : MvpAppCompatActivity(), ShotsSearchView {
+    
     @InjectPresenter
-    ShotsSearchPresenter shotsSearchPresenter;
-
+    lateinit var shotsSearchPresenter: ShotsSearchPresenter
+    
     @ProvidePresenter
-    ShotsSearchPresenter providePresenter() {
-        String searchQuery = getIntent().getStringExtra(KEY_SEARCH_QUERY);
-
-        ShotsSearchPresenterComponent shotsPresenterComponent = DaggerShotsSearchPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.getComponent())
-                .shotsSearchPresenterModule(new ShotsSearchPresenterModule(searchQuery))
-                .build();
-        return shotsPresenterComponent.getPresenter();
+    fun providePresenter(): ShotsSearchPresenter {
+        val searchQuery = intent.getStringExtra(KEY_SEARCH_QUERY)
+        val shotsPresenterComponent = DaggerShotsSearchPresenterComponent.builder()
+            .applicationComponent(BubbbleApplication.getComponent())
+            .shotsSearchPresenterModule(ShotsSearchPresenterModule(searchQuery))
+            .build()
+        return shotsPresenterComponent.getPresenter()
     }
 
-    private View loadingLayout;
-    private View noNetworkLayout;
-
-    private RecyclerView shotsRecyclerView;
-    private ShotsAdapter shotsAdapter;
-    private LinearLayoutManager shotsListLayoutManager;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shots_search);
-
-        initToolbar();
-        initViews();
+    private val loadingLayout: View by lazy {
+        findViewById(R.id.loading_layout)
+    }
+    private val noNetworkLayout: View by lazy {
+        findViewById(R.id.no_network_layout)
+    }
+    private val shotsRecyclerView: RecyclerView by lazy {
+        findViewById<View>(R.id.shotsRecyclerView) as RecyclerView
+    }
+    private val shotsAdapter: ShotsAdapter by lazy {
+        ShotsAdapter(this)
+    }
+    private val shotsListLayoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(this)
+    }
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_shots_search)
+        initToolbar()
+        initViews()
     }
 
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish());
-        toolbar.inflateMenu(R.menu.shots_search);
-        initOptionsMenu(toolbar.getMenu());
+    private fun initToolbar() {
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        toolbar.setNavigationOnClickListener { finish() }
+        toolbar.inflateMenu(R.menu.shots_search)
+        initOptionsMenu(toolbar.menu)
     }
 
-    public void initOptionsMenu(Menu menu) {
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchQueryListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                shotsSearchPresenter.onNewSearchQuery(query);
-                return true;
+    fun initOptionsMenu(menu: Menu) {
+        val myActionMenuItem = menu.findItem(R.id.action_search)
+        val searchView = myActionMenuItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchQueryListener() {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                shotsSearchPresenter.onNewSearchQuery(query)
+                return true
             }
-        });
+        })
     }
 
-    private void initViews() {
-        loadingLayout = findViewById(R.id.loading_layout);
-        noNetworkLayout = findViewById(R.id.no_network_layout);
-        noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> shotsSearchPresenter.retryLoading());
-
-        shotsRecyclerView = (RecyclerView) findViewById(R.id.shotsRecyclerView);
-        shotsListLayoutManager = new LinearLayoutManager(this);
-        shotsRecyclerView.setLayoutManager(shotsListLayoutManager);
-        shotsRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
-            @Override
-            public void onLoadMore() {
-                shotsSearchPresenter.onLoadMoreShotsRequest();
+    private fun initViews() {
+        noNetworkLayout.findViewById<View>(R.id.retry_button)
+            .setOnClickListener { shotsSearchPresenter.retryLoading() }
+        shotsRecyclerView.layoutManager = shotsListLayoutManager
+        shotsRecyclerView.addOnScrollListener(object :
+            EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
+            override fun onLoadMore() {
+                shotsSearchPresenter.onLoadMoreShotsRequest()
             }
-        });
-
-        initRecyclerViewAdapter();
+        })
+        initRecyclerViewAdapter()
     }
 
-    private void initRecyclerViewAdapter() {
-        shotsAdapter = new ShotsAdapter(this);
-        shotsAdapter.setOnItemClickListener(position -> shotsSearchPresenter.onShotClick(position));
-        shotsAdapter.setOnRetryLoadMoreListener(() -> shotsSearchPresenter.retryLoading());
-        shotsRecyclerView.setAdapter(shotsAdapter);
+    private fun initRecyclerViewAdapter() {
+        shotsAdapter.setOnItemClickListener { position: Int ->
+            shotsSearchPresenter.onShotClick(
+                position
+            )
+        }
+        shotsAdapter.setOnRetryLoadMoreListener { shotsSearchPresenter.retryLoading() }
+        shotsRecyclerView.adapter = shotsAdapter
     }
 
-    @Override
-    public void showNewShots(List<Shot> newShots) {
-        shotsRecyclerView.setVisibility(View.VISIBLE);
-        shotsAdapter.addItems(newShots);
+    override fun showNewShots(newShots: List<Shot>) {
+        shotsRecyclerView.visibility = View.VISIBLE
+        shotsAdapter.addItems(newShots)
     }
 
-    @Override
-    public void clearShotsList() {
-        initRecyclerViewAdapter();
-        shotsRecyclerView.setVisibility(View.GONE);
+    override fun clearShotsList() {
+        initRecyclerViewAdapter()
+        shotsRecyclerView.visibility = View.GONE
     }
 
-    @Override
-    public void showShotsLoadingProgress() {
-        loadingLayout.setVisibility(View.VISIBLE);
+    override fun showShotsLoadingProgress() {
+        loadingLayout.visibility = View.VISIBLE
     }
 
-    @Override
-    public void hideShotsLoadingProgress() {
-        loadingLayout.setVisibility(View.GONE);
+    override fun hideShotsLoadingProgress() {
+        loadingLayout.visibility = View.GONE
     }
 
-    @Override
-    public void showShotsLoadingMoreProgress() {
-        shotsAdapter.setLoadingMore(true);
+    override fun showShotsLoadingMoreProgress() {
+        shotsAdapter.setLoadingMore(true)
     }
 
-    @Override
-    public void hideShotsLoadingMoreProgress() {
-        shotsAdapter.setLoadingMore(false);
+    override fun hideShotsLoadingMoreProgress() {
+        shotsAdapter.setLoadingMore(false)
     }
 
-    @Override
-    public void openShotDetailsScreen(long shotId) {
-        startActivity(ShotDetailsActivity.buildIntent(this, shotId));
+    override fun openShotDetailsScreen(shotId: Long) {
+        startActivity(ShotDetailsActivity.buildIntent(this, shotId))
     }
 
-    @Override
-    public void showNoNetworkLayout() {
-        noNetworkLayout.setVisibility(View.VISIBLE);
+    override fun showNoNetworkLayout() {
+        noNetworkLayout.visibility = View.VISIBLE
     }
 
-    @Override
-    public void hideNoNetworkLayout() {
-        noNetworkLayout.setVisibility(View.GONE);
+    override fun hideNoNetworkLayout() {
+        noNetworkLayout.visibility = View.GONE
     }
 
-    @Override
-    public void showLoadMoreError() {
-        shotsAdapter.setLoadingError(true);
+    override fun showLoadMoreError() {
+        shotsAdapter.setLoadingError(true)
     }
 
+    companion object {
+        private const val KEY_SEARCH_QUERY = "key_search_query"
+        @JvmStatic
+        fun buildIntent(context: Context?, searchQuery: String?): Intent {
+            val intent = Intent(context, ShotsSearchActivity::class.java)
+            intent.putExtra(KEY_SEARCH_QUERY, searchQuery)
+            return intent
+        }
+    }
 }

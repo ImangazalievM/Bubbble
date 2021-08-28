@@ -1,16 +1,12 @@
-package com.imangazalievm.bubbble.presentation.main;
+package com.imangazalievm.bubbble.presentation.main
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
+import com.arellomobile.mvp.InjectViewState
+import com.arellomobile.mvp.MvpPresenter
 
 @InjectViewState
-public class MainPresenter extends MvpPresenter<MainView> {
+class MainPresenter : MvpPresenter<MainView>() {
 
-    public MainPresenter() {
+    fun onSearchQuery(searchQuery: String) {
+        viewState.openSearchScreen(searchQuery)
     }
-
-    public void onSearchQuery(String searchQuery) {
-        getViewState().openSearchScreen(searchQuery);
-    }
-
 }

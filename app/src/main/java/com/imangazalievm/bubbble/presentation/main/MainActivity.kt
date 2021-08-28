@@ -1,85 +1,86 @@
-package com.imangazalievm.bubbble.presentation.main;
+package com.imangazalievm.bubbble.presentation.main
 
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Bundle
+import android.view.Menu
+import android.view.View
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
+import androidx.viewpager.widget.ViewPager
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.google.android.material.tabs.TabLayout
+import com.imangazalievm.bubbble.Constants
+import com.imangazalievm.bubbble.R
+import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatActivity
+import com.imangazalievm.bubbble.presentation.global.ui.commons.SearchQueryListener
+import com.imangazalievm.bubbble.presentation.shotslist.ShotsFragment.Companion.newInstance
+import com.imangazalievm.bubbble.presentation.shotssearch.ShotsSearchActivity.Companion.buildIntent
+import com.mikepenz.materialdrawer.DrawerBuilder
 
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
+class MainActivity : MvpAppCompatActivity(), MainView {
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.tabs.TabLayout;
-import com.imangazalievm.bubbble.Constants;
-import com.imangazalievm.bubbble.R;
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatActivity;
-import com.imangazalievm.bubbble.presentation.global.ui.commons.SearchQueryListener;
-import com.imangazalievm.bubbble.presentation.shotslist.ShotsFragment;
-import com.imangazalievm.bubbble.presentation.shotssearch.ShotsSearchActivity;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-
-public class MainActivity extends MvpAppCompatActivity implements MainView {
-
-    private ViewPager shotsViewPager;
-    private TabLayout tabLayout;
+    private val shotsViewPager: ViewPager by lazy {
+        findViewById(R.id.shots_pager)
+    }
+    private val tabLayout: TabLayout by lazy {
+        findViewById(R.id.tabs)
+    }
 
     @InjectPresenter
-    MainPresenter mainPresenter;
+    lateinit var mainPresenter: MainPresenter
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = initToolbar();
-        initDrawer(toolbar);
-        initViews();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val toolbar = initToolbar()
+        initDrawer(toolbar)
+        initViews()
     }
 
-    private Toolbar initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-        toolbar.inflateMenu(R.menu.main);
-        initOptionsMenu(toolbar.getMenu());
-        return toolbar;
+    private fun initToolbar(): Toolbar {
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        toolbar.setTitle(R.string.app_name)
+        toolbar.inflateMenu(R.menu.main)
+        initOptionsMenu(toolbar.menu)
+        return toolbar
     }
 
-    public void initOptionsMenu(Menu menu) {
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) myActionMenuItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchQueryListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                mainPresenter.onSearchQuery(query);
-                return true;
+    fun initOptionsMenu(menu: Menu) {
+        val myActionMenuItem = menu.findItem(R.id.action_search)
+        val searchView = myActionMenuItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchQueryListener() {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                mainPresenter.onSearchQuery(query)
+                return true
             }
-        });
+        })
     }
 
-    private void initDrawer(Toolbar toolbar) {
-        new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .build();
+    private fun initDrawer(toolbar: Toolbar) {
+        DrawerBuilder()
+            .withActivity(this)
+            .withToolbar(toolbar)
+            .build()
     }
 
-    private void initViews() {
-        shotsViewPager = (ViewPager) findViewById(R.id.shots_pager);
-        setupViewPager(shotsViewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(shotsViewPager);
+    private fun initViews() {
+        setupViewPager(shotsViewPager)
+        tabLayout.setupWithViewPager(shotsViewPager)
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ShotsPagerAdapter shotsPagerAdapter = new ShotsPagerAdapter(getSupportFragmentManager());
-        shotsPagerAdapter.addFragment(ShotsFragment.newInstance(Constants.SHOTS_SORT_POPULAR), getResources().getString(R.string.popular));
-        shotsPagerAdapter.addFragment(ShotsFragment.newInstance(Constants.SHOTS_SORT_RECENT), getResources().getString(R.string.recently));
-        viewPager.setAdapter(shotsPagerAdapter);
+    private fun setupViewPager(viewPager: ViewPager) {
+        val shotsPagerAdapter = ShotsPagerAdapter(supportFragmentManager)
+        shotsPagerAdapter.addFragment(
+            newInstance(Constants.SHOTS_SORT_POPULAR),
+            resources.getString(R.string.popular)
+        )
+        shotsPagerAdapter.addFragment(
+            newInstance(Constants.SHOTS_SORT_RECENT),
+            resources.getString(R.string.recently)
+        )
+        viewPager.adapter = shotsPagerAdapter
     }
 
-    @Override
-    public void openSearchScreen(String searchQuery) {
-        startActivity(ShotsSearchActivity.buildIntent(this, searchQuery));
+    override fun openSearchScreen(searchQuery: String) {
+        startActivity(buildIntent(this, searchQuery))
     }
 }

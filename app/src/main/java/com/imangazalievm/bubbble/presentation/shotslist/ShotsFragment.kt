@@ -1,138 +1,131 @@
-package com.imangazalievm.bubbble.presentation.shotslist;
+package com.imangazalievm.bubbble.presentation.shotslist
 
-import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.imangazalievm.bubbble.BubbbleApplication
+import com.imangazalievm.bubbble.R
+import com.imangazalievm.bubbble.di.shotslist.DaggerShotsPresenterComponent
+import com.imangazalievm.bubbble.di.shotslist.ShotsPresenterModule
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotsAdapter
+import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatFragment
+import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
+import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.imangazalievm.bubbble.BubbbleApplication;
-import com.imangazalievm.bubbble.R;
-import com.imangazalievm.bubbble.di.shotslist.DaggerShotsPresenterComponent;
-import com.imangazalievm.bubbble.di.shotslist.ShotsPresenterComponent;
-import com.imangazalievm.bubbble.di.shotslist.ShotsPresenterModule;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
-import com.imangazalievm.bubbble.presentation.global.ui.base.MvpAppCompatFragment;
-import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity;
-import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotsAdapter;
-import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener;
-
-import java.util.List;
-
-public class ShotsFragment extends MvpAppCompatFragment implements ShotsView {
-
-    private static final String SORT_TYPE_ARG = "sort";
-
-    public static ShotsFragment newInstance(String sort) {
-        ShotsFragment fragment = new ShotsFragment();
-        Bundle args = new Bundle();
-        args.putString(SORT_TYPE_ARG, sort);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+class ShotsFragment : MvpAppCompatFragment(), ShotsView {
+    
     @InjectPresenter
-    ShotsPresenter shotsPresenter;
-
+    lateinit var shotsPresenter: ShotsPresenter
+    
     @ProvidePresenter
-    ShotsPresenter providePresenter() {
-        String sortType = getArguments().getString(SORT_TYPE_ARG);
-
-        ShotsPresenterComponent shotsPresenterComponent = DaggerShotsPresenterComponent.builder()
-                .applicationComponent(BubbbleApplication.getComponent())
-                .shotsPresenterModule(new ShotsPresenterModule(sortType))
-                .build();
-        return shotsPresenterComponent.getPresenter();
+    fun providePresenter(): ShotsPresenter {
+        val sortType = requireArguments().getString(SORT_TYPE_ARG)
+        val shotsPresenterComponent = DaggerShotsPresenterComponent.builder()
+            .applicationComponent(BubbbleApplication.getComponent())
+            .shotsPresenterModule(ShotsPresenterModule(sortType!!))
+            .build()
+        return shotsPresenterComponent.getPresenter()
     }
 
-    private View loadingLayout;
-    private View noNetworkLayout;
-
-    private RecyclerView shotsRecyclerView;
-    private ShotsAdapter shotsAdapter;
-    private LinearLayoutManager shotsListLayoutManager;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_shots, container, false);
+    private val loadingLayout: View by lazy {
+        requireView().findViewById(R.id.loading_layout)
+    }
+    private val noNetworkLayout: View by lazy {
+        requireView().findViewById(R.id.no_network_layout)
+    }
+    private val shotsRecyclerView: RecyclerView by lazy {
+        requireView().findViewById(R.id.shotsRecyclerView)
+    }
+    private val shotsAdapter: ShotsAdapter by lazy {
+        ShotsAdapter(context)
+    }
+    private val shotsListLayoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(context)
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_shots, container, false)
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        initViews(view);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews(view)
     }
 
-    private void initViews(View view) {
-        loadingLayout = view.findViewById(R.id.loading_layout);
-        noNetworkLayout = view.findViewById(R.id.no_network_layout);
-        noNetworkLayout.findViewById(R.id.retry_button).setOnClickListener(v -> shotsPresenter.retryLoading());
-
-        shotsRecyclerView = view.findViewById(R.id.shotsRecyclerView);
-        shotsListLayoutManager = new LinearLayoutManager(getContext());
-        shotsRecyclerView.setLayoutManager(shotsListLayoutManager);
-
-        shotsAdapter = new ShotsAdapter(getContext());
-        shotsAdapter.setOnItemClickListener(position -> shotsPresenter.onShotClick(position));
-        shotsAdapter.setOnRetryLoadMoreListener(() -> shotsPresenter.retryLoading());
-        shotsRecyclerView.setAdapter(shotsAdapter);
-        shotsRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
-            @Override
-            public void onLoadMore() {
-                shotsPresenter.onLoadMoreShotsRequest();
+    private fun initViews(view: View) {
+        noNetworkLayout.findViewById<View>(R.id.retry_button)
+            .setOnClickListener { shotsPresenter.retryLoading() }
+        shotsRecyclerView.layoutManager = shotsListLayoutManager
+        shotsAdapter.setOnItemClickListener { position: Int ->
+            shotsPresenter.onShotClick(
+                position
+            )
+        }
+        shotsAdapter.setOnRetryLoadMoreListener { shotsPresenter.retryLoading() }
+        shotsRecyclerView.setAdapter(shotsAdapter)
+        shotsRecyclerView.addOnScrollListener(object :
+            EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
+            override fun onLoadMore() {
+                shotsPresenter.onLoadMoreShotsRequest()
             }
-        });
+        })
     }
 
-    @Override
-    public void showNewShots(List<Shot> newShots) {
-        shotsRecyclerView.setVisibility(View.VISIBLE);
-        shotsAdapter.addItems(newShots);
+    override fun showNewShots(newShots: List<Shot>) {
+        shotsRecyclerView.visibility = View.VISIBLE
+        shotsAdapter.addItems(newShots)
     }
 
-    @Override
-    public void showShotsLoadingProgress() {
-        loadingLayout.setVisibility(View.VISIBLE);
+    override fun showShotsLoadingProgress() {
+        loadingLayout.visibility = View.VISIBLE
     }
 
-    @Override
-    public void hideShotsLoadingProgress() {
-        loadingLayout.setVisibility(View.GONE);
+    override fun hideShotsLoadingProgress() {
+        loadingLayout.visibility = View.GONE
     }
 
-    @Override
-    public void showShotsLoadingMoreProgress() {
-        shotsAdapter.setLoadingMore(true);
+    override fun showShotsLoadingMoreProgress() {
+        shotsAdapter.setLoadingMore(true)
     }
 
-    @Override
-    public void hideShotsLoadingMoreProgress() {
-        shotsAdapter.setLoadingMore(false);
+    override fun hideShotsLoadingMoreProgress() {
+        shotsAdapter.setLoadingMore(false)
     }
 
-    @Override
-    public void openShotDetailsScreen(long shotId) {
-        startActivity(ShotDetailsActivity.buildIntent(getActivity(), shotId));
+    override fun openShotDetailsScreen(shotId: Long) {
+        startActivity(ShotDetailsActivity.buildIntent(activity, shotId))
     }
 
-    @Override
-    public void showNoNetworkLayout() {
-        noNetworkLayout.setVisibility(View.VISIBLE);
+    override fun showNoNetworkLayout() {
+        noNetworkLayout.visibility = View.VISIBLE
     }
 
-    @Override
-    public void hideNoNetworkLayout() {
-        noNetworkLayout.setVisibility(View.GONE);
+    override fun hideNoNetworkLayout() {
+        noNetworkLayout.visibility = View.GONE
     }
 
-    @Override
-    public void showLoadMoreError() {
-        shotsAdapter.setLoadingError(true);
+    override fun showLoadMoreError() {
+        shotsAdapter.setLoadingError(true)
     }
 
+    companion object {
+        private const val SORT_TYPE_ARG = "sort"
+        @JvmStatic
+        fun newInstance(sort: String?): ShotsFragment {
+            val fragment = ShotsFragment()
+            val args = Bundle()
+            args.putString(SORT_TYPE_ARG, sort)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 }

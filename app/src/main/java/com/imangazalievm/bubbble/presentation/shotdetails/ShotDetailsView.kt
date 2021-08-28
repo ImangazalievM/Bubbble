@@ -1,39 +1,53 @@
-package com.imangazalievm.bubbble.presentation.shotdetails;
+package com.imangazalievm.bubbble.presentation.shotdetails
 
-import com.arellomobile.mvp.MvpView;
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-import com.imangazalievm.bubbble.domain.global.models.Comment;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.MvpView
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
+import com.imangazalievm.bubbble.domain.global.models.Comment
 
-import java.util.List;
+@StateStrategyType(AddToEndSingleStrategy::class)
+interface ShotDetailsView : MvpView {
 
+    fun showShot(shot: Shot)
 
-@StateStrategyType(AddToEndSingleStrategy.class)
-public interface ShotDetailsView extends MvpView {
+    fun showLoadingProgress()
 
-    void showShot(Shot shot);
-    void showLoadingProgress();
-    void hideLoadingProgress();
-    void showNoNetworkLayout();
-    void hideNoNetworkLayout();
-    void hideImageLoadingProgress();
-    void showNewComments(List<Comment> newComments);
-    void showCommentsLoadingProgress();
-    void hideCommentsLoadingProgress();
-    void showNoComments();
-    void showImageSavedMessage();
-    void showStorageAccessRationaleMessage();
-    void showAllowStorageAccessMessage();
-    void openAppSettingsScreen();
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void showShotSharing(String shotTitle, String shotUrl);
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void openInBrowser(String url);
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void openUserProfileScreen(long userId);
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void openShotImageScreen(Shot shot);
+    fun hideLoadingProgress()
+
+    fun showNoNetworkLayout()
+
+    fun hideNoNetworkLayout()
+
+    fun hideImageLoadingProgress()
+
+    fun showNewComments(newComments: List<Comment>)
+
+    fun showCommentsLoadingProgress()
+
+    fun hideCommentsLoadingProgress()
+
+    fun showNoComments()
+
+    fun showImageSavedMessage()
+
+    fun showStorageAccessRationaleMessage()
+
+    fun showAllowStorageAccessMessage()
+
+    fun openAppSettingsScreen()
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showShotSharing(shotTitle: String, shotUrl: String)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun openInBrowser(url: String)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun openUserProfileScreen(userId: Long)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun openShotImageScreen(shot: Shot)
 
 }

@@ -1,26 +1,31 @@
-package com.imangazalievm.bubbble.presentation.shotslist;
+package com.imangazalievm.bubbble.presentation.shotslist
 
-import com.arellomobile.mvp.MvpView;
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.MvpView
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 
-import java.util.List;
+@StateStrategyType(AddToEndSingleStrategy::class)
+interface ShotsView : MvpView {
 
+    fun showNewShots(newShots: List<Shot>)
 
-@StateStrategyType(AddToEndSingleStrategy.class)
-public interface ShotsView extends MvpView {
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showShotsLoadingProgress()
 
-    void showNewShots(List<Shot> newShots);
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void showShotsLoadingProgress();
-    void hideShotsLoadingProgress();
-    void showShotsLoadingMoreProgress();
-    void hideShotsLoadingMoreProgress();
-    void openShotDetailsScreen(long shotId);
-    void showNoNetworkLayout();
-    void hideNoNetworkLayout();
-    void showLoadMoreError();
+    fun hideShotsLoadingProgress()
+
+    fun showShotsLoadingMoreProgress()
+
+    fun hideShotsLoadingMoreProgress()
+
+    fun openShotDetailsScreen(shotId: Long)
+
+    fun showNoNetworkLayout()
+
+    fun hideNoNetworkLayout()
+
+    fun showLoadMoreError()
 
 }

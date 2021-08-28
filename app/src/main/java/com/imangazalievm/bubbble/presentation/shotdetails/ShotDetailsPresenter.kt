@@ -1,182 +1,179 @@
-package com.imangazalievm.bubbble.presentation.shotdetails;
+package com.imangazalievm.bubbble.presentation.shotdetails
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.global.models.Comment;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
-import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams;
-import com.imangazalievm.bubbble.domain.shotdetails.ShotDetailsInteractor;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
-import com.imangazalievm.bubbble.presentation.global.permissions.Permission;
-import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager;
-import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManagerHolder;
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils;
-
-import java.util.List;
-
-import javax.inject.Inject;
+import com.arellomobile.mvp.InjectViewState
+import com.arellomobile.mvp.MvpPresenter
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
+import com.imangazalievm.bubbble.domain.global.models.Comment
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams
+import com.imangazalievm.bubbble.domain.shotdetails.ShotDetailsInteractor
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.permissions.Permission
+import com.imangazalievm.bubbble.presentation.global.permissions.PermissionResult
+import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
+import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManagerHolder
+import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
+import javax.inject.Inject
 
 @InjectViewState
-public class ShotDetailsPresenter extends MvpPresenter<ShotDetailsView> {
+class ShotDetailsPresenter @Inject constructor(
+    private val shotDetailsInteractor: ShotDetailsInteractor,
+    private val schedulersProvider: SchedulersProvider,
+    private val shotId: Long
+) : MvpPresenter<ShotDetailsView>() {
 
-    private static final int COMMENTS_PAGE_SIZE = 20;
+    private var permissionsManagerHolder = PermissionsManagerHolder()
+    private lateinit var shot: Shot
+    private val isShotLoaded: Boolean
+        get() = ::shot.isInitialized
+    private var currentMaxCommentsPage = 1
+    private var isCommentsLoading = false
 
-    private ShotDetailsInteractor shotDetailsInteractor;
-    private SchedulersProvider schedulersProvider;
-    private PermissionsManagerHolder permissionsManagerHolder;
-    private long shotId;
-    private Shot shot;
-    private int currentMaxCommentsPage = 1;
-    private boolean isCommentsLoading = false;
-
-    @Inject
-    public ShotDetailsPresenter(
-            ShotDetailsInteractor shotDetailsInteractor,
-            SchedulersProvider schedulersProvider,
-            long shotId
-    ) {
-        this.shotDetailsInteractor = shotDetailsInteractor;
-        this.permissionsManagerHolder = new PermissionsManagerHolder();
-        this.schedulersProvider = schedulersProvider;
-        this.shotId = shotId;
+    fun setPermissionsManager(permissionsManager: PermissionsManager) {
+        permissionsManagerHolder.setPermissionsManager(permissionsManager)
     }
 
-    public void setPermissionsManager(PermissionsManager permissionsManager) {
-        permissionsManagerHolder.setPermissionsManager(permissionsManager);
+    fun removePermissionsManager() {
+        permissionsManagerHolder.removePermissionsManager()
     }
 
-    public void removePermissionsManager() {
-        permissionsManagerHolder.removePermissionsManager();
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+
+        loadShot()
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-
-        loadShot();
-    }
-
-    private void loadShot() {
-        getViewState().showLoadingProgress();
+    private fun loadShot() {
+        viewState.showLoadingProgress()
         shotDetailsInteractor.getShot(shotId)
-                .observeOn(schedulersProvider.ui())
-                .subscribe(this::onShotLoaded, this::onShotLoadError);
+            .observeOn(schedulersProvider.ui())
+            .subscribe({ shot: Shot -> onShotLoaded(shot) }) { throwable: Throwable ->
+                onShotLoadError(
+                    throwable
+                )
+            }
     }
 
-    private void onShotLoaded(Shot shot) {
-        this.shot = shot;
-        getViewState().hideLoadingProgress();
-        getViewState().showShot(shot);
-
-        if (shot.getCommentsCount() > 0) {
-            loadMoreComments(1);
+    private fun onShotLoaded(shot: Shot) {
+        this.shot = shot
+        viewState.hideLoadingProgress()
+        viewState.showShot(shot)
+        if (shot.commentsCount > 0) {
+            loadMoreComments(1)
         } else {
-            getViewState().showNoComments();
+            viewState.showNoComments()
         }
     }
 
-    private void onShotLoadError(Throwable throwable) {
-        if (throwable instanceof NoNetworkException) {
-            getViewState().hideLoadingProgress();
-            getViewState().showNoNetworkLayout();
+    private fun onShotLoadError(throwable: Throwable) {
+        if (throwable is NoNetworkException) {
+            viewState.hideLoadingProgress()
+            viewState.showNoNetworkLayout()
         } else {
-            DebugUtils.showDebugErrorMessage(throwable);
+            DebugUtils.showDebugErrorMessage(throwable)
         }
     }
 
-    public void onImageLoadError() {
-        getViewState().hideImageLoadingProgress();
+    fun onImageLoadError() {
+        viewState.hideImageLoadingProgress()
     }
 
-    public void onImageLoadSuccess() {
-        getViewState().hideImageLoadingProgress();
+    fun onImageLoadSuccess() {
+        viewState.hideImageLoadingProgress()
     }
 
-    public void retryLoading() {
-        getViewState().hideNoNetworkLayout();
-        loadShot();
+    fun retryLoading() {
+        viewState.hideNoNetworkLayout()
+        loadShot()
     }
 
-    private void loadMoreComments(int page) {
-        isCommentsLoading = true;
-        ShotCommentsRequestParams shotCommentsRequestParams = new ShotCommentsRequestParams(shotId, page, COMMENTS_PAGE_SIZE);
+    private fun loadMoreComments(page: Int) {
+        isCommentsLoading = true
+        val shotCommentsRequestParams = ShotCommentsRequestParams(shotId, page, COMMENTS_PAGE_SIZE)
         shotDetailsInteractor.getShotComments(shotCommentsRequestParams)
-                .observeOn(schedulersProvider.ui())
-                .subscribe(this::onCommentsLoaded, DebugUtils::showDebugErrorMessage);
+            .observeOn(schedulersProvider.ui())
+            .subscribe({ newComments: List<Comment> -> onCommentsLoaded(newComments) }) { throwable: Throwable ->
+                DebugUtils.showDebugErrorMessage(
+                    throwable
+                )
+            }
     }
 
-    private void onCommentsLoaded(List<Comment> newComments) {
-        isCommentsLoading = false;
-        getViewState().hideCommentsLoadingProgress();
-        getViewState().showNewComments(newComments);
+    private fun onCommentsLoaded(newComments: List<Comment>) {
+        isCommentsLoading = false
+        viewState.hideCommentsLoadingProgress()
+        viewState.showNewComments(newComments)
     }
 
-
-    public void onLoadMoreCommentsRequest() {
+    fun onLoadMoreCommentsRequest() {
         if (isCommentsLoading) {
-            return;
+            return
         }
-        currentMaxCommentsPage++;
-        loadMoreComments(currentMaxCommentsPage);
+        currentMaxCommentsPage++
+        loadMoreComments(currentMaxCommentsPage)
     }
 
-    public void onImageClicked() {
-        getViewState().openShotImageScreen(shot);
+    fun onImageClicked() {
+        viewState.openShotImageScreen(shot)
     }
 
-    public void onLikeShotClicked() {
+    fun onLikeShotClicked() {}
 
+    fun onShareShotClicked() {
+        if (!isShotLoaded) return
+        viewState.showShotSharing(shot.title, shot.htmlUrl)
     }
 
-    public void onShareShotClicked() {
-        getViewState().showShotSharing(shot.getTitle(), shot.getHtmlUrl());
-    }
-
-    public void onDownloadImageClicked() {
+    fun onDownloadImageClicked() {
+        if (!isShotLoaded) return
         if (permissionsManagerHolder.checkPermissionGranted(Permission.READ_EXTERNAL_STORAGE)) {
-            saveShotImage();
+            saveShotImage()
         } else {
-            permissionsManagerHolder.requestPermission(Permission.READ_EXTERNAL_STORAGE, permissionResult -> {
+            permissionsManagerHolder.requestPermission(Permission.READ_EXTERNAL_STORAGE) { permissionResult: PermissionResult ->
                 if (permissionResult.granted) {
-                    saveShotImage();
+                    saveShotImage()
                 } else if (permissionResult.shouldShowRequestPermissionRationale) {
-                    getViewState().showStorageAccessRationaleMessage();
+                    viewState.showStorageAccessRationaleMessage()
                 } else {
-                    getViewState().showAllowStorageAccessMessage();
+                    viewState.showAllowStorageAccessMessage()
                 }
-            });
+            }
         }
     }
 
-    public void onAppSettingsButtonClicked() {
-        getViewState().openAppSettingsScreen();
+    fun onAppSettingsButtonClicked() {
+        viewState.openAppSettingsScreen()
     }
 
-    private void saveShotImage() {
-        shotDetailsInteractor.saveImage(shot.getImages().best())
-                .observeOn(schedulersProvider.ui())
-                .subscribe(() -> getViewState().showImageSavedMessage(), DebugUtils::showDebugErrorMessage);
+    private fun saveShotImage() {
+        if (!isShotLoaded) return
+        shotDetailsInteractor.saveImage(shot.images.best())
+            .observeOn(schedulersProvider.ui())
+            .subscribe({ viewState.showImageSavedMessage() }) { throwable: Throwable ->
+                DebugUtils.showDebugErrorMessage( throwable)
+            }
     }
 
-    public void onOpenShotInBrowserClicked() {
-        getViewState().openInBrowser(shot.getHtmlUrl());
+    fun onOpenShotInBrowserClicked() {
+        viewState.openInBrowser(shot.htmlUrl)
     }
 
-    public void onShotAuthorProfileClicked() {
-        getViewState().openUserProfileScreen(shot.getUser().getId());
+    fun onShotAuthorProfileClicked() {
+        viewState.openUserProfileScreen(shot.user.id)
     }
 
-    public void onCommentAuthorClick(long userId) {
-        getViewState().openUserProfileScreen(userId);
+    fun onCommentAuthorClick(userId: Long) {
+        viewState.openUserProfileScreen(userId)
     }
 
-    public void onLinkClicked(String url) {
-        getViewState().openInBrowser(url);
+    fun onLinkClicked(url: String) {
+        viewState.openInBrowser(url)
     }
 
-    public void onTagClicked(String tag) {
+    fun onTagClicked(tag: String) {}
 
+    companion object {
+        private const val COMMENTS_PAGE_SIZE = 20
     }
 
 }

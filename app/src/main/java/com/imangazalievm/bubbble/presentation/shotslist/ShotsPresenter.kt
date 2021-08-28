@@ -1,111 +1,103 @@
-package com.imangazalievm.bubbble.presentation.shotslist;
+package com.imangazalievm.bubbble.presentation.shotslist
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.shotslist.ShotsInteractor;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
-import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
+import com.arellomobile.mvp.InjectViewState
+import com.arellomobile.mvp.MvpPresenter
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams
+import com.imangazalievm.bubbble.domain.shotslist.ShotsInteractor
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
+import java.util.*
+import javax.inject.Inject
 
 @InjectViewState
-public class ShotsPresenter extends MvpPresenter<ShotsView> {
+class ShotsPresenter @Inject constructor(
+    private val shotsInteractor: ShotsInteractor,
+    private val schedulersProvider: SchedulersProvider,
+    private val shotsSort: String
+) : MvpPresenter<ShotsView>() {
+    
+    private var currentMaxPage = 1
+    private val shots: MutableList<Shot> = ArrayList()
+    private var isShotsLoading = false
 
-    private static final int PAGE_SIZE = 20;
-    private static final int MAX_PAGE_NUMBER = 25;
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
 
-    private ShotsInteractor shotsInteractor;
-    private SchedulersProvider schedulersProvider;
-    private String shotsSort;
-    private int currentMaxPage = 1;
-    private List<Shot> shots = new ArrayList<>();
-    private boolean isShotsLoading = false;
-
-    @Inject
-    public ShotsPresenter(ShotsInteractor shotsInteractor, SchedulersProvider schedulersProvider, String shotsSort) {
-        this.shotsInteractor = shotsInteractor;
-        this.schedulersProvider = schedulersProvider;
-        this.shotsSort = shotsSort;
+        viewState.showShotsLoadingProgress()
+        loadMoreShots(currentMaxPage)
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-
-        getViewState().showShotsLoadingProgress();
-        loadMoreShots(currentMaxPage);
-    }
-
-    private void loadMoreShots(int page) {
-        isShotsLoading = true;
-        ShotsRequestParams shotsRequestParams = new ShotsRequestParams(shotsSort, page, PAGE_SIZE);
+    private fun loadMoreShots(page: Int) {
+        isShotsLoading = true
+        val shotsRequestParams = ShotsRequestParams(shotsSort, page, PAGE_SIZE)
         shotsInteractor.getShots(shotsRequestParams)
-                .observeOn(schedulersProvider.ui())
-                .subscribe(this::onShotsLoaded, this::onShotsLoadError);
+            .observeOn(schedulersProvider.ui())
+            .subscribe({ newShots: List<Shot> -> onShotsLoaded(newShots) }) { throwable: Throwable ->
+                onShotsLoadError(
+                    throwable
+                )
+            }
     }
 
-    private void onShotsLoaded(List<Shot> newShots) {
-        isShotsLoading = false;
-        if (isFirstLoading()) {
-            getViewState().hideShotsLoadingProgress();
+    private fun onShotsLoaded(newShots: List<Shot>) {
+        isShotsLoading = false
+        if (isFirstLoading) {
+            viewState.hideShotsLoadingProgress()
         } else {
-            getViewState().hideShotsLoadingMoreProgress();
+            viewState.hideShotsLoadingMoreProgress()
         }
-
-        shots.addAll(newShots);
-        getViewState().showNewShots(newShots);
+        shots.addAll(newShots)
+        viewState.showNewShots(newShots)
     }
 
-    private void onShotsLoadError(Throwable throwable) {
-        isShotsLoading = true;
-        if (throwable instanceof NoNetworkException) {
-            if (isFirstLoading()) {
-                getViewState().hideShotsLoadingProgress();
-                getViewState().showNoNetworkLayout();
+    private fun onShotsLoadError(throwable: Throwable) {
+        isShotsLoading = true
+        if (throwable is NoNetworkException) {
+            if (isFirstLoading) {
+                viewState.hideShotsLoadingProgress()
+                viewState.showNoNetworkLayout()
             } else {
-                getViewState().hideShotsLoadingMoreProgress();
-                getViewState().showLoadMoreError();
+                viewState.hideShotsLoadingMoreProgress()
+                viewState.showLoadMoreError()
             }
         } else {
-            DebugUtils.showDebugErrorMessage(throwable);
+            DebugUtils.showDebugErrorMessage(throwable)
         }
     }
 
-    private boolean isFirstLoading() {
-        return currentMaxPage == 1;
-    }
+    private val isFirstLoading: Boolean
+        private get() = currentMaxPage == 1
 
-    public void onLoadMoreShotsRequest() {
+    fun onLoadMoreShotsRequest() {
         if (isShotsLoading) {
-            return;
+            return
         }
-
         if (currentMaxPage < MAX_PAGE_NUMBER) {
-            getViewState().showShotsLoadingMoreProgress();
-            currentMaxPage++;
-            loadMoreShots(currentMaxPage);
+            viewState.showShotsLoadingMoreProgress()
+            currentMaxPage++
+            loadMoreShots(currentMaxPage)
         }
     }
 
-    public void retryLoading() {
-        if (isFirstLoading()) {
-            getViewState().hideNoNetworkLayout();
-            getViewState().showShotsLoadingProgress();
+    fun retryLoading() {
+        if (isFirstLoading) {
+            viewState.hideNoNetworkLayout()
+            viewState.showShotsLoadingProgress()
         } else {
-            getViewState().showShotsLoadingMoreProgress();
+            viewState.showShotsLoadingMoreProgress()
         }
-
-        loadMoreShots(currentMaxPage);
+        loadMoreShots(currentMaxPage)
     }
 
-    public void onShotClick(int position) {
-        getViewState().openShotDetailsScreen(shots.get(position).getId());
+    fun onShotClick(position: Int) {
+        viewState.openShotDetailsScreen(shots[position].id)
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 20
+        private const val MAX_PAGE_NUMBER = 25
     }
 
 }

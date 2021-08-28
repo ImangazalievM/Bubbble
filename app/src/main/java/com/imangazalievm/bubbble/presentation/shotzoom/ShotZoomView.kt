@@ -1,25 +1,35 @@
-package com.imangazalievm.bubbble.presentation.shotzoom;
+package com.imangazalievm.bubbble.presentation.shotzoom
 
-import com.arellomobile.mvp.MvpView;
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.MvpView
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 
+@StateStrategyType(AddToEndSingleStrategy::class)
+interface ShotZoomView : MvpView {
 
-@StateStrategyType(AddToEndSingleStrategy.class)
-public interface ShotZoomView extends MvpView {
+    fun showShotImage(imageUrl: String)
 
-    void showShotImage(String imageUrl);
-    void showLoadingProgress();
-    void hideLoadingProgress();
-    void showErrorLayout();
-    void hideErrorLayout();
-    void showImageSavedMessage();
-    void showStorageAccessRationaleMessage();
-    void showAllowStorageAccessMessage();
-    void openAppSettingsScreen();
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void showShotSharing(String shotTitle, String url);
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void openInBrowser(String shotUrl);
+    fun showLoadingProgress()
+
+    fun hideLoadingProgress()
+
+    fun showErrorLayout()
+
+    fun hideErrorLayout()
+
+    fun showImageSavedMessage()
+
+    fun showStorageAccessRationaleMessage()
+
+    fun showAllowStorageAccessMessage()
+
+    fun openAppSettingsScreen()
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showShotSharing(shotTitle: String, url: String)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun openInBrowser(shotUrl: String)
+
 }

@@ -1,85 +1,81 @@
-package com.imangazalievm.bubbble.presentation.userprofile;
+package com.imangazalievm.bubbble.presentation.userprofile
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.userprofile.UserProfileInteractor;
-import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils;
-
-import javax.inject.Inject;
+import com.arellomobile.mvp.InjectViewState
+import com.arellomobile.mvp.MvpPresenter
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
+import com.imangazalievm.bubbble.domain.global.models.User
+import com.imangazalievm.bubbble.domain.userprofile.UserProfileInteractor
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
+import javax.inject.Inject
 
 @InjectViewState
-public class UserProfilePresenter extends MvpPresenter<UserProfileView> {
-
-
-    private UserProfileInteractor userProfileInteractor;
-    private SchedulersProvider schedulersProvider;
-    private long userId;
-    private User user;
-
-    @Inject
-    public UserProfilePresenter(UserProfileInteractor userProfileInteractor, SchedulersProvider schedulersProvider, long userId) {
-        this.userProfileInteractor = userProfileInteractor;
-        this.schedulersProvider = schedulersProvider;
-        this.userId = userId;
+class UserProfilePresenter @Inject constructor(
+    private val userProfileInteractor: UserProfileInteractor,
+    private val schedulersProvider: SchedulersProvider,
+    private val userId: Long
+) : MvpPresenter<UserProfileView>() {
+    
+    private lateinit var user: User
+    private val isUserLoaded: Boolean
+        get() = ::user.isInitialized
+    
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        loadUser()
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-
-        loadUser();
-    }
-
-    private void loadUser() {
-        getViewState().showLoadingProgress();
+    private fun loadUser() {
+        viewState.showLoadingProgress()
         userProfileInteractor.getUser(userId)
-                .observeOn(schedulersProvider.ui())
-                .subscribe(this::onUserLoaded, this::onUserLoadError);
+            .observeOn(schedulersProvider.ui())
+            .subscribe({ user: User -> onUserLoaded(user) }) { throwable: Throwable ->
+                onUserLoadError(
+                    throwable
+                )
+            }
     }
 
-    private void onUserLoaded(User user) {
-        this.user = user;
-        getViewState().hideLoadingProgress();
-        getViewState().showUser(user);
+    private fun onUserLoaded(user: User) {
+        this.user = user
+        viewState.hideLoadingProgress()
+        viewState.showUser(user)
     }
 
-    private void onUserLoadError(Throwable throwable) {
-        if (throwable instanceof NoNetworkException) {
-            getViewState().hideLoadingProgress();
-            getViewState().showNoNetworkLayout();
+    private fun onUserLoadError(throwable: Throwable) {
+        if (throwable is NoNetworkException) {
+            viewState.hideLoadingProgress()
+            viewState.showNoNetworkLayout()
         } else {
-            DebugUtils.showDebugErrorMessage(throwable);
+            DebugUtils.showDebugErrorMessage(throwable)
         }
     }
 
-    public void retryLoading() {
-        getViewState().hideNoNetworkLayout();
-        loadUser();
+    fun retryLoading() {
+        viewState.hideNoNetworkLayout()
+        loadUser()
     }
 
-    public void onShareProfileClicked() {
-        getViewState().showUserProfileSharing(user);
+    fun onShareProfileClicked() {
+        if (!isUserLoaded) return
+        viewState.showUserProfileSharing(user)
     }
 
-    public void onOpenInBrowserClicked() {
-        getViewState().openInBrowser(user.getHtmlUrl());
+    fun onOpenInBrowserClicked() {
+        if (!isUserLoaded) return
+        viewState.openInBrowser(user.htmlUrl)
     }
 
-    public void onLinkClicked(String url) {
-        getViewState().openInBrowser(url);
+    fun onLinkClicked(url: String?) {
+        viewState.openInBrowser(url!!)
     }
 
-    public void onUserSelected(long userId) {
-        getViewState().openUserProfileScreen(userId);
+    fun onUserSelected(userId: Long) {
+        viewState.openUserProfileScreen(userId)
     }
 
-
-
-    public void onBackPressed() {
-        getViewState().closeScreen();
+    fun onBackPressed() {
+        viewState.closeScreen()
     }
 
 }

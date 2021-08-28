@@ -1,104 +1,91 @@
-package com.imangazalievm.bubbble.presentation.shotzoom;
+package com.imangazalievm.bubbble.presentation.shotzoom
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.domain.shotzoom.ShotZoomInteractor;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
-import com.imangazalievm.bubbble.presentation.global.permissions.Permission;
-import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager;
-import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManagerHolder;
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils;
-
-import javax.inject.Inject;
-import javax.inject.Named;
+import com.arellomobile.mvp.InjectViewState
+import com.imangazalievm.bubbble.domain.shotzoom.ShotZoomInteractor
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.arellomobile.mvp.MvpPresenter
+import com.imangazalievm.bubbble.presentation.global.permissions.*
+import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
+import javax.inject.Inject
+import javax.inject.Named
 
 @InjectViewState
-public class ShotZoomPresenter extends MvpPresenter<ShotZoomView> {
+class ShotZoomPresenter @Inject constructor(
+    private val shotZoomInteractor: ShotZoomInteractor,
+    private val schedulersProvider: SchedulersProvider,
+    @Named("shot_title")
+    private val shotTitle: String,
+    @Named("shot_url")
+    private val shotUrl: String,
+    @Named("image_url")
+    private val imageUrl: String
+) : MvpPresenter<ShotZoomView?>() {
 
-    private ShotZoomInteractor shotZoomInteractor;
-    private SchedulersProvider schedulersProvider;
-    private PermissionsManagerHolder permissionsManagerHolder;
-    private String shotTitle;
-    private String shotUrl;
-    private String imageUrl;
+    private val permissionsManagerHolder: PermissionsManagerHolder = PermissionsManagerHolder()
 
-    @Inject
-    public ShotZoomPresenter(
-            ShotZoomInteractor shotZoomInteractor,
-            SchedulersProvider schedulersProvider,
-            @Named("shot_title") String shotTitle,
-            @Named("shot_url") String shotUrl,
-            @Named("image_url") String imageUrl
-    ) {
-        this.shotZoomInteractor = shotZoomInteractor;
-        this.permissionsManagerHolder = new PermissionsManagerHolder();
-        this.schedulersProvider = schedulersProvider;
-        this.shotTitle = shotTitle;
-        this.shotUrl = shotUrl;
-        this.imageUrl = imageUrl;
+    fun setPermissionsManager(permissionsManager: PermissionsManager?) {
+        permissionsManagerHolder.setPermissionsManager(permissionsManager)
     }
 
-    public void setPermissionsManager(PermissionsManager permissionsManager) {
-        permissionsManagerHolder.setPermissionsManager(permissionsManager);
+    fun removePermissionsManager() {
+        permissionsManagerHolder.removePermissionsManager()
     }
 
-    public void removePermissionsManager() {
-        permissionsManagerHolder.removePermissionsManager();
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        showShot()
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-
-        showShot();
+    private fun showShot() {
+        viewState!!.showLoadingProgress()
+        viewState!!.showShotImage(imageUrl)
     }
 
-    private void showShot() {
-        getViewState().showLoadingProgress();
-        getViewState().showShotImage(imageUrl);
+    fun onImageLoadSuccess() {
+        viewState!!.hideLoadingProgress()
     }
 
-    public void onImageLoadSuccess() {
-        getViewState().hideLoadingProgress();
+    fun onImageLoadError() {
+        viewState!!.hideLoadingProgress()
+        viewState!!.showErrorLayout()
     }
 
-    public void onImageLoadError() {
-        getViewState().hideLoadingProgress();
-        getViewState().showErrorLayout();
-    }
-
-    public void onDownloadImageClicked() {
+    fun onDownloadImageClicked() {
         if (permissionsManagerHolder.checkPermissionGranted(Permission.READ_EXTERNAL_STORAGE)) {
-            saveShotImage();
+            saveShotImage()
         } else {
-            permissionsManagerHolder.requestPermission(Permission.READ_EXTERNAL_STORAGE, permissionResult -> {
+            permissionsManagerHolder.requestPermission(Permission.READ_EXTERNAL_STORAGE) { permissionResult: PermissionResult ->
                 if (permissionResult.granted) {
-                    saveShotImage();
+                    saveShotImage()
                 } else if (permissionResult.shouldShowRequestPermissionRationale) {
-                    getViewState().showStorageAccessRationaleMessage();
+                    viewState!!.showStorageAccessRationaleMessage()
                 } else {
-                    getViewState().showAllowStorageAccessMessage();
+                    viewState!!.showAllowStorageAccessMessage()
                 }
-            });
+            }
         }
     }
 
-    public void onAppSettingsButtonClicked() {
-        getViewState().openAppSettingsScreen();
+    fun onAppSettingsButtonClicked() {
+        viewState!!.openAppSettingsScreen()
     }
 
-    private void saveShotImage() {
+    private fun saveShotImage() {
         shotZoomInteractor.saveImage(imageUrl)
-                .observeOn(schedulersProvider.ui())
-                .subscribe(() -> getViewState().showImageSavedMessage(), DebugUtils::showDebugErrorMessage);
+            .observeOn(schedulersProvider.ui())
+            .subscribe({ viewState!!.showImageSavedMessage() }) { throwable: Throwable? ->
+                DebugUtils.showDebugErrorMessage(
+                    throwable
+                )
+            }
     }
 
-    public void onOpenInBrowserClicked() {
-        getViewState().openInBrowser(shotUrl);
+    fun onOpenInBrowserClicked() {
+        viewState!!.openInBrowser(shotUrl)
     }
 
-    public void onShareShotClicked() {
-        getViewState().showShotSharing(shotTitle, shotUrl);
+    fun onShareShotClicked() {
+        viewState!!.showShotSharing(shotTitle, shotUrl)
     }
 
 }

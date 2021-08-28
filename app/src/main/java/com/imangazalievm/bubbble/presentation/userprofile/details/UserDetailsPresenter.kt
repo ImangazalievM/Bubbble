@@ -1,76 +1,68 @@
-package com.imangazalievm.bubbble.presentation.userprofile.details;
+package com.imangazalievm.bubbble.presentation.userprofile.details
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils;
-
-import javax.inject.Inject;
+import com.arellomobile.mvp.InjectViewState
+import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.arellomobile.mvp.MvpPresenter
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
+import com.imangazalievm.bubbble.domain.global.models.User
+import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
+import javax.inject.Inject
 
 @InjectViewState
-public class UserDetailsPresenter extends MvpPresenter<UserDetailsView> {
+class UserDetailsPresenter @Inject constructor(
+    private val userDetailsInteractor: UserDetailsInteractor,
+    private val schedulersProvider: SchedulersProvider,
+    private val userId: Long
+) : MvpPresenter<UserDetailsView>() {
 
-    private UserDetailsInteractor userDetailsInteractor;
-    private SchedulersProvider schedulersProvider;
-    private long userId;
-    private User user;
+    private lateinit var user: User
+    private val isUserLoaded: Boolean
+        get() = ::user.isInitialized
 
-    @Inject
-    public UserDetailsPresenter(
-            UserDetailsInteractor userDetailsInteractor,
-            SchedulersProvider schedulersProvider,
-            long userId
-    ) {
-        this.userDetailsInteractor = userDetailsInteractor;
-        this.schedulersProvider = schedulersProvider;
-        this.userId = userId;
-
-
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        loadUser()
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-
-        loadUser();
-    }
-
-    private void loadUser() {
-        getViewState().showLoadingProgress();
+    private fun loadUser() {
+        viewState.showLoadingProgress()
         userDetailsInteractor.getUser(userId)
-                .observeOn(schedulersProvider.ui())
-                .subscribe(this::onUserLoadSuccess, this::onUserLoadError);
+            .observeOn(schedulersProvider.ui())
+            .subscribe({ user: User -> onUserLoadSuccess(user) }) { throwable: Throwable ->
+                onUserLoadError(
+                    throwable
+                )
+            }
     }
 
-    private void onUserLoadSuccess(User user) {
-        this.user = user;
-        getViewState().hideLoadingProgress();
-        getViewState().showUserInfo(user);
+    private fun onUserLoadSuccess(user: User) {
+        this.user = user
+        viewState.hideLoadingProgress()
+        viewState.showUserInfo(user)
     }
 
-    private void onUserLoadError(Throwable throwable) {
-        if (throwable instanceof NoNetworkException) {
-            getViewState().hideLoadingProgress();
-            getViewState().showNoNetworkLayout();
+    private fun onUserLoadError(throwable: Throwable) {
+        if (throwable is NoNetworkException) {
+            viewState.hideLoadingProgress()
+            viewState.showNoNetworkLayout()
         } else {
-            DebugUtils.showDebugErrorMessage(throwable);
+            DebugUtils.showDebugErrorMessage(throwable)
         }
     }
 
-    public void retryLoading() {
-        getViewState().hideNoNetworkLayout();
-        loadUser();
+    fun retryLoading() {
+        viewState.hideNoNetworkLayout()
+        loadUser()
     }
 
-    public void onUserTwitterButtonClicked() {
-        getViewState().openInBrowser(user.getLinks().getTwitter());
+    fun onUserTwitterButtonClicked() {
+        if (!isUserLoaded) return
+        viewState.openInBrowser(user.links.twitter)
     }
 
-    public void onUserWebsiteButtonClicked() {
-        getViewState().openInBrowser(user.getLinks().getWeb());
+    fun onUserWebsiteButtonClicked() {
+        if (!isUserLoaded) return
+        viewState.openInBrowser(user.links.web)
     }
-
 }
