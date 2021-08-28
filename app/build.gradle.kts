@@ -82,6 +82,9 @@ dependencies {
     annotationProcessor(Dependencies.Old.daggerCompiler)
     kapt(Dependencies.Old.daggerCompiler)
 
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Dependencies.Versions.kotlinCoroutineVersion}")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Dependencies.Versions.kotlinCoroutineVersion}")
+
     implementation(Dependencies.Old.rxJava)
     implementation(Dependencies.Old.rxAndroid)
 

@@ -6,7 +6,7 @@ object Build {
         const val minSdk = 21
         const val targetSdk = 29
 
-        const val kotlin = "1.3.72"
+        const val kotlin = "1.4.0"
     }
 
 }
@@ -57,17 +57,15 @@ object Dependencies {
     }
 
     object Versions {
-        const val kotlin = "1.4.0"
+        const val kotlinCoroutineVersion = "1.5.0"
     }
 
     object Libraries {
         const val appCompat = "androidx.appcompat:appcompat:1.2.0"
-        const val toothpick = "com.github.stephanenicolas.toothpick:ktp:3.1.0"
     }
 
     object Processors {
         const val moxy = "com.arello-mobile:moxy-compiler:1.5.3"
-        const val toothpick = "com.github.stephanenicolas.toothpick:toothpick-compiler:3.1.0"
     }
 
 }
