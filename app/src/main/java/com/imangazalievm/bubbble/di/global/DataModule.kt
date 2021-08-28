@@ -5,22 +5,14 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.imangazalievm.bubbble.BuildConfig
-import com.imangazalievm.bubbble.data.shots.ShotsRepositoryImpl
-import com.imangazalievm.bubbble.domain.global.repositories.ShotsRepository
-import com.imangazalievm.bubbble.data.shots.CommentsRepositoryImpl
-import com.imangazalievm.bubbble.domain.global.repositories.CommentsRepository
-import com.imangazalievm.bubbble.data.users.UsersRepositoryImpl
-import com.imangazalievm.bubbble.domain.global.repositories.UsersRepository
-import com.imangazalievm.bubbble.data.users.FollowersRepositoryImpl
-import com.imangazalievm.bubbble.domain.global.repositories.FollowersRepository
-import com.imangazalievm.bubbble.data.shots.ImagesRepositoryImpl
-import com.imangazalievm.bubbble.domain.global.repositories.ImagesRepository
-import com.imangazalievm.bubbble.data.global.prefs.TempPreferencesImpl
-import com.imangazalievm.bubbble.domain.global.repositories.TempPreferences
+import com.imangazalievm.bubbble.data.global.network.*
+import com.imangazalievm.bubbble.data.shots.CommentsRepository
+import com.imangazalievm.bubbble.data.users.UsersRepository
+import com.imangazalievm.bubbble.data.users.FollowersRepository
+import com.imangazalievm.bubbble.data.shots.ImagesRepository
+import com.imangazalievm.bubbble.data.global.prefs.TempPreferences
 import okhttp3.OkHttpClient
 import com.imangazalievm.bubbble.data.shots.DribbbleSearchDataSource
-import com.imangazalievm.bubbble.data.global.network.ApiConstants
-import com.imangazalievm.bubbble.data.global.network.NetworkChecker
 import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpInterceptors
 import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpNetworkInterceptors
 import com.imangazalievm.bubbble.data.global.network.interceptors.NetworkCheckInterceptor
@@ -28,8 +20,6 @@ import com.imangazalievm.bubbble.data.global.network.interceptors.DribbbleTokenI
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.imangazalievm.bubbble.data.global.network.DribbbleApiService
-import com.imangazalievm.bubbble.data.global.network.ErrorHandler
 import com.moczul.ok2curl.CurlInterceptor
 import dagger.Module
 import dagger.Provides
@@ -41,37 +31,7 @@ class DataModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideBookRepository(bookRepository: ShotsRepositoryImpl): ShotsRepository {
-        return bookRepository
-    }
-
-    @Provides
-    @Singleton
-    fun provideCommentsRepository(commentsRepository: CommentsRepositoryImpl): CommentsRepository {
-        return commentsRepository
-    }
-
-    @Provides
-    @Singleton
-    fun provideUsersRepository(usersRepository: UsersRepositoryImpl): UsersRepository {
-        return usersRepository
-    }
-
-    @Provides
-    @Singleton
-    fun provideFollowersRepository(followersRepository: FollowersRepositoryImpl): FollowersRepository {
-        return followersRepository
-    }
-
-    @Provides
-    @Singleton
-    fun provideImagesRepository(imagesRepository: ImagesRepositoryImpl): ImagesRepository {
-        return imagesRepository
-    }
-
-    @Provides
-    @Singleton
-    fun provideTempPreferences(tempPreferences: TempPreferencesImpl): TempPreferences {
+    fun provideTempPreferences(tempPreferences: TempPreferences): TempPreferences {
         return tempPreferences
     }
 
@@ -80,7 +40,7 @@ class DataModule(private val baseUrl: String) {
     fun provideDribbbleSearchDataSource(okHttpClient: OkHttpClient): DribbbleSearchDataSource {
         return DribbbleSearchDataSource(
             okHttpClient,
-            ApiConstants.DRIBBBLE_URL
+            Dribbble.URL
         )
     }
 

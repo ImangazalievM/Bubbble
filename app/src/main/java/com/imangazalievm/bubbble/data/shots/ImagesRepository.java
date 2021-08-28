@@ -1,18 +1,17 @@
 package com.imangazalievm.bubbble.data.shots;
 
 import com.imangazalievm.bubbble.data.global.filesystem.UrlImageSaver;
-import com.imangazalievm.bubbble.domain.global.repositories.ImagesRepository;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 
-public class ImagesRepositoryImpl implements ImagesRepository {
+public class ImagesRepository {
 
     private UrlImageSaver urlImageSaver;
 
     @Inject
-    public ImagesRepositoryImpl(UrlImageSaver urlImageSaver) {
+    public ImagesRepository(UrlImageSaver urlImageSaver) {
         this.urlImageSaver = urlImageSaver;
     }
 

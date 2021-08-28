@@ -1,9 +1,9 @@
 package com.imangazalievm.bubbble.domain.shotslist;
 
 
+import com.imangazalievm.bubbble.data.shots.ShotsRepository;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams;
-import com.imangazalievm.bubbble.domain.global.repositories.ShotsRepository;
 import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 
 import java.util.List;

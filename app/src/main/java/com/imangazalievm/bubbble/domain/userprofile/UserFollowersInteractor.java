@@ -1,9 +1,9 @@
 package com.imangazalievm.bubbble.domain.userprofile;
 
 
+import com.imangazalievm.bubbble.data.users.FollowersRepository;
 import com.imangazalievm.bubbble.domain.global.models.Follow;
 import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams;
-import com.imangazalievm.bubbble.domain.global.repositories.FollowersRepository;
 import com.imangazalievm.bubbble.presentation.mvp.global.SchedulersProvider;
 
 import java.util.List;

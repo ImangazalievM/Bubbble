@@ -1,14 +1,12 @@
 package com.imangazalievm.bubbble.data.shots;
 
 import com.imangazalievm.bubbble.Constants;
-import com.imangazalievm.bubbble.data.global.network.ApiConstants;
 import com.imangazalievm.bubbble.data.global.network.Dribbble;
 import com.imangazalievm.bubbble.data.global.network.DribbbleApiService;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams;
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
 import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams;
-import com.imangazalievm.bubbble.domain.global.repositories.ShotsRepository;
 
 import java.util.List;
 
@@ -16,13 +14,13 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 
-public class ShotsRepositoryImpl implements ShotsRepository {
+public class ShotsRepository {
 
     private DribbbleApiService dribbbleApiService;
     private DribbbleSearchDataSource dribbbleSearchDataSource;
 
     @Inject
-    public ShotsRepositoryImpl(
+    public ShotsRepository(
             DribbbleApiService dribbbleApiService,
             DribbbleSearchDataSource dribbbleSearchDataSource
     ) {
@@ -30,7 +28,6 @@ public class ShotsRepositoryImpl implements ShotsRepository {
         this.dribbbleSearchDataSource = dribbbleSearchDataSource;
     }
 
-    @Override
     public Single<List<Shot>> getShots(ShotsRequestParams requestParams) {
         String sort = requestParams.getSort().equals(Constants.SHOTS_SORT_POPULAR) ?
                 Dribbble.Shots.type_popular : Dribbble.Shots.type_recent;
@@ -38,12 +35,10 @@ public class ShotsRepositoryImpl implements ShotsRepository {
         return dribbbleApiService.getShots(sort, requestParams.getPage(), requestParams.getPageSize());
     }
 
-    @Override
     public Single<Shot> getShot(long shotId) {
         return dribbbleApiService.getShot(shotId);
     }
 
-    @Override
     public Single<List<Shot>> getUserShots(UserShotsRequestParams requestParams) {
         return dribbbleApiService.getUserShots(
                 requestParams.getUserId(),
@@ -52,7 +47,6 @@ public class ShotsRepositoryImpl implements ShotsRepository {
         );
     }
 
-    @Override
     public Single<List<Shot>> search(ShotsSearchRequestParams requestParams) {
         return dribbbleSearchDataSource.search(
                 requestParams.getSearchQuery(),
