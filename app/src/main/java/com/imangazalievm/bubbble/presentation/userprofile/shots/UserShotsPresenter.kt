@@ -1,16 +1,14 @@
 package com.imangazalievm.bubbble.presentation.userprofile.shots
 
 import com.arellomobile.mvp.InjectViewState
-import com.imangazalievm.bubbble.domain.userprofile.UserShotsInteractor
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
-import com.arellomobile.mvp.MvpPresenter
-import com.imangazalievm.bubbble.presentation.userprofile.shots.UserShotsView
+import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams
-import com.imangazalievm.bubbble.presentation.userprofile.shots.UserShotsPresenter
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
+import com.imangazalievm.bubbble.domain.userprofile.UserShotsInteractor
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Inject
 
 @InjectViewState
@@ -18,7 +16,7 @@ class UserShotsPresenter @Inject constructor(
     private val userShotsInteractor: UserShotsInteractor,
     private val schedulersProvider: SchedulersProvider,
     private val userId: Long
-) : MvpPresenter<UserShotsView>() {
+) : BasePresenter<UserShotsView>() {
     
     private var currentMaxPage = 1
     private val shots: MutableList<Shot> = ArrayList()

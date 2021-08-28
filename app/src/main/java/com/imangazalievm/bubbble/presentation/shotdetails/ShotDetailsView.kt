@@ -1,14 +1,14 @@
 package com.imangazalievm.bubbble.presentation.shotdetails
 
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
-import com.arellomobile.mvp.MvpView
-import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.imangazalievm.bubbble.domain.global.models.Comment
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.imangazalievm.bubbble.presentation.global.mvp.BaseMvpView
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface ShotDetailsView : MvpView {
+interface ShotDetailsView : BaseMvpView {
 
     fun showShot(shot: Shot)
 

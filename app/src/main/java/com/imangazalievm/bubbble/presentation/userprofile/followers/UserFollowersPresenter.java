@@ -3,9 +3,9 @@ package com.imangazalievm.bubbble.presentation.userprofile.followers;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.userprofile.UserFollowersInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Follow;
 import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams;
+import com.imangazalievm.bubbble.domain.userprofile.UserFollowersInteractor;
 import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils;
 

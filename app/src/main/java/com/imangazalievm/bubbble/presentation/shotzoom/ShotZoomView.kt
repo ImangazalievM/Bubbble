@@ -1,12 +1,12 @@
 package com.imangazalievm.bubbble.presentation.shotzoom
 
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
-import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.imangazalievm.bubbble.presentation.global.mvp.BaseMvpView
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface ShotZoomView : MvpView {
+interface ShotZoomView : BaseMvpView {
 
     fun showShotImage(imageUrl: String)
 

@@ -1,13 +1,13 @@
 package com.imangazalievm.bubbble.presentation.shotssearch
 
 import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.imangazalievm.bubbble.Constants
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams
 import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor
 import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import java.util.*
 import javax.inject.Inject
@@ -17,7 +17,7 @@ class ShotsSearchPresenter @Inject constructor(
     private val shotsSearchInteractor: ShotsSearchInteractor,
     private val schedulersProvider: SchedulersProvider,
     private var searchQuery: String
-) : MvpPresenter<ShotsSearchView>() {
+) : BasePresenter<ShotsSearchView>() {
 
     private val sort: String = Constants.SHOTS_SORT_POPULAR
     private val shots: MutableList<Shot> = ArrayList()

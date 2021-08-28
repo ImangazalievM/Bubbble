@@ -1,12 +1,12 @@
 package com.imangazalievm.bubbble.presentation.shotslist
 
 import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams
 import com.imangazalievm.bubbble.domain.shotslist.ShotsInteractor
 import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import java.util.*
 import javax.inject.Inject
@@ -16,7 +16,7 @@ class ShotsPresenter @Inject constructor(
     private val shotsInteractor: ShotsInteractor,
     private val schedulersProvider: SchedulersProvider,
     private val shotsSort: String
-) : MvpPresenter<ShotsView>() {
+) : BasePresenter<ShotsView>() {
     
     private var currentMaxPage = 1
     private val shots: MutableList<Shot> = ArrayList()

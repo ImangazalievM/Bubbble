@@ -1,11 +1,11 @@
 package com.imangazalievm.bubbble.presentation.userprofile
 
 import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.User
 import com.imangazalievm.bubbble.domain.userprofile.UserProfileInteractor
 import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class UserProfilePresenter @Inject constructor(
     private val userProfileInteractor: UserProfileInteractor,
     private val schedulersProvider: SchedulersProvider,
     private val userId: Long
-) : MvpPresenter<UserProfileView>() {
+) : BasePresenter<UserProfileView>() {
     
     private lateinit var user: User
     private val isUserLoaded: Boolean
@@ -74,7 +74,7 @@ class UserProfilePresenter @Inject constructor(
         viewState.openUserProfileScreen(userId)
     }
 
-    fun onBackPressed() {
+    override fun onBackPressed() {
         viewState.closeScreen()
     }
 

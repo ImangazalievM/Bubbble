@@ -1,13 +1,13 @@
 package com.imangazalievm.bubbble.presentation.userprofile.followers
 
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
-import com.arellomobile.mvp.MvpView
-import com.imangazalievm.bubbble.domain.global.models.Follow
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.imangazalievm.bubbble.domain.global.models.Follow
+import com.imangazalievm.bubbble.presentation.global.mvp.BaseMvpView
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface UserFollowersView : MvpView {
+interface UserFollowersView : BaseMvpView {
 
     fun showNewFollowers(newFollowers: List<Follow>)
 

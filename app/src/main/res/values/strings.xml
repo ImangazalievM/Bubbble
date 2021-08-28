@@ -15,6 +15,10 @@
 
     <string name="load_failed_message">Load failed retry again!</string>
     <string name="check_network_message">Check network connection</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="network_error">Internet connection error</string>
+    <string name="ssl_error_check_device_time_message">Server connection error. Please check the time on your device</string>
+
     <string name="try_again_message">Try again</string>
     <string name="empty_list">Has no items</string>
 

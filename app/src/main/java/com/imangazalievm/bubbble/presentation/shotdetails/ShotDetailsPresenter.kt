@@ -1,13 +1,13 @@
 package com.imangazalievm.bubbble.presentation.shotdetails
 
 import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.Comment
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams
 import com.imangazalievm.bubbble.domain.shotdetails.ShotDetailsInteractor
 import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.permissions.Permission
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionResult
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
@@ -20,7 +20,7 @@ class ShotDetailsPresenter @Inject constructor(
     private val shotDetailsInteractor: ShotDetailsInteractor,
     private val schedulersProvider: SchedulersProvider,
     private val shotId: Long
-) : MvpPresenter<ShotDetailsView>() {
+) : BasePresenter<ShotDetailsView>() {
 
     private var permissionsManagerHolder = PermissionsManagerHolder()
     private lateinit var shot: Shot

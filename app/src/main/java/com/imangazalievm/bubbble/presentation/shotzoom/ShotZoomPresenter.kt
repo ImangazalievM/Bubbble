@@ -3,8 +3,11 @@ package com.imangazalievm.bubbble.presentation.shotzoom
 import com.arellomobile.mvp.InjectViewState
 import com.imangazalievm.bubbble.domain.shotzoom.ShotZoomInteractor
 import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
-import com.arellomobile.mvp.MvpPresenter
-import com.imangazalievm.bubbble.presentation.global.permissions.*
+import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
+import com.imangazalievm.bubbble.presentation.global.permissions.Permission
+import com.imangazalievm.bubbble.presentation.global.permissions.PermissionResult
+import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
+import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManagerHolder
 import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import javax.inject.Inject
 import javax.inject.Named
@@ -19,7 +22,7 @@ class ShotZoomPresenter @Inject constructor(
     private val shotUrl: String,
     @Named("image_url")
     private val imageUrl: String
-) : MvpPresenter<ShotZoomView?>() {
+) : BasePresenter<ShotZoomView>() {
 
     private val permissionsManagerHolder: PermissionsManagerHolder = PermissionsManagerHolder()
 
@@ -73,10 +76,8 @@ class ShotZoomPresenter @Inject constructor(
     private fun saveShotImage() {
         shotZoomInteractor.saveImage(imageUrl)
             .observeOn(schedulersProvider.ui())
-            .subscribe({ viewState!!.showImageSavedMessage() }) { throwable: Throwable? ->
-                DebugUtils.showDebugErrorMessage(
-                    throwable
-                )
+            .subscribe({ viewState!!.showImageSavedMessage() }) {
+                DebugUtils.showDebugErrorMessage(it)
             }
     }
 

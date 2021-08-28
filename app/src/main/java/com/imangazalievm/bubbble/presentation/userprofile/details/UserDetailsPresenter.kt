@@ -1,11 +1,11 @@
 package com.imangazalievm.bubbble.presentation.userprofile.details
 
 import com.arellomobile.mvp.InjectViewState
-import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
-import com.arellomobile.mvp.MvpPresenter
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.User
+import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class UserDetailsPresenter @Inject constructor(
     private val userDetailsInteractor: UserDetailsInteractor,
     private val schedulersProvider: SchedulersProvider,
     private val userId: Long
-) : MvpPresenter<UserDetailsView>() {
+) : BasePresenter<UserDetailsView>() {
 
     private lateinit var user: User
     private val isUserLoaded: Boolean
