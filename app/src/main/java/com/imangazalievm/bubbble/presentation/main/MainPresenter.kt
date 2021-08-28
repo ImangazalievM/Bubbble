@@ -9,4 +9,5 @@ class MainPresenter : MvpPresenter<MainView>() {
     fun onSearchQuery(searchQuery: String) {
         viewState.openSearchScreen(searchQuery)
     }
+
 }

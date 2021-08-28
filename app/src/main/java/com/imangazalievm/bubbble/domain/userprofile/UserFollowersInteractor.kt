@@ -1,34 +1,20 @@
-package com.imangazalievm.bubbble.domain.userprofile;
+package com.imangazalievm.bubbble.domain.userprofile
 
+import com.imangazalievm.bubbble.data.users.FollowersRepository
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams
+import com.imangazalievm.bubbble.domain.global.models.Follow
+import io.reactivex.Single
+import javax.inject.Inject
 
-import com.imangazalievm.bubbble.data.users.FollowersRepository;
-import com.imangazalievm.bubbble.domain.global.models.Follow;
-import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
+class UserFollowersInteractor @Inject constructor(
+    private val followersRepository: FollowersRepository,
+    private val schedulersProvider: SchedulersProvider
+) {
 
-import java.util.List;
-
-import javax.inject.Inject;
-
-import io.reactivex.Single;
-
-public class UserFollowersInteractor {
-
-    private FollowersRepository followersRepository;
-    private SchedulersProvider schedulersProvider;
-
-    @Inject
-    public UserFollowersInteractor(
-            FollowersRepository followersRepository,
-            SchedulersProvider schedulersProvider
-    ) {
-        this.followersRepository = followersRepository;
-        this.schedulersProvider = schedulersProvider;
-    }
-
-    public Single<List<Follow>> getUserFollowers(UserFollowersRequestParams requestParams) {
+    fun getUserFollowers(requestParams: UserFollowersRequestParams): Single<List<Follow>> {
         return followersRepository.getUserFollowers(requestParams)
-                .subscribeOn(schedulersProvider.io());
+            .subscribeOn(schedulersProvider.io())
     }
 
 }

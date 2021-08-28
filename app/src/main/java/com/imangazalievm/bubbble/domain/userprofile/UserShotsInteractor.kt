@@ -1,43 +1,27 @@
-package com.imangazalievm.bubbble.domain.userprofile;
+package com.imangazalievm.bubbble.domain.userprofile
 
+import com.imangazalievm.bubbble.data.users.UsersRepository
+import com.imangazalievm.bubbble.data.shots.ShotsRepository
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.imangazalievm.bubbble.domain.global.models.User
+import io.reactivex.Single
+import javax.inject.Inject
 
-import com.imangazalievm.bubbble.data.shots.ShotsRepository;
-import com.imangazalievm.bubbble.data.users.UsersRepository;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
-import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
+class UserShotsInteractor @Inject constructor(
+    private val usersRepository: UsersRepository,
+    private val shotsRepository: ShotsRepository,
+    private val schedulersProvider: SchedulersProvider
+) {
 
-import java.util.List;
-
-import javax.inject.Inject;
-
-import io.reactivex.Single;
-
-public class UserShotsInteractor {
-
-    private UsersRepository usersRepository;
-    private ShotsRepository shotsRepository;
-    private SchedulersProvider schedulersProvider;
-
-    @Inject
-    public UserShotsInteractor(
-            UsersRepository usersRepository,
-            ShotsRepository shotsRepository,
-            SchedulersProvider schedulersProvider
-    ) {
-        this.usersRepository = usersRepository;
-        this.shotsRepository = shotsRepository;
-        this.schedulersProvider = schedulersProvider;
+    fun getUser(userId: Long): Single<User> {
+        return usersRepository.getUser(userId)
     }
 
-    public Single<User> getUser(long userId) {
-        return usersRepository.getUser(userId);
-    }
-
-    public Single<List<Shot>> getUserShots(UserShotsRequestParams requestParams) {
+    fun getUserShots(requestParams: UserShotsRequestParams): Single<List<Shot>> {
         return shotsRepository.getUserShots(requestParams)
-                .subscribeOn(schedulersProvider.io());
+            .subscribeOn(schedulersProvider.io())
     }
 
 }

@@ -1,31 +1,17 @@
-package com.imangazalievm.bubbble.domain.userprofile;
+package com.imangazalievm.bubbble.domain.userprofile
 
+import com.imangazalievm.bubbble.data.users.UsersRepository
+import com.imangazalievm.bubbble.domain.global.models.User
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import io.reactivex.Single
+import javax.inject.Inject
 
-import com.imangazalievm.bubbble.data.users.UsersRepository;
-import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
-
-import javax.inject.Inject;
-
-import io.reactivex.Single;
-
-public class UserProfileInteractor {
-
-    private UsersRepository usersRepository;
-    private SchedulersProvider schedulersProvider;
-
-    @Inject
-    public UserProfileInteractor(
-            UsersRepository usersRepository,
-            SchedulersProvider schedulersProvider
-    ) {
-        this.usersRepository = usersRepository;
-        this.schedulersProvider = schedulersProvider;
-    }
-
-    public Single<User> getUser(long userId) {
+class UserProfileInteractor @Inject constructor(
+    private val usersRepository: UsersRepository,
+    private val schedulersProvider: SchedulersProvider
+) {
+    fun getUser(userId: Long): Single<User> {
         return usersRepository.getUser(userId)
-                .subscribeOn(schedulersProvider.io());
+            .subscribeOn(schedulersProvider.io())
     }
-
 }

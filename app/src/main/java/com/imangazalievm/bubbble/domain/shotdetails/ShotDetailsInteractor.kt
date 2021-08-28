@@ -1,56 +1,38 @@
-package com.imangazalievm.bubbble.domain.shotdetails;
+package com.imangazalievm.bubbble.domain.shotdetails
 
+import com.imangazalievm.bubbble.data.shots.ShotsRepository
+import com.imangazalievm.bubbble.data.shots.CommentsRepository
+import com.imangazalievm.bubbble.data.shots.ImagesRepository
+import com.imangazalievm.bubbble.domain.global.models.Comment
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams
+import io.reactivex.Completable
+import io.reactivex.Single
+import javax.inject.Inject
 
-import com.imangazalievm.bubbble.data.shots.CommentsRepository;
-import com.imangazalievm.bubbble.data.shots.ImagesRepository;
-import com.imangazalievm.bubbble.data.shots.ShotsRepository;
-import com.imangazalievm.bubbble.domain.global.models.Comment;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
-import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
+class ShotDetailsInteractor @Inject constructor(
+    private val shotsRepository: ShotsRepository,
+    private val commentsRepository: CommentsRepository,
+    private val imagesRepository: ImagesRepository,
+    private val schedulersProvider: SchedulersProvider
+) {
 
-import java.util.List;
-
-import javax.inject.Inject;
-
-import io.reactivex.Completable;
-import io.reactivex.Single;
-
-public class ShotDetailsInteractor {
-
-    private ShotsRepository shotsRepository;
-    private CommentsRepository commentsRepository;
-    private ImagesRepository imagesRepository;
-    private SchedulersProvider schedulersProvider;
-
-    @Inject
-    public ShotDetailsInteractor(
-            ShotsRepository shotsRepository,
-            CommentsRepository commentsRepository,
-            ImagesRepository imagesRepository,
-            SchedulersProvider schedulersProvider
-    ) {
-        this.shotsRepository = shotsRepository;
-        this.commentsRepository = commentsRepository;
-        this.imagesRepository = imagesRepository;
-        this.schedulersProvider = schedulersProvider;
-    }
-
-    public Single<Shot> getShot(long shotId) {
+    fun getShot(shotId: Long): Single<Shot> {
         return shotsRepository.getShot(shotId)
-                .subscribeOn(schedulersProvider.io());
+            .subscribeOn(schedulersProvider.io())
     }
 
-    public Single<List<Comment>> getShotComments(
-            ShotCommentsRequestParams shotCommentsRequestParams
-    ) {
+    fun getShotComments(
+        shotCommentsRequestParams: ShotCommentsRequestParams
+    ): Single<List<Comment>> {
         return commentsRepository.getComments(shotCommentsRequestParams)
-                .subscribeOn(schedulersProvider.io());
+            .subscribeOn(schedulersProvider.io())
     }
 
-    public Completable saveImage(String imageUrl) {
+    fun saveImage(imageUrl: String): Completable {
         return imagesRepository.saveImage(imageUrl)
-                .subscribeOn(schedulersProvider.io());
+            .subscribeOn(schedulersProvider.io())
     }
 
 }

@@ -1,34 +1,20 @@
-package com.imangazalievm.bubbble.domain.shotslist;
+package com.imangazalievm.bubbble.domain.shotslist
 
+import com.imangazalievm.bubbble.data.shots.ShotsRepository
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams
+import com.imangazalievm.bubbble.domain.global.models.Shot
+import io.reactivex.Single
+import javax.inject.Inject
 
-import com.imangazalievm.bubbble.data.shots.ShotsRepository;
-import com.imangazalievm.bubbble.domain.global.models.Shot;
-import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
+class ShotsInteractor @Inject constructor(
+    private val shotsRepository: ShotsRepository,
+    private val schedulersProvider: SchedulersProvider
+) {
 
-import java.util.List;
-
-import javax.inject.Inject;
-
-import io.reactivex.Single;
-
-public class ShotsInteractor {
-
-    private ShotsRepository shotsRepository;
-    private SchedulersProvider schedulersProvider;
-
-    @Inject
-    public ShotsInteractor(
-            ShotsRepository shotsRepository,
-            SchedulersProvider schedulersProvider
-    ) {
-        this.shotsRepository = shotsRepository;
-        this.schedulersProvider = schedulersProvider;
-    }
-
-    public Single<List<Shot>> getShots(ShotsRequestParams shotsRequestParams) {
+    fun getShots(shotsRequestParams: ShotsRequestParams): Single<List<Shot>> {
         return shotsRepository.getShots(shotsRequestParams)
-                .subscribeOn(schedulersProvider.io());
+            .subscribeOn(schedulersProvider.io())
     }
 
 }
