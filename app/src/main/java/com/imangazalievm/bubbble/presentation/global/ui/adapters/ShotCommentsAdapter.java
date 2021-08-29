@@ -76,7 +76,7 @@ public class ShotCommentsAdapter extends LoadMoreAdapter<Comment> {
             Comment comment = getItem(position);
             commentViewHolder.userName.setText(comment.getUser().getName());
             commentViewHolder.commentText.setHtmlText(comment.getBody());
-            commentViewHolder.likesCount.setText(String.valueOf(comment.getLikesCount()));
+            commentViewHolder.likesCount.setText(String.valueOf(comment.getLikeCount()));
             Glide.with(context)
                     .load(comment.getUser().getAvatarUrl())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)

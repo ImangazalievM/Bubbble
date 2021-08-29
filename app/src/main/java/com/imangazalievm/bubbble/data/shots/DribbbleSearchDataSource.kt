@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.imangazalievm.bubbble.Constants
 import com.imangazalievm.bubbble.domain.global.models.Images
+import com.imangazalievm.bubbble.domain.global.models.Links
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.User
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -61,26 +62,31 @@ class DribbbleSearchDataSource @Inject constructor(
         } catch (e: ParseException) {
         }
         Log.d(Constants.TAG, "search: $imgUrl")
-        return Shot.Builder()
-            .setId(element.id().replace("screenshot-", "").toLong())
-            .setHtmlUrl(dribbbleUrl + element.select("a.dribbble-link").first().attr("href"))
-            .setTitle(descriptionBlock.select("strong").first().text())
-            .setDescription(description)
-            .setImages(Images(null, null, imgUrl))
-            .setAnimated(element.select("div.gif-indicator").first() != null)
-            .setCreatedAt(createdAt)
-            .setLikesCount(
-                element.select("li.fav").first().child(0).text().replace(",".toRegex(), "").toInt()
-            )
-            .setCommentsCount(
-                element.select("li.cmnt").first().child(0).text().replace(",".toRegex(), "").toInt()
-            )
-            .setViewsCount(
-                element.select("li.views").first().child(0).text().replace(",".toRegex(), "")
-                    .toInt()
-            )
-            .setUser(parseUser(element.select("h2").first()))
-            .build()
+        return Shot(
+            id = element.id().replace("screenshot-", "").toLong(),
+            title = dribbbleUrl + element.select("a.dribbble-link").first().attr("href"),
+            description = descriptionBlock.select("strong").first().text(),
+            width = 100,
+            height = 100,
+            images = Images(null, null, imgUrl),
+            viewsCount = element.select("li.views").first().child(0).text()
+                .replace(",".toRegex(), "")
+                .toInt(),
+            likesCount = element.select("li.fav").first().child(0).text().replace(",".toRegex(), "")
+                .toInt(),
+            bucketsCount = -1,
+            commentsCount = element.select("li.cmnt").first().child(0).text()
+                .replace(",".toRegex(), "")
+                .toInt(),
+            createdAt = createdAt,
+            updatedAt = createdAt,
+            htmlUrl = "#",
+            reboundSourceUrl = "",
+            tags = listOf(),
+            user = parseUser(element.select("h2").first()),
+            animated = element.select("div.gif-indicator").first() != null,
+            team = null
+        )
     }
 
     private fun parseUser(element: Element): User {
@@ -96,18 +102,42 @@ class DribbbleSearchDataSource @Inject constructor(
         }
         val slashUsername = userBlock.attr("href")
         val username = if (TextUtils.isEmpty(slashUsername)) null else slashUsername.substring(1)
-        return User.Builder()
-            .setId(id)
-            .setName(userBlock.text())
-            .setUsername(username)
-            .setHtmlUrl(dribbbleUrl + slashUsername)
-            .setAvatarUrl(avatarUrl)
-            .setPro(element.select("span.badge-pro").size > 0)
-            .build()
+        return User(
+            id = id,
+            name = userBlock.text(),
+            username = username ?: "What?!!!",
+            htmlUrl = dribbbleUrl + slashUsername,
+            avatarUrl = avatarUrl,
+            bio = null,
+            location = null,
+            links = Links("", ""),
+            bucketsCount = 0,
+            commentsReceivedCount = 0,
+            followersCount = 0,
+            followingsCount = 0,
+            likesCount = 0,
+            likesReceivedCount = 0,
+            projectsCount = 0,
+            reboundsReceivedCount = 0,
+            shotsCount = 0,
+            teamsCount = 0,
+            canUploadShot = false,
+            type = "",
+            pro = element.select("span.badge-pro").size > 0,
+            bucketsUrl = "",
+            followersUrl = "",
+            followingUrl = "",
+            likesUrl = "",
+            shotsUrl = "",
+            teamsUrl = "",
+            createdAt = Date(),
+            updatedAt = Date()
+        )
     }
 
     companion object {
         private val PATTERN_PLAYER_ID = Pattern.compile("users/(\\d+?)/", Pattern.DOTALL)
         private val DATE_FORMAT = SimpleDateFormat("MMMM d, yyyy")
     }
+
 }

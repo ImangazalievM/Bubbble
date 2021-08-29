@@ -186,7 +186,7 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
         userProfileContainer.visibility = View.VISIBLE
         toolbarTitle.text = user.name
         userName.text = user.name
-        if (user.bio != null || !user.bio.isEmpty()) {
+        if (user.bio.isNullOrEmpty()) {
             userBio.visibility = View.VISIBLE
             userBio.setHtmlText(user.bio)
         }
