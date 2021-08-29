@@ -58,7 +58,7 @@ public class BadgedImageView extends ImageView {
         super(context, attrs);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BadgedImageView, 0, 0);
-        badgeGravity = a.getInt(R.styleable.BadgedImageView_badgeGravity, Gravity.START | Gravity.BOTTOM);
+        badgeGravity = a.getInt(R.styleable.BadgedImageView_bubbble_badgeGravity, Gravity.START | Gravity.BOTTOM);
         badgeColor = a.getColor(R.styleable.BadgedImageView_badgeColor, Color.WHITE);
         badgePadding = a.getDimensionPixelSize(R.styleable.BadgedImageView_badgePadding, 0);
         badgePaddingX = a.getDimensionPixelSize(R.styleable.BadgedImageView_badgePaddingX, 0);

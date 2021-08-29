@@ -20,5 +20,5 @@ class Shot(
     val tags: List<String>,
     val user: User,
     val team: Team?,
-    val animated: Boolean
+    val isAnimated: Boolean
 )

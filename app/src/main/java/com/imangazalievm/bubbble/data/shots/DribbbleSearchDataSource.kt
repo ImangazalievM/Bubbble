@@ -84,7 +84,7 @@ class DribbbleSearchDataSource @Inject constructor(
             reboundSourceUrl = "",
             tags = listOf(),
             user = parseUser(element.select("h2").first()),
-            animated = element.select("div.gif-indicator").first() != null,
+            isAnimated = element.select("div.gif-indicator").first() != null,
             team = null
         )
     }

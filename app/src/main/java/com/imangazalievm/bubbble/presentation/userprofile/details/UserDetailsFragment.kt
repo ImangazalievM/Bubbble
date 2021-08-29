@@ -78,8 +78,8 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
         userWebsite = view.findViewById(R.id.user_website)
         userTwitterButton = view.findViewById(R.id.user_twitter_button)
         userWebsiteButton = view.findViewById(R.id.user_website_button)
-        userTwitterButton.setOnClickListener(View.OnClickListener { v: View? -> shotsPresenter.onUserTwitterButtonClicked() })
-        userWebsiteButton.setOnClickListener(View.OnClickListener { v: View? -> shotsPresenter.onUserWebsiteButtonClicked() })
+        userTwitterButton.setOnClickListener { shotsPresenter.onUserTwitterButtonClicked() }
+        userWebsiteButton.setOnClickListener { shotsPresenter.onUserWebsiteButtonClicked() }
     }
 
     override fun showUserInfo(user: User) {
