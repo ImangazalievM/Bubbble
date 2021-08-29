@@ -2,6 +2,8 @@ package com.imangazalievm.bubbble.di.global
 
 import android.content.Context
 import com.imangazalievm.bubbble.data.global.network.ErrorHandler
+import com.imangazalievm.bubbble.presentation.global.permissions.AndroidPermissionsManager
+import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
 import com.imangazalievm.bubbble.presentation.global.resourcesmanager.AndroidResourcesManager
 import com.imangazalievm.bubbble.presentation.global.resourcesmanager.ResourcesManager
 import dagger.Binds
@@ -26,6 +28,10 @@ class AppModule(private val context: Context) {
         @Binds
         @Singleton
         fun provideResourcesManager(manager: AndroidResourcesManager): ResourcesManager
+
+        @Binds
+        @Singleton
+        fun providePermissionsManager(manager: AndroidPermissionsManager): PermissionsManager
 
     }
 

@@ -1,11 +1,23 @@
-package com.imangazalievm.bubbble.presentation.global.permissions;
+package com.imangazalievm.bubbble.presentation.global.permissions
 
-public interface PermissionsManager {
+import com.afollestad.assent.Permission
 
-    void requestPermission(Permission permission, PermissionRequestListener listener);
+interface PermissionsManager {
 
-    void requestPermissions(Permission[] permissions, PermissionRequestListener listener);
+    suspend fun requestPermission(
+        permission: Permission
+    ): PermissionResult
 
-    boolean checkPermissionGranted(Permission permission);
+    suspend fun requestPermissions(
+        vararg permissions: Permission
+    ): List<PermissionResult>
+
+    suspend fun checkPermission(
+        vararg permissions: Permission
+    ): List<PermissionResult>
+
+    suspend fun isGranted(
+        vararg permissions: Permission
+    ): Boolean
 
 }

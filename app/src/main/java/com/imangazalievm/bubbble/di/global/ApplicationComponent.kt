@@ -7,6 +7,7 @@ import com.imangazalievm.bubbble.data.users.FollowersRepository
 import com.imangazalievm.bubbble.data.users.UsersRepository
 import com.imangazalievm.bubbble.di.modules.OkHttpInterceptorsModule
 import com.imangazalievm.bubbble.presentation.global.mvp.ErrorHandler
+import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
 import com.imangazalievm.bubbble.presentation.global.resourcesmanager.ResourcesManager
 import dagger.Component
 import javax.inject.Singleton
@@ -29,5 +30,6 @@ interface ApplicationComponent {
 
     val errorHandler: ErrorHandler
     val resourcesManager: ResourcesManager
+    val permissionsManager: PermissionsManager
 
 }

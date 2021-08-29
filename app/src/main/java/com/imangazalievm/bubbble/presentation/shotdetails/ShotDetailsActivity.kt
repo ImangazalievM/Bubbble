@@ -34,12 +34,10 @@ import com.imangazalievm.bubbble.domain.global.models.Comment
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotCommentsAdapter
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
-import com.imangazalievm.bubbble.presentation.global.ui.commons.AndroidPermissionsManager
 import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
 import com.imangazalievm.bubbble.presentation.global.ui.commons.glide.GlideCircleTransform
 import com.imangazalievm.bubbble.presentation.global.ui.views.dribbbletextview.DribbbleTextView
 import com.imangazalievm.bubbble.presentation.global.utils.AppUtils
-import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity
 import com.imangazalievm.bubbble.presentation.shotzoom.ShotZoomActivity
 import com.imangazalievm.bubbble.presentation.userprofile.UserProfileActivity
 import java.text.SimpleDateFormat
@@ -146,12 +144,6 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
         toolbar.setNavigationOnClickListener { finish() }
         initViews()
-        shotDetailsPresenter.setPermissionsManager(AndroidPermissionsManager(this))
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        shotDetailsPresenter.removePermissionsManager()
     }
 
     private fun initViews() {

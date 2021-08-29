@@ -101,7 +101,9 @@ dependencies {
     }
     implementation(Dependencies.Old.hashtagView)
 
-    implementation(Dependencies.Old.rxpermissions)
+    //permissions request
+    api("com.afollestad.assent:core:3.0.0-RC4")
+    api("com.afollestad.assent:rationales:3.0.0-RC4")
 
     // Developer Tools
     debugImplementation("com.facebook.stetho:stetho:1.5.1")

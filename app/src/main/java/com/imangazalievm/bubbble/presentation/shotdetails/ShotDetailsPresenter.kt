@@ -1,36 +1,26 @@
 package com.imangazalievm.bubbble.presentation.shotdetails
 
+import com.afollestad.assent.Permission
 import com.arellomobile.mvp.InjectViewState
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams
 import com.imangazalievm.bubbble.domain.shotdetails.ShotDetailsInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
-import com.imangazalievm.bubbble.presentation.global.permissions.Permission
-import com.imangazalievm.bubbble.presentation.global.permissions.PermissionResult
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
-import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManagerHolder
 import javax.inject.Inject
 
 @InjectViewState
 class ShotDetailsPresenter @Inject constructor(
     private val shotDetailsInteractor: ShotDetailsInteractor,
+    private val permissionsManager: PermissionsManager,
     private val shotId: Long
 ) : BasePresenter<ShotDetailsView>() {
 
-    private var permissionsManagerHolder = PermissionsManagerHolder()
     private lateinit var shot: Shot
     private val isShotLoaded: Boolean
         get() = ::shot.isInitialized
     private var currentMaxCommentsPage = 1
     private var isCommentsLoading = false
-
-    fun setPermissionsManager(permissionsManager: PermissionsManager) {
-        permissionsManagerHolder.setPermissionsManager(permissionsManager)
-    }
-
-    fun removePermissionsManager() {
-        permissionsManagerHolder.removePermissionsManager()
-    }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -99,19 +89,16 @@ class ShotDetailsPresenter @Inject constructor(
         viewState.showShotSharing(shot.title, shot.htmlUrl)
     }
 
-    fun onDownloadImageClicked() {
-        if (!isShotLoaded) return
-        if (permissionsManagerHolder.checkPermissionGranted(Permission.READ_EXTERNAL_STORAGE)) {
+    fun onDownloadImageClicked() = launchSafe {
+        if (!isShotLoaded) return@launchSafe
+        if (permissionsManager.isGranted(Permission.READ_EXTERNAL_STORAGE)) {
             saveShotImage()
         } else {
-            permissionsManagerHolder.requestPermission(Permission.READ_EXTERNAL_STORAGE) { permissionResult: PermissionResult ->
-                if (permissionResult.granted) {
-                    saveShotImage()
-                } else if (permissionResult.shouldShowRequestPermissionRationale) {
-                    viewState.showStorageAccessRationaleMessage()
-                } else {
-                    viewState.showAllowStorageAccessMessage()
-                }
+            val result = permissionsManager.requestPermission(Permission.READ_EXTERNAL_STORAGE)
+            when {
+                result.isGranted -> saveShotImage()
+                result.isBlockedFromAsking -> viewState.showStorageAccessRationaleMessage()
+                else -> viewState.showAllowStorageAccessMessage()
             }
         }
     }

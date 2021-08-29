@@ -25,8 +25,6 @@ object Dependencies {
         const val materialDrawer = "com.mikepenz:materialdrawer:5.9.4@aar"
         const val hashtagView = "com.github.greenfrvr:hashtag-view:1.3.1"
 
-        const val rxpermissions = "com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar"
-
         const val dagger = "com.google.dagger:dagger:2.38.1"
         const val daggerCompiler = "com.google.dagger:dagger-compiler:2.38.1"
 

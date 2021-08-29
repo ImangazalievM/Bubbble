@@ -26,7 +26,6 @@ import com.imangazalievm.bubbble.di.shotzoom.DaggerShotZoomPresenterComponent
 import com.imangazalievm.bubbble.di.shotzoom.ShotZoomPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
-import com.imangazalievm.bubbble.presentation.global.ui.commons.AndroidPermissionsManager
 import com.imangazalievm.bubbble.presentation.global.utils.AppUtils
 
 class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
@@ -70,12 +69,6 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
         initToolbar()
         initViews()
-        shotZoomPresenter.setPermissionsManager(AndroidPermissionsManager(this))
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        shotZoomPresenter.removePermissionsManager()
     }
 
     private fun initToolbar() {

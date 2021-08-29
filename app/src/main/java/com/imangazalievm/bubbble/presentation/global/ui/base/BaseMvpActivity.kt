@@ -3,6 +3,8 @@ package com.imangazalievm.bubbble.presentation.global.ui.base
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import com.imangazalievm.bubbble.di.global.extensions.appComponent
+import com.imangazalievm.bubbble.presentation.global.permissions.AndroidPermissionsManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,7 +21,9 @@ abstract class BaseMvpActivity : MvpAppCompatActivity(), CoroutineScope {
     //protected val navigator by lazy { getGlobal<AndroidNavigator>() }
     //protected val navigationContextBinder by lazy { getGlobal<NavigationContextBinder>() }
     //protected val screenResolver by lazy { getGlobal<ScreenResolver>() }
-    //protected val permissionsManager by lazy { getGlobal<PermissionsManager>() }
+    protected val permissionsManager by lazy {
+        appComponent.permissionsManager as AndroidPermissionsManager
+    }
     //private val activityResultHandler by lazy { getGlobal<ActivityResultHandler>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +34,7 @@ abstract class BaseMvpActivity : MvpAppCompatActivity(), CoroutineScope {
     override fun onResumeFragments() {
         super.onResumeFragments()
 
-        //permissionsManager.attachActivity(this)
+        permissionsManager.attachActivity(this)
         bindNavigationContext()
     }
 
@@ -42,7 +46,7 @@ abstract class BaseMvpActivity : MvpAppCompatActivity(), CoroutineScope {
 
     override fun onPause() {
         //unbindNavigationContext()
-        //permissionsManager.detachActivity()
+        permissionsManager.detachActivity()
 
         super.onPause()
     }

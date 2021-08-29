@@ -2,9 +2,6 @@ package com.imangazalievm.bubbble.presentation.mvp.presenters;
 
 import com.imangazalievm.bubbble.domain.shotzoom.ShotZoomInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Images;
-import com.imangazalievm.bubbble.presentation.global.permissions.Permission;
-import com.imangazalievm.bubbble.presentation.global.permissions.PermissionRequestListener;
-import com.imangazalievm.bubbble.presentation.global.permissions.PermissionResult;
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager;
 import com.imangazalievm.bubbble.presentation.shotzoom.ShotZoomPresenter;
 import com.imangazalievm.bubbble.presentation.shotzoom.ShotZoomView;
