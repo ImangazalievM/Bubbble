@@ -1,10 +1,8 @@
 package com.imangazalievm.bubbble.domain.shotssearch
 
 import com.imangazalievm.bubbble.data.shots.ShotsRepository
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
-import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams
 import com.imangazalievm.bubbble.domain.global.models.Shot
-import io.reactivex.Single
+import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams
 import javax.inject.Inject
 
 class ShotsSearchInteractor @Inject constructor(

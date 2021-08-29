@@ -1,10 +1,8 @@
 package com.imangazalievm.bubbble.domain.shotslist
 
 import com.imangazalievm.bubbble.data.shots.ShotsRepository
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
-import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams
 import com.imangazalievm.bubbble.domain.global.models.Shot
-import io.reactivex.Single
+import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams
 import javax.inject.Inject
 
 class ShotsInteractor @Inject constructor(

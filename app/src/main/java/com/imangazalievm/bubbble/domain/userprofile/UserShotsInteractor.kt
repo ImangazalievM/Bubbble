@@ -1,12 +1,10 @@
 package com.imangazalievm.bubbble.domain.userprofile
 
-import com.imangazalievm.bubbble.data.users.UsersRepository
 import com.imangazalievm.bubbble.data.shots.ShotsRepository
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
-import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams
+import com.imangazalievm.bubbble.data.users.UsersRepository
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.User
-import io.reactivex.Single
+import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams
 import javax.inject.Inject
 
 class UserShotsInteractor @Inject constructor(

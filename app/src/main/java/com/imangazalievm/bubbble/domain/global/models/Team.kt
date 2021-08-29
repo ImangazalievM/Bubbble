@@ -1,14 +1,9 @@
-package com.imangazalievm.bubbble.domain.global.models;
+package com.imangazalievm.bubbble.domain.global.models
 
-public class Team {
-
-    public Long id;
-    public String name;
-    public String username;
-    public String htmlUrl;
-    public String avatarUrl;
-
-    public Team() {
-    }
-
+class Team {
+    var id: Long? = null
+    var name: String? = null
+    var username: String? = null
+    var htmlUrl: String? = null
+    var avatarUrl: String? = null
 }
