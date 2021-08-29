@@ -1,9 +1,8 @@
 package com.imangazalievm.bubbble.data.users
 
 import com.imangazalievm.bubbble.data.global.network.DribbbleApi
-import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams
 import com.imangazalievm.bubbble.domain.global.models.Follow
-import io.reactivex.Single
+import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams
 import javax.inject.Inject
 
 class FollowersRepository @Inject constructor(

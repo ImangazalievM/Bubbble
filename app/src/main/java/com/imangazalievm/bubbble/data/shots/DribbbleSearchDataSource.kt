@@ -6,8 +6,6 @@ import com.imangazalievm.bubbble.Constants
 import com.imangazalievm.bubbble.domain.global.models.Images
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.User
-import io.reactivex.Single
-import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request

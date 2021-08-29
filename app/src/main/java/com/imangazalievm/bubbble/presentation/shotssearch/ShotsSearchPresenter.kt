@@ -6,7 +6,6 @@ import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkExcepti
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams
 import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import java.util.*
 import javax.inject.Inject

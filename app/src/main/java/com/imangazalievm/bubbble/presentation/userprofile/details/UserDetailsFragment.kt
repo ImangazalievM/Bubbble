@@ -13,7 +13,6 @@ import com.imangazalievm.bubbble.domain.global.models.User
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpFragment
 import com.imangazalievm.bubbble.presentation.global.utils.AppUtils
 import okhttp3.HttpUrl.Companion.toHttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
 

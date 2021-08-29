@@ -5,7 +5,6 @@ import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkExcepti
 import com.imangazalievm.bubbble.domain.global.models.Follow
 import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams
 import com.imangazalievm.bubbble.domain.userprofile.UserFollowersInteractor
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import java.util.*
 import javax.inject.Inject
@@ -13,7 +12,6 @@ import javax.inject.Inject
 @InjectViewState
 class UserFollowersPresenter @Inject constructor(
     private val userFollowersInteractor: UserFollowersInteractor,
-    private val schedulersProvider: SchedulersProvider,
     private val userId: Long
 ) : BasePresenter<UserFollowersView>() {
 

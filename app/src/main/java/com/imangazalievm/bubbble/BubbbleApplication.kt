@@ -1,11 +1,11 @@
 package com.imangazalievm.bubbble
 
 import android.app.Application
+import com.imangazalievm.bubbble.data.global.network.ApiConstants
+import com.imangazalievm.bubbble.di.global.AppModule
 import com.imangazalievm.bubbble.di.global.ApplicationComponent
 import com.imangazalievm.bubbble.di.global.DaggerApplicationComponent
-import com.imangazalievm.bubbble.di.global.AppModule
 import com.imangazalievm.bubbble.di.global.DataModule
-import com.imangazalievm.bubbble.data.global.network.ApiConstants
 
 open class BubbbleApplication : Application() {
 

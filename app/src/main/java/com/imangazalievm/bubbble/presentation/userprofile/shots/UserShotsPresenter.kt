@@ -6,7 +6,6 @@ import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.UserShotsRequestParams
 import com.imangazalievm.bubbble.domain.userprofile.UserShotsInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import java.util.*
 import javax.inject.Inject
 

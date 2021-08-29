@@ -1,7 +1,7 @@
 package com.imangazalievm.bubbble.di.shotdetails
 
-import com.imangazalievm.bubbble.di.global.scopes.Presenter
 import com.imangazalievm.bubbble.di.global.ApplicationComponent
+import com.imangazalievm.bubbble.di.global.scopes.Presenter
 import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsPresenter
 import dagger.Component
 

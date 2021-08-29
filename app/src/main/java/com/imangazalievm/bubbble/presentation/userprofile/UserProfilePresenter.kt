@@ -4,9 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.User
 import com.imangazalievm.bubbble.domain.userprofile.UserProfileInteractor
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import javax.inject.Inject
 
 @InjectViewState

@@ -7,7 +7,6 @@ import com.imangazalievm.bubbble.domain.global.models.Images;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
 import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams;
 import com.imangazalievm.bubbble.domain.global.models.User;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
 import com.imangazalievm.bubbble.presentation.global.permissions.Permission;
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionRequestListener;
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionResult;

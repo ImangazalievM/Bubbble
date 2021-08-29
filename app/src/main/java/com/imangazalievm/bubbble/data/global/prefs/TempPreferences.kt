@@ -3,8 +3,6 @@ package com.imangazalievm.bubbble.data.global.prefs
 import android.content.Context
 import android.content.SharedPreferences
 import com.imangazalievm.bubbble.BuildConfig
-import io.reactivex.Completable
-import io.reactivex.Single
 import javax.inject.Inject
 
 class TempPreferences @Inject constructor(context: Context) {

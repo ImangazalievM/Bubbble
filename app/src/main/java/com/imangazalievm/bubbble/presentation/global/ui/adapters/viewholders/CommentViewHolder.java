@@ -3,7 +3,9 @@ package com.imangazalievm.bubbble.presentation.global.ui.adapters.viewholders;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.imangazalievm.bubbble.R;
 import com.imangazalievm.bubbble.presentation.global.ui.views.dribbbletextview.DribbbleTextView;
 

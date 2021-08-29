@@ -5,7 +5,6 @@ import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkExcepti
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams
 import com.imangazalievm.bubbble.domain.shotslist.ShotsInteractor
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import java.util.*

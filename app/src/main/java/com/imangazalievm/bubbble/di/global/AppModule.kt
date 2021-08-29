@@ -2,7 +2,6 @@ package com.imangazalievm.bubbble.di.global
 
 import android.content.Context
 import com.imangazalievm.bubbble.data.global.network.ErrorHandler
-import com.imangazalievm.bubbble.data.global.prefs.TempPreferences
 import com.imangazalievm.bubbble.presentation.global.resourcesmanager.AndroidResourcesManager
 import com.imangazalievm.bubbble.presentation.global.resourcesmanager.ResourcesManager
 import dagger.Binds

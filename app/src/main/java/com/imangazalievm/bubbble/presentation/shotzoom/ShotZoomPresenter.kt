@@ -2,13 +2,11 @@ package com.imangazalievm.bubbble.presentation.shotzoom
 
 import com.arellomobile.mvp.InjectViewState
 import com.imangazalievm.bubbble.domain.shotzoom.ShotZoomInteractor
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.permissions.Permission
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionResult
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManagerHolder
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import javax.inject.Inject
 import javax.inject.Named
 
