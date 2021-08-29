@@ -15,7 +15,6 @@ import javax.inject.Named
 @InjectViewState
 class ShotZoomPresenter @Inject constructor(
     private val shotZoomInteractor: ShotZoomInteractor,
-    private val schedulersProvider: SchedulersProvider,
     @Named("shot_title")
     private val shotTitle: String,
     @Named("shot_url")
@@ -40,17 +39,17 @@ class ShotZoomPresenter @Inject constructor(
     }
 
     private fun showShot() {
-        viewState!!.showLoadingProgress()
-        viewState!!.showShotImage(imageUrl)
+        viewState.showLoadingProgress()
+        viewState.showShotImage(imageUrl)
     }
 
     fun onImageLoadSuccess() {
-        viewState!!.hideLoadingProgress()
+        viewState.hideLoadingProgress()
     }
 
     fun onImageLoadError() {
-        viewState!!.hideLoadingProgress()
-        viewState!!.showErrorLayout()
+        viewState.hideLoadingProgress()
+        viewState.showErrorLayout()
     }
 
     fun onDownloadImageClicked() {
@@ -61,32 +60,29 @@ class ShotZoomPresenter @Inject constructor(
                 if (permissionResult.granted) {
                     saveShotImage()
                 } else if (permissionResult.shouldShowRequestPermissionRationale) {
-                    viewState!!.showStorageAccessRationaleMessage()
+                    viewState.showStorageAccessRationaleMessage()
                 } else {
-                    viewState!!.showAllowStorageAccessMessage()
+                    viewState.showAllowStorageAccessMessage()
                 }
             }
         }
     }
 
     fun onAppSettingsButtonClicked() {
-        viewState!!.openAppSettingsScreen()
+        viewState.openAppSettingsScreen()
     }
 
-    private fun saveShotImage() {
+    private fun saveShotImage() = launchSafe {
         shotZoomInteractor.saveImage(imageUrl)
-            .observeOn(schedulersProvider.ui())
-            .subscribe({ viewState!!.showImageSavedMessage() }) {
-                DebugUtils.showDebugErrorMessage(it)
-            }
+        viewState.showImageSavedMessage()
     }
 
     fun onOpenInBrowserClicked() {
-        viewState!!.openInBrowser(shotUrl)
+        viewState.openInBrowser(shotUrl)
     }
 
     fun onShareShotClicked() {
-        viewState!!.showShotSharing(shotTitle, shotUrl)
+        viewState.showShotSharing(shotTitle, shotUrl)
     }
 
 }

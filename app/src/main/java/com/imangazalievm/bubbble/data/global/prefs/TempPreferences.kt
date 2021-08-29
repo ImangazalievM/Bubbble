@@ -9,26 +9,21 @@ import javax.inject.Inject
 
 class TempPreferences @Inject constructor(context: Context) {
 
-    private val prefs: SharedPreferences
+    private val prefs: SharedPreferences =
+        context.getSharedPreferences(APP_PREFS_FILE_NAME, Context.MODE_PRIVATE)
 
-    init {
-        prefs = context.getSharedPreferences(APP_PREFS_FILE_NAME, Context.MODE_PRIVATE)
+    fun saveToken(token: String?) {
+        prefs.edit().putString(PREF_API_TOKEN, token).apply()
     }
 
-    fun saveToken(token: String?): Completable {
-        return Completable.fromAction { prefs.edit().putString(PREF_API_TOKEN, token).apply() }
-    }
+    val token: String
+        get() = prefs.getString(
+            PREF_API_TOKEN,
+            BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN
+        )!!
 
-    val token: Single<String?>
-        get() = Single.fromCallable {
-            prefs.getString(
-                PREF_API_TOKEN,
-                BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN
-            )
-        }
-
-    fun clearToken(): Completable {
-        return Completable.fromAction { prefs.edit().putString(PREF_API_TOKEN, null).apply() }
+    fun clearToken() {
+        prefs.edit().putString(PREF_API_TOKEN, null).apply()
     }
 
     companion object {

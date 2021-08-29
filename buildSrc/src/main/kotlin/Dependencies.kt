@@ -30,9 +30,6 @@ object Dependencies {
         const val dagger = "com.google.dagger:dagger:2.38.1"
         const val daggerCompiler = "com.google.dagger:dagger-compiler:2.38.1"
 
-        const val rxJava = "io.reactivex.rxjava2:rxjava:2.0.1"
-        const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.0.1"
-
         const val moxy = "com.arello-mobile:moxy:1.5.2"
         const val moxyAppCompat = "com.arello-mobile:moxy-app-compat:1.5.2"
         const val moxyCompiler = "com.arello-mobile:moxy-compiler:1.5.2"
@@ -40,8 +37,6 @@ object Dependencies {
         const val okHttp = "com.squareup.okhttp3:okhttp:3.2.0"
         const val retrofit = "com.squareup.retrofit2:retrofit:2.2.0"
         const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:2.2.0"
-        const val retrofitRxJavaAdapter =
-            "com.squareup.retrofit2:adapter-rxjava2:2.2.0"
         const val jsoup = "org.jsoup:jsoup:1.7.2"
 
         // Developer Tools

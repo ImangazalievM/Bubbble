@@ -14,25 +14,21 @@ import javax.inject.Inject
 class ShotDetailsInteractor @Inject constructor(
     private val shotsRepository: ShotsRepository,
     private val commentsRepository: CommentsRepository,
-    private val imagesRepository: ImagesRepository,
-    private val schedulersProvider: SchedulersProvider
+    private val imagesRepository: ImagesRepository
 ) {
 
-    fun getShot(shotId: Long): Single<Shot> {
+    suspend fun getShot(shotId: Long): Shot {
         return shotsRepository.getShot(shotId)
-            .subscribeOn(schedulersProvider.io())
     }
 
-    fun getShotComments(
+    suspend fun getShotComments(
         shotCommentsRequestParams: ShotCommentsRequestParams
-    ): Single<List<Comment>> {
+    ): List<Comment> {
         return commentsRepository.getComments(shotCommentsRequestParams)
-            .subscribeOn(schedulersProvider.io())
     }
 
-    fun saveImage(imageUrl: String): Completable {
+    suspend fun saveImage(imageUrl: String) {
         return imagesRepository.saveImage(imageUrl)
-            .subscribeOn(schedulersProvider.io())
     }
 
 }

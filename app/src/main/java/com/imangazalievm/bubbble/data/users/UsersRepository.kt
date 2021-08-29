@@ -1,16 +1,16 @@
 package com.imangazalievm.bubbble.data.users
 
-import com.imangazalievm.bubbble.data.global.network.DribbbleApiService
+import com.imangazalievm.bubbble.data.global.network.DribbbleApi
 import com.imangazalievm.bubbble.domain.global.models.User
 import io.reactivex.Single
 import javax.inject.Inject
 
 class UsersRepository @Inject constructor(
-    private val dribbbleApiService: DribbbleApiService
+    private val dribbbleApi: DribbbleApi
 ) {
-    
-    fun getUser(userId: Long): Single<User> {
-        return dribbbleApiService.getUser(userId)
+
+    suspend fun getUser(userId: Long): User {
+        return dribbbleApi.getUser(userId)
     }
 
 }

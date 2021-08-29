@@ -8,13 +8,11 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class UserFollowersInteractor @Inject constructor(
-    private val followersRepository: FollowersRepository,
-    private val schedulersProvider: SchedulersProvider
+    private val followersRepository: FollowersRepository
 ) {
 
-    fun getUserFollowers(requestParams: UserFollowersRequestParams): Single<List<Follow>> {
+    suspend fun getUserFollowers(requestParams: UserFollowersRequestParams): List<Follow> {
         return followersRepository.getUserFollowers(requestParams)
-            .subscribeOn(schedulersProvider.io())
     }
 
 }

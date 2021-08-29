@@ -12,6 +12,7 @@ import com.imangazalievm.bubbble.di.userprofile.UserDetailsPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.User
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpFragment
 import com.imangazalievm.bubbble.presentation.global.utils.AppUtils
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
@@ -117,7 +118,7 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
     }
 
     private fun getTwitterUserName(twitterUrl: String): String {
-        return twitterUrl.toHttpUrlOrNull()!!.pathSegments[0]
+        return twitterUrl.toHttpUrl().pathSegments[0]
     }
 
     override fun showLoadingProgress() {

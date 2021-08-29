@@ -1,116 +1,82 @@
-package com.imangazalievm.bubbble.presentation.userprofile.followers;
+package com.imangazalievm.bubbble.presentation.userprofile.followers
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
-import com.imangazalievm.bubbble.domain.global.models.Follow;
-import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams;
-import com.imangazalievm.bubbble.domain.userprofile.UserFollowersInteractor;
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider;
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
+import com.arellomobile.mvp.InjectViewState
+import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkException
+import com.imangazalievm.bubbble.domain.global.models.Follow
+import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams
+import com.imangazalievm.bubbble.domain.userprofile.UserFollowersInteractor
+import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
+import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
+import java.util.*
+import javax.inject.Inject
 
 @InjectViewState
-public class UserFollowersPresenter extends MvpPresenter<UserFollowersView> {
+class UserFollowersPresenter @Inject constructor(
+    private val userFollowersInteractor: UserFollowersInteractor,
+    private val schedulersProvider: SchedulersProvider,
+    private val userId: Long
+) : BasePresenter<UserFollowersView>() {
 
-    private static final int PAGE_SIZE = 20;
+    private var currentMaxPage = 1
+    private val followers: MutableList<Follow> = ArrayList()
+    private var isFollowersLoading = false
 
-
-    private UserFollowersInteractor userFollowersInteractor;
-    private SchedulersProvider schedulersProvider;
-    private long userId;
-    private int currentMaxPage = 1;
-    private List<Follow> followers = new ArrayList<>();
-    private boolean isFollowersLoading = false;
-
-    @Inject
-    public UserFollowersPresenter(UserFollowersInteractor userFollowersInteractor,
-                                  SchedulersProvider schedulersProvider,
-                                  long userId) {
-        this.userFollowersInteractor = userFollowersInteractor;
-        this.schedulersProvider = schedulersProvider;
-        this.userId = userId;
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.showFollowersLoadingProgress()
+        loadMoreFollowers(currentMaxPage)
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-
-        getViewState().showFollowersLoadingProgress();
-        loadMoreFollowers(currentMaxPage);
-    }
-
-    private void loadMoreFollowers(int page) {
-        isFollowersLoading = true;
-        UserFollowersRequestParams requestParams = new UserFollowersRequestParams(userId, page, PAGE_SIZE);
-        userFollowersInteractor.getUserFollowers(requestParams)
-                .observeOn(schedulersProvider.ui())
-                .subscribe(this::onFollowersLoaded, this::onFollowersLoadError);
-    }
-
-    private void onFollowersLoaded(List<Follow> newFollowers) {
-        isFollowersLoading = false;
-        if (isFirstLoading()) {
-            getViewState().hideFollowersLoadingProgress();
-        } else {
-            getViewState().hideFollowersLoadingMoreProgress();
-        }
-
-        followers.addAll(newFollowers);
-        getViewState().showNewFollowers(newFollowers);
-    }
-
-    private void onFollowersLoadError(Throwable throwable) {
-        isFollowersLoading = true;
-        if (throwable instanceof NoNetworkException) {
-            if (isFirstLoading()) {
-                getViewState().hideFollowersLoadingProgress();
-                getViewState().showNoNetworkLayout();
+    private fun loadMoreFollowers(page: Int) = launchSafe {
+        isFollowersLoading = true
+        val requestParams = UserFollowersRequestParams(userId, page, PAGE_SIZE)
+        try {
+            val newFollowers = userFollowersInteractor.getUserFollowers(requestParams)
+            followers.addAll(newFollowers)
+            viewState.showNewFollowers(newFollowers)
+        } catch (throwable: NoNetworkException) {
+            if (isFirstLoading) {
+                viewState.showNoNetworkLayout()
             } else {
-                getViewState().hideFollowersLoadingMoreProgress();
-                getViewState().showLoadMoreError();
+                viewState.showLoadMoreError()
             }
-        } else {
-            DebugUtils.showDebugErrorMessage(throwable);
+        } finally {
+            viewState.hideFollowersLoadingProgress()
+            isFollowersLoading = false
         }
     }
 
-    private boolean isFirstLoading() {
-        return currentMaxPage == 1;
-    }
+    private val isFirstLoading: Boolean
+        private get() = currentMaxPage == 1
 
-    public void onLoadMoreFollowersRequest() {
+    fun onLoadMoreFollowersRequest() {
         if (isFollowersLoading) {
-            return;
+            return
         }
-
-        getViewState().showFollowersLoadingMoreProgress();
-        currentMaxPage++;
-        loadMoreFollowers(currentMaxPage);
+        viewState.showFollowersLoadingMoreProgress()
+        currentMaxPage++
+        loadMoreFollowers(currentMaxPage)
     }
 
-    public void retryLoading() {
-        if (isFirstLoading()) {
-            getViewState().hideNoNetworkLayout();
-            getViewState().showFollowersLoadingProgress();
+    fun retryLoading() {
+        if (isFirstLoading) {
+            viewState.hideNoNetworkLayout()
+            viewState.showFollowersLoadingProgress()
         } else {
-            getViewState().showFollowersLoadingMoreProgress();
+            viewState.showFollowersLoadingMoreProgress()
         }
-
-        loadMoreFollowers(currentMaxPage);
+        loadMoreFollowers(currentMaxPage)
     }
 
-    public void onFollowerClick(int position) {
-        System.out.println(followers.size());
-        System.out.println(followers.get(position));
-        System.out.println(followers.get(position).getFollower());
-        System.out.println(followers.get(position).getFollower().getId());
-        getViewState().openUserDetailsScreen(followers.get(position).getFollower().getId());
+    fun onFollowerClick(position: Int) {
+        println(followers.size)
+        println(followers[position])
+        println(followers[position].follower)
+        println(followers[position].follower.id)
+        viewState.openUserDetailsScreen(followers[position].follower.id)
     }
 
-
+    companion object {
+        private const val PAGE_SIZE = 20
+    }
 }

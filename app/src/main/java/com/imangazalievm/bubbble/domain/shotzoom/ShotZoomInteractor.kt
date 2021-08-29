@@ -6,11 +6,11 @@ import io.reactivex.Completable
 import javax.inject.Inject
 
 class ShotZoomInteractor @Inject constructor(
-    private val imagesRepository: ImagesRepository,
-    private val schedulersProvider: SchedulersProvider
+    private val imagesRepository: ImagesRepository
 ) {
-    fun saveImage(shotImageUrl: String): Completable {
-        return imagesRepository.saveImage(shotImageUrl)
-            .subscribeOn(schedulersProvider.io())
+
+    suspend fun saveImage(shotImageUrl: String) {
+        imagesRepository.saveImage(shotImageUrl)
     }
+
 }

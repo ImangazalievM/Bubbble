@@ -85,16 +85,12 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Dependencies.Versions.kotlinCoroutineVersion}")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Dependencies.Versions.kotlinCoroutineVersion}")
 
-    implementation(Dependencies.Old.rxJava)
-    implementation(Dependencies.Old.rxAndroid)
-
     implementation(Dependencies.Old.moxy)
     implementation(Dependencies.Old.moxyAppCompat)
     kapt(Dependencies.Old.moxyCompiler)
 
     implementation(Dependencies.Old.retrofit)
     implementation(Dependencies.Old.retrofitGsonConverter)
-    implementation(Dependencies.Old.retrofitRxJavaAdapter)
     implementation(Dependencies.Old.jsoup)
 
     implementation(Dependencies.Old.glide)

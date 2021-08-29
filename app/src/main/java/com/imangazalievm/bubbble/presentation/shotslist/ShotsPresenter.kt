@@ -1,7 +1,7 @@
 package com.imangazalievm.bubbble.presentation.shotslist
 
 import com.arellomobile.mvp.InjectViewState
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
+import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams
 import com.imangazalievm.bubbble.domain.shotslist.ShotsInteractor
@@ -14,13 +14,14 @@ import javax.inject.Inject
 @InjectViewState
 class ShotsPresenter @Inject constructor(
     private val shotsInteractor: ShotsInteractor,
-    private val schedulersProvider: SchedulersProvider,
     private val shotsSort: String
 ) : BasePresenter<ShotsView>() {
-    
+
     private var currentMaxPage = 1
     private val shots: MutableList<Shot> = ArrayList()
     private var isShotsLoading = false
+    private val isFirstLoading: Boolean
+        private get() = currentMaxPage == 1
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -29,20 +30,15 @@ class ShotsPresenter @Inject constructor(
         loadMoreShots(currentMaxPage)
     }
 
-    private fun loadMoreShots(page: Int) {
+    private fun loadMoreShots(page: Int) = launchSafe {
         isShotsLoading = true
         val shotsRequestParams = ShotsRequestParams(shotsSort, page, PAGE_SIZE)
-        shotsInteractor.getShots(shotsRequestParams)
-            .observeOn(schedulersProvider.ui())
-            .subscribe({ newShots: List<Shot> -> onShotsLoaded(newShots) }) { throwable: Throwable ->
-                onShotsLoadError(
-                    throwable
-                )
-            }
-    }
+        val newShots = try {
+            shotsInteractor.getShots(shotsRequestParams)
+        } finally {
+            isShotsLoading = false
+        }
 
-    private fun onShotsLoaded(newShots: List<Shot>) {
-        isShotsLoading = false
         if (isFirstLoading) {
             viewState.hideShotsLoadingProgress()
         } else {
@@ -53,7 +49,6 @@ class ShotsPresenter @Inject constructor(
     }
 
     private fun onShotsLoadError(throwable: Throwable) {
-        isShotsLoading = true
         if (throwable is NoNetworkException) {
             if (isFirstLoading) {
                 viewState.hideShotsLoadingProgress()
@@ -66,9 +61,6 @@ class ShotsPresenter @Inject constructor(
             DebugUtils.showDebugErrorMessage(throwable)
         }
     }
-
-    private val isFirstLoading: Boolean
-        private get() = currentMaxPage == 1
 
     fun onLoadMoreShotsRequest() {
         if (isShotsLoading) {

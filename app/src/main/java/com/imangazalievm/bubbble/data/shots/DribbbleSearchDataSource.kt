@@ -8,6 +8,7 @@ import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.User
 import io.reactivex.Single
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jsoup.Jsoup
@@ -23,27 +24,26 @@ class DribbbleSearchDataSource @Inject constructor(
     private val dribbbleUrl: String
 ) {
 
-    fun search(query: String?, sort: String?, page: Int, pageSize: Int): Single<List<Shot>> {
-        return Single.fromCallable {
-            val searchUrl = HttpUrl.parse("$dribbbleUrl/search")
-                .newBuilder()
-                .addQueryParameter("q", query)
-                .addQueryParameter("s", sort)
-                .addQueryParameter("page", page.toString())
-                .addQueryParameter("per_page", pageSize.toString())
-                .build()
-            val searchRequest: Request = Request.Builder().url(searchUrl).build()
-            val htmlResponse = okHttpClient.newCall(searchRequest).execute().body!!.string()
-            val shotElements = Jsoup.parse(htmlResponse, dribbbleUrl).select("li[id^=screenshot]")
-            val shots: MutableList<Shot> = ArrayList(shotElements.size)
-            for (element in shotElements) {
-                val shot = parseShot(element, DATE_FORMAT)
-                if (shot != null) {
-                    shots.add(shot)
-                }
+    suspend fun search(query: String?, sort: String?, page: Int, pageSize: Int): List<Shot> {
+
+        val searchUrl = "$dribbbleUrl/search".toHttpUrl()
+            .newBuilder()
+            .addQueryParameter("q", query)
+            .addQueryParameter("s", sort)
+            .addQueryParameter("page", page.toString())
+            .addQueryParameter("per_page", pageSize.toString())
+            .build()
+        val searchRequest: Request = Request.Builder().url(searchUrl).build()
+        val htmlResponse = okHttpClient.newCall(searchRequest).execute().body!!.string()
+        val shotElements = Jsoup.parse(htmlResponse, dribbbleUrl).select("li[id^=screenshot]")
+        val shots: MutableList<Shot> = ArrayList(shotElements.size)
+        for (element in shotElements) {
+            val shot = parseShot(element, DATE_FORMAT)
+            if (shot != null) {
+                shots.add(shot)
             }
-            shots
         }
+        return shots
     }
 
     private fun parseShot(element: Element, dateFormat: SimpleDateFormat): Shot {

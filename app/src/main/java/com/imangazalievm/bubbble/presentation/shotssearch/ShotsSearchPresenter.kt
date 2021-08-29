@@ -2,20 +2,18 @@ package com.imangazalievm.bubbble.presentation.shotssearch
 
 import com.arellomobile.mvp.InjectViewState
 import com.imangazalievm.bubbble.Constants
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
+import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams
 import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor
 import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import java.util.*
 import javax.inject.Inject
 
 @InjectViewState
 class ShotsSearchPresenter @Inject constructor(
     private val shotsSearchInteractor: ShotsSearchInteractor,
-    private val schedulersProvider: SchedulersProvider,
     private var searchQuery: String
 ) : BasePresenter<ShotsSearchView>() {
 
@@ -37,32 +35,19 @@ class ShotsSearchPresenter @Inject constructor(
         loadMoreShots(currentMaxPage)
     }
 
-    private fun loadMoreShots(page: Int) {
-        isShotsLoading = true
-        val shotsRequestParams = ShotsSearchRequestParams(searchQuery, sort, page, PAGE_SIZE)
-        shotsSearchInteractor.search(shotsRequestParams)
-            .observeOn(schedulersProvider.ui())
-            .subscribe({ newShots: List<Shot> -> onShotsLoaded(newShots) }) { throwable: Throwable ->
-                onShotsLoadError(
-                    throwable
-                )
+    private fun loadMoreShots(page: Int) = launchSafe {
+        try {
+            isShotsLoading = true
+            val shotsRequestParams = ShotsSearchRequestParams(searchQuery, sort, page, PAGE_SIZE)
+            val newShots = shotsSearchInteractor.search(shotsRequestParams)
+            if (isFirstLoading) {
+                viewState.hideShotsLoadingProgress()
+            } else {
+                viewState.hideShotsLoadingMoreProgress()
             }
-    }
-
-    private fun onShotsLoaded(newShots: List<Shot>) {
-        isShotsLoading = false
-        if (isFirstLoading) {
-            viewState.hideShotsLoadingProgress()
-        } else {
-            viewState.hideShotsLoadingMoreProgress()
-        }
-        shots.addAll(newShots)
-        viewState.showNewShots(newShots)
-    }
-
-    private fun onShotsLoadError(throwable: Throwable) {
-        isShotsLoading = true
-        if (throwable is NoNetworkException) {
+            shots.addAll(newShots)
+            viewState.showNewShots(newShots)
+        } catch (e: NoNetworkException) {
             if (isFirstLoading) {
                 viewState.hideShotsLoadingProgress()
                 viewState.showNoNetworkLayout()
@@ -70,8 +55,8 @@ class ShotsSearchPresenter @Inject constructor(
                 viewState.hideShotsLoadingMoreProgress()
                 viewState.showLoadMoreError()
             }
-        } else {
-            DebugUtils.showDebugErrorMessage(throwable)
+        } finally {
+            isShotsLoading = false
         }
     }
 

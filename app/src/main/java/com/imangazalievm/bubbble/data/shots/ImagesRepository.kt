@@ -4,17 +4,16 @@ import com.imangazalievm.bubbble.data.global.filesystem.UrlImageSaver
 import io.reactivex.Completable
 import io.reactivex.CompletableOnSubscribe
 import io.reactivex.CompletableEmitter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ImagesRepository @Inject constructor(
     private val urlImageSaver: UrlImageSaver
 ) {
 
-    fun saveImage(shotImageUrl: String?): Completable {
-        return Completable.create { e: CompletableEmitter ->
-            urlImageSaver.saveImage(shotImageUrl)
-            e.onComplete()
-        }
+    suspend fun saveImage(shotImageUrl: String) = withContext(Dispatchers.IO) {
+        urlImageSaver.saveImage(shotImageUrl)
     }
 
 }

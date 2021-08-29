@@ -11,17 +11,15 @@ import javax.inject.Inject
 
 class UserShotsInteractor @Inject constructor(
     private val usersRepository: UsersRepository,
-    private val shotsRepository: ShotsRepository,
-    private val schedulersProvider: SchedulersProvider
+    private val shotsRepository: ShotsRepository
 ) {
 
-    fun getUser(userId: Long): Single<User> {
+    suspend fun getUser(userId: Long): User {
         return usersRepository.getUser(userId)
     }
 
-    fun getUserShots(requestParams: UserShotsRequestParams): Single<List<Shot>> {
+    suspend fun getUserShots(requestParams: UserShotsRequestParams): List<Shot> {
         return shotsRepository.getUserShots(requestParams)
-            .subscribeOn(schedulersProvider.io())
     }
 
 }

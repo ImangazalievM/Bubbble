@@ -1,17 +1,17 @@
 package com.imangazalievm.bubbble.data.users
 
-import com.imangazalievm.bubbble.data.global.network.DribbbleApiService
+import com.imangazalievm.bubbble.data.global.network.DribbbleApi
 import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams
 import com.imangazalievm.bubbble.domain.global.models.Follow
 import io.reactivex.Single
 import javax.inject.Inject
 
 class FollowersRepository @Inject constructor(
-    private val dribbbleApiService: DribbbleApiService
-    ) {
+    private val dribbbleApi: DribbbleApi
+) {
 
-    fun getUserFollowers(requestParams: UserFollowersRequestParams): Single<List<Follow>> {
-        return dribbbleApiService.getUserFollowers(
+    suspend fun getUserFollowers(requestParams: UserFollowersRequestParams): List<Follow> {
+        return dribbbleApi.getUserFollowers(
             requestParams.userId,
             requestParams.page,
             requestParams.pageSize

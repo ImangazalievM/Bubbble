@@ -5,25 +5,23 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.imangazalievm.bubbble.BuildConfig
-import com.imangazalievm.bubbble.data.global.network.*
-import com.imangazalievm.bubbble.data.shots.CommentsRepository
-import com.imangazalievm.bubbble.data.users.UsersRepository
-import com.imangazalievm.bubbble.data.users.FollowersRepository
-import com.imangazalievm.bubbble.data.shots.ImagesRepository
+import com.imangazalievm.bubbble.data.global.network.Dribbble
+import com.imangazalievm.bubbble.data.global.network.DribbbleApi
+import com.imangazalievm.bubbble.data.global.network.ErrorHandler
+import com.imangazalievm.bubbble.data.global.network.NetworkChecker
+import com.imangazalievm.bubbble.data.global.network.interceptors.DribbbleTokenInterceptor
+import com.imangazalievm.bubbble.data.global.network.interceptors.NetworkCheckInterceptor
 import com.imangazalievm.bubbble.data.global.prefs.TempPreferences
-import okhttp3.OkHttpClient
 import com.imangazalievm.bubbble.data.shots.DribbbleSearchDataSource
 import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpInterceptors
 import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpNetworkInterceptors
-import com.imangazalievm.bubbble.data.global.network.interceptors.NetworkCheckInterceptor
-import com.imangazalievm.bubbble.data.global.network.interceptors.DribbbleTokenInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.moczul.ok2curl.CurlInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -74,7 +72,6 @@ class DataModule(private val baseUrl: String) {
         return Retrofit.Builder()
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .baseUrl(baseUrl)
             .build()
     }
@@ -93,7 +90,7 @@ class DataModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideApi(retrofit: Retrofit): DribbbleApiService {
-        return retrofit.create(DribbbleApiService::class.java)
+    fun provideApi(retrofit: Retrofit): DribbbleApi {
+        return retrofit.create(DribbbleApi::class.java)
     }
 }

@@ -8,13 +8,11 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class ShotsInteractor @Inject constructor(
-    private val shotsRepository: ShotsRepository,
-    private val schedulersProvider: SchedulersProvider
+    private val shotsRepository: ShotsRepository
 ) {
 
-    fun getShots(shotsRequestParams: ShotsRequestParams): Single<List<Shot>> {
+    suspend fun getShots(shotsRequestParams: ShotsRequestParams): List<Shot> {
         return shotsRepository.getShots(shotsRequestParams)
-            .subscribeOn(schedulersProvider.io())
     }
 
 }

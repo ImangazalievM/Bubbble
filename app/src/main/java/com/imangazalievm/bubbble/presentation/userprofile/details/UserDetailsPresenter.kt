@@ -1,18 +1,15 @@
 package com.imangazalievm.bubbble.presentation.userprofile.details
 
 import com.arellomobile.mvp.InjectViewState
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException
+import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.User
 import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor
-import com.imangazalievm.bubbble.presentation.global.SchedulersProvider
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
-import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
 import javax.inject.Inject
 
 @InjectViewState
 class UserDetailsPresenter @Inject constructor(
     private val userDetailsInteractor: UserDetailsInteractor,
-    private val schedulersProvider: SchedulersProvider,
     private val userId: Long
 ) : BasePresenter<UserDetailsView>() {
 
@@ -25,29 +22,15 @@ class UserDetailsPresenter @Inject constructor(
         loadUser()
     }
 
-    private fun loadUser() {
+    private fun loadUser() = launchSafe {
         viewState.showLoadingProgress()
-        userDetailsInteractor.getUser(userId)
-            .observeOn(schedulersProvider.ui())
-            .subscribe({ user: User -> onUserLoadSuccess(user) }) { throwable: Throwable ->
-                onUserLoadError(
-                    throwable
-                )
-            }
-    }
-
-    private fun onUserLoadSuccess(user: User) {
-        this.user = user
-        viewState.hideLoadingProgress()
-        viewState.showUserInfo(user)
-    }
-
-    private fun onUserLoadError(throwable: Throwable) {
-        if (throwable is NoNetworkException) {
-            viewState.hideLoadingProgress()
+        try {
+            this@UserDetailsPresenter.user = userDetailsInteractor.getUser(userId)
+            viewState.showUserInfo(user)
+        } catch (e: NoNetworkException) {
             viewState.showNoNetworkLayout()
-        } else {
-            DebugUtils.showDebugErrorMessage(throwable)
+        } finally {
+            viewState.hideLoadingProgress()
         }
     }
 

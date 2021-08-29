@@ -1,7 +1,7 @@
 package com.imangazalievm.bubbble.data.global.network.interceptors;
 
 import com.imangazalievm.bubbble.data.global.network.NetworkChecker;
-import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
+import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkException;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -23,7 +23,7 @@ public class NetworkCheckInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request.Builder requestBuilder = chain.request().newBuilder();
         if (!networkChecker.isConnected()) {
-            throw new NoNetworkException("No network connection");
+            throw new NoNetworkException();
         }
 
         try {

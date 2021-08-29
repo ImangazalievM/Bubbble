@@ -7,11 +7,11 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class UserProfileInteractor @Inject constructor(
-    private val usersRepository: UsersRepository,
-    private val schedulersProvider: SchedulersProvider
+    private val usersRepository: UsersRepository
 ) {
-    fun getUser(userId: Long): Single<User> {
+
+    suspend fun getUser(userId: Long): User {
         return usersRepository.getUser(userId)
-            .subscribeOn(schedulersProvider.io())
     }
+
 }

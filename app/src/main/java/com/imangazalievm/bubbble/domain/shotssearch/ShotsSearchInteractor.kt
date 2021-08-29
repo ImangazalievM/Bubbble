@@ -8,13 +8,11 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class ShotsSearchInteractor @Inject constructor(
-    private val shotsRepository: ShotsRepository,
-    private val schedulersProvider: SchedulersProvider
+    private val shotsRepository: ShotsRepository
 ) {
 
-    fun search(requestParams: ShotsSearchRequestParams): Single<List<Shot>> {
+    suspend fun search(requestParams: ShotsSearchRequestParams): List<Shot> {
         return shotsRepository.search(requestParams)
-            .subscribeOn(schedulersProvider.io())
     }
 
 }
