@@ -9,7 +9,7 @@
         android:id="@+id/shot_image"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        app:badgeGravity="end|top"
+        app:bubbble_badgeGravity="end|top"
         app:badgePadding="12dp"
         app:badgeColor="@android:color/white"
         />
