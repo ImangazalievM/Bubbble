@@ -8,8 +8,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.imangazalievm.bubbble.BubbbleApplication
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.di.userprofile.DaggerUserShotsPresenterComponent
-import com.imangazalievm.bubbble.di.userprofile.UserShotsPresenterModule
+import com.imangazalievm.bubbble.di.userprofile.DaggerPresenterComponent
+import com.imangazalievm.bubbble.di.userprofile.PresenterModule
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotsAdapter
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpFragment
@@ -21,14 +21,14 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     override val layoutRes: Int = R.layout.fragment_shots
 
     @InjectPresenter
-    lateinit var userShotsPresenter: UserShotsPresenter
+    lateinit var presenter: Presenter
     
     @ProvidePresenter
-    fun providePresenter(): UserShotsPresenter {
+    fun providePresenter(): Presenter {
         val userId = requireArguments().getLong(USER_ID_ARG)
-        val presenterComponent = DaggerUserShotsPresenterComponent.builder()
+        val presenterComponent = DaggerPresenterComponent.builder()
             .applicationComponent(BubbbleApplication.component)
-            .userShotsPresenterModule(UserShotsPresenterModule(userId))
+            .presenterModule(PresenterModule(userId))
             .build()
         return presenterComponent.getPresenter()
     }
@@ -59,14 +59,14 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
         shotsRecyclerView.layoutManager = shotsListLayoutManager
         shotsRecyclerView.adapter = shotsAdapter
         shotsAdapter.setOnItemClickListener { position: Int ->
-            userShotsPresenter.onShotClick(
+            presenter.onShotClick(
                 position
             )
         }
         shotsRecyclerView.addOnScrollListener(object :
             EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
             override fun onLoadMore() {
-                userShotsPresenter.onLoadMoreShotsRequest()
+                presenter.onLoadMoreShotsRequest()
             }
         })
     }

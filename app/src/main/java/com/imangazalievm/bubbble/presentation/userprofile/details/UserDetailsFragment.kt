@@ -19,7 +19,7 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
     override val layoutRes: Int = R.layout.fragment_user_details
 
     @InjectPresenter
-    lateinit var shotsPresenter: UserDetailsPresenter
+    lateinit var presenter: UserDetailsPresenter
 
     @ProvidePresenter
     fun providePresenter(): UserDetailsPresenter {
@@ -60,7 +60,7 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
         loadingLayout = view.findViewById(R.id.loading_layout)
         noNetworkLayout = view.findViewById(R.id.no_network_layout)
         noNetworkLayout.findViewById<View>(R.id.retry_button)
-            .setOnClickListener { shotsPresenter.retryLoading() }
+            .setOnClickListener { presenter.retryLoading() }
         userShotsButton = view.findViewById(R.id.user_shots_button)
         userLikesButton = view.findViewById(R.id.user_likes_button)
         userBucketsButton = view.findViewById(R.id.user_buckets_button)
@@ -78,8 +78,8 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
         userWebsite = view.findViewById(R.id.user_website)
         userTwitterButton = view.findViewById(R.id.user_twitter_button)
         userWebsiteButton = view.findViewById(R.id.user_website_button)
-        userTwitterButton.setOnClickListener { shotsPresenter.onUserTwitterButtonClicked() }
-        userWebsiteButton.setOnClickListener { shotsPresenter.onUserWebsiteButtonClicked() }
+        userTwitterButton.setOnClickListener { presenter.onUserTwitterButtonClicked() }
+        userWebsiteButton.setOnClickListener { presenter.onUserWebsiteButtonClicked() }
     }
 
     override fun showUserInfo(user: User) {

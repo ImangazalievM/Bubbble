@@ -25,9 +25,6 @@ object Dependencies {
         const val materialDrawer = "com.mikepenz:materialdrawer:5.9.4@aar"
         const val hashtagView = "com.github.greenfrvr:hashtag-view:1.3.1"
 
-        const val dagger = "com.google.dagger:dagger:2.38.1"
-        const val daggerCompiler = "com.google.dagger:dagger-compiler:2.38.1"
-
         const val moxy = "com.arello-mobile:moxy:1.5.2"
         const val moxyAppCompat = "com.arello-mobile:moxy-app-compat:1.5.2"
         const val moxyCompiler = "com.arello-mobile:moxy-compiler:1.5.2"

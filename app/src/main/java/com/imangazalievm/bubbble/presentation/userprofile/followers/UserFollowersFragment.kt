@@ -8,8 +8,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.imangazalievm.bubbble.BubbbleApplication.Companion.component
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.di.userprofile.DaggerUserFollowersPresenterComponent
-import com.imangazalievm.bubbble.di.userprofile.UserFollowersPresenterModule
+import com.imangazalievm.bubbble.di.userprofile.*
 import com.imangazalievm.bubbble.domain.global.models.Follow
 import com.imangazalievm.bubbble.presentation.global.ui.adapters.UserFollowersAdapter
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpFragment
@@ -21,7 +20,7 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     override val layoutRes: Int = R.layout.fragment_shots
 
     @InjectPresenter
-    lateinit var userFollowersPresenter: UserFollowersPresenter
+    lateinit var presenter: UserFollowersPresenter
 
     @ProvidePresenter
     fun providePresenter(): UserFollowersPresenter {
@@ -57,18 +56,18 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     private fun initViews(view: View) {
 
         noNetworkLayout.findViewById<View>(R.id.retry_button)
-            .setOnClickListener { userFollowersPresenter.retryLoading() }
+            .setOnClickListener { presenter.retryLoading() }
         followersRecyclerView.layoutManager = followersListLayoutManager
         followersRecyclerView.adapter = userFollowersAdapter
         userFollowersAdapter.setOnItemClickListener { position: Int ->
-            userFollowersPresenter.onFollowerClick(
+            presenter.onFollowerClick(
                 position
             )
         }
         followersRecyclerView.addOnScrollListener(object :
             EndlessRecyclerOnScrollListener(followersListLayoutManager) {
             override fun onLoadMore() {
-                userFollowersPresenter.onLoadMoreFollowersRequest()
+                presenter.onLoadMoreFollowersRequest()
             }
         })
     }

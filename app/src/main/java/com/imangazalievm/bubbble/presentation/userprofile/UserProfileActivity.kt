@@ -84,7 +84,7 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     private var isTheTitleVisible = false
 
     @InjectPresenter
-    lateinit var shotDetailPresenter: UserProfilePresenter
+    lateinit var presenter: UserProfilePresenter
 
     @ProvidePresenter
     fun providePresenter(): UserProfilePresenter {
@@ -113,15 +113,15 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     private fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                shotDetailPresenter.onBackPressed()
+                presenter.onBackPressed()
                 return true
             }
             R.id.share_profile -> {
-                shotDetailPresenter.onShareProfileClicked()
+                presenter.onShareProfileClicked()
                 return true
             }
             R.id.open_in_browser -> {
-                shotDetailPresenter.onOpenInBrowserClicked()
+                presenter.onOpenInBrowserClicked()
                 return true
             }
         }
@@ -130,15 +130,15 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
 
     private fun initViews() {
         noNetworkLayout.findViewById<View>(R.id.retry_button)
-            .setOnClickListener { shotDetailPresenter.retryLoading() }
+            .setOnClickListener { presenter.retryLoading() }
         appBarLayout.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout: AppBarLayout, verticalOffset: Int ->
             val maxScroll = appBarLayout.totalScrollRange
             val percentage = abs(verticalOffset).toFloat() / maxScroll.toFloat()
             handleToolbarTitleVisibility(percentage)
         })
-        userBio.setOnLinkClickListener { url: String -> shotDetailPresenter.onLinkClicked(url) }
+        userBio.setOnLinkClickListener { url: String -> presenter.onLinkClicked(url) }
         userBio.setOnUserSelectedListener { useId: Long ->
-            shotDetailPresenter.onUserSelected(
+            presenter.onUserSelected(
                 useId
             )
         }

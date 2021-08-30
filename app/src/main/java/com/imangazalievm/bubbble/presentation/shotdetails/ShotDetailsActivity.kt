@@ -119,14 +119,14 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     private val endlessRecyclerOnScrollListener =
         object : EndlessRecyclerOnScrollListener(commentsListLayoutManager) {
             override fun onLoadMore() {
-                shotDetailsPresenter.onLoadMoreCommentsRequest()
+                presenter.onLoadMoreCommentsRequest()
             }
         }
 
     private val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH)
 
     @InjectPresenter
-    lateinit var shotDetailsPresenter: ShotDetailsPresenter
+    lateinit var presenter: ShotDetailsPresenter
 
     @ProvidePresenter
     fun providePresenter(): ShotDetailsPresenter {
@@ -149,28 +149,28 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     private fun initViews() {
 
         noNetworkLayout.findViewById<View>(R.id.retry_button)
-            .setOnClickListener { shotDetailsPresenter.retryLoading() }
+            .setOnClickListener { presenter.retryLoading() }
         commentsList.layoutManager = commentsListLayoutManager
 
-        shotImage.setOnClickListener { shotDetailsPresenter.onImageClicked() }
-        userProfileLayout.setOnClickListener { shotDetailsPresenter.onShotAuthorProfileClicked() }
+        shotImage.setOnClickListener { presenter.onImageClicked() }
+        userProfileLayout.setOnClickListener { presenter.onShotAuthorProfileClicked() }
         description.setOnLinkClickListener { url: String? ->
-            shotDetailsPresenter.onLinkClicked(
+            presenter.onLinkClicked(
                 url!!
             )
         }
         description.setOnUserSelectedListener { userId: Long ->
-            shotDetailsPresenter.onCommentAuthorClick(
+            presenter.onCommentAuthorClick(
                 userId
             )
         }
         hashtagView.addOnTagClickListener { item: Any? ->
             val tag = item as String?
-            shotDetailsPresenter.onTagClicked(tag!!)
+            presenter.onTagClicked(tag!!)
             Toast.makeText(this, tag, Toast.LENGTH_SHORT).show()
         }
-        likesCount.setOnClickListener { shotDetailsPresenter.onLikeShotClicked() }
-        shareShotButton.setOnClickListener { shotDetailsPresenter.onShareShotClicked() }
+        likesCount.setOnClickListener { presenter.onLikeShotClicked() }
+        shareShotButton.setOnClickListener { presenter.onShareShotClicked() }
     }
 
     override fun showShot(shot: Shot) {
@@ -196,7 +196,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
                     target: Target<GlideDrawable?>,
                     isFirstResource: Boolean
                 ): Boolean {
-                    shotDetailsPresenter.onImageLoadError()
+                    presenter.onImageLoadError()
                     return false
                 }
 
@@ -207,7 +207,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
                     isFromMemoryCache: Boolean,
                     isFirstResource: Boolean
                 ): Boolean {
-                    shotDetailsPresenter.onImageLoadSuccess()
+                    presenter.onImageLoadSuccess()
                     return false
                 }
             })
@@ -230,12 +230,12 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
         //comments
         commentsAdapter.setOnLinkClickListener { url: String? ->
-            shotDetailsPresenter.onLinkClicked(
+            presenter.onLinkClicked(
                 url!!
             )
         }
         commentsAdapter.setOnUserSelectedListener { userId: Long ->
-            shotDetailsPresenter.onCommentAuthorClick(
+            presenter.onCommentAuthorClick(
                 userId
             )
         }
@@ -254,11 +254,11 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     private fun onToolbarItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.download_shot_image -> {
-                shotDetailsPresenter.onDownloadImageClicked()
+                presenter.onDownloadImageClicked()
                 true
             }
             R.id.open_in_browser -> {
-                shotDetailsPresenter.onOpenShotInBrowserClicked()
+                presenter.onOpenShotInBrowserClicked()
                 true
             }
             else -> false
@@ -302,7 +302,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
             .setTitle(R.string.storage_access_title)
             .setMessage(R.string.storage_access_rationale_message)
-            .setPositiveButton(R.string.storage_access_ok_button) { dialog: DialogInterface?, which: Int -> shotDetailsPresenter.onDownloadImageClicked() }
+            .setPositiveButton(R.string.storage_access_ok_button) { dialog: DialogInterface?, which: Int -> presenter.onDownloadImageClicked() }
             .show()
     }
 
@@ -310,7 +310,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
             .setTitle(R.string.storage_access_title)
             .setMessage(R.string.storage_access_message)
-            .setPositiveButton(R.string.storage_access_settings_button) { dialog: DialogInterface?, which: Int -> shotDetailsPresenter.onAppSettingsButtonClicked() }
+            .setPositiveButton(R.string.storage_access_settings_button) { dialog: DialogInterface?, which: Int -> presenter.onAppSettingsButtonClicked() }
             .show()
     }
 

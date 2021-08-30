@@ -21,7 +21,7 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
     override val layoutRes: Int = R.layout.fragment_shots
 
     @InjectPresenter
-    lateinit var shotsPresenter: ShotsPresenter
+    lateinit var presenter: ShotsPresenter
     
     @ProvidePresenter
     fun providePresenter(): ShotsPresenter {
@@ -57,19 +57,19 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
 
     private fun initViews(view: View) {
         noNetworkLayout.findViewById<View>(R.id.retry_button)
-            .setOnClickListener { shotsPresenter.retryLoading() }
+            .setOnClickListener { presenter.retryLoading() }
         shotsRecyclerView.layoutManager = shotsListLayoutManager
         shotsAdapter.setOnItemClickListener { position: Int ->
-            shotsPresenter.onShotClick(
+            presenter.onShotClick(
                 position
             )
         }
-        shotsAdapter.setOnRetryLoadMoreListener { shotsPresenter.retryLoading() }
+        shotsAdapter.setOnRetryLoadMoreListener { presenter.retryLoading() }
         shotsRecyclerView.setAdapter(shotsAdapter)
         shotsRecyclerView.addOnScrollListener(object :
             EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
             override fun onLoadMore() {
-                shotsPresenter.onLoadMoreShotsRequest()
+                presenter.onLoadMoreShotsRequest()
             }
         })
     }

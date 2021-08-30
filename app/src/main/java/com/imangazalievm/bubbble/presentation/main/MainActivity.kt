@@ -28,7 +28,7 @@ class MainActivity : BaseMvpActivity(), MainView {
     }
 
     @InjectPresenter
-    lateinit var mainPresenter: MainPresenter
+    lateinit var presenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +51,7 @@ class MainActivity : BaseMvpActivity(), MainView {
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchQueryListener() {
             override fun onQueryTextSubmit(query: String): Boolean {
-                mainPresenter.onSearchQuery(query)
+                presenter.onSearchQuery(query)
                 return true
             }
         })
@@ -85,4 +85,5 @@ class MainActivity : BaseMvpActivity(), MainView {
     override fun openSearchScreen(searchQuery: String) {
         startActivity(buildIntent(this, searchQuery))
     }
+
 }

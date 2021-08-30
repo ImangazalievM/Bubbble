@@ -27,7 +27,7 @@ class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
     override val layoutRes: Int = R.layout.activity_shots_search
 
     @InjectPresenter
-    lateinit var shotsSearchPresenter: ShotsSearchPresenter
+    lateinit var presenter: ShotsSearchPresenter
 
     @ProvidePresenter
     fun providePresenter(): ShotsSearchPresenter {
@@ -74,7 +74,7 @@ class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchQueryListener() {
             override fun onQueryTextSubmit(query: String): Boolean {
-                shotsSearchPresenter.onNewSearchQuery(query)
+                presenter.onNewSearchQuery(query)
                 return true
             }
         })
@@ -82,12 +82,12 @@ class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
 
     private fun initViews() {
         noNetworkLayout.findViewById<View>(R.id.retry_button)
-            .setOnClickListener { shotsSearchPresenter.retryLoading() }
+            .setOnClickListener { presenter.retryLoading() }
         shotsRecyclerView.layoutManager = shotsListLayoutManager
         shotsRecyclerView.addOnScrollListener(object :
             EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
             override fun onLoadMore() {
-                shotsSearchPresenter.onLoadMoreShotsRequest()
+                presenter.onLoadMoreShotsRequest()
             }
         })
         initRecyclerViewAdapter()
@@ -95,11 +95,11 @@ class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
 
     private fun initRecyclerViewAdapter() {
         shotsAdapter.setOnItemClickListener { position: Int ->
-            shotsSearchPresenter.onShotClick(
+            presenter.onShotClick(
                 position
             )
         }
-        shotsAdapter.setOnRetryLoadMoreListener { shotsSearchPresenter.retryLoading() }
+        shotsAdapter.setOnRetryLoadMoreListener { presenter.retryLoading() }
         shotsRecyclerView.adapter = shotsAdapter
     }
 

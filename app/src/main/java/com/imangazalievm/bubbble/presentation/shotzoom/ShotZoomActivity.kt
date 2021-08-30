@@ -49,7 +49,7 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
     }
 
     @InjectPresenter
-    lateinit var shotZoomPresenter: ShotZoomPresenter
+    lateinit var presenter: ShotZoomPresenter
 
     @ProvidePresenter
     fun providePresenter(): ShotZoomPresenter {
@@ -77,7 +77,7 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
     private fun initViews() {
         errorLayout.findViewById<View>(R.id.open_in_browser_button)
-            .setOnClickListener { shotZoomPresenter.onOpenInBrowserClicked() }
+            .setOnClickListener { presenter.onOpenInBrowserClicked() }
     }
 
     override fun showShotImage(imageUrl: String) {
@@ -92,7 +92,7 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
                     target: Target<GlideDrawable?>,
                     isFirstResource: Boolean
                 ): Boolean {
-                    shotZoomPresenter.onImageLoadError()
+                    presenter.onImageLoadError()
                     return false
                 }
 
@@ -103,7 +103,7 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
                     isFromMemoryCache: Boolean,
                     isFirstResource: Boolean
                 ): Boolean {
-                    shotZoomPresenter.onImageLoadSuccess()
+                    presenter.onImageLoadSuccess()
                     return false
                 }
             })
@@ -127,15 +127,15 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
     private fun onToolbarItenSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.download_shot_image -> {
-                shotZoomPresenter.onDownloadImageClicked()
+                presenter.onDownloadImageClicked()
                 true
             }
             R.id.share_shot -> {
-                shotZoomPresenter.onShareShotClicked()
+                presenter.onShareShotClicked()
                 true
             }
             R.id.open_in_browser -> {
-                shotZoomPresenter.onOpenInBrowserClicked()
+                presenter.onOpenInBrowserClicked()
                 true
             }
             else -> false
@@ -171,7 +171,7 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
         AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
             .setTitle(R.string.storage_access_title)
             .setMessage(R.string.storage_access_rationale_message)
-            .setPositiveButton(R.string.storage_access_ok_button) { dialog: DialogInterface?, which: Int -> shotZoomPresenter.onDownloadImageClicked() }
+            .setPositiveButton(R.string.storage_access_ok_button) { dialog: DialogInterface?, which: Int -> presenter.onDownloadImageClicked() }
             .show()
     }
 
@@ -179,7 +179,7 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
         AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
             .setTitle(R.string.storage_access_title)
             .setMessage(R.string.storage_access_message)
-            .setPositiveButton(R.string.storage_access_settings_button) { dialog: DialogInterface?, which: Int -> shotZoomPresenter.onAppSettingsButtonClicked() }
+            .setPositiveButton(R.string.storage_access_settings_button) { dialog: DialogInterface?, which: Int -> presenter.onAppSettingsButtonClicked() }
             .show()
     }
 
