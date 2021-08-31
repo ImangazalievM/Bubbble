@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.di.global
+package com.imangazalievm.bubbble.di
 
 import com.imangazalievm.bubbble.data.shots.CommentsRepository
 import com.imangazalievm.bubbble.data.shots.ImagesRepository

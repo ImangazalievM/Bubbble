@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.di.global
+package com.imangazalievm.bubbble.di
 
 import android.util.Log
 import com.google.gson.FieldNamingPolicy
@@ -13,8 +13,8 @@ import com.imangazalievm.bubbble.data.global.network.interceptors.DribbbleTokenI
 import com.imangazalievm.bubbble.data.global.network.interceptors.NetworkCheckInterceptor
 import com.imangazalievm.bubbble.data.global.prefs.TempPreferences
 import com.imangazalievm.bubbble.data.shots.DribbbleSearchDataSource
-import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpInterceptors
-import com.imangazalievm.bubbble.di.global.qualifiers.OkHttpNetworkInterceptors
+import com.imangazalievm.bubbble.di.qualifiers.OkHttpInterceptors
+import com.imangazalievm.bubbble.di.qualifiers.OkHttpNetworkInterceptors
 import com.moczul.ok2curl.CurlInterceptor
 import dagger.Module
 import dagger.Provides

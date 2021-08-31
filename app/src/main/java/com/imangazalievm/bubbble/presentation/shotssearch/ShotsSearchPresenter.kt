@@ -7,13 +7,15 @@ import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams
 import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import java.util.*
-import javax.inject.Inject
 
 @InjectViewState
-class ShotsSearchPresenter @Inject constructor(
+class ShotsSearchPresenter @AssistedInject constructor(
     private val shotsSearchInteractor: ShotsSearchInteractor,
-    private var searchQuery: String
+    @Assisted private var searchQuery: String
 ) : BasePresenter<ShotsSearchView>() {
 
     private val sort: String = Constants.SHOTS_SORT_POPULAR
@@ -93,6 +95,11 @@ class ShotsSearchPresenter @Inject constructor(
     companion object {
         private const val PAGE_SIZE = 20
         private const val MAX_PAGE_NUMBER = 25
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(searchQuery: String): ShotsSearchPresenter
     }
 
 }

@@ -21,10 +21,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.tabs.TabLayout
-import com.imangazalievm.bubbble.BubbbleApplication.Companion.component
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.di.userprofile.DaggerUserProfilePresenterComponent
-import com.imangazalievm.bubbble.di.userprofile.UserProfilePresenterModule
 import com.imangazalievm.bubbble.domain.global.models.User
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
 import com.imangazalievm.bubbble.presentation.global.ui.commons.glide.GlideBlurTransformation
@@ -35,6 +32,7 @@ import com.imangazalievm.bubbble.presentation.userprofile.UserProfileActivity
 import com.imangazalievm.bubbble.presentation.userprofile.details.UserDetailsFragment
 import com.imangazalievm.bubbble.presentation.userprofile.followers.UserFollowersFragment
 import com.imangazalievm.bubbble.presentation.userprofile.shots.UserShotsFragment
+import javax.inject.Inject
 import kotlin.math.abs
 
 class UserProfileActivity : BaseMvpActivity(), UserProfileView {
@@ -83,17 +81,16 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
 
     private var isTheTitleVisible = false
 
+    @Inject
+    lateinit var presenterFactory: UserProfilePresenter.Factory
+
     @InjectPresenter
     lateinit var presenter: UserProfilePresenter
 
     @ProvidePresenter
     fun providePresenter(): UserProfilePresenter {
         val userId = intent.getLongExtra(USER_ID, 0L)
-        val presenterComponent = DaggerUserProfilePresenterComponent.builder()
-            .applicationComponent(component)
-            .userProfilePresenterModule(UserProfilePresenterModule(userId))
-            .build()
-        return presenterComponent.getPresenter()
+        return presenterFactory.create(userId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

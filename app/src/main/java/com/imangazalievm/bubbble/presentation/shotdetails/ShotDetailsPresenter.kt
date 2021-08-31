@@ -7,13 +7,15 @@ import com.imangazalievm.bubbble.domain.global.models.ShotCommentsRequestParams
 import com.imangazalievm.bubbble.domain.shotdetails.ShotDetailsInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
-import javax.inject.Inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
 @InjectViewState
-class ShotDetailsPresenter @Inject constructor(
+class ShotDetailsPresenter @AssistedInject constructor(
     private val shotDetailsInteractor: ShotDetailsInteractor,
     private val permissionsManager: PermissionsManager,
-    private val shotId: Long
+    @Assisted private val shotId: Long
 ) : BasePresenter<ShotDetailsView>() {
 
     private lateinit var shot: Shot
@@ -133,6 +135,11 @@ class ShotDetailsPresenter @Inject constructor(
 
     companion object {
         private const val COMMENTS_PAGE_SIZE = 20
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(shotId: Long): ShotDetailsPresenter
     }
 
 }

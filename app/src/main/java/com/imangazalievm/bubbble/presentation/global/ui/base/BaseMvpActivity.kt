@@ -3,7 +3,7 @@ package com.imangazalievm.bubbble.presentation.global.ui.base
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.imangazalievm.bubbble.di.global.extensions.appComponent
+import com.imangazalievm.bubbble.di.extensions.appComponent
 import com.imangazalievm.bubbble.presentation.global.permissions.AndroidPermissionsManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

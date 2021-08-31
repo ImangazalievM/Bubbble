@@ -6,31 +6,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.imangazalievm.bubbble.BubbbleApplication
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.di.shotslist.DaggerShotsPresenterComponent
-import com.imangazalievm.bubbble.di.shotslist.ShotsPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotsAdapter
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpFragment
 import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
 import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity
+import javax.inject.Inject
 
 class ShotsFragment : BaseMvpFragment(), ShotsView {
 
     override val layoutRes: Int = R.layout.fragment_shots
+
+    @Inject
+    lateinit var presenterFactory: ShotsPresenter.Factory
 
     @InjectPresenter
     lateinit var presenter: ShotsPresenter
     
     @ProvidePresenter
     fun providePresenter(): ShotsPresenter {
-        val sortType = requireArguments().getString(SORT_TYPE_ARG)
-        val shotsPresenterComponent = DaggerShotsPresenterComponent.builder()
-            .applicationComponent(BubbbleApplication.component)
-            .shotsPresenterModule(ShotsPresenterModule(sortType!!))
-            .build()
-        return shotsPresenterComponent.getPresenter()
+        val sortType = requireArguments().getString(SORT_TYPE_ARG)!!
+        return presenterFactory.create(sortType)
     }
 
     private val loadingLayout: View by lazy {

@@ -7,13 +7,15 @@ import com.imangazalievm.bubbble.domain.global.models.ShotsRequestParams
 import com.imangazalievm.bubbble.domain.shotslist.ShotsInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.utils.DebugUtils
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import java.util.*
-import javax.inject.Inject
 
 @InjectViewState
-class ShotsPresenter @Inject constructor(
+class ShotsPresenter @AssistedInject constructor(
     private val shotsInteractor: ShotsInteractor,
-    private val shotsSort: String
+    @Assisted private val shotsSort: String
 ) : BasePresenter<ShotsView>() {
 
     private var currentMaxPage = 1
@@ -90,5 +92,11 @@ class ShotsPresenter @Inject constructor(
         private const val PAGE_SIZE = 20
         private const val MAX_PAGE_NUMBER = 25
     }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(shotsSort: String): ShotsPresenter
+    }
+
 
 }

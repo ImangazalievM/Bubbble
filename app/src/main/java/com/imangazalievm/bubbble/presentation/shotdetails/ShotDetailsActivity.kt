@@ -26,10 +26,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.greenfrvr.hashtagview.HashtagView
-import com.imangazalievm.bubbble.BubbbleApplication
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.di.shotdetails.DaggerShotDetailsPresenterComponent
-import com.imangazalievm.bubbble.di.shotdetails.ShotDetailsPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.Comment
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotCommentsAdapter
@@ -42,6 +39,7 @@ import com.imangazalievm.bubbble.presentation.shotzoom.ShotZoomActivity
 import com.imangazalievm.bubbble.presentation.userprofile.UserProfileActivity
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
@@ -125,18 +123,16 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     private val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH)
 
+    @Inject
+    lateinit var presenterFactory: ShotDetailsPresenter.Factory
+
     @InjectPresenter
     lateinit var presenter: ShotDetailsPresenter
 
     @ProvidePresenter
     fun providePresenter(): ShotDetailsPresenter {
         val shotId = intent.getLongExtra(KEY_SHOT_ID, -1)
-        val presenterModule = ShotDetailsPresenterModule(shotId)
-        val presenterComponent = DaggerShotDetailsPresenterComponent.builder()
-            .applicationComponent(BubbbleApplication.component)
-            .shotDetailsPresenterModule(presenterModule)
-            .build()
-        return presenterComponent.getPresenter()
+        return presenterFactory.create(shotId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

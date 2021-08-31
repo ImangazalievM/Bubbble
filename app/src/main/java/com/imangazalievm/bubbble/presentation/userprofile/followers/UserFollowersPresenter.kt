@@ -6,13 +6,15 @@ import com.imangazalievm.bubbble.domain.global.models.Follow
 import com.imangazalievm.bubbble.domain.global.models.UserFollowersRequestParams
 import com.imangazalievm.bubbble.domain.userprofile.UserFollowersInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import java.util.*
-import javax.inject.Inject
 
 @InjectViewState
-class UserFollowersPresenter @Inject constructor(
+class UserFollowersPresenter @AssistedInject constructor(
     private val userFollowersInteractor: UserFollowersInteractor,
-    private val userId: Long
+    @Assisted private val userId: Long
 ) : BasePresenter<UserFollowersView>() {
 
     private var currentMaxPage = 1
@@ -77,4 +79,10 @@ class UserFollowersPresenter @Inject constructor(
     companion object {
         private const val PAGE_SIZE = 20
     }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(userId: Long): UserFollowersPresenter
+    }
+
 }

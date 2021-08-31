@@ -5,12 +5,14 @@ import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkExcepti
 import com.imangazalievm.bubbble.domain.global.models.User
 import com.imangazalievm.bubbble.domain.userprofile.UserDetailsInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
-import javax.inject.Inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
 @InjectViewState
-class UserDetailsPresenter @Inject constructor(
+class UserDetailsPresenter @AssistedInject constructor(
     private val userDetailsInteractor: UserDetailsInteractor,
-    private val userId: Long
+    @Assisted  private val userId: Long
 ) : BasePresenter<UserDetailsView>() {
 
     private lateinit var user: User
@@ -48,4 +50,10 @@ class UserDetailsPresenter @Inject constructor(
         if (!isUserLoaded) return
         viewState.openInBrowser(user.links.web)
     }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(userId: Long): UserDetailsPresenter
+    }
+
 }

@@ -5,19 +5,17 @@ import com.arellomobile.mvp.InjectViewState
 import com.imangazalievm.bubbble.domain.shotzoom.ShotZoomInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
-import javax.inject.Inject
-import javax.inject.Named
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
 @InjectViewState
-class ShotZoomPresenter @Inject constructor(
+class ShotZoomPresenter @AssistedInject constructor(
     private val shotZoomInteractor: ShotZoomInteractor,
     private val permissionsManager: PermissionsManager,
-    @Named("shot_title")
-    private val shotTitle: String,
-    @Named("shot_url")
-    private val shotUrl: String,
-    @Named("image_url")
-    private val imageUrl: String
+    @Assisted("shotTitle") private val shotTitle: String,
+    @Assisted("shotUrl:") private val shotUrl: String,
+    @Assisted("imageUrl") private val imageUrl: String
 ) : BasePresenter<ShotZoomView>() {
 
     override fun onFirstViewAttach() {
@@ -67,6 +65,15 @@ class ShotZoomPresenter @Inject constructor(
 
     fun onShareShotClicked() {
         viewState.showShotSharing(shotTitle, shotUrl)
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            @Assisted("shotTitle") shotTitle: String,
+            @Assisted("shotUrl:") shotUrl: String,
+            @Assisted("imageUrl") imageUrl: String
+        ): ShotZoomPresenter
     }
 
 }

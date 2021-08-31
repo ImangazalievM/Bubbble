@@ -2,7 +2,7 @@ package com.imangazalievm.bubbble.presentation.global.mvp
 
 import android.util.Log
 import com.arellomobile.mvp.MvpPresenter
-import com.imangazalievm.bubbble.di.global.extensions.appComponent
+import com.imangazalievm.bubbble.di.extensions.appComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

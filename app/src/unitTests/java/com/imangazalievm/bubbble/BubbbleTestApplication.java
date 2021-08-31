@@ -1,6 +1,6 @@
 package com.imangazalievm.bubbble;
 
-import com.imangazalievm.bubbble.di.global.ApplicationComponent;
+import com.imangazalievm.bubbble.di.ApplicationComponent;
 
 public class BubbbleTestApplication extends BubbbleApplication {
 

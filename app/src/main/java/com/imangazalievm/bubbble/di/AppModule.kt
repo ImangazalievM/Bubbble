@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.di.global
+package com.imangazalievm.bubbble.di
 
 import android.content.Context
 import com.imangazalievm.bubbble.data.global.network.ErrorHandler

@@ -11,32 +11,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.imangazalievm.bubbble.BubbbleApplication
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.di.shotssearch.DaggerShotsSearchPresenterComponent
-import com.imangazalievm.bubbble.di.shotssearch.ShotsSearchPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.presentation.global.ui.adapters.ShotsAdapter
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
 import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
 import com.imangazalievm.bubbble.presentation.global.ui.commons.SearchQueryListener
 import com.imangazalievm.bubbble.presentation.shotdetails.ShotDetailsActivity
+import javax.inject.Inject
 
 class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
 
     override val layoutRes: Int = R.layout.activity_shots_search
+
+    @Inject
+    lateinit var presenterFactory: ShotsSearchPresenter.Factory
 
     @InjectPresenter
     lateinit var presenter: ShotsSearchPresenter
 
     @ProvidePresenter
     fun providePresenter(): ShotsSearchPresenter {
-        val searchQuery = intent.getStringExtra(KEY_SEARCH_QUERY)
-        val shotsPresenterComponent = DaggerShotsSearchPresenterComponent.builder()
-            .applicationComponent(BubbbleApplication.component)
-            .shotsSearchPresenterModule(ShotsSearchPresenterModule(searchQuery))
-            .build()
-        return shotsPresenterComponent.getPresenter()
+        val searchQuery = intent.getStringExtra(KEY_SEARCH_QUERY)!!
+        return presenterFactory.create(searchQuery)
     }
 
     private val loadingLayout: View by lazy {

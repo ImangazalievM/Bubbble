@@ -20,13 +20,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.snackbar.Snackbar
-import com.imangazalievm.bubbble.BubbbleApplication.Companion.component
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.di.shotzoom.DaggerShotZoomPresenterComponent
-import com.imangazalievm.bubbble.di.shotzoom.ShotZoomPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.Shot
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpActivity
 import com.imangazalievm.bubbble.presentation.global.utils.AppUtils
+import javax.inject.Inject
 
 class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
@@ -48,20 +46,22 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
         findViewById(R.id.error_layout)
     }
 
+    @Inject
+    lateinit var presenterFactory: ShotZoomPresenter.Factory
+
     @InjectPresenter
     lateinit var presenter: ShotZoomPresenter
 
     @ProvidePresenter
     fun providePresenter(): ShotZoomPresenter {
-        val shotTitle = intent.getStringExtra(KEY_SHOT_TITLE)
-        val imageUrl = intent.getStringExtra(KEY_IMAGE_URL)
-        val shotUrl = intent.getStringExtra(KEY_SHOT_URL)
-        val presenterModule = ShotZoomPresenterModule(shotTitle, shotUrl, imageUrl)
-        val presenterComponent = DaggerShotZoomPresenterComponent.builder()
-            .applicationComponent(component)
-            .shotZoomPresenterModule(presenterModule)
-            .build()
-        return presenterComponent.getPresenter()
+        val shotTitle = intent.getStringExtra(KEY_SHOT_TITLE)!!
+        val imageUrl = intent.getStringExtra(KEY_IMAGE_URL)!!
+        val shotUrl = intent.getStringExtra(KEY_SHOT_URL)!!
+        return presenterFactory.create(
+            shotTitle = shotTitle,
+            shotUrl = shotUrl,
+            imageUrl = imageUrl
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

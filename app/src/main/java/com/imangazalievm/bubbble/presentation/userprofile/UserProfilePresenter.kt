@@ -5,12 +5,14 @@ import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkExcepti
 import com.imangazalievm.bubbble.domain.global.models.User
 import com.imangazalievm.bubbble.domain.userprofile.UserProfileInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
-import javax.inject.Inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
 @InjectViewState
-class UserProfilePresenter @Inject constructor(
+class UserProfilePresenter @AssistedInject constructor(
     private val userProfileInteractor: UserProfileInteractor,
-    private val userId: Long
+    @Assisted private val userId: Long
 ) : BasePresenter<UserProfileView>() {
 
     private lateinit var user: User
@@ -59,6 +61,11 @@ class UserProfilePresenter @Inject constructor(
 
     override fun onBackPressed() {
         viewState.closeScreen()
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(userId: Long): UserProfilePresenter
     }
 
 }

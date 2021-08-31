@@ -6,18 +6,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.imangazalievm.bubbble.BubbbleApplication.Companion.component
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.di.userprofile.*
 import com.imangazalievm.bubbble.domain.global.models.Follow
 import com.imangazalievm.bubbble.presentation.global.ui.adapters.UserFollowersAdapter
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpFragment
 import com.imangazalievm.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
 import com.imangazalievm.bubbble.presentation.userprofile.UserProfileActivity
+import javax.inject.Inject
 
 class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
 
     override val layoutRes: Int = R.layout.fragment_shots
+
+    @Inject
+    lateinit var presenterFactory: UserFollowersPresenter.Factory
 
     @InjectPresenter
     lateinit var presenter: UserFollowersPresenter
@@ -25,11 +27,7 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     @ProvidePresenter
     fun providePresenter(): UserFollowersPresenter {
         val userId = requireArguments().getLong(USER_ID_ARG)
-        val presenterComponent = DaggerUserFollowersPresenterComponent.builder()
-            .applicationComponent(component)
-            .userFollowersPresenterModule(UserFollowersPresenterModule(userId))
-            .build()
-        return presenterComponent.getPresenter()
+        return presenterFactory.create(userId)
     }
 
     private val loadingLayout: View by lazy {

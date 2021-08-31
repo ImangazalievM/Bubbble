@@ -5,18 +5,19 @@ import android.view.View
 import android.widget.TextView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.imangazalievm.bubbble.BubbbleApplication.Companion.component
 import com.imangazalievm.bubbble.R
-import com.imangazalievm.bubbble.di.userprofile.DaggerUserDetailsPresenterComponent
-import com.imangazalievm.bubbble.di.userprofile.UserDetailsPresenterModule
 import com.imangazalievm.bubbble.domain.global.models.User
 import com.imangazalievm.bubbble.presentation.global.ui.base.BaseMvpFragment
 import com.imangazalievm.bubbble.presentation.global.utils.AppUtils
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import javax.inject.Inject
 
 class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
 
     override val layoutRes: Int = R.layout.fragment_user_details
+
+    @Inject
+    lateinit var presenterFactory: UserDetailsPresenter.Factory
 
     @InjectPresenter
     lateinit var presenter: UserDetailsPresenter
@@ -24,11 +25,7 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
     @ProvidePresenter
     fun providePresenter(): UserDetailsPresenter {
         val userId = requireArguments().getLong(USER_ID_ARG)
-        val presenterComponent = DaggerUserDetailsPresenterComponent.builder()
-            .applicationComponent(component)
-            .userDetailsPresenterModule(UserDetailsPresenterModule(userId))
-            .build()
-        return presenterComponent.getPresenter()
+        return presenterFactory.create(userId)
     }
 
     private lateinit var loadingLayout: View

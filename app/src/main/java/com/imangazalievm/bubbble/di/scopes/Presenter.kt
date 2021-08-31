@@ -1,4 +1,4 @@
-package com.imangazalievm.bubbble.di.global.scopes
+package com.imangazalievm.bubbble.di.scopes
 
 import java.lang.annotation.Documented
 import java.lang.annotation.Retention
