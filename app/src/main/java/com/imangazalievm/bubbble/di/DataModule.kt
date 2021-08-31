@@ -30,17 +30,17 @@ class DataModule(private val baseUrl: String) {
     @Provides
     @Singleton
     @DribbbleWebSite
-    fun provideDribbbleUrl(): String = Dribbble.URL
+    fun dribbbleUrl(): String = Dribbble.URL
 
     @Provides
     @Singleton
-    fun provideTempPreferences(tempPreferences: TempPreferences): TempPreferences {
+    fun tempPreferences(tempPreferences: TempPreferences): TempPreferences {
         return tempPreferences
     }
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(
+    fun okHttpClient(
         networkChecker: NetworkChecker,
         @OkHttpInterceptors interceptors: List<@JvmSuppressWildcards Interceptor>,
         @OkHttpNetworkInterceptors networkInterceptors: List<@JvmSuppressWildcards Interceptor>
@@ -62,7 +62,7 @@ class DataModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun retrofit(okHttpClient: OkHttpClient): Retrofit {
         val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .create()
         return Retrofit.Builder()
@@ -74,19 +74,14 @@ class DataModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson {
+    fun gson(): Gson {
         return Gson()
     }
 
     @Provides
     @Singleton
-    fun provideErrorHandler(gson: Gson): ErrorHandler {
-        return ErrorHandler(gson)
-    }
-
-    @Provides
-    @Singleton
-    fun provideApi(retrofit: Retrofit): DribbbleApi {
+    fun dribbbleApi(retrofit: Retrofit): DribbbleApi {
         return retrofit.create(DribbbleApi::class.java)
     }
+
 }

@@ -1,6 +1,7 @@
 package com.imangazalievm.bubbble.di
 
 import android.content.Context
+import com.google.gson.Gson
 import com.imangazalievm.bubbble.data.global.network.ErrorHandler
 import com.imangazalievm.bubbble.presentation.global.permissions.AndroidPermissionsManager
 import com.imangazalievm.bubbble.presentation.global.permissions.PermissionsManager
@@ -16,22 +17,24 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideApplicationContext(): Context = context
+    fun applicationContext(): Context = context
 
     @Provides
     @Singleton
-    fun provideErrorHandler(handler: ErrorHandler): ErrorHandler = handler
+    fun provideErrorHandler(gson: Gson): ErrorHandler {
+        return ErrorHandler(gson)
+    }
 
     @Module
     interface Bindings {
 
         @Binds
         @Singleton
-        fun provideResourcesManager(manager: AndroidResourcesManager): ResourcesManager
+        fun resourcesManager(manager: AndroidResourcesManager): ResourcesManager
 
         @Binds
         @Singleton
-        fun providePermissionsManager(manager: AndroidPermissionsManager): PermissionsManager
+        fun permissionsManager(manager: AndroidPermissionsManager): PermissionsManager
 
     }
 
