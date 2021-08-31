@@ -12,7 +12,7 @@ import com.imangazalievm.bubbble.data.global.network.NetworkChecker
 import com.imangazalievm.bubbble.data.global.network.interceptors.DribbbleTokenInterceptor
 import com.imangazalievm.bubbble.data.global.network.interceptors.NetworkCheckInterceptor
 import com.imangazalievm.bubbble.data.global.prefs.TempPreferences
-import com.imangazalievm.bubbble.data.shots.DribbbleSearchDataSource
+import com.imangazalievm.bubbble.di.qualifiers.DribbbleWebSite
 import com.imangazalievm.bubbble.di.qualifiers.OkHttpInterceptors
 import com.imangazalievm.bubbble.di.qualifiers.OkHttpNetworkInterceptors
 import com.moczul.ok2curl.CurlInterceptor
@@ -29,17 +29,13 @@ class DataModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideTempPreferences(tempPreferences: TempPreferences): TempPreferences {
-        return tempPreferences
-    }
+    @DribbbleWebSite
+    fun provideDribbbleUrl(): String = Dribbble.URL
 
     @Provides
     @Singleton
-    fun provideDribbbleSearchDataSource(okHttpClient: OkHttpClient): DribbbleSearchDataSource {
-        return DribbbleSearchDataSource(
-            okHttpClient,
-            Dribbble.URL
-        )
+    fun provideTempPreferences(tempPreferences: TempPreferences): TempPreferences {
+        return tempPreferences
     }
 
     @Provides

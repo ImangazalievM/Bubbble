@@ -9,13 +9,15 @@ object Dribbble {
     object Shots {
         const val path = "$URL/shots/"
 
-        const val type_personal = ""
-        const val type_popular = "popular"
-        const val type_recent = "recent"
+        enum class Type(val code: String) {
+            PERSONAL(""),
+            POPULAR("popular"),
+            RECENT("recent")
+        }
 
-        const val page = "page"
-        const val page_size = "per_page"
-        const val exclude_shot_ids = "exclude_shot_ids"
+        const val p_page = "page"
+        const val p_page_size = "per_page"
+        const val p_exclude_shot_ids = "exclude_shot_ids"
 
         object Category {
             const val all = ""
@@ -47,6 +49,8 @@ object Dribbble {
     }
 
     object Search {
+        const val path = "$URL/search/"
+
         val shots = null
         const val users = "users"
         const val teams = "teams"

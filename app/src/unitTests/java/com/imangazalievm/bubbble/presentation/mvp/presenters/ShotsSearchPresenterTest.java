@@ -3,7 +3,7 @@ package com.imangazalievm.bubbble.presentation.mvp.presenters;
 import com.imangazalievm.bubbble.domain.global.exceptions.NoNetworkException;
 import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor;
 import com.imangazalievm.bubbble.domain.global.models.Shot;
-import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams;
+import com.imangazalievm.bubbble.domain.global.models.ShotsSearchParams;
 import com.imangazalievm.bubbble.presentation.shotssearch.ShotsSearchPresenter;
 import com.imangazalievm.bubbble.presentation.shotssearch.ShotsSearchView;
 import com.imangazalievm.bubbble.test.BubbbleTestRunner;
@@ -48,14 +48,14 @@ public class ShotsSearchPresenterTest {
     public void shots_shouldSearchAndShowShotsOnFirstAttach() {
         //arrange
         List<Shot> shots = shots();
-        when(interactor.search(any(ShotsSearchRequestParams.class)))
+        when(interactor.search(any(ShotsSearchParams.class)))
                 .thenReturn(Single.just(shots));
 
         //act
         presenter.attachView(view);
 
         // assert
-        ArgumentCaptor<ShotsSearchRequestParams> shotsCaptor = ArgumentCaptor.forClass(ShotsSearchRequestParams.class);
+        ArgumentCaptor<ShotsSearchParams> shotsCaptor = ArgumentCaptor.forClass(ShotsSearchParams.class);
         verify(interactor).search(shotsCaptor.capture());
         assertEquals(1, shotsCaptor.getValue().getPage());
         assertEquals(TEST_SEARCH_REQUEST, shotsCaptor.getValue().getSearchQuery());
@@ -68,7 +68,7 @@ public class ShotsSearchPresenterTest {
         String newSearchQuery = "Search request";
 
         List<Shot> shots = shots();
-        when(interactor.search(any(ShotsSearchRequestParams.class)))
+        when(interactor.search(any(ShotsSearchParams.class)))
                 .thenReturn(Single.just(shots));
 
         //act
@@ -76,9 +76,9 @@ public class ShotsSearchPresenterTest {
         presenter.onNewSearchQuery(newSearchQuery);
 
         // assert
-        ArgumentCaptor<ShotsSearchRequestParams> shotsCaptor = ArgumentCaptor.forClass(ShotsSearchRequestParams.class);
+        ArgumentCaptor<ShotsSearchParams> shotsCaptor = ArgumentCaptor.forClass(ShotsSearchParams.class);
         verify(interactor, times(2)).search(shotsCaptor.capture());
-        List<ShotsSearchRequestParams> capturedRequestParams = shotsCaptor.getAllValues();
+        List<ShotsSearchParams> capturedRequestParams = shotsCaptor.getAllValues();
         assertEquals(TEST_SEARCH_REQUEST, capturedRequestParams.get(0).getSearchQuery());
         assertEquals(newSearchQuery, capturedRequestParams.get(1).getSearchQuery());
 
@@ -90,7 +90,7 @@ public class ShotsSearchPresenterTest {
     public void onLoadMoreShotsRequest_shouldCorrectLoadNextShots() {
         //arrange
         List<Shot> newShots = shots();
-        when(interactor.search(any(ShotsSearchRequestParams.class)))
+        when(interactor.search(any(ShotsSearchParams.class)))
                 .thenReturn(Single.just(newShots));
 
         // act
@@ -99,9 +99,9 @@ public class ShotsSearchPresenterTest {
         presenter.onLoadMoreShotsRequest();
 
         // assert
-        ArgumentCaptor<ShotsSearchRequestParams> shotsCaptor = ArgumentCaptor.forClass(ShotsSearchRequestParams.class);
+        ArgumentCaptor<ShotsSearchParams> shotsCaptor = ArgumentCaptor.forClass(ShotsSearchParams.class);
         verify(interactor, times(3)).search(shotsCaptor.capture());
-        List<ShotsSearchRequestParams> capturedRequestParams = shotsCaptor.getAllValues();
+        List<ShotsSearchParams> capturedRequestParams = shotsCaptor.getAllValues();
         assertEquals(1, capturedRequestParams.get(0).getPage());
         assertEquals(2, capturedRequestParams.get(1).getPage());
         assertEquals(3, capturedRequestParams.get(2).getPage());
@@ -111,14 +111,14 @@ public class ShotsSearchPresenterTest {
     @Test
     public void shots_shouldShowNoNetworkLayout() {
         //arrange
-        when(interactor.search(any(ShotsSearchRequestParams.class)))
+        when(interactor.search(any(ShotsSearchParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
         presenter.attachView(view);
 
         // assert
-        verify(interactor).search(any(ShotsSearchRequestParams.class));
+        verify(interactor).search(any(ShotsSearchParams.class));
         verify(view).hideShotsLoadingProgress();
         verify(view).showNoNetworkLayout();
     }
@@ -127,7 +127,7 @@ public class ShotsSearchPresenterTest {
     public void retryLoading_shouldRetryLoadFirstPageAndShowProgress() {
         //arrange
         List<Shot> shots = shots();
-        when(interactor.search(any(ShotsSearchRequestParams.class)))
+        when(interactor.search(any(ShotsSearchParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()))
                 .thenReturn(Single.just(shots));
 
@@ -136,7 +136,7 @@ public class ShotsSearchPresenterTest {
         presenter.retryLoading();
 
         // assert
-        verify(interactor, times(2)).search(any(ShotsSearchRequestParams.class));
+        verify(interactor, times(2)).search(any(ShotsSearchParams.class));
         verify(view).hideNoNetworkLayout();
         verify(view, times(2)).showShotsLoadingProgress();
     }
@@ -145,7 +145,7 @@ public class ShotsSearchPresenterTest {
     public void retryLoading_shouldRetryLoadNextPageAndShowProgress() {
         //arrange
         List<Shot> shots = shots();
-        when(interactor.search(any(ShotsSearchRequestParams.class)))
+        when(interactor.search(any(ShotsSearchParams.class)))
                 .thenReturn(Single.just(shots))
                 .thenReturn(Single.error(new NoNetworkException()));
 
@@ -155,21 +155,21 @@ public class ShotsSearchPresenterTest {
         presenter.retryLoading();
 
         // assert
-        verify(interactor, times(3)).search(any(ShotsSearchRequestParams.class));
+        verify(interactor, times(3)).search(any(ShotsSearchParams.class));
         verify(view, times(2)).showShotsLoadingMoreProgress();
     }
 
     @Test
     public void retryLoading_shouldHideProgressOnError() {
         //arrange
-        when(interactor.search(any(ShotsSearchRequestParams.class)))
+        when(interactor.search(any(ShotsSearchParams.class)))
                 .thenReturn(Single.error(new NoNetworkException()));
 
         // act
         presenter.attachView(view);
 
         // assert
-        verify(interactor, times(1)).search(any(ShotsSearchRequestParams.class));
+        verify(interactor, times(1)).search(any(ShotsSearchParams.class));
         verify(view).hideShotsLoadingProgress();
     }
 
@@ -177,7 +177,7 @@ public class ShotsSearchPresenterTest {
     public void retryLoading_shouldHideLoadingMoreProgressOnError() {
         //arrange
         List<Shot> shots = shots();
-        when(interactor.search(any(ShotsSearchRequestParams.class)))
+        when(interactor.search(any(ShotsSearchParams.class)))
                 .thenReturn(Single.just(shots))
                 .thenReturn(Single.error(new NoNetworkException()));
 
@@ -186,7 +186,7 @@ public class ShotsSearchPresenterTest {
         presenter.onLoadMoreShotsRequest();
 
         // assert
-        verify(interactor, times(2)).search(any(ShotsSearchRequestParams.class));
+        verify(interactor, times(2)).search(any(ShotsSearchParams.class));
         verify(view).hideShotsLoadingMoreProgress();
     }
 
@@ -194,7 +194,7 @@ public class ShotsSearchPresenterTest {
     public void onShotClick_shouldOpenShotDetailsScreen() {
         //arrange
         List<Shot> shots = shots();
-        when(interactor.search(any(ShotsSearchRequestParams.class)))
+        when(interactor.search(any(ShotsSearchParams.class)))
                 .thenReturn(Single.just(shots));
 
         // act

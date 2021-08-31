@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.imangazalievm.bubbble.Constants
 import com.imangazalievm.bubbble.data.global.network.exceptions.NoNetworkException
 import com.imangazalievm.bubbble.domain.global.models.Shot
-import com.imangazalievm.bubbble.domain.global.models.ShotsSearchRequestParams
+import com.imangazalievm.bubbble.domain.global.models.ShotsSearchParams
 import com.imangazalievm.bubbble.domain.shotssearch.ShotsSearchInteractor
 import com.imangazalievm.bubbble.presentation.global.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -39,7 +39,7 @@ class ShotsSearchPresenter @AssistedInject constructor(
     private fun loadMoreShots(page: Int) = launchSafe {
         try {
             isShotsLoading = true
-            val shotsRequestParams = ShotsSearchRequestParams(searchQuery, sort, page, PAGE_SIZE)
+            val shotsRequestParams = ShotsSearchParams(searchQuery, sort, page, PAGE_SIZE)
             val newShots = shotsSearchInteractor.search(shotsRequestParams)
             if (isFirstLoading) {
                 viewState.hideShotsLoadingProgress()
