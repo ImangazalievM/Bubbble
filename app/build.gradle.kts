@@ -10,7 +10,7 @@ android {
     buildToolsVersion("29.0.3")
 
     defaultConfig {
-        applicationId = "com.imangazalievm.bubbble"
+        applicationId = "com.bubbble"
         minSdkVersion(21)
         targetSdkVersion(29)
         versionCode = 3
