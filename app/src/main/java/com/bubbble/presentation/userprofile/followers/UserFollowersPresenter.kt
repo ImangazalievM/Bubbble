@@ -1,7 +1,7 @@
 package com.bubbble.presentation.userprofile.followers
 
 import com.arellomobile.mvp.InjectViewState
-import com.bubbble.data.global.network.exceptions.NoNetworkException
+import com.bubbble.core.exceptions.NoNetworkException
 import com.bubbble.domain.global.models.Follow
 import com.bubbble.domain.global.models.UserFollowersRequestParams
 import com.bubbble.domain.userprofile.UserFollowersInteractor
@@ -34,7 +34,7 @@ class UserFollowersPresenter @AssistedInject constructor(
             val newFollowers = userFollowersInteractor.getUserFollowers(requestParams)
             followers.addAll(newFollowers)
             viewState.showNewFollowers(newFollowers)
-        } catch (throwable: NoNetworkException) {
+        } catch (throwable: com.bubbble.core.exceptions.NoNetworkException) {
             if (isFirstLoading) {
                 viewState.showNoNetworkLayout()
             } else {

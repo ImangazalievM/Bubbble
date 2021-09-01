@@ -1,4 +1,4 @@
-package com.bubbble.data.global.network;
+package com.bubbble.core.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

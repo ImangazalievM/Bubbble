@@ -1,4 +1,4 @@
-package com.bubbble.data.global.network
+package com.bubbble.core.network
 
 import com.bubbble.domain.global.models.*
 import retrofit2.http.*

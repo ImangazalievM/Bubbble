@@ -1,7 +1,7 @@
 package com.bubbble.presentation.shotslist
 
 import com.arellomobile.mvp.InjectViewState
-import com.bubbble.data.global.network.exceptions.NoNetworkException
+import com.bubbble.core.exceptions.NoNetworkException
 import com.bubbble.domain.global.models.Shot
 import com.bubbble.domain.global.models.ShotsRequestParams
 import com.bubbble.domain.shotslist.ShotsInteractor
@@ -50,7 +50,7 @@ class ShotsPresenter @AssistedInject constructor(
     }
 
     private fun onShotsLoadError(throwable: Throwable) {
-        if (throwable is NoNetworkException) {
+        if (throwable is com.bubbble.core.exceptions.NoNetworkException) {
             if (isFirstLoading) {
                 viewState.hideShotsLoadingProgress()
                 viewState.showNoNetworkLayout()

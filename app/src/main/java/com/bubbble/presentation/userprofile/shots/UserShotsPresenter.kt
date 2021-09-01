@@ -1,7 +1,7 @@
 package com.bubbble.presentation.userprofile.shots
 
 import com.arellomobile.mvp.InjectViewState
-import com.bubbble.data.global.network.exceptions.NoNetworkException
+import com.bubbble.core.exceptions.NoNetworkException
 import com.bubbble.domain.global.models.Shot
 import com.bubbble.domain.global.models.UserShotsRequestParams
 import com.bubbble.domain.userprofile.UserShotsInteractor
@@ -36,7 +36,7 @@ class UserShotsPresenter @AssistedInject constructor(
             val newShots = userShotsInteractor.getUserShots(userShotsRequestParams)
             shots.addAll(newShots)
             viewState.showNewShots(newShots)
-        } catch (throwable: NoNetworkException) {
+        } catch (throwable: com.bubbble.core.exceptions.NoNetworkException) {
             if (isFirstLoading) {
                 viewState.showNoNetworkLayout()
             } else {

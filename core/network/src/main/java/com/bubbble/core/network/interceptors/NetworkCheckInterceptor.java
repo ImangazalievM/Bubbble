@@ -1,7 +1,7 @@
-package com.bubbble.data.global.network.interceptors;
+package com.bubbble.core.network.interceptors;
 
-import com.bubbble.data.global.network.NetworkChecker;
-import com.bubbble.data.global.network.exceptions.NoNetworkException;
+import com.bubbble.core.network.NetworkChecker;
+import com.bubbble.core.network.exceptions.NoNetworkException;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;

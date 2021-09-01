@@ -1,4 +1,4 @@
-package com.bubbble.data.global.network.exceptions;
+package com.bubbble.core.network.exceptions;
 
 public class HttpException extends RuntimeException {
 

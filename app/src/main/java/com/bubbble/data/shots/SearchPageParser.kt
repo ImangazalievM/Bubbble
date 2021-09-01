@@ -3,11 +3,10 @@ package com.bubbble.data.shots
 import android.text.TextUtils
 import android.util.Log
 import com.bubbble.Constants
-import com.bubbble.data.global.network.Dribbble
+import com.bubbble.core.Dribbble
 import com.bubbble.data.global.parsing.PageParser
 import com.bubbble.domain.global.models.*
 import okhttp3.HttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.text.ParseException
@@ -21,7 +20,7 @@ class SearchPageParser @Inject constructor(
 ) : PageParser<ShotsSearchParams, List<Shot>>() {
 
     override fun getUrl(dribbbleUrl: String, params: ShotsSearchParams): HttpUrl {
-        return Dribbble.Search.path.toHttpUrl()
+        return com.bubbble.core.Dribbble.Search.path.toHttpUrl()
             .newBuilder()
             .addQueryParameter("q", params.searchQuery)
             //.addQueryParameter("s", sort)
@@ -31,7 +30,7 @@ class SearchPageParser @Inject constructor(
     }
 
     override fun parseHtml(html: String): List<Shot> {
-        val shotElements = Jsoup.parse(html, Dribbble.URL).select("li[id^=screenshot]")
+        val shotElements = Jsoup.parse(html, com.bubbble.core.Dribbble.URL).select("li[id^=screenshot]")
         val shots: MutableList<Shot> = ArrayList(shotElements.size)
         for (element in shotElements) {
             val shot = parseShot(element, DATE_FORMAT)
@@ -59,7 +58,7 @@ class SearchPageParser @Inject constructor(
         Log.d(Constants.TAG, "search: $imgUrl")
         return Shot(
             id = element.id().replace("screenshot-", "").toLong(),
-            title = Dribbble.URL + element.getElement("a.dribbble-link").attr("href"),
+            title = com.bubbble.core.Dribbble.URL + element.getElement("a.dribbble-link").attr("href"),
             description = descriptionBlock.getText("strong"),
             width = 100,
             height = 100,
@@ -96,7 +95,7 @@ class SearchPageParser @Inject constructor(
             id = id,
             name = userBlock.text(),
             username = username ?: "What?!!!",
-            htmlUrl = Dribbble.URL + slashUsername,
+            htmlUrl = com.bubbble.core.Dribbble.URL + slashUsername,
             avatarUrl = avatarUrl,
             bio = null,
             location = null,

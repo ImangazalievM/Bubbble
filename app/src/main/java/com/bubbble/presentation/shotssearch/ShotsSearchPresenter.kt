@@ -2,7 +2,7 @@ package com.bubbble.presentation.shotssearch
 
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.Constants
-import com.bubbble.data.global.network.exceptions.NoNetworkException
+import com.bubbble.core.exceptions.NoNetworkException
 import com.bubbble.domain.global.models.Shot
 import com.bubbble.domain.global.models.ShotsSearchParams
 import com.bubbble.domain.shotssearch.ShotsSearchInteractor
@@ -48,7 +48,7 @@ class ShotsSearchPresenter @AssistedInject constructor(
             }
             shots.addAll(newShots)
             viewState.showNewShots(newShots)
-        } catch (e: NoNetworkException) {
+        } catch (e: com.bubbble.core.exceptions.NoNetworkException) {
             if (isFirstLoading) {
                 viewState.hideShotsLoadingProgress()
                 viewState.showNoNetworkLayout()

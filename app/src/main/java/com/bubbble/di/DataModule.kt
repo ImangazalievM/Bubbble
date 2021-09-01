@@ -5,11 +5,11 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.bubbble.BuildConfig
-import com.bubbble.data.global.network.Dribbble
-import com.bubbble.data.global.network.DribbbleApi
-import com.bubbble.data.global.network.NetworkChecker
-import com.bubbble.data.global.network.interceptors.DribbbleTokenInterceptor
-import com.bubbble.data.global.network.interceptors.NetworkCheckInterceptor
+import com.bubbble.core.Dribbble
+import com.bubbble.core.DribbbleApi
+import com.bubbble.core.NetworkChecker
+import com.bubbble.core.interceptors.DribbbleTokenInterceptor
+import com.bubbble.core.interceptors.NetworkCheckInterceptor
 import com.bubbble.data.global.prefs.TempPreferences
 import com.bubbble.di.qualifiers.DribbbleWebSite
 import com.bubbble.di.qualifiers.OkHttpInterceptors
@@ -29,7 +29,7 @@ class DataModule(private val baseUrl: String) {
     @Provides
     @Singleton
     @DribbbleWebSite
-    fun dribbbleUrl(): String = Dribbble.URL
+    fun dribbbleUrl(): String = com.bubbble.core.Dribbble.URL
 
     @Provides
     @Singleton
@@ -40,13 +40,21 @@ class DataModule(private val baseUrl: String) {
     @Provides
     @Singleton
     fun okHttpClient(
-        networkChecker: NetworkChecker,
+        networkChecker: com.bubbble.core.NetworkChecker,
         @OkHttpInterceptors interceptors: List<@JvmSuppressWildcards Interceptor>,
         @OkHttpNetworkInterceptors networkInterceptors: List<@JvmSuppressWildcards Interceptor>
     ): OkHttpClient {
         val okHttpBuilder = OkHttpClient.Builder()
-        okHttpBuilder.addInterceptor(NetworkCheckInterceptor(networkChecker))
-        okHttpBuilder.addInterceptor(DribbbleTokenInterceptor(BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN))
+        okHttpBuilder.addInterceptor(
+            com.bubbble.core.interceptors.NetworkCheckInterceptor(
+                networkChecker
+            )
+        )
+        okHttpBuilder.addInterceptor(
+            com.bubbble.core.interceptors.DribbbleTokenInterceptor(
+                BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN
+            )
+        )
         for (interceptor in interceptors) {
             okHttpBuilder.addInterceptor(interceptor)
         }
@@ -79,8 +87,8 @@ class DataModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun dribbbleApi(retrofit: Retrofit): DribbbleApi {
-        return retrofit.create(DribbbleApi::class.java)
+    fun dribbbleApi(retrofit: Retrofit): com.bubbble.core.DribbbleApi {
+        return retrofit.create(com.bubbble.core.DribbbleApi::class.java)
     }
 
 }

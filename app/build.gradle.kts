@@ -71,12 +71,12 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.Libraries.appCompat)
+    implementation(project(Modules.Core.network))
 
-    implementation(Dependencies.Old.supportAppCompat)
-    implementation(Dependencies.Old.supportDesign)
-    implementation(Dependencies.Old.supportCardView)
-    implementation(Dependencies.Old.customTabs)
+    implementation(Dependencies.supportAppCompat)
+    implementation(Dependencies.supportDesign)
+    implementation(Dependencies.supportCardView)
+    implementation(Dependencies.customTabs)
 
     implementation("com.google.dagger:dagger:2.38.1")
     kapt("com.google.dagger:dagger-compiler:2.38.1")
@@ -84,21 +84,19 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Dependencies.Versions.kotlinCoroutineVersion}")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Dependencies.Versions.kotlinCoroutineVersion}")
 
-    implementation(Dependencies.Old.moxy)
-    implementation(Dependencies.Old.moxyAppCompat)
-    kapt(Dependencies.Old.moxyCompiler)
+    implementation(Dependencies.moxy)
+    implementation(Dependencies.moxyAppCompat)
+    kapt(Dependencies.moxyCompiler)
 
-    implementation(Dependencies.Old.retrofit)
-    implementation(Dependencies.Old.retrofitGsonConverter)
-    implementation(Dependencies.Old.jsoup)
+    implementation(Dependencies.jsoup)
 
-    implementation(Dependencies.Old.glide)
-    implementation(Dependencies.Old.photoView)
-    implementation(Dependencies.Old.materialDrawer) {
+    implementation(Dependencies.glide)
+    implementation(Dependencies.photoView)
+    implementation(Dependencies.materialDrawer) {
         isTransitive = true
         exclude(group = "com.android.support")
     }
-    implementation(Dependencies.Old.hashtagView)
+    implementation(Dependencies.hashtagView)
 
     //permissions request
     api("com.afollestad.assent:core:3.0.0-RC4")
@@ -109,12 +107,12 @@ dependencies {
     debugImplementation("com.facebook.stetho:stetho-okhttp3:1.5.1")
     debugImplementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     debugImplementation("com.github.mrmike:ok2curl:0.6.0")
-    debugImplementation(Dependencies.Old.leakCanary)
-    releaseImplementation(Dependencies.Old.leakCanaryNoOp)
+    debugImplementation(Dependencies.leakCanary)
+    releaseImplementation(Dependencies.leakCanaryNoOp)
 
     // Testing
-    testImplementation(Dependencies.Old.junit)
-    testImplementation(Dependencies.Old.hamcrest)
-    testImplementation(Dependencies.Old.mockito)
-    testImplementation(Dependencies.Old.robolectric)
+    testImplementation(Dependencies.junit)
+    testImplementation(Dependencies.hamcrest)
+    testImplementation(Dependencies.mockito)
+    testImplementation(Dependencies.robolectric)
 }

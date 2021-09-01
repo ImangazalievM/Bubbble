@@ -1,4 +1,4 @@
-package com.bubbble.data.global.network;
+package com.bubbble.core.network;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
