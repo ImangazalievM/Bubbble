@@ -1,6 +1,9 @@
 package com.bubbble.core.network
 
-import com.bubbble.domain.global.models.*
+import com.bubbble.core.models.*
+import com.bubbble.core.models.shot.Shot
+import com.bubbble.core.models.user.Follow
+import com.bubbble.core.models.user.User
 import retrofit2.http.*
 
 interface DribbbleApi {

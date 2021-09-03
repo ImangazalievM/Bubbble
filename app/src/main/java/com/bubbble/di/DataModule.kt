@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.bubbble.BuildConfig
 import com.bubbble.core.Dribbble
-import com.bubbble.core.DribbbleApi
+import com.bubbble.core.network.DribbbleApi
 import com.bubbble.core.NetworkChecker
 import com.bubbble.core.interceptors.DribbbleTokenInterceptor
 import com.bubbble.core.interceptors.NetworkCheckInterceptor
@@ -87,7 +87,7 @@ class DataModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun dribbbleApi(retrofit: Retrofit): com.bubbble.core.DribbbleApi {
+    fun dribbbleApi(retrofit: Retrofit): DribbbleApi {
         return retrofit.create(com.bubbble.core.DribbbleApi::class.java)
     }
 

@@ -1,5 +1,6 @@
-package com.bubbble.core.network;
+package com.bubbble.presentation.global;
 
+import com.bubbble.core.network.ServerError;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -25,4 +26,5 @@ public class ErrorHandler {
             response.errorBody().close();
         }
     }
+
 }

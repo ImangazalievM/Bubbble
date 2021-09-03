@@ -54,6 +54,7 @@ object Dependencies {
 object Modules {
 
     object Core {
+        const val models = ":core:models"
         const val network = ":core:network"
     }
 
