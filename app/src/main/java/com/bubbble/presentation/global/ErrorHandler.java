@@ -2,9 +2,7 @@ package com.bubbble.presentation.global;
 
 import com.bubbble.core.network.ServerError;
 import com.google.gson.Gson;
-
 import javax.inject.Inject;
-
 import retrofit2.Response;
 
 public class ErrorHandler {
