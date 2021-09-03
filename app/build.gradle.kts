@@ -79,8 +79,8 @@ dependencies {
     implementation(Dependencies.supportCardView)
     implementation(Dependencies.customTabs)
 
-    implementation("com.google.dagger:dagger:2.38.1")
-    kapt("com.google.dagger:dagger-compiler:2.38.1")
+    implementation(Dependencies.dagger)
+    kapt(Dependencies.daggerCompiler)
 
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Dependencies.Versions.kotlinCoroutineVersion}")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Dependencies.Versions.kotlinCoroutineVersion}")

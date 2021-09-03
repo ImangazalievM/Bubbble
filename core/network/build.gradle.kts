@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -39,4 +40,7 @@ dependencies {
 
     api(Dependencies.retrofit)
     api(Dependencies.retrofitGsonConverter)
+
+    implementation(Dependencies.dagger)
+    kapt(Dependencies.daggerCompiler)
 }
