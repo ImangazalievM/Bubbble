@@ -1,4 +1,4 @@
-package com.bubbble.models.user
+package com.bubbble.core.models.user
 
 class Team {
     var id: Long? = null

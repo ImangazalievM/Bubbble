@@ -1,4 +1,4 @@
-package com.bubbble.models.shot
+package com.bubbble.core.models.shot
 
 class ShotCommentsParams(
     val shotId: Long,

@@ -1,4 +1,4 @@
-package com.bubbble.models.user
+package com.bubbble.core.models.user
 
 class UserFollowersRequestParams(
     val userId: Long,

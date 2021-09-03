@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.bubbble.R
-import com.bubbble.models.Shot
+import com.bubbble.core.models.Shot
 import com.bubbble.presentation.global.ui.adapters.ShotsAdapter
 import com.bubbble.presentation.global.ui.base.BaseMvpActivity
 import com.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
@@ -100,7 +100,7 @@ class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
         shotsRecyclerView.adapter = shotsAdapter
     }
 
-    override fun showNewShots(newShots: List<com.bubbble.models.Shot>) {
+    override fun showNewShots(newShots: List<com.bubbble.core.models.Shot>) {
         shotsRecyclerView.visibility = View.VISIBLE
         shotsAdapter.addItems(newShots)
     }

@@ -3,8 +3,8 @@ package com.bubbble.presentation.shotssearch
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.Constants
 import com.bubbble.core.exceptions.NoNetworkException
-import com.bubbble.models.Shot
-import com.bubbble.models.ShotsSearchParams
+import com.bubbble.core.models.Shot
+import com.bubbble.core.models.ShotsSearchParams
 import com.bubbble.domain.shotssearch.ShotsSearchInteractor
 import com.bubbble.presentation.global.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -19,7 +19,7 @@ class ShotsSearchPresenter @AssistedInject constructor(
 ) : BasePresenter<ShotsSearchView>() {
 
     private val sort: String = Constants.SHOTS_SORT_POPULAR
-    private val shots: MutableList<com.bubbble.models.Shot> = ArrayList()
+    private val shots: MutableList<com.bubbble.core.models.Shot> = ArrayList()
     private var currentMaxPage = 1
     private var isShotsLoading = false
     private val isFirstLoading: Boolean
@@ -40,7 +40,7 @@ class ShotsSearchPresenter @AssistedInject constructor(
         try {
             isShotsLoading = true
             val shotsRequestParams =
-                com.bubbble.models.ShotsSearchParams(searchQuery, sort, page, PAGE_SIZE)
+                com.bubbble.core.models.ShotsSearchParams(searchQuery, sort, page, PAGE_SIZE)
             val newShots = shotsSearchInteractor.search(shotsRequestParams)
             if (isFirstLoading) {
                 viewState.hideShotsLoadingProgress()

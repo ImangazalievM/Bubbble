@@ -1,4 +1,4 @@
-package com.bubbble.models.shot
+package com.bubbble.core.models.shot
 
 class ShotsParams(
     val sort: String,

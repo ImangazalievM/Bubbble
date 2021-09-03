@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.bubbble.R
-import com.bubbble.models.Follow
+import com.bubbble.core.models.Follow
 import com.bubbble.presentation.global.ui.adapters.UserFollowersAdapter
 import com.bubbble.presentation.global.ui.base.BaseMvpFragment
 import com.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
@@ -70,7 +70,7 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
         })
     }
 
-    override fun showNewFollowers(newFollowers: List<com.bubbble.models.Follow>) {
+    override fun showNewFollowers(newFollowers: List<com.bubbble.core.models.Follow>) {
         followersRecyclerView.visibility = View.VISIBLE
         userFollowersAdapter.addItems(newFollowers)
     }

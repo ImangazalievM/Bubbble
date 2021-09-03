@@ -1,6 +1,6 @@
-package com.bubbble.models
+package com.bubbble.core.models
 
-import com.bubbble.models.user.User
+import com.bubbble.core.models.user.User
 import java.util.*
 
 class Comment(
