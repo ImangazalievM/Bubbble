@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion("29.0.3")
+    compileSdkVersion(30)
+    buildToolsVersion = "29.0.3"
 
     defaultConfig {
         applicationId = "com.bubbble"
@@ -71,6 +71,7 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Core.models))
     implementation(project(Modules.Core.network))
 
     implementation(Dependencies.supportAppCompat)

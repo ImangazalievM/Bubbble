@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(31)
-    buildToolsVersion = "31.0.0"
+    compileSdkVersion(30)
+    buildToolsVersion = "29.0.3"
 
     defaultConfig {
         minSdkVersion(21)
-        targetSdkVersion(31)
+        targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
 
@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Core.models))
+
     api(Dependencies.retrofit)
     api(Dependencies.retrofitGsonConverter)
 }
