@@ -3,9 +3,9 @@ package com.bubbble.domain.shotdetails
 import com.bubbble.data.shots.CommentsRepository
 import com.bubbble.data.shots.ImagesRepository
 import com.bubbble.data.shots.ShotsRepository
-import com.bubbble.domain.global.models.Comment
-import com.bubbble.domain.global.models.Shot
-import com.bubbble.domain.global.models.ShotCommentsRequestParams
+import com.bubbble.models.Comment
+import com.bubbble.models.Shot
+import com.bubbble.models.ShotCommentsRequestParams
 import javax.inject.Inject
 
 class ShotDetailsInteractor @Inject constructor(
@@ -14,13 +14,13 @@ class ShotDetailsInteractor @Inject constructor(
     private val imagesRepository: ImagesRepository
 ) {
 
-    suspend fun getShot(shotId: Long): Shot {
+    suspend fun getShot(shotId: Long): com.bubbble.models.Shot {
         return shotsRepository.getShot(shotId)
     }
 
     suspend fun getShotComments(
-        shotCommentsRequestParams: ShotCommentsRequestParams
-    ): List<Comment> {
+        shotCommentsRequestParams: com.bubbble.models.ShotCommentsRequestParams
+    ): List<com.bubbble.models.Comment> {
         return commentsRepository.getComments(shotCommentsRequestParams)
     }
 

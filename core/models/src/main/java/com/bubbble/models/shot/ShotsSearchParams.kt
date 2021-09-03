@@ -1,4 +1,4 @@
-package com.bubbble.domain.global.models
+package com.bubbble.models.shot
 
 class ShotsSearchParams(
     val searchQuery: String,

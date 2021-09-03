@@ -17,9 +17,9 @@ import javax.inject.Inject
 
 class SearchPageParser @Inject constructor(
 
-) : PageParser<ShotsSearchParams, List<Shot>>() {
+) : PageParser<com.bubbble.models.ShotsSearchParams, List<com.bubbble.models.Shot>>() {
 
-    override fun getUrl(dribbbleUrl: String, params: ShotsSearchParams): HttpUrl {
+    override fun getUrl(dribbbleUrl: String, params: com.bubbble.models.ShotsSearchParams): HttpUrl {
         return com.bubbble.core.Dribbble.Search.path.toHttpUrl()
             .newBuilder()
             .addQueryParameter("q", params.searchQuery)
@@ -29,9 +29,9 @@ class SearchPageParser @Inject constructor(
             .build()
     }
 
-    override fun parseHtml(html: String): List<Shot> {
+    override fun parseHtml(html: String): List<com.bubbble.models.Shot> {
         val shotElements = Jsoup.parse(html, com.bubbble.core.Dribbble.URL).select("li[id^=screenshot]")
-        val shots: MutableList<Shot> = ArrayList(shotElements.size)
+        val shots: MutableList<com.bubbble.models.Shot> = ArrayList(shotElements.size)
         for (element in shotElements) {
             val shot = parseShot(element, DATE_FORMAT)
             shots.add(shot)
@@ -39,7 +39,7 @@ class SearchPageParser @Inject constructor(
         return shots.toList()
     }
 
-    private fun parseShot(element: Element, dateFormat: SimpleDateFormat): Shot {
+    private fun parseShot(element: Element, dateFormat: SimpleDateFormat): com.bubbble.models.Shot {
         val descriptionBlock = element.getElement("a.dribbble-over")
         // API responses wrap description in a <p> tag. Do the same for consistent display.
         var description = descriptionBlock.select("span.comment").text().trim { it <= ' ' }
@@ -56,13 +56,14 @@ class SearchPageParser @Inject constructor(
         } catch (e: ParseException) {
         }
         Log.d(Constants.TAG, "search: $imgUrl")
-        return Shot(
+        return com.bubbble.models.Shot(
             id = element.id().replace("screenshot-", "").toLong(),
-            title = com.bubbble.core.Dribbble.URL + element.getElement("a.dribbble-link").attr("href"),
+            title = com.bubbble.core.Dribbble.URL + element.getElement("a.dribbble-link")
+                .attr("href"),
             description = descriptionBlock.getText("strong"),
             width = 100,
             height = 100,
-            images = Images(null, null, imgUrl),
+            images = com.bubbble.models.Images(null, null, imgUrl),
             viewsCount = element.getText("li.views").remove(",").toInt(),
             likesCount = element.getText("li.fav").remove(",").toInt(),
             bucketsCount = -1,
@@ -78,7 +79,7 @@ class SearchPageParser @Inject constructor(
         )
     }
 
-    private fun parseUser(element: Element): User {
+    private fun parseUser(element: Element): com.bubbble.models.User {
         val userBlock = element.select("a.url").first()
         var avatarUrl = userBlock.select("img.photo").first().attr("src")
         if (avatarUrl.contains("/mini/")) {
@@ -91,7 +92,7 @@ class SearchPageParser @Inject constructor(
         }
         val slashUsername = userBlock.attr("href")
         val username = if (TextUtils.isEmpty(slashUsername)) null else slashUsername.substring(1)
-        return User(
+        return com.bubbble.models.User(
             id = id,
             name = userBlock.text(),
             username = username ?: "What?!!!",
@@ -99,7 +100,7 @@ class SearchPageParser @Inject constructor(
             avatarUrl = avatarUrl,
             bio = null,
             location = null,
-            links = Links("", ""),
+            links = com.bubbble.models.Links("", ""),
             bucketsCount = 0,
             commentsReceivedCount = 0,
             followersCount = 0,

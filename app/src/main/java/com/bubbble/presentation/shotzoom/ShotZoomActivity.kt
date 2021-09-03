@@ -21,7 +21,7 @@ import com.bumptech.glide.request.target.Target
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.snackbar.Snackbar
 import com.bubbble.R
-import com.bubbble.domain.global.models.Shot
+import com.bubbble.models.Shot
 import com.bubbble.presentation.global.ui.base.BaseMvpActivity
 import com.bubbble.presentation.global.utils.AppUtils
 import javax.inject.Inject
@@ -207,7 +207,7 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
         private const val KEY_SHOT_URL = "shot_url"
         private const val KEY_IMAGE_URL = "image_url"
 
-        fun buildIntent(context: Context?, shot: Shot): Intent {
+        fun buildIntent(context: Context?, shot: com.bubbble.models.Shot): Intent {
             val intent = Intent(context, ShotZoomActivity::class.java)
             intent.putExtra(KEY_SHOT_TITLE, shot.title)
             intent.putExtra(KEY_SHOT_URL, shot.htmlUrl)

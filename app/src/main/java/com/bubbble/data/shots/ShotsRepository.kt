@@ -4,10 +4,10 @@ import com.bubbble.Constants
 import com.bubbble.core.Dribbble
 import com.bubbble.core.DribbbleApi
 import com.bubbble.data.global.parsing.PageParserManager
-import com.bubbble.domain.global.models.Shot
-import com.bubbble.domain.global.models.ShotsRequestParams
-import com.bubbble.domain.global.models.ShotsSearchParams
-import com.bubbble.domain.global.models.UserShotsRequestParams
+import com.bubbble.models.Shot
+import com.bubbble.models.ShotsRequestParams
+import com.bubbble.models.ShotsSearchParams
+import com.bubbble.models.UserShotsRequestParams
 import javax.inject.Inject
 
 class ShotsRepository @Inject constructor(
@@ -16,7 +16,7 @@ class ShotsRepository @Inject constructor(
     private val searchPageParser: SearchPageParser
 ) {
 
-    suspend fun getShots(requestParams: ShotsRequestParams): List<Shot> {
+    suspend fun getShots(requestParams: com.bubbble.models.ShotsRequestParams): List<com.bubbble.models.Shot> {
         val sort =
             if (requestParams.sort == Constants.SHOTS_SORT_POPULAR)
                 com.bubbble.core.Dribbble.Shots.Type.POPULAR
@@ -24,11 +24,11 @@ class ShotsRepository @Inject constructor(
         return dribbbleApi.getShots(sort.code, requestParams.page, requestParams.pageSize)
     }
 
-    suspend fun getShot(shotId: Long): Shot {
+    suspend fun getShot(shotId: Long): com.bubbble.models.Shot {
         return dribbbleApi.getShot(shotId)
     }
 
-    suspend fun getUserShots(requestParams: UserShotsRequestParams): List<Shot> {
+    suspend fun getUserShots(requestParams: com.bubbble.models.UserShotsRequestParams): List<com.bubbble.models.Shot> {
         return dribbbleApi.getUserShots(
             requestParams.userId,
             requestParams.page,
@@ -36,7 +36,7 @@ class ShotsRepository @Inject constructor(
         )
     }
 
-    suspend fun search(params: ShotsSearchParams): List<Shot> {
+    suspend fun search(params: com.bubbble.models.ShotsSearchParams): List<com.bubbble.models.Shot> {
         return pageParserManager.parse(searchPageParser, params)
     }
 

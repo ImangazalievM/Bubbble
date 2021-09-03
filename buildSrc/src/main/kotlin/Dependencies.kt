@@ -28,6 +28,7 @@ object Dependencies {
     const val moxyAppCompat = "com.arello-mobile:moxy-app-compat:1.5.2"
     const val moxyCompiler = "com.arello-mobile:moxy-compiler:1.5.2"
 
+    const val gson = "com.google.code.gson:gson:2.8.8"
     const val okHttp = "com.squareup.okhttp3:okhttp:3.2.0"
     const val retrofit = "com.squareup.retrofit2:retrofit:2.2.0"
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:2.2.0"

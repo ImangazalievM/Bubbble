@@ -2,7 +2,7 @@ package com.bubbble.presentation.userprofile
 
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.core.exceptions.NoNetworkException
-import com.bubbble.domain.global.models.User
+import com.bubbble.models.User
 import com.bubbble.domain.userprofile.UserProfileInteractor
 import com.bubbble.presentation.global.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -15,7 +15,7 @@ class UserProfilePresenter @AssistedInject constructor(
     @Assisted private val userId: Long
 ) : BasePresenter<UserProfileView>() {
 
-    private lateinit var user: User
+    private lateinit var user: com.bubbble.models.User
     private val isUserLoaded: Boolean
         get() = ::user.isInitialized
 

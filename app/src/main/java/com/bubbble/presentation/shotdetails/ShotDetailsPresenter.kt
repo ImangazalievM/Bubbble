@@ -2,8 +2,8 @@ package com.bubbble.presentation.shotdetails
 
 import com.afollestad.assent.Permission
 import com.arellomobile.mvp.InjectViewState
-import com.bubbble.domain.global.models.Shot
-import com.bubbble.domain.global.models.ShotCommentsRequestParams
+import com.bubbble.models.Shot
+import com.bubbble.models.ShotCommentsRequestParams
 import com.bubbble.domain.shotdetails.ShotDetailsInteractor
 import com.bubbble.presentation.global.mvp.BasePresenter
 import com.bubbble.presentation.global.permissions.PermissionsManager
@@ -18,7 +18,7 @@ class ShotDetailsPresenter @AssistedInject constructor(
     @Assisted private val shotId: Long
 ) : BasePresenter<ShotDetailsView>() {
 
-    private lateinit var shot: Shot
+    private lateinit var shot: com.bubbble.models.Shot
     private val isShotLoaded: Boolean
         get() = ::shot.isInitialized
     private var currentMaxCommentsPage = 1
@@ -62,7 +62,8 @@ class ShotDetailsPresenter @AssistedInject constructor(
 
     private fun loadMoreComments(page: Int) = launchSafe {
         isCommentsLoading = true
-        val shotCommentsRequestParams = ShotCommentsRequestParams(shotId, page, COMMENTS_PAGE_SIZE)
+        val shotCommentsRequestParams =
+            com.bubbble.models.ShotCommentsRequestParams(shotId, page, COMMENTS_PAGE_SIZE)
         val newComments = try {
             shotDetailsInteractor.getShotComments(shotCommentsRequestParams)
         } finally {

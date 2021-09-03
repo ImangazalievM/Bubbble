@@ -1,5 +1,7 @@
-package com.bubbble.domain.global.models
+package com.bubbble.models.shot
 
+import com.bubbble.models.user.Team
+import com.bubbble.models.user.User
 import java.util.*
 
 class Shot(

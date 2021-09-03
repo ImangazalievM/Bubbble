@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.bubbble.R
-import com.bubbble.domain.global.models.Shot
+import com.bubbble.models.Shot
 import com.bubbble.presentation.global.ui.adapters.ShotsAdapter
 import com.bubbble.presentation.global.ui.base.BaseMvpFragment
 import com.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
@@ -71,7 +71,7 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
         })
     }
 
-    override fun showNewShots(newShots: List<Shot>) {
+    override fun showNewShots(newShots: List<com.bubbble.models.Shot>) {
         shotsRecyclerView.visibility = View.VISIBLE
         shotsAdapter.addItems(newShots)
     }

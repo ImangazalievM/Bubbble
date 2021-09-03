@@ -1,4 +1,4 @@
-package com.bubbble.domain.global.models
+package com.bubbble.models.user
 
 import java.util.*
 

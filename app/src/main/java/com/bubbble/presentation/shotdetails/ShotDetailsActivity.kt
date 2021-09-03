@@ -27,8 +27,8 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.greenfrvr.hashtagview.HashtagView
 import com.bubbble.R
-import com.bubbble.domain.global.models.Comment
-import com.bubbble.domain.global.models.Shot
+import com.bubbble.models.Comment
+import com.bubbble.models.Shot
 import com.bubbble.presentation.global.ui.adapters.ShotCommentsAdapter
 import com.bubbble.presentation.global.ui.base.BaseMvpActivity
 import com.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
@@ -169,7 +169,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         shareShotButton.setOnClickListener { presenter.onShareShotClicked() }
     }
 
-    override fun showShot(shot: Shot) {
+    override fun showShot(shot: com.bubbble.models.Shot) {
         shotDetailContainer.visibility = View.VISIBLE
 
         //shot info
@@ -269,7 +269,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         loadingLayout.visibility = View.GONE
     }
 
-    override fun showNewComments(newComments: List<Comment>) {
+    override fun showNewComments(newComments: List<com.bubbble.models.Comment>) {
         commentsAdapter.addItems(newComments)
     }
 
@@ -330,7 +330,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         startActivity(UserProfileActivity.buildIntent(this, userId))
     }
 
-    override fun openShotImageScreen(shot: Shot) {
+    override fun openShotImageScreen(shot: com.bubbble.models.Shot) {
         startActivity(ShotZoomActivity.buildIntent(this, shot))
     }
 

@@ -22,7 +22,7 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.tabs.TabLayout
 import com.bubbble.R
-import com.bubbble.domain.global.models.User
+import com.bubbble.models.User
 import com.bubbble.presentation.global.ui.base.BaseMvpActivity
 import com.bubbble.presentation.global.ui.commons.glide.GlideBlurTransformation
 import com.bubbble.presentation.global.ui.commons.glide.GlideCircleTransform
@@ -178,7 +178,7 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
         }
     }
 
-    override fun showUser(user: User) {
+    override fun showUser(user: com.bubbble.models.User) {
         userProfileContainer.visibility = View.VISIBLE
         toolbarTitle.text = user.name
         userName.text = user.name
@@ -199,7 +199,7 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
         setupProfilePager(user)
     }
 
-    private fun setupProfilePager(user: User) {
+    private fun setupProfilePager(user: com.bubbble.models.User) {
         val userProfilePagerAdapter = UserProfilePagerAdapter(supportFragmentManager)
         userProfilePagerAdapter.addFragment(
             UserDetailsFragment.newInstance(user.id),
@@ -244,7 +244,7 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
         AppUtils.openInChromeTab(this, url)
     }
 
-    override fun showUserProfileSharing(user: User) {
+    override fun showUserProfileSharing(user: com.bubbble.models.User) {
         AppUtils.sharePlainText(this, String.format("%s - %s", user.name, user.htmlUrl))
     }
 

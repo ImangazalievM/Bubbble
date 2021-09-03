@@ -3,13 +3,13 @@ package com.bubbble.presentation.userprofile.shots
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import com.bubbble.domain.global.models.Shot
+import com.bubbble.models.Shot
 import com.bubbble.presentation.global.mvp.BaseMvpView
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface UserShotsView : BaseMvpView {
 
-    fun showNewShots(newShots: List<Shot>)
+    fun showNewShots(newShots: List<com.bubbble.models.Shot>)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showShotsLoadingProgress()

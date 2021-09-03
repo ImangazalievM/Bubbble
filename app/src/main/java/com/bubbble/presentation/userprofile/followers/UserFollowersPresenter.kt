@@ -2,8 +2,8 @@ package com.bubbble.presentation.userprofile.followers
 
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.core.exceptions.NoNetworkException
-import com.bubbble.domain.global.models.Follow
-import com.bubbble.domain.global.models.UserFollowersRequestParams
+import com.bubbble.models.Follow
+import com.bubbble.models.UserFollowersRequestParams
 import com.bubbble.domain.userprofile.UserFollowersInteractor
 import com.bubbble.presentation.global.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -18,7 +18,7 @@ class UserFollowersPresenter @AssistedInject constructor(
 ) : BasePresenter<UserFollowersView>() {
 
     private var currentMaxPage = 1
-    private val followers: MutableList<Follow> = ArrayList()
+    private val followers: MutableList<com.bubbble.models.Follow> = ArrayList()
     private var isFollowersLoading = false
 
     override fun onFirstViewAttach() {
@@ -29,7 +29,7 @@ class UserFollowersPresenter @AssistedInject constructor(
 
     private fun loadMoreFollowers(page: Int) = launchSafe {
         isFollowersLoading = true
-        val requestParams = UserFollowersRequestParams(userId, page, PAGE_SIZE)
+        val requestParams = com.bubbble.models.UserFollowersRequestParams(userId, page, PAGE_SIZE)
         try {
             val newFollowers = userFollowersInteractor.getUserFollowers(requestParams)
             followers.addAll(newFollowers)

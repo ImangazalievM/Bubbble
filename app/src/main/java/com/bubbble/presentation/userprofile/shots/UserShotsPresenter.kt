@@ -2,8 +2,8 @@ package com.bubbble.presentation.userprofile.shots
 
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.core.exceptions.NoNetworkException
-import com.bubbble.domain.global.models.Shot
-import com.bubbble.domain.global.models.UserShotsRequestParams
+import com.bubbble.models.Shot
+import com.bubbble.models.UserShotsRequestParams
 import com.bubbble.domain.userprofile.UserShotsInteractor
 import com.bubbble.presentation.global.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -18,7 +18,7 @@ class UserShotsPresenter @AssistedInject constructor(
 ) : BasePresenter<UserShotsView>() {
 
     private var currentMaxPage = 1
-    private val shots: MutableList<Shot> = ArrayList()
+    private val shots: MutableList<com.bubbble.models.Shot> = ArrayList()
     private var isShotsLoading = false
     private val isFirstLoading: Boolean
         private get() = currentMaxPage == 1
@@ -31,7 +31,8 @@ class UserShotsPresenter @AssistedInject constructor(
 
     private fun loadMoreShots(page: Int) = launchSafe {
         isShotsLoading = true
-        val userShotsRequestParams = UserShotsRequestParams(userId, page, PAGE_SIZE)
+        val userShotsRequestParams =
+            com.bubbble.models.UserShotsRequestParams(userId, page, PAGE_SIZE)
         try {
             val newShots = userShotsInteractor.getUserShots(userShotsRequestParams)
             shots.addAll(newShots)

@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.bubbble.R
-import com.bubbble.domain.global.models.User
+import com.bubbble.models.User
 import com.bubbble.presentation.global.ui.base.BaseMvpFragment
 import com.bubbble.presentation.global.utils.AppUtils
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -79,7 +79,7 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
         userWebsiteButton.setOnClickListener { presenter.onUserWebsiteButtonClicked() }
     }
 
-    override fun showUserInfo(user: User) {
+    override fun showUserInfo(user: com.bubbble.models.User) {
         userShotsCount.text =
             resources.getQuantityString(R.plurals.shots, user.shotsCount, user.shotsCount)
         userLikesCount.text =
