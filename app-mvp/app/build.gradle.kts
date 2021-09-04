@@ -71,14 +71,10 @@ android {
 }
 
 dependencies {
-    implementation(project(Modules.Core.models))
-    implementation(project(Modules.Core.network))
     implementation(project(Modules.Core.data))
-
-    implementation(Dependencies.supportAppCompat)
-    implementation(Dependencies.supportDesign)
-    implementation(Dependencies.supportCardView)
-    implementation(Dependencies.customTabs)
+    implementation(project(Modules.AppMvp.coreUi))
+    implementation(project(Modules.AppMvp.featureShots))
+    implementation(project(Modules.AppMvp.featureShotDetails))
 
     implementation(Dependencies.dagger)
     kapt(Dependencies.daggerCompiler)

@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
-    buildToolsVersion = "29.0.2"
+    compileSdkVersion(31)
+    buildToolsVersion = "31.0.0"
 
     defaultConfig {
         minSdkVersion(21)
-        targetSdkVersion(30)
+        targetSdkVersion(31)
         versionCode = 1
         versionName = "1.0"
 
@@ -36,6 +36,5 @@ android {
 }
 
 dependencies {
-    api(project(Modules.Core.models))
-    api(project(Modules.Core.network))
+    implementation(project(Modules.AppMvp.coreUi))
 }
