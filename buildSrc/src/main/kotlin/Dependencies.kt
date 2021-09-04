@@ -65,4 +65,13 @@ object Modules {
         const val data = ":core:data"
     }
 
+    object AppMvp {
+        const val coreUi = ":core:core-ui"
+        const val featureShots = ":core:feature-shots"
+        const val featureShotDetails = ":core:feature-shot-details"
+        const val featureShotZoom = ":core:feature-shot-zoom"
+        const val featureShotSearch = ":core:feature-shot-search"
+        const val featureShotUserProfile = ":core:feature-user-profile"
+    }
+
 }
