@@ -1,4 +1,4 @@
-include ':app'
+include ':app-mvp:app'
 include ':core:network'
 include ':core:models'
 include ':core:data'
