@@ -3,10 +3,15 @@ package com.bubbble.data.shots
 import android.text.TextUtils
 import android.util.Log
 import com.bubbble.Constants
-import com.bubbble.core.Dribbble
+import com.bubbble.core.models.shot.Images
+import com.bubbble.core.models.shot.Shot
+import com.bubbble.core.models.shot.ShotsSearchParams
+import com.bubbble.core.models.user.Links
+import com.bubbble.core.models.user.User
+import com.bubbble.core.network.Dribbble
 import com.bubbble.data.global.parsing.PageParser
-import com.bubbble.domain.global.models.*
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.text.ParseException
@@ -17,10 +22,10 @@ import javax.inject.Inject
 
 class SearchPageParser @Inject constructor(
 
-) : PageParser<com.bubbble.core.models.ShotsSearchParams, List<com.bubbble.core.models.Shot>>() {
+) : PageParser<ShotsSearchParams, List<Shot>>() {
 
-    override fun getUrl(dribbbleUrl: String, params: com.bubbble.core.models.ShotsSearchParams): HttpUrl {
-        return com.bubbble.core.Dribbble.Search.path.toHttpUrl()
+    override fun getUrl(dribbbleUrl: String, params: ShotsSearchParams): HttpUrl {
+        return Dribbble.Search.path.toHttpUrl()
             .newBuilder()
             .addQueryParameter("q", params.searchQuery)
             //.addQueryParameter("s", sort)
@@ -29,9 +34,9 @@ class SearchPageParser @Inject constructor(
             .build()
     }
 
-    override fun parseHtml(html: String): List<com.bubbble.core.models.Shot> {
-        val shotElements = Jsoup.parse(html, com.bubbble.core.Dribbble.URL).select("li[id^=screenshot]")
-        val shots: MutableList<com.bubbble.core.models.Shot> = ArrayList(shotElements.size)
+    override fun parseHtml(html: String): List<Shot> {
+        val shotElements = Jsoup.parse(html, Dribbble.URL).select("li[id^=screenshot]")
+        val shots: MutableList<Shot> = ArrayList(shotElements.size)
         for (element in shotElements) {
             val shot = parseShot(element, DATE_FORMAT)
             shots.add(shot)
@@ -39,7 +44,7 @@ class SearchPageParser @Inject constructor(
         return shots.toList()
     }
 
-    private fun parseShot(element: Element, dateFormat: SimpleDateFormat): com.bubbble.core.models.Shot {
+    private fun parseShot(element: Element, dateFormat: SimpleDateFormat): Shot {
         val descriptionBlock = element.getElement("a.dribbble-over")
         // API responses wrap description in a <p> tag. Do the same for consistent display.
         var description = descriptionBlock.select("span.comment").text().trim { it <= ' ' }
@@ -56,14 +61,14 @@ class SearchPageParser @Inject constructor(
         } catch (e: ParseException) {
         }
         Log.d(Constants.TAG, "search: $imgUrl")
-        return com.bubbble.core.models.Shot(
+        return Shot(
             id = element.id().replace("screenshot-", "").toLong(),
-            title = com.bubbble.core.Dribbble.URL + element.getElement("a.dribbble-link")
+            title = Dribbble.URL + element.getElement("a.dribbble-link")
                 .attr("href"),
             description = descriptionBlock.getText("strong"),
             width = 100,
             height = 100,
-            images = com.bubbble.core.models.Images(null, null, imgUrl),
+            images = Images(null, null, imgUrl),
             viewsCount = element.getText("li.views").remove(",").toInt(),
             likesCount = element.getText("li.fav").remove(",").toInt(),
             bucketsCount = -1,
@@ -79,7 +84,7 @@ class SearchPageParser @Inject constructor(
         )
     }
 
-    private fun parseUser(element: Element): com.bubbble.core.models.User {
+    private fun parseUser(element: Element): User {
         val userBlock = element.select("a.url").first()
         var avatarUrl = userBlock.select("img.photo").first().attr("src")
         if (avatarUrl.contains("/mini/")) {
@@ -92,15 +97,15 @@ class SearchPageParser @Inject constructor(
         }
         val slashUsername = userBlock.attr("href")
         val username = if (TextUtils.isEmpty(slashUsername)) null else slashUsername.substring(1)
-        return com.bubbble.core.models.User(
+        return com.bubbble.core.models.user.User(
             id = id,
             name = userBlock.text(),
             username = username ?: "What?!!!",
-            htmlUrl = com.bubbble.core.Dribbble.URL + slashUsername,
+            htmlUrl = Dribbble.URL + slashUsername,
             avatarUrl = avatarUrl,
             bio = null,
             location = null,
-            links = com.bubbble.core.models.Links("", ""),
+            links = Links("", ""),
             bucketsCount = 0,
             commentsReceivedCount = 0,
             followersCount = 0,

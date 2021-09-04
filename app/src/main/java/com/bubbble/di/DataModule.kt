@@ -5,11 +5,11 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.bubbble.BuildConfig
-import com.bubbble.core.Dribbble
+import com.bubbble.core.network.Dribbble
 import com.bubbble.core.network.DribbbleApi
-import com.bubbble.core.NetworkChecker
-import com.bubbble.core.interceptors.DribbbleTokenInterceptor
-import com.bubbble.core.interceptors.NetworkCheckInterceptor
+import com.bubbble.core.network.NetworkChecker
+import com.bubbble.core.network.interceptors.DribbbleTokenInterceptor
+import com.bubbble.core.network.interceptors.NetworkCheckInterceptor
 import com.bubbble.data.global.prefs.TempPreferences
 import com.bubbble.di.qualifiers.DribbbleWebSite
 import com.bubbble.di.qualifiers.OkHttpInterceptors
@@ -29,7 +29,7 @@ class DataModule(private val baseUrl: String) {
     @Provides
     @Singleton
     @DribbbleWebSite
-    fun dribbbleUrl(): String = com.bubbble.core.Dribbble.URL
+    fun dribbbleUrl(): String = Dribbble.URL
 
     @Provides
     @Singleton
@@ -40,18 +40,18 @@ class DataModule(private val baseUrl: String) {
     @Provides
     @Singleton
     fun okHttpClient(
-        networkChecker: com.bubbble.core.NetworkChecker,
+        networkChecker: NetworkChecker,
         @OkHttpInterceptors interceptors: List<@JvmSuppressWildcards Interceptor>,
         @OkHttpNetworkInterceptors networkInterceptors: List<@JvmSuppressWildcards Interceptor>
     ): OkHttpClient {
         val okHttpBuilder = OkHttpClient.Builder()
         okHttpBuilder.addInterceptor(
-            com.bubbble.core.interceptors.NetworkCheckInterceptor(
+            NetworkCheckInterceptor(
                 networkChecker
             )
         )
         okHttpBuilder.addInterceptor(
-            com.bubbble.core.interceptors.DribbbleTokenInterceptor(
+            DribbbleTokenInterceptor(
                 BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN
             )
         )
@@ -88,7 +88,7 @@ class DataModule(private val baseUrl: String) {
     @Provides
     @Singleton
     fun dribbbleApi(retrofit: Retrofit): DribbbleApi {
-        return retrofit.create(com.bubbble.core.DribbbleApi::class.java)
+        return retrofit.create(DribbbleApi::class.java)
     }
 
 }

@@ -1,8 +1,8 @@
 package com.bubbble.presentation.userprofile.details
 
 import com.arellomobile.mvp.InjectViewState
-import com.bubbble.core.exceptions.NoNetworkException
-import com.bubbble.core.models.User
+import com.bubbble.core.models.user.User
+import com.bubbble.core.network.exceptions.NoNetworkException
 import com.bubbble.domain.userprofile.UserDetailsInteractor
 import com.bubbble.presentation.global.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -15,7 +15,7 @@ class UserDetailsPresenter @AssistedInject constructor(
     @Assisted  private val userId: Long
 ) : BasePresenter<UserDetailsView>() {
 
-    private lateinit var user: com.bubbble.core.models.User
+    private lateinit var user: User
     private val isUserLoaded: Boolean
         get() = ::user.isInitialized
 
@@ -29,7 +29,7 @@ class UserDetailsPresenter @AssistedInject constructor(
         try {
             this@UserDetailsPresenter.user = userDetailsInteractor.getUser(userId)
             viewState.showUserInfo(user)
-        } catch (e: com.bubbble.core.exceptions.NoNetworkException) {
+        } catch (e: NoNetworkException) {
             viewState.showNoNetworkLayout()
         } finally {
             viewState.hideLoadingProgress()

@@ -1,14 +1,14 @@
 package com.bubbble.data.users
 
-import com.bubbble.core.DribbbleApi
-import com.bubbble.core.models.User
+import com.bubbble.core.models.user.User
+import com.bubbble.core.network.DribbbleApi
 import javax.inject.Inject
 
 class UsersRepository @Inject constructor(
-    private val dribbbleApi: com.bubbble.core.DribbbleApi
+    private val dribbbleApi: DribbbleApi
 ) {
 
-    suspend fun getUser(userId: Long): com.bubbble.core.models.User {
+    suspend fun getUser(userId: Long): User {
         return dribbbleApi.getUser(userId)
     }
 

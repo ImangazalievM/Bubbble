@@ -3,13 +3,13 @@ package com.bubbble.presentation.userprofile
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import com.bubbble.core.models.User
+import com.bubbble.core.models.user.User
 import com.bubbble.presentation.global.mvp.BaseMvpView
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface UserProfileView : BaseMvpView {
 
-    fun showUser(user: com.bubbble.core.models.User)
+    fun showUser(user: User)
 
     fun showLoadingProgress()
 
@@ -26,7 +26,7 @@ interface UserProfileView : BaseMvpView {
     fun openInBrowser(shotUrl: String)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun showUserProfileSharing(user: com.bubbble.core.models.User)
+    fun showUserProfileSharing(user: User)
 
     fun closeScreen()
 

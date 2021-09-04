@@ -1,8 +1,7 @@
 package com.bubbble.di
 
 import android.content.Context
-import com.google.gson.Gson
-import com.bubbble.core.ErrorHandler
+import com.bubbble.presentation.global.mvp.ErrorHandler
 import com.bubbble.presentation.global.permissions.AndroidPermissionsManager
 import com.bubbble.presentation.global.permissions.PermissionsManager
 import com.bubbble.presentation.global.resourcesmanager.AndroidResourcesManager
@@ -21,8 +20,8 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideErrorHandler(gson: Gson): com.bubbble.core.ErrorHandler {
-        return com.bubbble.core.ErrorHandler(gson)
+    fun provideErrorHandler(resourcesManager: ResourcesManager): ErrorHandler {
+        return ErrorHandler(resourcesManager)
     }
 
     @Module

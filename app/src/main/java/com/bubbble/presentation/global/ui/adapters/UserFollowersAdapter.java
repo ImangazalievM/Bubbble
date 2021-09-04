@@ -9,13 +9,12 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bubbble.core.models.user.Follow;
+import com.bubbble.core.models.user.User;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bubbble.R;
-import com.bubbble.domain.global.models.Follow;
-import com.bubbble.domain.global.models.User;
 import com.bubbble.presentation.global.ui.commons.glide.GlideCircleTransform;
-
 
 public class UserFollowersAdapter extends LoadMoreAdapter<Follow> {
 

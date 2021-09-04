@@ -7,15 +7,14 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bubbble.R;
-import com.bubbble.domain.global.models.Comment;
+import com.bubbble.core.models.Comment;
 import com.bubbble.presentation.global.ui.adapters.viewholders.CommentViewHolder;
 import com.bubbble.presentation.global.ui.adapters.viewholders.NoCommentsViewHolder;
 import com.bubbble.presentation.global.ui.adapters.viewholders.ShotDescriptionViewHolder;
 import com.bubbble.presentation.global.ui.commons.glide.GlideCircleTransform;
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class ShotCommentsAdapter extends LoadMoreAdapter<Comment> {
 

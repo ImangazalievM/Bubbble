@@ -4,7 +4,7 @@ import okhttp3.HttpUrl
 import org.jsoup.nodes.Element
 import javax.inject.Inject
 
-abstract class PageParser<Params, Data> @Inject constructor() {
+abstract class PageParser<Params, Data> {
 
     abstract fun getUrl(dribbbleUrl: String, params: Params): HttpUrl
 

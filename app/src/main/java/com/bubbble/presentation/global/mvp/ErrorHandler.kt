@@ -2,7 +2,7 @@ package com.bubbble.presentation.global.mvp
 
 import android.util.Log
 import com.bubbble.R
-import com.bubbble.core.exceptions.NoNetworkException
+import com.bubbble.core.network.exceptions.NoNetworkException
 import com.bubbble.presentation.global.resourcesmanager.ResourcesManager
 import java.io.IOException
 import java.net.UnknownHostException
@@ -30,7 +30,7 @@ class ErrorHandler @Inject constructor(
 
     private fun getMessageForError(error: Throwable): String {
         val messageResId = when (error) {
-            is com.bubbble.core.exceptions.NoNetworkException -> R.string.network_error
+            is NoNetworkException -> R.string.network_error
             is UnknownHostException -> R.string.check_network_message
             is SSLHandshakeException -> R.string.ssl_error_check_device_time_message
             is IOException -> R.string.network_error

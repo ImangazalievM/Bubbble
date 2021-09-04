@@ -1,19 +1,19 @@
 package com.bubbble.data.users
 
-import com.bubbble.core.DribbbleApi
-import com.bubbble.core.models.Follow
-import com.bubbble.core.models.UserFollowersRequestParams
+import com.bubbble.core.models.user.Follow
+import com.bubbble.core.models.user.UserFollowersParams
+import com.bubbble.core.network.DribbbleApi
 import javax.inject.Inject
 
 class FollowersRepository @Inject constructor(
-    private val dribbbleApi: com.bubbble.core.DribbbleApi
+    private val dribbbleApi: DribbbleApi
 ) {
 
-    suspend fun getUserFollowers(requestParams: com.bubbble.core.models.UserFollowersRequestParams): List<com.bubbble.core.models.Follow> {
+    suspend fun getUserFollowers(params: UserFollowersParams): List<Follow> {
         return dribbbleApi.getUserFollowers(
-            requestParams.userId,
-            requestParams.page,
-            requestParams.pageSize
+            params.userId,
+            params.page,
+            params.pageSize
         )
     }
 

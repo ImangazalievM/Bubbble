@@ -1,9 +1,9 @@
 package com.bubbble.presentation.userprofile.followers
 
 import com.arellomobile.mvp.InjectViewState
-import com.bubbble.core.exceptions.NoNetworkException
-import com.bubbble.core.models.Follow
-import com.bubbble.core.models.UserFollowersRequestParams
+import com.bubbble.core.models.user.Follow
+import com.bubbble.core.models.user.UserFollowersParams
+import com.bubbble.core.network.exceptions.NoNetworkException
 import com.bubbble.domain.userprofile.UserFollowersInteractor
 import com.bubbble.presentation.global.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -18,7 +18,7 @@ class UserFollowersPresenter @AssistedInject constructor(
 ) : BasePresenter<UserFollowersView>() {
 
     private var currentMaxPage = 1
-    private val followers: MutableList<com.bubbble.core.models.Follow> = ArrayList()
+    private val followers: MutableList<Follow> = ArrayList()
     private var isFollowersLoading = false
 
     override fun onFirstViewAttach() {
@@ -29,12 +29,12 @@ class UserFollowersPresenter @AssistedInject constructor(
 
     private fun loadMoreFollowers(page: Int) = launchSafe {
         isFollowersLoading = true
-        val requestParams = com.bubbble.core.models.UserFollowersRequestParams(userId, page, PAGE_SIZE)
+        val requestParams = UserFollowersParams(userId, page, PAGE_SIZE)
         try {
             val newFollowers = userFollowersInteractor.getUserFollowers(requestParams)
             followers.addAll(newFollowers)
             viewState.showNewFollowers(newFollowers)
-        } catch (throwable: com.bubbble.core.exceptions.NoNetworkException) {
+        } catch (throwable: NoNetworkException) {
             if (isFirstLoading) {
                 viewState.showNoNetworkLayout()
             } else {

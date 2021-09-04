@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import javax.inject.Inject
 
-abstract class PageDownloader @Inject constructor(
+class PageDownloader @Inject constructor(
     private val okHttpClient: OkHttpClient,
 ) {
 

@@ -1,9 +1,9 @@
 package com.bubbble.presentation.userprofile.shots
 
 import com.arellomobile.mvp.InjectViewState
-import com.bubbble.core.exceptions.NoNetworkException
-import com.bubbble.core.models.Shot
-import com.bubbble.core.models.UserShotsRequestParams
+import com.bubbble.core.models.shot.Shot
+import com.bubbble.core.models.user.UserShotsParams
+import com.bubbble.core.network.exceptions.NoNetworkException
 import com.bubbble.domain.userprofile.UserShotsInteractor
 import com.bubbble.presentation.global.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -18,7 +18,7 @@ class UserShotsPresenter @AssistedInject constructor(
 ) : BasePresenter<UserShotsView>() {
 
     private var currentMaxPage = 1
-    private val shots: MutableList<com.bubbble.core.models.Shot> = ArrayList()
+    private val shots: MutableList<Shot> = ArrayList()
     private var isShotsLoading = false
     private val isFirstLoading: Boolean
         private get() = currentMaxPage == 1
@@ -31,13 +31,12 @@ class UserShotsPresenter @AssistedInject constructor(
 
     private fun loadMoreShots(page: Int) = launchSafe {
         isShotsLoading = true
-        val userShotsRequestParams =
-            com.bubbble.core.models.UserShotsRequestParams(userId, page, PAGE_SIZE)
+        val userShotsRequestParams = UserShotsParams(userId, page, PAGE_SIZE)
         try {
             val newShots = userShotsInteractor.getUserShots(userShotsRequestParams)
             shots.addAll(newShots)
             viewState.showNewShots(newShots)
-        } catch (throwable: com.bubbble.core.exceptions.NoNetworkException) {
+        } catch (throwable: NoNetworkException) {
             if (isFirstLoading) {
                 viewState.showNoNetworkLayout()
             } else {

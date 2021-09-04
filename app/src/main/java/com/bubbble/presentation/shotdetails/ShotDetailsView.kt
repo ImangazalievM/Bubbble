@@ -4,13 +4,13 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.Comment
-import com.bubbble.core.models.Shot
+import com.bubbble.core.models.shot.Shot
 import com.bubbble.presentation.global.mvp.BaseMvpView
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ShotDetailsView : BaseMvpView {
 
-    fun showShot(shot: com.bubbble.core.models.Shot)
+    fun showShot(shot: Shot)
 
     fun showLoadingProgress()
 
@@ -22,7 +22,7 @@ interface ShotDetailsView : BaseMvpView {
 
     fun hideImageLoadingProgress()
 
-    fun showNewComments(newComments: List<com.bubbble.core.models.Comment>)
+    fun showNewComments(newComments: List<Comment>)
 
     fun showCommentsLoadingProgress()
 
@@ -48,6 +48,6 @@ interface ShotDetailsView : BaseMvpView {
     fun openUserProfileScreen(userId: Long)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun openShotImageScreen(shot: com.bubbble.core.models.Shot)
+    fun openShotImageScreen(shot: Shot)
 
 }

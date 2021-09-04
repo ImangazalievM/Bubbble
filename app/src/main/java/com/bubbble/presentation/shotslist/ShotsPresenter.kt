@@ -1,9 +1,9 @@
 package com.bubbble.presentation.shotslist
 
 import com.arellomobile.mvp.InjectViewState
-import com.bubbble.core.exceptions.NoNetworkException
-import com.bubbble.core.models.Shot
-import com.bubbble.core.models.ShotsRequestParams
+import com.bubbble.core.models.shot.Shot
+import com.bubbble.core.models.shot.ShotsParams
+import com.bubbble.core.network.exceptions.NoNetworkException
 import com.bubbble.domain.shotslist.ShotsInteractor
 import com.bubbble.presentation.global.mvp.BasePresenter
 import com.bubbble.presentation.global.utils.DebugUtils
@@ -19,7 +19,7 @@ class ShotsPresenter @AssistedInject constructor(
 ) : BasePresenter<ShotsView>() {
 
     private var currentMaxPage = 1
-    private val shots: MutableList<com.bubbble.core.models.Shot> = ArrayList()
+    private val shots: MutableList<Shot> = ArrayList()
     private var isShotsLoading = false
     private val isFirstLoading: Boolean
         private get() = currentMaxPage == 1
@@ -33,7 +33,7 @@ class ShotsPresenter @AssistedInject constructor(
 
     private fun loadMoreShots(page: Int) = launchSafe {
         isShotsLoading = true
-        val shotsRequestParams = com.bubbble.core.models.ShotsRequestParams(shotsSort, page, PAGE_SIZE)
+        val shotsRequestParams = ShotsParams(shotsSort, page, PAGE_SIZE)
         val newShots = try {
             shotsInteractor.getShots(shotsRequestParams)
         } finally {
@@ -50,7 +50,7 @@ class ShotsPresenter @AssistedInject constructor(
     }
 
     private fun onShotsLoadError(throwable: Throwable) {
-        if (throwable is com.bubbble.core.exceptions.NoNetworkException) {
+        if (throwable is NoNetworkException) {
             if (isFirstLoading) {
                 viewState.hideShotsLoadingProgress()
                 viewState.showNoNetworkLayout()

@@ -1,7 +1,6 @@
 package com.bubbble
 
 import android.app.Application
-import com.bubbble.core.ApiConstants
 import com.bubbble.core.network.ApiConstants
 import com.bubbble.di.AppModule
 import com.bubbble.di.ApplicationComponent
