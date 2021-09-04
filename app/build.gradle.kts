@@ -73,6 +73,7 @@ android {
 dependencies {
     implementation(project(Modules.Core.models))
     implementation(project(Modules.Core.network))
+    implementation(project(Modules.Core.data))
 
     implementation(Dependencies.supportAppCompat)
     implementation(Dependencies.supportDesign)
