@@ -3,8 +3,8 @@ package com.bubbble.presentation.shotzoom
 import com.afollestad.assent.Permission
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.domain.shotzoom.ShotZoomInteractor
-import com.bubbble.presentation.global.mvp.BasePresenter
-import com.bubbble.presentation.global.permissions.PermissionsManager
+import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.coreui.permissions.PermissionsManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

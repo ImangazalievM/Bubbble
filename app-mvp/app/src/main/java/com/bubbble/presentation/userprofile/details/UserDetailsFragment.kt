@@ -7,8 +7,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.user.User
-import com.bubbble.presentation.global.ui.base.BaseMvpFragment
-import com.bubbble.presentation.global.utils.AppUtils
+import com.bubbble.coreui.ui.base.BaseMvpFragment
+import com.bubbble.coreui.utils.AppUtils
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import javax.inject.Inject
 

@@ -3,7 +3,7 @@ package com.bubbble.presentation.shotzoom
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import com.bubbble.presentation.global.mvp.BaseMvpView
+import com.bubbble.coreui.mvp.BaseMvpView
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ShotZoomView : BaseMvpView {

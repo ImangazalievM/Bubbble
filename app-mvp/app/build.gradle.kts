@@ -82,8 +82,6 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Dependencies.Versions.kotlinCoroutineVersion}")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Dependencies.Versions.kotlinCoroutineVersion}")
 
-    implementation(Dependencies.moxy)
-    implementation(Dependencies.moxyAppCompat)
     kapt(Dependencies.moxyCompiler)
 
     implementation(Dependencies.jsoup)

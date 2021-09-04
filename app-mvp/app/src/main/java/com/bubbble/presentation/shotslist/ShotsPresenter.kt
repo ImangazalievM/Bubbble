@@ -2,11 +2,10 @@ package com.bubbble.presentation.shotslist
 
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.core.models.shot.ShotsParams
 import com.bubbble.core.network.exceptions.NoNetworkException
 import com.bubbble.domain.shotslist.ShotsInteractor
-import com.bubbble.presentation.global.mvp.BasePresenter
-import com.bubbble.presentation.global.utils.DebugUtils
+import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.coreui.utils.DebugUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

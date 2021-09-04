@@ -2,10 +2,9 @@ package com.bubbble.presentation.userprofile.shots
 
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.core.models.user.UserShotsParams
 import com.bubbble.core.network.exceptions.NoNetworkException
 import com.bubbble.domain.userprofile.UserShotsInteractor
-import com.bubbble.presentation.global.mvp.BasePresenter
+import com.bubbble.coreui.mvp.BasePresenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

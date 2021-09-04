@@ -4,7 +4,7 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.user.Follow
-import com.bubbble.presentation.global.mvp.BaseMvpView
+import com.bubbble.coreui.mvp.BaseMvpView
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface UserFollowersView : BaseMvpView {

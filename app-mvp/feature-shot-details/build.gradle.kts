@@ -1,19 +1,17 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android {
-    compileSdkVersion(31)
-    buildToolsVersion = "31.0.0"
+    compileSdkVersion(30)
+    buildToolsVersion = "29.0.3"
 
     defaultConfig {
         minSdkVersion(21)
-        targetSdkVersion(31)
-        versionCode = 1
-        versionName = "1.0"
+        targetSdkVersion(30)
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -37,4 +35,5 @@ android {
 
 dependencies {
     implementation(project(Modules.AppMvp.coreUi))
+    kapt(Dependencies.moxyCompiler)
 }

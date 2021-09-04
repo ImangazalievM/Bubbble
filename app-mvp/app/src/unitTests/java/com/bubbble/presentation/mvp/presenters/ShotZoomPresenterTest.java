@@ -2,7 +2,7 @@ package com.bubbble.presentation.mvp.presenters;
 
 import com.bubbble.domain.shotzoom.ShotZoomInteractor;
 import com.bubbble.domain.global.models.Images;
-import com.bubbble.presentation.global.permissions.PermissionsManager;
+import com.bubbble.coreui.permissions.PermissionsManager;
 import com.bubbble.presentation.shotzoom.ShotZoomPresenter;
 import com.bubbble.presentation.shotzoom.ShotZoomView;
 import com.bubbble.test.BubbbleTestRunner;

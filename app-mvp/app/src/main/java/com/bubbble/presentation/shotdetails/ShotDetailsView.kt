@@ -5,7 +5,7 @@ import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.Comment
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.presentation.global.mvp.BaseMvpView
+import com.bubbble.coreui.mvp.BaseMvpView
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ShotDetailsView : BaseMvpView {

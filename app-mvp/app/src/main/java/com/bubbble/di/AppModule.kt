@@ -1,11 +1,11 @@
 package com.bubbble.di
 
 import android.content.Context
-import com.bubbble.presentation.global.mvp.ErrorHandler
-import com.bubbble.presentation.global.permissions.AndroidPermissionsManager
-import com.bubbble.presentation.global.permissions.PermissionsManager
-import com.bubbble.presentation.global.resourcesmanager.AndroidResourcesManager
-import com.bubbble.presentation.global.resourcesmanager.ResourcesManager
+import com.bubbble.coreui.mvp.ErrorHandler
+import com.bubbble.coreui.permissions.AndroidPermissionsManager
+import com.bubbble.coreui.permissions.PermissionsManager
+import com.bubbble.coreui.resourcesmanager.AndroidResourcesManager
+import com.bubbble.coreui.resourcesmanager.ResourcesManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

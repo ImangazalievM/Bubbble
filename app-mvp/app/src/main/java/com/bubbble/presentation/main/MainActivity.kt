@@ -10,8 +10,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.material.tabs.TabLayout
 import com.bubbble.Constants
 import com.bubbble.R
-import com.bubbble.presentation.global.ui.base.BaseMvpActivity
-import com.bubbble.presentation.global.ui.commons.SearchQueryListener
+import com.bubbble.coreui.ui.base.BaseMvpActivity
+import com.bubbble.coreui.ui.commons.SearchQueryListener
 import com.bubbble.presentation.shotslist.ShotsFragment.Companion.newInstance
 import com.bubbble.presentation.shotssearch.ShotsSearchActivity.Companion.buildIntent
 import com.mikepenz.materialdrawer.DrawerBuilder

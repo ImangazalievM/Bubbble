@@ -23,11 +23,11 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.tabs.TabLayout
 import com.bubbble.R
 import com.bubbble.core.models.user.User
-import com.bubbble.presentation.global.ui.base.BaseMvpActivity
-import com.bubbble.presentation.global.ui.commons.glide.GlideBlurTransformation
-import com.bubbble.presentation.global.ui.commons.glide.GlideCircleTransform
-import com.bubbble.presentation.global.ui.views.dribbbletextview.DribbbleTextView
-import com.bubbble.presentation.global.utils.AppUtils
+import com.bubbble.coreui.ui.base.BaseMvpActivity
+import com.bubbble.coreui.ui.commons.glide.GlideBlurTransformation
+import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
+import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
+import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.presentation.userprofile.details.UserDetailsFragment
 import com.bubbble.presentation.userprofile.followers.UserFollowersFragment
 import com.bubbble.presentation.userprofile.shots.UserShotsFragment

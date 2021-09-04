@@ -3,10 +3,9 @@ package com.bubbble.presentation.shotdetails
 import com.afollestad.assent.Permission
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.core.models.shot.ShotCommentsParams
 import com.bubbble.domain.shotdetails.ShotDetailsInteractor
-import com.bubbble.presentation.global.mvp.BasePresenter
-import com.bubbble.presentation.global.permissions.PermissionsManager
+import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.coreui.permissions.PermissionsManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

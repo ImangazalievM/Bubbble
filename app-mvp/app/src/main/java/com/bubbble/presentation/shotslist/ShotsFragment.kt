@@ -8,9 +8,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.presentation.global.ui.adapters.ShotsAdapter
-import com.bubbble.presentation.global.ui.base.BaseMvpFragment
-import com.bubbble.presentation.global.ui.commons.EndlessRecyclerOnScrollListener
+import com.bubbble.coreui.ui.adapters.ShotsAdapter
+import com.bubbble.coreui.ui.base.BaseMvpFragment
+import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.presentation.shotdetails.ShotDetailsActivity
 import javax.inject.Inject
 

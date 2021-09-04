@@ -81,7 +81,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.bubbble.presentation.global.ui.views.dribbbletextview.DribbbleTextView
+    <com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
         android:id="@+id/shot_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

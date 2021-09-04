@@ -7,7 +7,7 @@ import com.bubbble.domain.global.models.Images;
 import com.bubbble.domain.global.models.Shot;
 import com.bubbble.domain.global.models.ShotCommentsRequestParams;
 import com.bubbble.domain.global.models.User;
-import com.bubbble.presentation.global.permissions.PermissionsManager;
+import com.bubbble.coreui.permissions.PermissionsManager;
 import com.bubbble.presentation.shotdetails.ShotDetailsPresenter;
 import com.bubbble.presentation.shotdetails.ShotDetailsView;
 import com.bubbble.test.BubbbleTestRunner;
