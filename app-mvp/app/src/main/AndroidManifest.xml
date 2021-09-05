@@ -17,7 +17,7 @@
 
         <activity
             android:exported="true"
-            android:name=".presentation.main.MainActivity">
+            android:name="com.bubbble.shots.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,7 +26,7 @@
 
         <activity android:name=".presentation.shotssearch.ShotsSearchActivity" />
 
-        <activity android:name=".presentation.shotdetails.ShotDetailsActivity" />
+        <activity android:name=".shotdetails.ShotDetailsActivity" />
 
         <activity android:name=".presentation.shotzoom.ShotZoomActivity" />
 

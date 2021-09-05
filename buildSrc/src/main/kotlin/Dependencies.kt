@@ -24,6 +24,11 @@ object Dependencies {
     const val dagger = "com.google.dagger:dagger:2.38.1"
     const val daggerCompiler = "com.google.dagger:dagger-compiler:2.38.1"
 
+    const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:" +
+            Versions.kotlinCoroutineVersion
+    const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:" +
+            Versions.kotlinCoroutineVersion
+
     //ui
     const val glide = "com.github.bumptech.glide:glide:3.7.0"
     const val photoView = "com.github.chrisbanes:PhotoView:2.1.3"
@@ -66,12 +71,12 @@ object Modules {
     }
 
     object AppMvp {
-        const val coreUi = ":core:core-ui"
-        const val featureShots = ":core:feature-shots"
-        const val featureShotDetails = ":core:feature-shot-details"
-        const val featureShotZoom = ":core:feature-shot-zoom"
-        const val featureShotSearch = ":core:feature-shot-search"
-        const val featureShotUserProfile = ":core:feature-user-profile"
+        const val coreUi = ":app-mvp:core-ui"
+        const val featureShots = ":app-mvp:feature-shots"
+        const val featureShotDetails = ":app-mvp:feature-shot-details"
+        const val featureShotZoom = ":app-mvp:feature-shot-zoom"
+        const val featureShotSearch = ":app-mvp:feature-shot-search"
+        const val featureShotUserProfile = ":app-mvp:feature-user-profile"
     }
 
 }

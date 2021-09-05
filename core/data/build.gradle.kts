@@ -35,4 +35,7 @@ android {
 dependencies {
     api(project(Modules.Core.models))
     api(project(Modules.Core.network))
+
+    api(Dependencies.coroutinesCore)
+    api(Dependencies.coroutinesAndroid)
 }

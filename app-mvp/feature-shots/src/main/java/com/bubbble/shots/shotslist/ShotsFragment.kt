@@ -1,4 +1,4 @@
-package com.bubbble.presentation.userprofile.shots
+package com.bubbble.shots.shotslist
 
 import android.os.Bundle
 import android.view.View
@@ -11,23 +11,23 @@ import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.adapters.ShotsAdapter
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
-import com.bubbble.shotdetails.ShotDetailsActivity
+import com.bubbble.presentation.shotdetails.ShotDetailsActivity
 import javax.inject.Inject
 
-class UserShotsFragment : BaseMvpFragment(), UserShotsView {
+class ShotsFragment : BaseMvpFragment(), ShotsView {
 
     override val layoutRes: Int = R.layout.fragment_shots
 
     @Inject
-    lateinit var presenterFactory: UserShotsPresenter.Factory
+    lateinit var presenterFactory: ShotsPresenter.Factory
 
     @InjectPresenter
-    lateinit var presenter: UserShotsPresenter
+    lateinit var presenter: ShotsPresenter
     
     @ProvidePresenter
-    fun providePresenter(): UserShotsPresenter {
-        val userId = requireArguments().getLong(USER_ID_ARG)
-        return presenterFactory.create(userId)
+    fun providePresenter(): ShotsPresenter {
+        val sortType = requireArguments().getString(SORT_TYPE_ARG)!!
+        return presenterFactory.create(sortType)
     }
 
     private val loadingLayout: View by lazy {
@@ -40,7 +40,7 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
         requireView().findViewById(R.id.shotsRecyclerView)
     }
     private val shotsAdapter: ShotsAdapter by lazy {
-        ShotsAdapter(requireContext())
+        ShotsAdapter(context)
     }
     private val shotsListLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(context)
@@ -48,18 +48,21 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initViews(view)
     }
 
     private fun initViews(view: View) {
         noNetworkLayout.findViewById<View>(R.id.retry_button)
+            .setOnClickListener { presenter.retryLoading() }
         shotsRecyclerView.layoutManager = shotsListLayoutManager
-        shotsRecyclerView.adapter = shotsAdapter
         shotsAdapter.setOnItemClickListener { position: Int ->
             presenter.onShotClick(
                 position
             )
         }
+        shotsAdapter.setOnRetryLoadMoreListener { presenter.retryLoading() }
+        shotsRecyclerView.setAdapter(shotsAdapter)
         shotsRecyclerView.addOnScrollListener(object :
             EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
             override fun onLoadMore() {
@@ -106,12 +109,12 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     }
 
     companion object {
-        private const val USER_ID_ARG = "user_id"
+        private const val SORT_TYPE_ARG = "sort"
         @JvmStatic
-        fun newInstance(userId: Long): UserShotsFragment {
-            val fragment = UserShotsFragment()
+        fun newInstance(sort: String?): ShotsFragment {
+            val fragment = ShotsFragment()
             val args = Bundle()
-            args.putLong(USER_ID_ARG, userId)
+            args.putString(SORT_TYPE_ARG, sort)
             fragment.arguments = args
             return fragment
         }

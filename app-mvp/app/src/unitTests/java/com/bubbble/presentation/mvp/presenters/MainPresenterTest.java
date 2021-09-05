@@ -1,7 +1,7 @@
 package com.bubbble.presentation.mvp.presenters;
 
-import com.bubbble.presentation.main.MainPresenter;
-import com.bubbble.presentation.main.MainView;
+import com.bubbble.shots.main.MainPresenter;
+import com.bubbble.shots.main.MainView;
 import com.bubbble.test.BubbbleTestRunner;
 
 import org.junit.Before;

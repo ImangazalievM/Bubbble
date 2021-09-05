@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.bubbble"
         minSdkVersion(21)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
         versionCode = 3
         versionName = "1.1.0"
         multiDexEnabled = true
@@ -79,9 +79,6 @@ dependencies {
     implementation(Dependencies.dagger)
     kapt(Dependencies.daggerCompiler)
 
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Dependencies.Versions.kotlinCoroutineVersion}")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Dependencies.Versions.kotlinCoroutineVersion}")
-
     kapt(Dependencies.moxyCompiler)
 
     implementation(Dependencies.jsoup)
@@ -93,10 +90,6 @@ dependencies {
         exclude(group = "com.android.support")
     }
     implementation(Dependencies.hashtagView)
-
-    //permissions request
-    api("com.afollestad.assent:core:3.0.0-RC4")
-    api("com.afollestad.assent:rationales:3.0.0-RC4")
 
     // Developer Tools
     debugImplementation("com.facebook.stetho:stetho:1.5.1")

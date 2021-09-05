@@ -1,11 +1,11 @@
 package com.bubbble.presentation.mvp.presenters;
 
 import com.bubbble.domain.global.exceptions.NoNetworkException;
-import com.bubbble.domain.shotslist.ShotsInteractor;
+import com.bubbble.shots.shotslist.ShotsInteractor;
 import com.bubbble.domain.global.models.Shot;
 import com.bubbble.domain.global.models.ShotsRequestParams;
-import com.bubbble.presentation.shotslist.ShotsPresenter;
-import com.bubbble.presentation.shotslist.ShotsView;
+import com.bubbble.shots.shotslist.ShotsPresenter;
+import com.bubbble.shots.shotslist.ShotsView;
 import com.bubbble.test.BubbbleTestRunner;
 import com.bubbble.test.TestSchedulersProvider;
 

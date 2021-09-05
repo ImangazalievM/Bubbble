@@ -40,4 +40,11 @@ dependencies {
     api(Dependencies.customTabs)
 
     api(Dependencies.moxy)
+    
+    api(Dependencies.coroutinesCore)
+    api(Dependencies.coroutinesAndroid)
+
+    //permissions request
+    api("com.afollestad.assent:core:3.0.0-RC4")
+    api("com.afollestad.assent:rationales:3.0.0-RC4")
 }
