@@ -40,9 +40,9 @@ object Dependencies {
     const val moxyCompiler = "com.arello-mobile:moxy-compiler:1.5.2"
 
     const val gson = "com.google.code.gson:gson:2.8.8"
-    const val okHttp = "com.squareup.okhttp3:okhttp:3.2.0"
-    const val retrofit = "com.squareup.retrofit2:retrofit:2.2.0"
-    const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:2.2.0"
+    const val okHttp = "com.squareup.okhttp3:okhttp:4.9.1"
+    const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+    const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:2.9.0"
     const val jsoup = "org.jsoup:jsoup:1.7.2"
 
     // Developer Tools
@@ -65,6 +65,9 @@ object Dependencies {
 object Modules {
 
     object Core {
+        const val di = ":core:di"
+        const val core = ":core:core"
+
         const val models = ":core:models"
         const val network = ":core:network"
         const val data = ":core:data"
