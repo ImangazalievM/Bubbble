@@ -1,4 +1,4 @@
-package com.bubbble.di.qualifiers
+package com.bubbble.data.di
 
 import javax.inject.Qualifier
 

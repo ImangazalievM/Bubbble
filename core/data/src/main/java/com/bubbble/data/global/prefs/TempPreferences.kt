@@ -2,7 +2,7 @@ package com.bubbble.data.global.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.bubbble.BuildConfig
+import com.bubbble.data.BuildConfig
 import javax.inject.Inject
 
 class TempPreferences @Inject constructor(context: Context) {

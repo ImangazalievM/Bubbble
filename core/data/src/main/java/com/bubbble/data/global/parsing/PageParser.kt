@@ -2,7 +2,6 @@ package com.bubbble.data.global.parsing
 
 import okhttp3.HttpUrl
 import org.jsoup.nodes.Element
-import javax.inject.Inject
 
 abstract class PageParser<Params, Data> {
 

@@ -2,7 +2,6 @@ package com.bubbble.data.shots
 
 import android.text.TextUtils
 import android.util.Log
-import com.bubbble.Constants
 import com.bubbble.core.models.shot.Images
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotsSearchParams
@@ -60,7 +59,7 @@ class SearchPageParser @Inject constructor(
             createdAt = dateFormat.parse(descriptionBlock.getText("em.timestamp"))
         } catch (e: ParseException) {
         }
-        Log.d(Constants.TAG, "search: $imgUrl")
+        Log.d("Bubbble", "search: $imgUrl")
         return Shot(
             id = element.id().replace("screenshot-", "").toLong(),
             title = Dribbble.URL + element.getElement("a.dribbble-link")
@@ -97,7 +96,7 @@ class SearchPageParser @Inject constructor(
         }
         val slashUsername = userBlock.attr("href")
         val username = if (TextUtils.isEmpty(slashUsername)) null else slashUsername.substring(1)
-        return com.bubbble.core.models.user.User(
+        return User(
             id = id,
             name = userBlock.text(),
             username = username ?: "What?!!!",

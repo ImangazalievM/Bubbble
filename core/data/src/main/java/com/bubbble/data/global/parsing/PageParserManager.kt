@@ -1,6 +1,6 @@
 package com.bubbble.data.global.parsing
 
-import com.bubbble.di.qualifiers.DribbbleWebSite
+import com.bubbble.data.di.DribbbleWebSite
 import javax.inject.Inject
 import javax.inject.Singleton
 

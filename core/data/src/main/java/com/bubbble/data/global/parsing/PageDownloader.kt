@@ -15,7 +15,11 @@ class PageDownloader @Inject constructor(
         if (response.code == 200) {
             return response.body!!.string()
         } else {
-            throw RuntimeException("An error caused when downloading page")
+            throw PageDownloadException(
+                message = "An error caused when downloading page",
+                httpCode = response.code,
+                response = response.body?.string()
+            )
         }
     }
 

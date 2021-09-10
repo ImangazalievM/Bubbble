@@ -1,6 +1,5 @@
 package com.bubbble.data.shots
 
-import com.bubbble.Constants
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotsParams
 import com.bubbble.core.models.shot.ShotsSearchParams
@@ -18,7 +17,7 @@ class ShotsRepository @Inject constructor(
 
     suspend fun getShots(requestParams: ShotsParams): List<Shot> {
         val sort =
-            if (requestParams.sort == Constants.SHOTS_SORT_POPULAR)
+            if (requestParams.sort == ShotsParams.Sorting.POPULAR)
                 Dribbble.Shots.Type.POPULAR
             else Dribbble.Shots.Type.PERSONAL
         return dribbbleApi.getShots(sort.code, requestParams.page, requestParams.pageSize)
