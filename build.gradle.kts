@@ -2,6 +2,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.2")
@@ -17,6 +18,7 @@ allprojects {
         maven { url = uri("https://dl.bintray.com/greenfrvr/maven/") }
         google()
         jcenter()
+        mavenCentral()
     }
 }
 
