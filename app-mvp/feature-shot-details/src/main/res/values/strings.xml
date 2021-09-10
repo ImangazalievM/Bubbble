@@ -1,25 +1,20 @@
 <resources>
-    <string name="app_name">Bubbble</string>
-
     <string name="by">by</string>
     <string name="like">Like</string>
     <string name="reply">Reply</string>
     <string name="copy">Copy</string>
 
     <string name="download_image">Download image</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="share">Share</string>
 
-    <string name="load_failed_message">Load failed retry again!</string>
-    <string name="empty_list">Has no items</string>
+    <string name="storage_access_title">Error</string>
+    <string name="storage_access_rationale_message">Bubbble cannot work properly with no access to files on the device storage. Please, allow access to your storage.</string>
+    <string name="storage_access_message">Bubbble cannot work properly with no access to files on the device storage. To enable the access please open Bubbble page in system Settings application, and click Permissions.</string>
+    <string name="storage_access_ok_button">OK</string>
+    <string name="storage_access_settings_button">Settings</string>
 
-    <string name="user_information">Information</string>
-    <string name="user_follow">Follow</string>
-    <string name="an_error_occurred">An error occurred</string>
-    <string name="an_error_occurred_while_loading_image">An error occurred while loading image</string>
-    <string name="open_image_in_browser">Open in browser</string>
-
-
-    <string name="no_comments">No comments</string>
-    <string name="search">Search</string>
+    <string name="image_saved_to_downloads_folder">Image saved to downloads folder</string>
 
     <plurals name="likes">
         <item quantity="zero">%s likes</item>

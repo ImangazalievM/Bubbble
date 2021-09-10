@@ -1,4 +1,4 @@
-package com.bubbble.coreui.ui.adapters.viewholders;
+package com.bubbble.shotdetails;
 
 import android.view.View;
 

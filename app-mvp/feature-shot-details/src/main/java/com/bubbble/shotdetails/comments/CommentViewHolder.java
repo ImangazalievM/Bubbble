@@ -1,4 +1,4 @@
-package com.bubbble.coreui.ui.adapters.viewholders;
+package com.bubbble.shotdetails.comments;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bubbble.R;
 import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView;
+import com.bubbble.shotdetails.R;
 
 public class CommentViewHolder extends RecyclerView.ViewHolder {
 

@@ -13,21 +13,17 @@ android {
         applicationId = "com.bubbble"
         minSdkVersion(21)
         targetSdkVersion(30)
+
         versionCode = 3
         versionName = "1.1.0"
+
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-
-        val dribbble_client_id: String by project
-        val dribbble_client_secret: String by project
-        val dribbble_client_access_token: String by project
-        buildConfigField("String", "DRIBBBLE_CLIENT_ID", "\"${dribbble_client_id}\"")
-        buildConfigField("String", "DRIBBBLE_CLIENT_SECRET", "\"${dribbble_client_secret}\"")
-        buildConfigField("String", "DRIBBBLE_CLIENT_ACCESS_TOKEN", "\"${dribbble_client_access_token}\"")
     }
+    
     buildFeatures.viewBinding = true
 
     compileOptions {
@@ -71,6 +67,8 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Core.di))
+    implementation(project(Modules.Core.core))
     implementation(project(Modules.Core.data))
     implementation(project(Modules.AppMvp.coreUi))
     implementation(project(Modules.AppMvp.featureShots))
@@ -80,16 +78,6 @@ dependencies {
     kapt(Dependencies.daggerCompiler)
 
     kapt(Dependencies.moxyCompiler)
-
-    implementation(Dependencies.jsoup)
-
-    implementation(Dependencies.glide)
-    implementation(Dependencies.photoView)
-    implementation(Dependencies.materialDrawer) {
-        isTransitive = true
-        exclude(group = "com.android.support")
-    }
-    implementation(Dependencies.hashtagView)
 
     // Developer Tools
     debugImplementation("com.facebook.stetho:stetho:1.5.1")

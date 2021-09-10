@@ -3,11 +3,14 @@ package com.bubbble.shotdetails
 import com.afollestad.assent.Permission
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.core.models.shot.Shot
+import com.bubbble.core.models.shot.ShotCommentsParams
 import com.bubbble.coreui.mvp.BasePresenter
 import com.bubbble.coreui.permissions.PermissionsManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import okhttp3.HttpUrl
+import java.nio.file.Path
 
 @InjectViewState
 class ShotDetailsPresenter @AssistedInject constructor(
@@ -121,7 +124,7 @@ class ShotDetailsPresenter @AssistedInject constructor(
         viewState.openUserProfileScreen(shot.user.id)
     }
 
-    fun onCommentAuthorClick(userId: Long) {
+    fun onUserClick(userId: Long) {
         viewState.openUserProfileScreen(userId)
     }
 

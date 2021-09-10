@@ -38,6 +38,11 @@ dependencies {
     implementation(project(Modules.AppMvp.coreUi))
     kapt(Dependencies.moxyCompiler)
 
+    implementation(Dependencies.materialDrawer) {
+        isTransitive = true
+        exclude(group = "com.android.support")
+    }
+
     implementation(Dependencies.dagger)
     kapt(Dependencies.daggerCompiler)
 }

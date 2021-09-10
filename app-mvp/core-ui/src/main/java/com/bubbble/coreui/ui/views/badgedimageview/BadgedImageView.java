@@ -8,14 +8,14 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 
-import com.bubbble.R;
+import com.bubbble.coreui.R;
 
 /**
  * ImageView implementation that allows you to place 'badges' over the top that describe the image
  */
-public class BadgedImageView extends ImageView {
+public class BadgedImageView extends AppCompatImageView {
 
     private boolean badgeBoundsSet = false;
 

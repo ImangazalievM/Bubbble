@@ -11,7 +11,7 @@ import com.bubbble.core.network.NetworkChecker
 import com.bubbble.core.network.interceptors.DribbbleTokenInterceptor
 import com.bubbble.core.network.interceptors.NetworkCheckInterceptor
 import com.bubbble.data.global.prefs.TempPreferences
-import com.bubbble.di.qualifiers.DribbbleWebSite
+import com.bubbble.data.di.DribbbleWebSite
 import com.bubbble.di.qualifiers.OkHttpInterceptors
 import com.bubbble.di.qualifiers.OkHttpNetworkInterceptors
 import com.moczul.ok2curl.CurlInterceptor

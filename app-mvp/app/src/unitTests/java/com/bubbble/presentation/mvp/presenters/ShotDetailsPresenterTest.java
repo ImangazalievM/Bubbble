@@ -388,7 +388,7 @@ public class ShotDetailsPresenterTest {
 
         // act
         presenter.attachView(view);
-        presenter.onCommentAuthorClick(TEST_USER_ID);
+        presenter.onUserClick(TEST_USER_ID);
 
         // assert
         verify(view).openUserProfileScreen(TEST_USER_ID);

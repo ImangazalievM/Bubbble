@@ -38,6 +38,8 @@ dependencies {
     implementation(project(Modules.AppMvp.coreUi))
     kapt(Dependencies.moxyCompiler)
 
+    implementation(Dependencies.hashtagView)
+
     implementation(Dependencies.dagger)
     kapt(Dependencies.daggerCompiler)
 }

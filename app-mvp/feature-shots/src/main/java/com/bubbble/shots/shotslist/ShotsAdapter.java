@@ -1,4 +1,4 @@
-package com.bubbble.coreui.ui.adapters;
+package com.bubbble.shots.shotslist;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,12 +9,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bubbble.core.models.shot.Shot;
+import com.bubbble.coreui.ui.adapters.LoadMoreAdapter;
+import com.bubbble.shots.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bubbble.R;
 import com.bubbble.coreui.ui.views.badgedimageview.BadgedImageView;
 
-public class ShotsAdapter extends LoadMoreAdapter<com.bubbble.core.models.shot.Shot> {
+public class ShotsAdapter extends LoadMoreAdapter<Shot> {
 
     public interface OnItemClickListener {
         void onShotItemClick(int position);

@@ -2,7 +2,7 @@ package com.bubbble.presentation.userprofile.details
 
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.core.models.user.User
-import com.bubbble.core.network.exceptions.NoNetworkException
+import com.bubbble.core.network.NoNetworkException
 import com.bubbble.domain.userprofile.UserDetailsInteractor
 import com.bubbble.coreui.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -29,7 +29,7 @@ class UserDetailsPresenter @AssistedInject constructor(
         try {
             this@UserDetailsPresenter.user = userDetailsInteractor.getUser(userId)
             viewState.showUserInfo(user)
-        } catch (e: NoNetworkException) {
+        } catch (e: com.bubbble.core.network.NoNetworkException) {
             viewState.showNoNetworkLayout()
         } finally {
             viewState.hideLoadingProgress()

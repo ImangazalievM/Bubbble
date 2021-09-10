@@ -8,7 +8,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.user.Follow
-import com.bubbble.coreui.ui.adapters.UserFollowersAdapter
+import com.bubbble.presentation.userprofile.UserFollowersAdapter
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.presentation.userprofile.UserProfileActivity

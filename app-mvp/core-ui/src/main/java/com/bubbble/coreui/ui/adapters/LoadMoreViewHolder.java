@@ -1,4 +1,4 @@
-package com.bubbble.coreui.ui.adapters.viewholders;
+package com.bubbble.coreui.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,7 @@ import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bubbble.R;
+import com.bubbble.coreui.R;
 
 public class LoadMoreViewHolder extends RecyclerView.ViewHolder {
 

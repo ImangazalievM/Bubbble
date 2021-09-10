@@ -6,12 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.bubbble.R
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.coreui.ui.adapters.ShotsAdapter
+import com.bubbble.core.models.shot.ShotsParams
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
-import com.bubbble.presentation.shotdetails.ShotDetailsActivity
+import com.bubbble.shots.R
 import javax.inject.Inject
 
 class ShotsFragment : BaseMvpFragment(), ShotsView {
@@ -27,7 +26,7 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
     @ProvidePresenter
     fun providePresenter(): ShotsPresenter {
         val sortType = requireArguments().getString(SORT_TYPE_ARG)!!
-        return presenterFactory.create(sortType)
+        return presenterFactory.create(ShotsParams.Sorting.find(sortType)!!)
     }
 
     private val loadingLayout: View by lazy {
@@ -93,7 +92,7 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
     }
 
     override fun openShotDetailsScreen(shotId: Long) {
-        startActivity(ShotDetailsActivity.buildIntent(activity, shotId))
+        //startActivity(ShotDetailsActivity.buildIntent(activity, shotId))
     }
 
     override fun showNoNetworkLayout() {
@@ -111,10 +110,10 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
     companion object {
         private const val SORT_TYPE_ARG = "sort"
         @JvmStatic
-        fun newInstance(sort: String?): ShotsFragment {
+        fun newInstance(sort: ShotsParams.Sorting): ShotsFragment {
             val fragment = ShotsFragment()
             val args = Bundle()
-            args.putString(SORT_TYPE_ARG, sort)
+            args.putString(SORT_TYPE_ARG, sort.name)
             fragment.arguments = args
             return fragment
         }

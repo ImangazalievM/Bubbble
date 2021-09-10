@@ -27,14 +27,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.greenfrvr.hashtagview.HashtagView
 import com.bubbble.core.models.Comment
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.coreui.ui.adapters.ShotCommentsAdapter
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
 import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
 import com.bubbble.coreui.utils.AppUtils
-import com.bubbble.presentation.shotzoom.ShotZoomActivity
-import com.bubbble.presentation.userprofile.UserProfileActivity
+import com.bubbble.shotdetails.comments.ShotCommentsAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -42,6 +40,9 @@ import javax.inject.Inject
 class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     override val layoutRes: Int = R.layout.activity_shot_details
+
+
+    private val userUrlParser = UserUrlParser()
 
     private val toolbar: Toolbar by lazy {
         findViewById(R.id.toolbar)
@@ -107,8 +108,15 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     }
 
     private val commentsAdapter: ShotCommentsAdapter by lazy {
-        ShotCommentsAdapter(this, shotDescription)
+        ShotCommentsAdapter(
+            context = this,
+            description = shotDescription,
+            onLinkClick = presenter::onLinkClicked,
+            onUserUrlClick = { onUserUrlSelected(it) },
+            onUserClick = presenter::onUserClick
+        )
     }
+
     private val commentsListLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(this)
     }
@@ -141,7 +149,6 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     }
 
     private fun initViews() {
-
         noNetworkLayout.findViewById<View>(R.id.retry_button)
             .setOnClickListener { presenter.retryLoading() }
         commentsList.layoutManager = commentsListLayoutManager
@@ -153,11 +160,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
                 url!!
             )
         }
-        description.setOnUserSelectedListener { userId: Long ->
-            presenter.onCommentAuthorClick(
-                userId
-            )
-        }
+        description.setOnUserSelectedListener(::onUserUrlSelected)
         hashtagView.addOnTagClickListener { item: Any? ->
             val tag = item as String?
             presenter.onTagClicked(tag!!)
@@ -187,7 +190,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
                 override fun onException(
                     e: Exception,
                     model: String?,
-                    target: Target<GlideDrawable?>,
+                    target: com.bumptech.glide.request.target.Target<GlideDrawable?>,
                     isFirstResource: Boolean
                 ): Boolean {
                     presenter.onImageLoadError()
@@ -197,7 +200,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
                 override fun onResourceReady(
                     resource: GlideDrawable?,
                     model: String?,
-                    target: Target<GlideDrawable?>,
+                    target: com.bumptech.glide.request.target.Target<GlideDrawable?>,
                     isFromMemoryCache: Boolean,
                     isFirstResource: Boolean
                 ): Boolean {
@@ -222,17 +225,6 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
             .transform(GlideCircleTransform(this))
             .into(userAvatar)
 
-        //comments
-        commentsAdapter.setOnLinkClickListener { url: String? ->
-            presenter.onLinkClicked(
-                url!!
-            )
-        }
-        commentsAdapter.setOnUserSelectedListener { userId: Long ->
-            presenter.onCommentAuthorClick(
-                userId
-            )
-        }
         commentsList.adapter = commentsAdapter
         if (shot.commentsCount > 0) {
             commentsList.addOnScrollListener(endlessRecyclerOnScrollListener)
@@ -285,7 +277,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     override fun showImageSavedMessage() {
         Snackbar.make(
-            shotDetailContainer!!,
+            shotDetailContainer,
             R.string.image_saved_to_downloads_folder,
             Snackbar.LENGTH_LONG
         )
@@ -325,11 +317,11 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     }
 
     override fun openUserProfileScreen(userId: Long) {
-        startActivity(UserProfileActivity.buildIntent(this, userId))
+        //ToDo: startActivity(UserProfileActivity.buildIntent(this, userId))
     }
 
     override fun openShotImageScreen(shot: Shot) {
-        startActivity(ShotZoomActivity.buildIntent(this, shot))
+        //ToDo: startActivity(ShotZoomActivity.buildIntent(this, shot))
     }
 
     override fun showNoNetworkLayout() {
@@ -344,6 +336,12 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         shotImageProgressBar.visibility = View.GONE
     }
 
+    private fun onUserUrlSelected(url: String) {
+        userUrlParser.parse(url)?.let {
+            presenter.onUserClick(it)
+        }
+    }
+
     companion object {
         private const val KEY_SHOT_ID = "shot_id"
         fun buildIntent(context: Context?, shotId: Long): Intent {
@@ -352,4 +350,5 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
             return intent
         }
     }
+
 }

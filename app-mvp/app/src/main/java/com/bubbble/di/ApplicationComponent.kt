@@ -28,8 +28,4 @@ interface ApplicationComponent {
     val provideFollowersRepository: FollowersRepository
     val provideImagesRepository: ImagesRepository
 
-    val errorHandler: ErrorHandler
-    val resourcesManager: ResourcesManager
-    val permissionsManager: PermissionsManager
-
 }

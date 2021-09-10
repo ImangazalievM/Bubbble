@@ -2,7 +2,7 @@ package com.bubbble.coreui.mvp
 
 import android.util.Log
 import com.arellomobile.mvp.MvpPresenter
-import com.bubbble.di.extensions.appComponent
+import com.bubbble.coreui.di.coreUiComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -14,8 +14,8 @@ import kotlin.reflect.KClass
 open class BasePresenter<V : BaseMvpView> : MvpPresenter<V>(), CoroutineScope {
 
     //protected val router by lazy { getGlobal<Navigator>() }
-    protected val errorHandler by lazy { appComponent.errorHandler }
-    protected val resources by lazy { appComponent.resourcesManager }
+    protected val errorHandler by lazy { coreUiComponent.errorHandler }
+    protected val resources by lazy { coreUiComponent.resourcesManager }
     private val parentJob = Job()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + parentJob

@@ -1,4 +1,4 @@
-package com.bubbble.coreui.ui.adapters;
+package com.bubbble.presentation.userprofile;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bubbble.core.models.user.Follow;
 import com.bubbble.core.models.user.User;
+import com.bubbble.coreui.ui.adapters.LoadMoreAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bubbble.R;

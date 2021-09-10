@@ -5,8 +5,6 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bubbble.coreui.ui.adapters.viewholders.LoadMoreViewHolder;
-
 
 public abstract class LoadMoreAdapter<T> extends HeaderFooterAdapter<T> {
 

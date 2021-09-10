@@ -1,10 +1,11 @@
 package com.bubbble.shots.shotslist
 
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.core.network.exceptions.NoNetworkException
+import com.bubbble.core.models.shot.ShotsParams
+import com.bubbble.core.network.NoNetworkException
 import com.bubbble.coreui.mvp.BasePresenter
-import com.bubbble.coreui.utils.DebugUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -13,7 +14,7 @@ import java.util.*
 @InjectViewState
 class ShotsPresenter @AssistedInject constructor(
     private val shotsInteractor: ShotsInteractor,
-    @Assisted private val shotsSort: String
+    @Assisted private val shotsSort: ShotsParams.Sorting
 ) : BasePresenter<ShotsView>() {
 
     private var currentMaxPage = 1
@@ -57,7 +58,8 @@ class ShotsPresenter @AssistedInject constructor(
                 viewState.showLoadMoreError()
             }
         } else {
-            DebugUtils.showDebugErrorMessage(throwable)
+            throwable.printStackTrace()
+            Log.d("Bubbble", "shots loading error", throwable)
         }
     }
 
@@ -93,7 +95,7 @@ class ShotsPresenter @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(shotsSort: String): ShotsPresenter
+        fun create(shotsSort: ShotsParams.Sorting): ShotsPresenter
     }
 
 

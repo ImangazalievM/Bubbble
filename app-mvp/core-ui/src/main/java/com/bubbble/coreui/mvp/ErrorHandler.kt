@@ -1,8 +1,8 @@
 package com.bubbble.coreui.mvp
 
 import android.util.Log
-import com.bubbble.R
-import com.bubbble.core.network.exceptions.NoNetworkException
+import com.bubbble.core.network.NoNetworkException
+import com.bubbble.coreui.R
 import com.bubbble.coreui.resourcesmanager.ResourcesManager
 import java.io.IOException
 import java.net.UnknownHostException

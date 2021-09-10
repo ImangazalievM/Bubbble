@@ -25,7 +25,7 @@ public class DribbbleTextView extends AppCompatTextView {
     }
 
     public interface OnUserSelectedListener {
-        void onUserSelected(long useId);
+        void onUserSelected(String url);
     }
 
     private ColorStateList linkTextColors;
@@ -84,9 +84,9 @@ public class DribbbleTextView extends AppCompatTextView {
                 ssb.removeSpan(urlSpan);
                 UserSpan userSpan = new UserSpan(urlSpan.getURL(), linkTextColor) {
                     @Override
-                    public void onClick(long userId) {
+                    public void onClick(String url) {
                         if (onUserSelectedListener != null) {
-                            onUserSelectedListener.onUserSelected(userId);
+                            onUserSelectedListener.onUserSelected(url);
                         }
                     }
                 };

@@ -5,8 +5,7 @@ import android.net.Uri;
 
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.app.ShareCompat;
-
-import com.bubbble.R;
+import com.bubbble.coreui.R;
 
 public class AppUtils {
 

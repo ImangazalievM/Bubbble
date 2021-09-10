@@ -1,0 +1,13 @@
+<resources>
+    <string name="popular">Популярные</string>
+    <string name="recently">Недавние</string>
+
+    <string name="check_network_message">Пожалуйста, проверьте подключение к интернету</string>
+    <string name="try_again_message">Попробовать снова</string>
+
+    <string name="share_using">Поделиться с помощью</string>
+
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="network_error">Ошибка подключения к интернету</string>
+    <string name="ssl_error_check_device_time_message">Ошибка при подключении к серверу. Пожалуйста, проверьте время на вашем устройстве.</string>
+</resources>

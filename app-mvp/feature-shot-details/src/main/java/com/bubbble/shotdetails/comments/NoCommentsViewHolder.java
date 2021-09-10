@@ -1,11 +1,11 @@
-package com.bubbble.coreui.ui.adapters.viewholders;
+package com.bubbble.shotdetails.comments;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bubbble.R;
+import com.bubbble.shotdetails.R;
 
 public class NoCommentsViewHolder extends RecyclerView.ViewHolder {
 

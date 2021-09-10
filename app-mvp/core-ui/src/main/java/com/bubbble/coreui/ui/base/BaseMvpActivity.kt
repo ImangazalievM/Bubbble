@@ -3,7 +3,7 @@ package com.bubbble.coreui.ui.base
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.bubbble.di.extensions.appComponent
+import com.bubbble.coreui.di.coreUiComponent
 import com.bubbble.coreui.permissions.AndroidPermissionsManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,7 @@ abstract class BaseMvpActivity : MvpAppCompatActivity(), CoroutineScope {
     //protected val navigationContextBinder by lazy { getGlobal<NavigationContextBinder>() }
     //protected val screenResolver by lazy { getGlobal<ScreenResolver>() }
     protected val permissionsManager by lazy {
-        appComponent.permissionsManager as AndroidPermissionsManager
+        coreUiComponent.permissionsManager as AndroidPermissionsManager
     }
     //private val activityResultHandler by lazy { getGlobal<ActivityResultHandler>() }
 
