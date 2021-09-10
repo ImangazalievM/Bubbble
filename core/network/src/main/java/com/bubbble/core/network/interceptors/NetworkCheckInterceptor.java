@@ -1,7 +1,7 @@
 package com.bubbble.core.network.interceptors;
 
 import com.bubbble.core.network.NetworkChecker;
-import com.bubbble.core.network.exceptions.NoNetworkException;
+import com.bubbble.core.network.NoNetworkException;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -13,7 +13,7 @@ import okhttp3.Response;
 
 public class NetworkCheckInterceptor implements Interceptor {
 
-    private NetworkChecker networkChecker;
+    private final NetworkChecker networkChecker;
 
     public NetworkCheckInterceptor(NetworkChecker networkChecker) {
         this.networkChecker = networkChecker;
