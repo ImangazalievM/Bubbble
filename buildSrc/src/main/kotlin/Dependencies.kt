@@ -1,10 +1,13 @@
 object Build {
 
     object Versions {
+        const val appVersion = "1.0.0"
+        const val appVersionCode = 1
+
         const val buildTools = "29.0.3"
-        const val compileSdk = 29
+        const val compileSdk = 30
         const val minSdk = 21
-        const val targetSdk = 29
+        const val targetSdk = 30
 
         const val kotlin = "1.4.0"
     }
@@ -74,6 +77,7 @@ object Modules {
     }
 
     object AppMvp {
+        const val app = ":app-mvp:app"
         const val coreUi = ":app-mvp:core-ui"
         const val featureShots = ":app-mvp:feature-shots"
         const val featureShotDetails = ":app-mvp:feature-shot-details"

@@ -1,39 +1,11 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-android-extensions")
-    id("kotlin-kapt")
+    kotlin("kapt")
 }
 
 android {
-    compileSdkVersion(30)
-    buildToolsVersion = "29.0.3"
-
-    defaultConfig {
-        applicationId = "com.bubbble"
-        minSdkVersion(21)
-        targetSdkVersion(30)
-
-        versionCode = 3
-        versionName = "1.1.0"
-
-        multiDexEnabled = true
-        vectorDrawables.useSupportLibrary = true
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
-    }
-    
-    buildFeatures.viewBinding = true
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
     signingConfigs {
         create("bubbble") {
-            storeFile(file("keystore.jks"))
+            storeFile(rootProject.file("keystore.jks"))
             storePassword = "bubbble"
             keyAlias = "bubbble"
             keyPassword = "bubbble"
@@ -44,8 +16,6 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("bubbble")
             applicationIdSuffix = ".debug"
-            isMinifyEnabled = false
-            isDebuggable = true
         }
 
         getByName("release") {
@@ -53,16 +23,6 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
-    }
-
-    sourceSets {
-        getByName("test").java.srcDirs("src/unitTests/java")
-        getByName("test").java.srcDirs("src/integrationTests/java")
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
