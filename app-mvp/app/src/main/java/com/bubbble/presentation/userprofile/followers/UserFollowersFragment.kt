@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.user.Follow
 import com.bubbble.presentation.userprofile.UserFollowersAdapter
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.presentation.userprofile.UserProfileActivity
+import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
 class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
@@ -21,13 +22,9 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     @Inject
     lateinit var presenterFactory: UserFollowersPresenter.Factory
 
-    @InjectPresenter
-    lateinit var presenter: UserFollowersPresenter
-
-    @ProvidePresenter
-    fun providePresenter(): UserFollowersPresenter {
+    val presenter by moxyPresenter {
         val userId = requireArguments().getLong(USER_ID_ARG)
-        return presenterFactory.create(userId)
+        presenterFactory.create(userId)
     }
 
     private val loadingLayout: View by lazy {

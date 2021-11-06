@@ -17,8 +17,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
@@ -33,6 +33,7 @@ import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
 import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
 import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.shotdetails.comments.ShotCommentsAdapter
+import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -132,13 +133,9 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     @Inject
     lateinit var presenterFactory: ShotDetailsPresenter.Factory
 
-    @InjectPresenter
-    lateinit var presenter: ShotDetailsPresenter
-
-    @ProvidePresenter
-    fun providePresenter(): ShotDetailsPresenter {
+    val presenter by moxyPresenter {
         val shotId = intent.getLongExtra(KEY_SHOT_ID, -1)
-        return presenterFactory.create(shotId)
+        presenterFactory.create(shotId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -176,13 +173,14 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         //shot info
         title.text = shot.title
         shotCreateDate.text = dateFormat.format(shot.createdAt)
-        if (shot.description != null) {
-            description.setHtmlText(shot.description)
-        } else {
-            description.visibility = View.GONE
-        }
+        //ToDo:
+        //if (shot.description != null) {
+        //    description.setHtmlText(shot.description)
+        //} else {
+        //    description.visibility = View.GONE
+        //}
         Glide.with(this)
-            .load(shot.images.best())
+            .load(shot.imageUrl)
             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
             .centerCrop()
             .crossFade()
@@ -213,9 +211,9 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
             resources.getQuantityString(R.plurals.likes, shot.likesCount, shot.likesCount)
         viewsCount.text =
             resources.getQuantityString(R.plurals.views, shot.viewsCount, shot.viewsCount)
-        bucketsCount.text =
-            resources.getQuantityString(R.plurals.buckets, shot.bucketsCount, shot.bucketsCount)
-        hashtagView.setData(shot.tags)
+        //bucketsCount.text =
+        //    resources.getQuantityString(R.plurals.buckets, shot.bucketsCount, shot.bucketsCount)
+        //hashtagView.setData(shot.tags)
 
         //user info
         userName.text = shot.user.name

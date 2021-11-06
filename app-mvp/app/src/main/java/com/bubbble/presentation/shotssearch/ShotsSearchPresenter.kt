@@ -1,13 +1,15 @@
 package com.bubbble.presentation.shotssearch
 
-import com.arellomobile.mvp.InjectViewState
+import com.bubbble.core.models.search.SearchParams
+import com.bubbble.core.models.search.SearchType
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.core.network.NoNetworkException
-import com.bubbble.domain.shotssearch.ShotsSearchInteractor
+import com.bubbble.core.models.shot.ShotSortType
 import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.domain.shotssearch.ShotsSearchInteractor
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import moxy.InjectViewState
 import java.util.*
 
 @InjectViewState
@@ -16,7 +18,7 @@ class ShotsSearchPresenter @AssistedInject constructor(
     @Assisted private var searchQuery: String
 ) : BasePresenter<ShotsSearchView>() {
 
-    private val sort: String = Constants.SHOTS_SORT_POPULAR
+    private val sort: ShotSortType = ShotSortType.POPULAR
     private val shots: MutableList<Shot> = ArrayList()
     private var currentMaxPage = 1
     private var isShotsLoading = false
@@ -37,7 +39,14 @@ class ShotsSearchPresenter @AssistedInject constructor(
     private fun loadMoreShots(page: Int) = launchSafe {
         try {
             isShotsLoading = true
-            val shotsRequestParams = ShotsSearchParams(searchQuery, sort, page, PAGE_SIZE)
+            val shotsRequestParams = SearchParams(
+                searchQuery = searchQuery,
+                searchType = SearchType.SHOT,
+                sort = sort,
+                page = page,
+                pageSize = PAGE_SIZE
+
+            )
             val newShots = shotsSearchInteractor.search(shotsRequestParams)
             if (isFirstLoading) {
                 viewState.hideShotsLoadingProgress()

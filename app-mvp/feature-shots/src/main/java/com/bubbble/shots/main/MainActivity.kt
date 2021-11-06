@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
-import com.arellomobile.mvp.presenter.InjectPresenter
+import moxy.presenter.InjectPresenter
 import com.bubbble.core.models.shot.ShotsParams
 import com.google.android.material.tabs.TabLayout
 import com.bubbble.coreui.ui.base.BaseMvpActivity
@@ -14,6 +14,8 @@ import com.bubbble.coreui.ui.commons.SearchQueryListener
 import com.bubbble.shots.R
 import com.bubbble.shots.shotslist.ShotsFragment.Companion.newInstance
 import com.mikepenz.materialdrawer.DrawerBuilder
+import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class MainActivity : BaseMvpActivity(), MainView {
 
@@ -26,8 +28,12 @@ class MainActivity : BaseMvpActivity(), MainView {
         findViewById(R.id.tabs)
     }
 
-    @InjectPresenter
-    lateinit var presenter: MainPresenter
+    @Inject
+    lateinit var presenterFactory: MainPresenter.Factory
+
+    val presenter by moxyPresenter {
+        presenterFactory.create()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -9,8 +9,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.shots.shotslist.ShotsAdapter
@@ -18,6 +18,7 @@ import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.coreui.ui.commons.SearchQueryListener
 import com.bubbble.shotdetails.ShotDetailsActivity
+import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
 class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
@@ -27,13 +28,9 @@ class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
     @Inject
     lateinit var presenterFactory: ShotsSearchPresenter.Factory
 
-    @InjectPresenter
-    lateinit var presenter: ShotsSearchPresenter
-
-    @ProvidePresenter
-    fun providePresenter(): ShotsSearchPresenter {
+    val presenter by moxyPresenter {
         val searchQuery = intent.getStringExtra(KEY_SEARCH_QUERY)!!
-        return presenterFactory.create(searchQuery)
+        presenterFactory.create(searchQuery)
     }
 
     private val loadingLayout: View by lazy {

@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
@@ -23,6 +23,7 @@ import com.bubbble.R
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.utils.AppUtils
+import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
 class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
@@ -48,15 +49,11 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
     @Inject
     lateinit var presenterFactory: ShotZoomPresenter.Factory
 
-    @InjectPresenter
-    lateinit var presenter: ShotZoomPresenter
-
-    @ProvidePresenter
-    fun providePresenter(): ShotZoomPresenter {
+    val presenter by moxyPresenter {
         val shotTitle = intent.getStringExtra(KEY_SHOT_TITLE)!!
         val imageUrl = intent.getStringExtra(KEY_IMAGE_URL)!!
         val shotUrl = intent.getStringExtra(KEY_SHOT_URL)!!
-        return presenterFactory.create(
+        presenterFactory.create(
             shotTitle = shotTitle,
             shotUrl = shotUrl,
             imageUrl = imageUrl
@@ -84,28 +81,28 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
             .load(imageUrl)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .crossFade()
-            .listener(object : RequestListener<String?, GlideDrawable?> {
-                override fun onException(
-                    e: Exception,
-                    model: String?,
-                    target: Target<GlideDrawable?>,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    presenter.onImageLoadError()
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: GlideDrawable?,
-                    model: String?,
-                    target: Target<GlideDrawable?>,
-                    isFromMemoryCache: Boolean,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    presenter.onImageLoadSuccess()
-                    return false
-                }
-            })
+            //.listener(object : RequestListener<String?, GlideDrawable?> {
+            //    override fun onException(
+            //        e: Exception,
+            //        model: String?,
+            //        target: Target<GlideDrawable?>,
+            //        isFirstResource: Boolean
+            //    ): Boolean {
+            //        presenter.onImageLoadError()
+            //        return false
+            //    }
+//
+            //    override fun onResourceReady(
+            //        resource: GlideDrawable?,
+            //        model: String?,
+            //        target: Target<GlideDrawable?>,
+            //        isFromMemoryCache: Boolean,
+            //        isFirstResource: Boolean
+            //    ): Boolean {
+            //        presenter.onImageLoadSuccess()
+            //        return false
+            //    }
+            //})
             .into(shotImage)
         showToolbarMenu()
     }
@@ -209,8 +206,8 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
         fun buildIntent(context: Context?, shot: Shot): Intent {
             val intent = Intent(context, ShotZoomActivity::class.java)
             intent.putExtra(KEY_SHOT_TITLE, shot.title)
-            intent.putExtra(KEY_SHOT_URL, shot.htmlUrl)
-            intent.putExtra(KEY_IMAGE_URL, shot.images.best())
+            intent.putExtra(KEY_SHOT_URL, shot.shotUrl)
+            intent.putExtra(KEY_IMAGE_URL, shot.shotUrl)
             return intent
         }
     }

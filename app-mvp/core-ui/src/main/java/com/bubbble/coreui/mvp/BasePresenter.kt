@@ -1,7 +1,7 @@
 package com.bubbble.coreui.mvp
 
 import android.util.Log
-import com.arellomobile.mvp.MvpPresenter
+import moxy.MvpPresenter
 import com.bubbble.coreui.di.coreUiComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

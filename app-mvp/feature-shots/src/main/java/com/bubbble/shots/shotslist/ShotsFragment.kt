@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotsParams
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.shots.R
+import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
 class ShotsFragment : BaseMvpFragment(), ShotsView {
@@ -20,13 +21,9 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
     @Inject
     lateinit var presenterFactory: ShotsPresenter.Factory
 
-    @InjectPresenter
-    lateinit var presenter: ShotsPresenter
-    
-    @ProvidePresenter
-    fun providePresenter(): ShotsPresenter {
+    val presenter by moxyPresenter {
         val sortType = requireArguments().getString(SORT_TYPE_ARG)!!
-        return presenterFactory.create(ShotsParams.Sorting.find(sortType)!!)
+        presenterFactory.create(ShotsParams.Sorting.find(sortType)!!)
     }
 
     private val loadingLayout: View by lazy {
@@ -109,6 +106,7 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
 
     companion object {
         private const val SORT_TYPE_ARG = "sort"
+
         @JvmStatic
         fun newInstance(sort: ShotsParams.Sorting): ShotsFragment {
             val fragment = ShotsFragment()

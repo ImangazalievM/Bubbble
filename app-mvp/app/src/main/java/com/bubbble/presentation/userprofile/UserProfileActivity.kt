@@ -13,8 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager.widget.ViewPager
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.appbar.AppBarLayout
@@ -31,6 +31,7 @@ import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.presentation.userprofile.details.UserDetailsFragment
 import com.bubbble.presentation.userprofile.followers.UserFollowersFragment
 import com.bubbble.presentation.userprofile.shots.UserShotsFragment
+import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -83,13 +84,9 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     @Inject
     lateinit var presenterFactory: UserProfilePresenter.Factory
 
-    @InjectPresenter
-    lateinit var presenter: UserProfilePresenter
-
-    @ProvidePresenter
-    fun providePresenter(): UserProfilePresenter {
+    val presenter by moxyPresenter {
         val userId = intent.getLongExtra(USER_ID, 0L)
-        return presenterFactory.create(userId)
+        presenterFactory.create(userId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -133,12 +130,10 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
             handleToolbarTitleVisibility(percentage)
         })
         userBio.setOnLinkClickListener { url: String -> presenter.onLinkClicked(url) }
-        userBio.setOnUserSelectedListener { useId: Long ->
-            presenter.onUserSelected(
-                useId
-            )
+        userBio.setOnUserSelectedListener { useId: String ->
+            presenter.onUserSelected(useId.toLong())
         }
-        followButton.setOnClickListener { v: View? ->
+        followButton.setOnClickListener {
             Toast.makeText(
                 this,
                 "Coming soon",

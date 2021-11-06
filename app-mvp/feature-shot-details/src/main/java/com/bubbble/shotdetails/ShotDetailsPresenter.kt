@@ -1,7 +1,7 @@
 package com.bubbble.shotdetails
 
 import com.afollestad.assent.Permission
-import com.arellomobile.mvp.InjectViewState
+import moxy.InjectViewState
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotCommentsParams
 import com.bubbble.coreui.mvp.BasePresenter
@@ -9,8 +9,6 @@ import com.bubbble.coreui.permissions.PermissionsManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import okhttp3.HttpUrl
-import java.nio.file.Path
 
 @InjectViewState
 class ShotDetailsPresenter @AssistedInject constructor(
@@ -89,7 +87,7 @@ class ShotDetailsPresenter @AssistedInject constructor(
 
     fun onShareShotClicked() {
         if (!isShotLoaded) return
-        viewState.showShotSharing(shot.title, shot.htmlUrl)
+        viewState.showShotSharing(shot.title, shot.shotUrl)
     }
 
     fun onDownloadImageClicked() = launchSafe {
@@ -112,16 +110,17 @@ class ShotDetailsPresenter @AssistedInject constructor(
 
     private fun saveShotImage() = launchSafe {
         if (!isShotLoaded) return@launchSafe
-        shotDetailsInteractor.saveImage(shot.images.best())
+        shotDetailsInteractor.saveImage(shot.shotUrl)
         viewState.showImageSavedMessage()
     }
 
     fun onOpenShotInBrowserClicked() {
-        viewState.openInBrowser(shot.htmlUrl)
+        viewState.openInBrowser(shot.shotUrl)
     }
 
     fun onShotAuthorProfileClicked() {
-        viewState.openUserProfileScreen(shot.user.id)
+        TODO()
+        //viewState.openUserProfileScreen(shot.user.id)
     }
 
     fun onUserClick(userId: Long) {

@@ -1,7 +1,7 @@
 package com.bubbble.presentation.shotzoom
 
 import com.afollestad.assent.Permission
-import com.arellomobile.mvp.InjectViewState
+import moxy.InjectViewState
 import com.bubbble.domain.shotzoom.ShotZoomInteractor
 import com.bubbble.coreui.mvp.BasePresenter
 import com.bubbble.coreui.permissions.PermissionsManager

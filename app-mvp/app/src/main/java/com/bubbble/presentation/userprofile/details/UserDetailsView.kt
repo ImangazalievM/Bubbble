@@ -1,10 +1,11 @@
 package com.bubbble.presentation.userprofile.details
 
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.OneExecutionStateStrategy
+import moxy.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.user.User
 import com.bubbble.coreui.mvp.BaseMvpView
+import moxy.viewstate.strategy.alias.OneExecution
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface UserDetailsView : BaseMvpView {
@@ -19,7 +20,7 @@ interface UserDetailsView : BaseMvpView {
 
     fun hideNoNetworkLayout()
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun openInBrowser(url: String)
 
 }

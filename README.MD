@@ -13,7 +13,7 @@ Libraries and tools used:
 - Dagger 2 - for dependency injection
 - Retrofit 2 - for Networking
 - Gson - for parsing the JSON responses
-- [Moxy] - for MVP pattern implementation
+- [Moxy](https://github.com/moxy-community/Moxy) - for MVP pattern implementation
 - Glide - for image loading
 - Material Drawer - for sliding menu
 - Stetho - for debugging

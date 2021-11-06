@@ -8,6 +8,7 @@ import com.bubbble.coreui.permissions.AndroidPermissionsManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import moxy.MvpAppCompatActivity
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseMvpActivity : MvpAppCompatActivity(), CoroutineScope {

@@ -1,6 +1,7 @@
 package com.bubbble.coreui.ui.base
 
 import android.widget.Toast
+import moxy.MvpAppCompatDialogFragment
 
 abstract class BaseMvpDialogFragment : MvpAppCompatDialogFragment() {
 

@@ -1,15 +1,16 @@
 package com.bubbble.coreui.mvp
 
-import com.arellomobile.mvp.MvpView
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import moxy.MvpView
+import moxy.viewstate.strategy.OneExecutionStateStrategy
+import moxy.viewstate.strategy.StateStrategyType
+import moxy.viewstate.strategy.alias.OneExecution
 
 interface BaseMvpView : MvpView {
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun showMessage(text: String)
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun showMessage(textResId: Int)
 
 }

@@ -43,9 +43,11 @@ object Dependencies {
     const val materialDrawer = "com.mikepenz:materialdrawer:5.9.4@aar"
     const val hashtagView = "com.github.greenfrvr:hashtag-view:1.3.1"
 
-    const val moxy = "com.arello-mobile:moxy:1.5.2"
-    const val moxyAppCompat = "com.arello-mobile:moxy-app-compat:1.5.2"
-    const val moxyCompiler = "com.arello-mobile:moxy-compiler:1.5.2"
+    private const val moxyVersion = "2.2.2"
+    const val moxy = "com.github.moxy-community:moxy:$moxyVersion"
+    const val moxyCompiler = "com.github.moxy-community:moxy-compiler:$moxyVersion"
+    const val moxyAndroid = "com.github.moxy-community:moxy-androidx:$moxyVersion"
+    const val moxyKtx = "com.github.moxy-community:moxy-ktx:$moxyVersion"
 
     const val gson = "com.google.code.gson:gson:2.8.8"
     const val okHttp = "com.squareup.okhttp3:okhttp:4.9.1"

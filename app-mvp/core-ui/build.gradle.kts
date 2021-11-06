@@ -15,7 +15,9 @@ dependencies {
     api(Dependencies.photoView)
 
     api(Dependencies.moxy)
-    
+    api(Dependencies.moxyAndroid)
+    api(Dependencies.moxyKtx)
+
     api(Dependencies.coroutinesCore)
     api(Dependencies.coroutinesAndroid)
 

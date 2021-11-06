@@ -54,7 +54,7 @@ public class ShotsAdapter extends LoadMoreAdapter<Shot> {
             ShotViewHolder shotViewHolder = (ShotViewHolder) holder;
             Shot shot = getItem(position);
             Glide.with(context)
-                    .load(shot.getImages().best())
+                    .load(shot.getShotUrl())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .centerCrop()
                     .crossFade()

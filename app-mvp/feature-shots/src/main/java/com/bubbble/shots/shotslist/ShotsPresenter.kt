@@ -1,7 +1,7 @@
 package com.bubbble.shots.shotslist
 
 import android.util.Log
-import com.arellomobile.mvp.InjectViewState
+import moxy.InjectViewState
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotsParams
 import com.bubbble.core.network.NoNetworkException

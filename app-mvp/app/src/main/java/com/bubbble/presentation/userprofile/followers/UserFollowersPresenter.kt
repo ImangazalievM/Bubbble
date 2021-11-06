@@ -1,7 +1,8 @@
 package com.bubbble.presentation.userprofile.followers
 
-import com.arellomobile.mvp.InjectViewState
+import moxy.InjectViewState
 import com.bubbble.core.models.user.Follow
+import com.bubbble.core.models.user.UserFollowersParams
 import com.bubbble.core.network.NoNetworkException
 import com.bubbble.domain.userprofile.UserFollowersInteractor
 import com.bubbble.coreui.mvp.BasePresenter

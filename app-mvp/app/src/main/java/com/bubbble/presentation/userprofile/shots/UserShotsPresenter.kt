@@ -1,7 +1,8 @@
 package com.bubbble.presentation.userprofile.shots
 
-import com.arellomobile.mvp.InjectViewState
+import moxy.InjectViewState
 import com.bubbble.core.models.shot.Shot
+import com.bubbble.core.models.user.UserShotsParams
 import com.bubbble.core.network.NoNetworkException
 import com.bubbble.domain.userprofile.UserShotsInteractor
 import com.bubbble.coreui.mvp.BasePresenter

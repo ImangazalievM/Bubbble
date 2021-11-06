@@ -1,11 +1,12 @@
 package com.bubbble.shotdetails
 
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.OneExecutionStateStrategy
+import moxy.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.Comment
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.mvp.BaseMvpView
+import moxy.viewstate.strategy.alias.OneExecution
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ShotDetailsView : BaseMvpView {
@@ -38,16 +39,16 @@ interface ShotDetailsView : BaseMvpView {
 
     fun openAppSettingsScreen()
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun showShotSharing(shotTitle: String, shotUrl: String)
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun openInBrowser(url: String)
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun openUserProfileScreen(userId: Long)
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun openShotImageScreen(shot: Shot)
 
 }

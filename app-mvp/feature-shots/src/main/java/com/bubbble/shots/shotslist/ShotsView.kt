@@ -1,17 +1,18 @@
 package com.bubbble.shots.shotslist
 
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.OneExecutionStateStrategy
+import moxy.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.mvp.BaseMvpView
+import moxy.viewstate.strategy.alias.OneExecution
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ShotsView : BaseMvpView {
 
     fun showNewShots(newShots: List<Shot>)
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun showShotsLoadingProgress()
 
     fun hideShotsLoadingProgress()

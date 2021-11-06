@@ -5,14 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import moxy.MvpAppCompatFragment
 
-abstract class BaseMvpFragment : MvpAppCompatFragment()/*, ScreenResultListener*/ {
-
-    companion object {
-        private const val STATE_LAUNCH_FLAG = "state_launch_flag"
-        private const val STATE_SCOPE_NAME = "state_scope_name"
-        private const val STATE_SCOPE_WAS_CLOSED = "state_scope_was_closed"
-    }
+abstract class BaseMvpFragment : MvpAppCompatFragment() {
 
     abstract val layoutRes: Int
 

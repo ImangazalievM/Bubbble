@@ -3,12 +3,13 @@ package com.bubbble.presentation.userprofile.details
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.user.User
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.utils.AppUtils
+import moxy.ktx.moxyPresenter
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import javax.inject.Inject
 
@@ -19,13 +20,9 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
     @Inject
     lateinit var presenterFactory: UserDetailsPresenter.Factory
 
-    @InjectPresenter
-    lateinit var presenter: UserDetailsPresenter
-
-    @ProvidePresenter
-    fun providePresenter(): UserDetailsPresenter {
+    val presenter by moxyPresenter {
         val userId = requireArguments().getLong(USER_ID_ARG)
-        return presenterFactory.create(userId)
+        presenterFactory.create(userId)
     }
 
     private lateinit var loadingLayout: View

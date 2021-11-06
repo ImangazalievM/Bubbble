@@ -46,10 +46,4 @@ dependencies {
     debugImplementation("com.github.mrmike:ok2curl:0.6.0")
     debugImplementation(Dependencies.leakCanary)
     releaseImplementation(Dependencies.leakCanaryNoOp)
-
-    // Testing
-    testImplementation(Dependencies.junit)
-    testImplementation(Dependencies.hamcrest)
-    testImplementation(Dependencies.mockito)
-    testImplementation(Dependencies.robolectric)
 }

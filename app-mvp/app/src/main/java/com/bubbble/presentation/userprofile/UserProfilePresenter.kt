@@ -1,6 +1,6 @@
 package com.bubbble.presentation.userprofile
 
-import com.arellomobile.mvp.InjectViewState
+import moxy.InjectViewState
 import com.bubbble.core.models.user.User
 import com.bubbble.core.network.NoNetworkException
 import com.bubbble.domain.userprofile.UserProfileInteractor

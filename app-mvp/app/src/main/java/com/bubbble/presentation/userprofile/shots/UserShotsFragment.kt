@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.shots.shotslist.ShotsAdapter
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.shotdetails.ShotDetailsActivity
+import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
 class UserShotsFragment : BaseMvpFragment(), UserShotsView {
@@ -21,13 +22,9 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     @Inject
     lateinit var presenterFactory: UserShotsPresenter.Factory
 
-    @InjectPresenter
-    lateinit var presenter: UserShotsPresenter
-    
-    @ProvidePresenter
-    fun providePresenter(): UserShotsPresenter {
+    val presenter by moxyPresenter {
         val userId = requireArguments().getLong(USER_ID_ARG)
-        return presenterFactory.create(userId)
+        presenterFactory.create(userId)
     }
 
     private val loadingLayout: View by lazy {
@@ -107,6 +104,7 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
 
     companion object {
         private const val USER_ID_ARG = "user_id"
+
         @JvmStatic
         fun newInstance(userId: Long): UserShotsFragment {
             val fragment = UserShotsFragment()
