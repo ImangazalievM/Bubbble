@@ -8,6 +8,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:4.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
         classpath("org.jetbrains.kotlin:kotlin-android-extensions:1.5.21")
+        classpath("de.mannodermaus.gradle.plugins:android-junit5:1.7.0.0")
     }
 }
 
@@ -33,8 +34,10 @@ tasks.register<Delete>("clean") {
 fun configProject(project: Project) {
     val urlMatcher = "'(.+)'".toRegex()
     val moduleName = urlMatcher.find(project.displayName)?.groupValues?.getOrNull(1)
-    val scriptPath = BuildScript.getScriptPath(moduleName ?: return) ?: return
+    val scripts = BuildScript.getScriptPath(moduleName ?: return)
     project.apply {
-        from(rootProject.file(scriptPath))
+        scripts.forEach { scriptPath ->
+            from(rootProject.file(scriptPath))
+        }
     }
 }

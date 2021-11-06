@@ -16,6 +16,11 @@ object Build {
 
 object Dependencies {
 
+    object Versions {
+        const val kotlinCoroutineVersion = "1.5.0"
+        const val okhttpVersion = "4.5.0"
+    }
+
     //android
     const val supportAppCompat = "androidx.appcompat:appcompat:1.2.0"
     const val supportDesign = "com.google.android.material:material:1.0.0"
@@ -59,13 +64,38 @@ object Dependencies {
     const val mockito = "org.mockito:mockito-all:1.10.19"
     const val robolectric = "org.robolectric:robolectric:3.1.2"
 
-    object Versions {
-        const val kotlinCoroutineVersion = "1.5.0"
+    object Tests {
+        const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:1.4.10"
+        const val stdJdk = "stdlib-jdk8"
+
+        //unit-tests
+        const val junit = "junit:junit:4.13"
+        const val rules = "androidx.test:rules:1.3.0"
+
+        private const val kotestVersion = "4.6.3"
+        const val kotestRunner = "io.kotest:kotest-runner-junit5:$kotestVersion"
+        const val kotestCore = "io.kotest:kotest-assertions-core:$kotestVersion"
+        //mocking
+        const val mockk = "io.mockk:mockk:1.11.0"
+
+        //assertions
+        const val strikt = "io.strikt:strikt-core:0.28.0"
+        const val okhttpMockServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttpVersion}"
+
+        //other
+        const val jsonObject = "org.json:json:20201115"
+
+        //UI-tests
+        const val kakao = "io.github.kakaocup:kakao:3.0.2"
+        const val kaspresso = "com.kaspersky.android-components:kaspresso:1.2.1"
+        const val okHttpIdlingResource = "com.jakewharton.espresso:okhttp3-idling-resource:1.0.0"
     }
 
 }
 
 object Modules {
+
+    const val tests = ":tests"
 
     object Core {
         const val di = ":core:di"
@@ -83,7 +113,7 @@ object Modules {
         const val featureShotDetails = ":app-mvp:feature-shot-details"
         const val featureShotZoom = ":app-mvp:feature-shot-zoom"
         const val featureShotSearch = ":app-mvp:feature-shot-search"
-        const val featureShotUserProfile = ":app-mvp:feature-user-profile"
+        const val featureUserProfile = ":app-mvp:feature-user-profile"
     }
 
 }
