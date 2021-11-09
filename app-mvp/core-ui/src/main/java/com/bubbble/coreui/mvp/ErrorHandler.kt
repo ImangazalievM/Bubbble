@@ -7,9 +7,11 @@ import com.bubbble.coreui.resourcesmanager.ResourcesManager
 import java.io.IOException
 import java.net.UnknownHostException
 import javax.inject.Inject
+import javax.inject.Singleton
 import javax.net.ssl.SSLHandshakeException
 import kotlin.reflect.KClass
 
+@Singleton
 class ErrorHandler @Inject constructor(
         private val resourcesManager: ResourcesManager
 ) {

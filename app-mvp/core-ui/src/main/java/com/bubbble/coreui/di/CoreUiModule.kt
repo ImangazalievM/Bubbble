@@ -8,25 +8,30 @@ import com.bubbble.coreui.resourcesmanager.ResourcesManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-@Module(includes = [CoreUiModule.Bindings::class])
+@Module
+@InstallIn(SingletonComponent::class)
 class CoreUiModule {
 
     @Provides
-    @CoreUiScope
+    @Singleton
     fun provideErrorHandler(resourcesManager: ResourcesManager): ErrorHandler {
         return ErrorHandler(resourcesManager)
     }
 
     @Module
+    @InstallIn(SingletonComponent::class)
     interface Bindings {
 
         @Binds
-        @CoreUiScope
+        @Singleton
         fun resourcesManager(manager: AndroidResourcesManager): ResourcesManager
 
         @Binds
-        @CoreUiScope
+        @Singleton
         fun permissionsManager(manager: AndroidPermissionsManager): PermissionsManager
 
     }

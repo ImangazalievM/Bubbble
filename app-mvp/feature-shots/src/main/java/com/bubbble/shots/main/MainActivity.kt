@@ -6,17 +6,19 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
-import moxy.presenter.InjectPresenter
-import com.bubbble.core.models.shot.ShotsParams
+import com.bubbble.core.models.feed.ShotsFeedParams
 import com.google.android.material.tabs.TabLayout
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.SearchQueryListener
 import com.bubbble.shots.R
+import com.bubbble.shots.api.ShotsNavigationFactory
 import com.bubbble.shots.shotslist.ShotsFragment.Companion.newInstance
 import com.mikepenz.materialdrawer.DrawerBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : BaseMvpActivity(), MainView {
 
     override val layoutRes: Int = R.layout.activity_main
@@ -27,6 +29,9 @@ class MainActivity : BaseMvpActivity(), MainView {
     private val tabLayout: TabLayout by lazy {
         findViewById(R.id.tabs)
     }
+
+    @Inject
+    lateinit var navigationFactory: ShotsNavigationFactory
 
     @Inject
     lateinit var presenterFactory: MainPresenter.Factory
@@ -51,7 +56,7 @@ class MainActivity : BaseMvpActivity(), MainView {
         return toolbar
     }
 
-    fun initOptionsMenu(menu: Menu) {
+    private fun initOptionsMenu(menu: Menu) {
         val myActionMenuItem = menu.findItem(R.id.action_search)
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchQueryListener() {
@@ -77,18 +82,18 @@ class MainActivity : BaseMvpActivity(), MainView {
     private fun setupViewPager(viewPager: ViewPager) {
         val shotsPagerAdapter = ShotsPagerAdapter(supportFragmentManager)
         shotsPagerAdapter.addFragment(
-            newInstance(ShotsParams.Sorting.POPULAR),
+            newInstance(ShotsFeedParams.Sorting.POPULAR),
             resources.getString(R.string.popular)
         )
         shotsPagerAdapter.addFragment(
-            newInstance(ShotsParams.Sorting.RECENT),
+            newInstance(ShotsFeedParams.Sorting.RECENT),
             resources.getString(R.string.recently)
         )
         viewPager.adapter = shotsPagerAdapter
     }
 
     override fun openSearchScreen(searchQuery: String) {
-        //ToDo: startActivity(buildIntent(this, searchQuery))
+        startActivity(navigationFactory.shotsSearchScreen(this, searchQuery))
     }
 
 }

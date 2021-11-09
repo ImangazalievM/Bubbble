@@ -1,3 +1,3 @@
 dependencies {
-    api(Dependencies.dagger)
+
 }

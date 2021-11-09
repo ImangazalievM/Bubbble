@@ -31,10 +31,12 @@ import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.presentation.userprofile.details.UserDetailsFragment
 import com.bubbble.presentation.userprofile.followers.UserFollowersFragment
 import com.bubbble.presentation.userprofile.shots.UserShotsFragment
+import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 import kotlin.math.abs
 
+@AndroidEntryPoint
 class UserProfileActivity : BaseMvpActivity(), UserProfileView {
 
     override val layoutRes: Int = R.layout.activity_user_profile

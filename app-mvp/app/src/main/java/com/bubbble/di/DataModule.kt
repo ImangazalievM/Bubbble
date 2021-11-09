@@ -1,22 +1,23 @@
 package com.bubbble.di
 
 import android.util.Log
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.bubbble.BuildConfig
 import com.bubbble.core.network.Dribbble
 import com.bubbble.core.network.DribbbleApi
 import com.bubbble.core.network.NetworkChecker
-import com.bubbble.core.network.interceptors.DribbbleTokenInterceptor
+import com.bubbble.core.network.di.BaseApiUrl
 import com.bubbble.core.network.interceptors.NetworkCheckInterceptor
-import com.bubbble.data.global.prefs.TempPreferences
 import com.bubbble.data.di.DribbbleWebSite
+import com.bubbble.data.global.prefs.TempPreferences
 import com.bubbble.di.qualifiers.OkHttpInterceptors
 import com.bubbble.di.qualifiers.OkHttpNetworkInterceptors
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.moczul.ok2curl.CurlInterceptor
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -24,12 +25,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class DataModule(private val baseUrl: String) {
+@InstallIn(SingletonComponent::class)
+class DataModule {
 
     @Provides
     @Singleton
     @DribbbleWebSite
     fun dribbbleUrl(): String = Dribbble.URL
+
+    @Provides
+    @Singleton
+    @BaseApiUrl
+    fun dribbbleApiUrl(): String = Dribbble.URL
 
     @Provides
     @Singleton
@@ -50,11 +57,11 @@ class DataModule(private val baseUrl: String) {
                 networkChecker
             )
         )
-        okHttpBuilder.addInterceptor(
-            DribbbleTokenInterceptor(
-                BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN
-            )
-        )
+        //okHttpBuilder.addInterceptor(
+        //    DribbbleTokenInterceptor(
+        //        BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN
+        //    )
+        //)
         for (interceptor in interceptors) {
             okHttpBuilder.addInterceptor(interceptor)
         }
@@ -69,7 +76,11 @@ class DataModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun retrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun retrofit(
+        okHttpClient: OkHttpClient,
+        @BaseApiUrl
+        baseUrl: String
+    ): Retrofit {
         val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .create()
         return Retrofit.Builder()

@@ -3,6 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation(project(Modules.Core.di))
-    kapt(Dependencies.daggerCompiler)
+
 }

@@ -11,21 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
-import com.bumptech.glide.request.RequestListener
-import com.github.chrisbanes.photoview.PhotoView
-import com.google.android.material.snackbar.Snackbar
 import com.bubbble.R
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.utils.AppUtils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.github.chrisbanes.photoview.PhotoView
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
     override val layoutRes: Int = R.layout.activity_shot_zoom
@@ -207,7 +205,7 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
             val intent = Intent(context, ShotZoomActivity::class.java)
             intent.putExtra(KEY_SHOT_TITLE, shot.title)
             intent.putExtra(KEY_SHOT_URL, shot.shotUrl)
-            intent.putExtra(KEY_IMAGE_URL, shot.shotUrl)
+            intent.putExtra(KEY_IMAGE_URL, shot.imageUrl)
             return intent
         }
     }

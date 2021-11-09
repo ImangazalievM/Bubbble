@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.core.models.shot.ShotsParams
+import com.bubbble.core.models.feed.ShotsFeedParams
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.shots.R
+import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ShotsFragment : BaseMvpFragment(), ShotsView {
 
     override val layoutRes: Int = R.layout.fragment_shots
@@ -23,7 +23,7 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
 
     val presenter by moxyPresenter {
         val sortType = requireArguments().getString(SORT_TYPE_ARG)!!
-        presenterFactory.create(ShotsParams.Sorting.find(sortType)!!)
+        presenterFactory.create(ShotsFeedParams.Sorting.find(sortType)!!)
     }
 
     private val loadingLayout: View by lazy {
@@ -36,7 +36,7 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
         requireView().findViewById(R.id.shotsRecyclerView)
     }
     private val shotsAdapter: ShotsAdapter by lazy {
-        ShotsAdapter(context)
+        ShotsAdapter(requireContext())
     }
     private val shotsListLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(context)
@@ -58,7 +58,7 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
             )
         }
         shotsAdapter.setOnRetryLoadMoreListener { presenter.retryLoading() }
-        shotsRecyclerView.setAdapter(shotsAdapter)
+        shotsRecyclerView.adapter = shotsAdapter
         shotsRecyclerView.addOnScrollListener(object :
             EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
             override fun onLoadMore() {
@@ -108,7 +108,7 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
         private const val SORT_TYPE_ARG = "sort"
 
         @JvmStatic
-        fun newInstance(sort: ShotsParams.Sorting): ShotsFragment {
+        fun newInstance(sort: ShotsFeedParams.Sorting): ShotsFragment {
             val fragment = ShotsFragment()
             val args = Bundle()
             args.putString(SORT_TYPE_ARG, sort.name)

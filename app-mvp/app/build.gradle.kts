@@ -34,9 +34,6 @@ dependencies {
     implementation(project(Modules.AppMvp.featureShots))
     implementation(project(Modules.AppMvp.featureShotDetails))
 
-    implementation(Dependencies.dagger)
-    kapt(Dependencies.daggerCompiler)
-
     kapt(Dependencies.moxyCompiler)
 
     // Developer Tools

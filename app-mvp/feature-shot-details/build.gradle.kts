@@ -3,7 +3,4 @@ dependencies {
     implementation(project(Modules.AppMvp.coreUi))
 
     implementation(Dependencies.hashtagView)
-
-    implementation(Dependencies.dagger)
-    kapt(Dependencies.daggerCompiler)
 }

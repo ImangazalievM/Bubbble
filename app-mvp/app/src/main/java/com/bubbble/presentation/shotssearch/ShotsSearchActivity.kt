@@ -18,9 +18,11 @@ import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.coreui.ui.commons.SearchQueryListener
 import com.bubbble.shotdetails.ShotDetailsActivity
+import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
 
     override val layoutRes: Int = R.layout.activity_shots_search
@@ -142,8 +144,7 @@ class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
     companion object {
         private const val KEY_SEARCH_QUERY = "key_search_query"
 
-        @JvmStatic
-        fun buildIntent(context: Context?, searchQuery: String?): Intent {
+        fun buildIntent(context: Context, searchQuery: String?): Intent {
             val intent = Intent(context, ShotsSearchActivity::class.java)
             intent.putExtra(KEY_SEARCH_QUERY, searchQuery)
             return intent

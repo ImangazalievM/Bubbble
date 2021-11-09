@@ -6,7 +6,4 @@ dependencies {
        isTransitive = true
        exclude(group = "com.android.support")
    }
-
-   implementation(Dependencies.dagger)
-   kapt(Dependencies.daggerCompiler)
 }

@@ -9,10 +9,12 @@ import com.bubbble.R
 import com.bubbble.core.models.user.User
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.utils.AppUtils
+import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
 
     override val layoutRes: Int = R.layout.fragment_user_details

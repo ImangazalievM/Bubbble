@@ -33,11 +33,13 @@ import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
 import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
 import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.shotdetails.comments.ShotCommentsAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     override val layoutRes: Int = R.layout.activity_shot_details

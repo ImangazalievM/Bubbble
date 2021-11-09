@@ -12,9 +12,11 @@ import com.bubbble.shots.shotslist.ShotsAdapter
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.shotdetails.ShotDetailsActivity
+import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class UserShotsFragment : BaseMvpFragment(), UserShotsView {
 
     override val layoutRes: Int = R.layout.fragment_shots
@@ -45,17 +47,12 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews(view)
-    }
 
-    private fun initViews(view: View) {
         noNetworkLayout.findViewById<View>(R.id.retry_button)
         shotsRecyclerView.layoutManager = shotsListLayoutManager
         shotsRecyclerView.adapter = shotsAdapter
         shotsAdapter.setOnItemClickListener { position: Int ->
-            presenter.onShotClick(
-                position
-            )
+            presenter.onShotClick(position)
         }
         shotsRecyclerView.addOnScrollListener(object :
             EndlessRecyclerOnScrollListener(shotsListLayoutManager) {

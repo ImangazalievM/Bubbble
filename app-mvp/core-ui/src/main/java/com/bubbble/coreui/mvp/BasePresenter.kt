@@ -2,20 +2,21 @@ package com.bubbble.coreui.mvp
 
 import android.util.Log
 import moxy.MvpPresenter
-import com.bubbble.coreui.di.coreUiComponent
+import com.bubbble.coreui.di.coreUiEntrypoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import moxy.MvpView
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.reflect.KClass
 
-open class BasePresenter<V : BaseMvpView> : MvpPresenter<V>(), CoroutineScope {
+open class BasePresenter<V : MvpView> : MvpPresenter<V>(), CoroutineScope {
 
     //protected val router by lazy { getGlobal<Navigator>() }
-    protected val errorHandler by lazy { coreUiComponent.errorHandler }
-    protected val resources by lazy { coreUiComponent.resourcesManager }
+    protected val errorHandler by lazy { coreUiEntrypoint.errorHandler }
+    protected val resources by lazy { coreUiEntrypoint.resourcesManager }
     private val parentJob = Job()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + parentJob
@@ -43,7 +44,7 @@ open class BasePresenter<V : BaseMvpView> : MvpPresenter<V>(), CoroutineScope {
             block()
         } catch (error: Exception) {
             this@BasePresenter.errorHandler.proceed(error, handledErrorTypes, errorHandler) {
-                if (showErrorMessage && handledErrorTypes.isEmpty()) viewState.showMessage(it)
+                //if (showErrorMessage && handledErrorTypes.isEmpty()) viewState.showMessage(it)
             }
         }
     }
@@ -57,7 +58,7 @@ open class BasePresenter<V : BaseMvpView> : MvpPresenter<V>(), CoroutineScope {
             block()
         } catch (error: Exception) {
             errorHandler.proceed(error, emptyList(), {}) {
-                if (showErrorMessage) viewState.showMessage(it)
+                //if (showErrorMessage) viewState.showMessage(it)
             }
         }
     }

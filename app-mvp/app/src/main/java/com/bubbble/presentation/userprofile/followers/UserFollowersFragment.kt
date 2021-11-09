@@ -12,9 +12,11 @@ import com.bubbble.presentation.userprofile.UserFollowersAdapter
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.presentation.userprofile.UserProfileActivity
+import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
 
     override val layoutRes: Int = R.layout.fragment_shots

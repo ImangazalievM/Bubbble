@@ -21,9 +21,6 @@ dependencies {
     api(Dependencies.coroutinesCore)
     api(Dependencies.coroutinesAndroid)
 
-    implementation(Dependencies.dagger)
-    kapt(Dependencies.daggerCompiler)
-
     //permissions request
     api("com.afollestad.assent:core:3.0.0-RC4")
     api("com.afollestad.assent:rationales:3.0.0-RC4")
