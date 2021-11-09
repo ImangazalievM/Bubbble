@@ -1,6 +1,6 @@
 package com.bubbble.domain.shotzoom
 
-import com.bubbble.data.shots.ImagesRepository
+import com.bubbble.data.images.ImagesRepository
 import javax.inject.Inject
 
 class ShotZoomInteractor @Inject constructor(

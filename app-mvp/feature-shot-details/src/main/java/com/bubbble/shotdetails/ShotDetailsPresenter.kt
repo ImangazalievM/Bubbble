@@ -110,7 +110,7 @@ class ShotDetailsPresenter @AssistedInject constructor(
 
     private fun saveShotImage() = launchSafe {
         if (!isShotLoaded) return@launchSafe
-        shotDetailsInteractor.saveImage(shot.shotUrl)
+        shotDetailsInteractor.saveImage(shot.imageUrl)
         viewState.showImageSavedMessage()
     }
 

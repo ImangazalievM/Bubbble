@@ -1,6 +1,6 @@
 package com.bubbble;
 
-import com.bubbble.di.ApplicationComponent;
+import com.bubbble.di.AppEntryPoint;
 
 public class BubbbleTestApplication extends BubbbleApplication {
 

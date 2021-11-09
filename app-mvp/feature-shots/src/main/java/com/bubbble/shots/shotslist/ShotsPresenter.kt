@@ -3,7 +3,7 @@ package com.bubbble.shots.shotslist
 import android.util.Log
 import moxy.InjectViewState
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.core.models.shot.ShotsParams
+import com.bubbble.core.models.feed.ShotsFeedParams
 import com.bubbble.core.network.NoNetworkException
 import com.bubbble.coreui.mvp.BasePresenter
 import dagger.assisted.Assisted
@@ -14,7 +14,7 @@ import java.util.*
 @InjectViewState
 class ShotsPresenter @AssistedInject constructor(
     private val shotsInteractor: ShotsInteractor,
-    @Assisted private val shotsSort: ShotsParams.Sorting
+    @Assisted private val shotsSort: ShotsFeedParams.Sorting
 ) : BasePresenter<ShotsView>() {
 
     private var currentMaxPage = 1
@@ -32,7 +32,7 @@ class ShotsPresenter @AssistedInject constructor(
 
     private fun loadMoreShots(page: Int) = launchSafe {
         isShotsLoading = true
-        val shotsRequestParams = ShotsParams(shotsSort, page, PAGE_SIZE)
+        val shotsRequestParams = ShotsFeedParams(shotsSort, page, PAGE_SIZE)
         val newShots = try {
             shotsInteractor.getShots(shotsRequestParams)
         } finally {
@@ -95,7 +95,7 @@ class ShotsPresenter @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(shotsSort: ShotsParams.Sorting): ShotsPresenter
+        fun create(shotsSort: ShotsFeedParams.Sorting): ShotsPresenter
     }
 
 
