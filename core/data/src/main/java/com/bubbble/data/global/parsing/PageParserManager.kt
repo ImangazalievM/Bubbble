@@ -16,7 +16,7 @@ class PageParserManager @Inject constructor(
         params: Params
     ): Data {
         val html = pageDownloader.download(parser.getUrl(dribbbleUrl, params))
-        return parser.parseHtml(html)
+        return parser.parseHtml(html, dribbbleUrl)
     }
 
 }

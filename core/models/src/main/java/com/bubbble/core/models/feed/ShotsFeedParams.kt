@@ -1,6 +1,6 @@
-package com.bubbble.core.models.shot
+package com.bubbble.core.models.feed
 
-class ShotsParams(
+class ShotsFeedParams(
     val sort: Sorting,
     val page: Int,
     val pageSize: Int

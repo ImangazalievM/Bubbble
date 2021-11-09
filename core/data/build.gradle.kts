@@ -18,8 +18,6 @@ dependencies {
     api(project(Modules.Core.models))
     api(project(Modules.Core.network))
 
-    kapt(Dependencies.daggerCompiler)
-
     api(Dependencies.coroutinesCore)
     api(Dependencies.coroutinesAndroid)
 
