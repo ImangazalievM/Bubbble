@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
     }
 }
 
@@ -24,6 +24,6 @@ repositories {
 dependencies {
     implementation("com.android.tools.build:gradle:4.2.2")
     implementation("com.android.tools.build:gradle-api:4.2.2")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.20")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
 }

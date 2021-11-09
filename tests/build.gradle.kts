@@ -7,9 +7,6 @@ dependencies {
     api(project(Modules.Core.core))
     api(project(Modules.Core.network))
 
-    implementation(Dependencies.dagger)
-    kapt(Dependencies.daggerCompiler)
-
     // unit-tests
     implementation(Dependencies.Tests.kotlinReflect)
     implementation(kotlin(Dependencies.Tests.stdJdk))

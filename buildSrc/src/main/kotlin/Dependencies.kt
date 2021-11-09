@@ -4,12 +4,16 @@ object Build {
         const val appVersion = "1.0.0"
         const val appVersionCode = 1
 
-        const val buildTools = "29.0.3"
+        const val buildTools = "30.0.2"
         const val compileSdk = 30
         const val minSdk = 21
         const val targetSdk = 30
 
         const val kotlin = "1.4.0"
+    }
+
+    object Plugins {
+        const val hilt = "dagger.hilt.android.plugin"
     }
 
 }
@@ -29,8 +33,10 @@ object Dependencies {
     const val customTabs = "androidx.browser:browser:1.0.0"
 
     //architecture
-    const val dagger = "com.google.dagger:dagger:2.38.1"
-    const val daggerCompiler = "com.google.dagger:dagger-compiler:2.38.1"
+    const val dagger = "com.google.dagger:dagger:2.40"
+    const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:2.38.1"
+    const val hiltAndroid = "com.google.dagger:hilt-android:2.38.1"
+    const val hiltCompiler = "com.google.dagger:hilt-compiler:2.38.1"
 
     const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:" +
             Versions.kotlinCoroutineVersion

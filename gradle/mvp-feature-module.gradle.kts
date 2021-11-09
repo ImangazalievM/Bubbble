@@ -4,8 +4,8 @@ apply {
     plugin("kotlin-kapt")
     plugin("kotlin-android-extensions")
 }
-baseScript("module-config")
-
+baseScriptFrom(BuildScript.moduleConfig)
+baseScriptFrom(BuildScript.hiltConfig)
 
 val kapt by configurations
 dependencies {

@@ -12,11 +12,9 @@ configure<BaseExtension> {
     defaultConfig {
         setMinSdkVersion(Build.Versions.minSdk)
         setTargetSdkVersion(Build.Versions.targetSdk)
-        versionCode = Build.Versions.appVersionCode
-        versionName = Build.Versions.appVersion
-        multiDexEnabled = true
+
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled = true
+
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

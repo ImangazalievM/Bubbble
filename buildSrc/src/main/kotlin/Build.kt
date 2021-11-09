@@ -5,12 +5,19 @@ fun Project.baseScript(name: String) {
     apply(from = rootProject.file("gradle/${name}.gradle.kts"))
 }
 
+fun Project.baseScriptFrom(path: String) {
+    apply(from = rootProject.file(path))
+}
+
 object BuildScript {
-    private const val appConfig = "gradle/app-config.gradle.kts"
-    private const val moduleConfig = "gradle/module-config.gradle.kts"
+    const val appConfig = "gradle/base/app-config.gradle.kts"
+    const val baseConfig = "gradle/base/base-config.gradle.kts"
+    const val moduleConfig = "gradle/base/module-config.gradle.kts"
     private const val mvpFeatureModuleConfig = "gradle/mvp-feature-module.gradle.kts"
-    private const val uiTestsConfig = "gradle/ui-tests-config.gradle.kts"
-    private const val unitTestsConfig = "gradle/unit-tests-config.gradle.kts"
+    private const val uiTestsConfig = "gradle/tests/ui-tests-config.gradle.kts"
+    private const val unitTestsConfig = "gradle/tests/unit-tests-config.gradle.kts"
+
+    const val hiltConfig = "gradle/libs/hilt-config.gradle.kts"
 
     private val moduleConfigs: Map<String, List<String>> = mapOf(
         module(
@@ -20,7 +27,8 @@ object BuildScript {
         ),
         module(
             Modules.AppMvp.coreUi,
-            moduleConfig
+            moduleConfig,
+            hiltConfig
         ),
         module(
             Modules.AppMvp.featureShots,
@@ -45,20 +53,24 @@ object BuildScript {
 
         module(
             Modules.Core.core,
-            moduleConfig
+            moduleConfig,
+            hiltConfig
         ),
         module(
             Modules.Core.data,
             moduleConfig,
+            hiltConfig,
             unitTestsConfig
         ),
         module(
             Modules.Core.di,
-            moduleConfig
+            moduleConfig,
+            hiltConfig
         ),
         module(
             Modules.Core.network,
-            moduleConfig
+            moduleConfig,
+            hiltConfig
         ),
         module(
             Modules.Core.models,
@@ -67,7 +79,8 @@ object BuildScript {
 
         module(
             Modules.tests,
-            moduleConfig
+            moduleConfig,
+            hiltConfig
         )
     )
 

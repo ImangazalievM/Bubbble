@@ -5,11 +5,11 @@ configure<TestedExtension> {
     //testBuildType = "uiTest"
 
     buildTypes {
-        create("uiTest") { }
+        //create("uiTest") { }
     }
 
     sourceSets {
-        getByName("uiTest").resources.srcDirs("src/test/resources")
+        //getByName("uiTest").resources.srcDirs("src/test/resources")
         getByName("androidTest").resources.srcDirs("src/test/resources")
     }
 }
