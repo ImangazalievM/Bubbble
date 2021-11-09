@@ -9,7 +9,4 @@ dependencies {
     api(Dependencies.okHttp)
     api(Dependencies.retrofit)
     api(Dependencies.retrofitGsonConverter)
-
-    implementation(Dependencies.dagger)
-    kapt(Dependencies.daggerCompiler)
 }

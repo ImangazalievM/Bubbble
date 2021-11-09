@@ -1,6 +1,6 @@
 package com.bubbble.core.network
 
-import android.net.Uri
+import com.bubbble.core.network.utils.urlBuilder
 
 object Dribbble {
 
@@ -29,6 +29,7 @@ object Dribbble {
             const val product_design = "product-design"
             const val typography = "typography"
             const val web_design = "web-design"
+            //following|popular|goods|recent|animation|branding|illustration|mobile|print|product-design|typography|web-design
         }
     }
 
@@ -56,13 +57,10 @@ object Dribbble {
         const val teams = "teams"
 
         fun search(query: String, type: String?): String {
-            val searchUri = Uri.parse("$URL/search")
-                .buildUpon()
-            type?.let { searchUri.appendPath(it) }
-            searchUri.appendPath(query)
-            return searchUri.build().toString()
+            val searchUrl = urlBuilder(path)
+            type?.let { searchUrl.addPathSegments(it) }
+            searchUrl.addPathSegments(query)
+            return searchUrl.build().toString()
         }
-
     }
-
 }
