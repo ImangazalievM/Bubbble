@@ -10,8 +10,9 @@ class UsersRepository @Inject constructor(
     private val dribbbleApi: DribbbleApi
 ) {
 
-    suspend fun getUser(userId: Long): User {
-        return dribbbleApi.getUser(userId)
+    suspend fun getUser(userName: String): User {
+        TODO()
+        //return dribbbleApi.getUser(userName)
     }
 
 }

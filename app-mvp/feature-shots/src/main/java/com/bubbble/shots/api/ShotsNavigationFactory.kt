@@ -1,10 +1,11 @@
 package com.bubbble.shots.api
 
-import android.content.Context
-import android.content.Intent
+import com.github.terrakok.cicerone.Screen
 
 interface ShotsNavigationFactory {
 
-    fun shotsSearchScreen(context: Context, query: String): Intent
+    fun shotDetailsScreen(shotId: Long): Screen
+
+    fun shotsSearchScreen(query: String): Screen
 
 }

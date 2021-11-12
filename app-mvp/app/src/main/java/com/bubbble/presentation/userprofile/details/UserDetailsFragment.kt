@@ -3,8 +3,6 @@ package com.bubbble.presentation.userprofile.details
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.user.User
 import com.bubbble.coreui.ui.base.BaseMvpFragment
@@ -23,8 +21,8 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
     lateinit var presenterFactory: UserDetailsPresenter.Factory
 
     val presenter by moxyPresenter {
-        val userId = requireArguments().getLong(USER_ID_ARG)
-        presenterFactory.create(userId)
+        val userName = requireArguments().getString(USER_NAME)!!
+        presenterFactory.create(userName)
     }
 
     private lateinit var loadingLayout: View
@@ -137,11 +135,13 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
     }
 
     companion object {
-        private const val USER_ID_ARG = "user_id"
-        fun newInstance(userId: Long): UserDetailsFragment {
+
+        private const val USER_NAME = "user_name"
+
+        fun newInstance(userName: String): UserDetailsFragment {
             val fragment = UserDetailsFragment()
             val args = Bundle()
-            args.putLong(USER_ID_ARG, userId)
+            args.putString(USER_NAME, userName)
             fragment.arguments = args
             return fragment
         }

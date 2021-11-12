@@ -17,7 +17,7 @@ class ShotCommentsAdapter(
     private val context: Context,
     private val onLinkClick: (url: String) -> Unit,
     private val onUserUrlClick: (url: String) -> Unit,
-    private val onUserClick: (userId: Long) -> Unit,
+    private val onUserClick: (userName: String) -> Unit,
     description: View
 ) : LoadMoreAdapter<Comment?>(true, true) {
 
@@ -64,7 +64,7 @@ class ShotCommentsAdapter(
                 .crossFade()
                 .into(commentViewHolder.userAvatar)
             commentViewHolder.userAvatar.setOnClickListener {
-                onUserClick(comment.user.id)
+                onUserClick(comment.user.userName)
             }
             commentViewHolder.commentText.setOnLinkClickListener { url: String -> onLinkClick(url) }
             commentViewHolder.commentText.setOnUserSelectedListener { url: String ->

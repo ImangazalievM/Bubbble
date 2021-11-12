@@ -8,8 +8,8 @@ class UserDetailsInteractor @Inject constructor(
     private val usersRepository: UsersRepository
 ) {
 
-    suspend fun getUser(userId: Long): User {
-        return usersRepository.getUser(userId)
+    suspend fun getUser(userName: String): User {
+        return usersRepository.getUser(userName)
     }
 
 }

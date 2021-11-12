@@ -12,8 +12,8 @@ class UserShotsInteractor @Inject constructor(
     private val shotsRepository: ShotsRepository
 ) {
 
-    suspend fun getUser(userId: Long): User {
-        return usersRepository.getUser(userId)
+    suspend fun getUser(userName: String): User {
+        return usersRepository.getUser(userName)
     }
 
     suspend fun getUserShots(params: UserShotsParams): List<Shot> {

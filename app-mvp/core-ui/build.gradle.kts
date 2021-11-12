@@ -14,9 +14,10 @@ dependencies {
     api(Dependencies.glide)
     api(Dependencies.photoView)
 
-    api(Dependencies.moxy)
-    api(Dependencies.moxyAndroid)
-    api(Dependencies.moxyKtx)
+    api(Dependencies.Mvp.moxy)
+    api(Dependencies.Mvp.moxyAndroid)
+    api(Dependencies.Mvp.moxyKtx)
+    api(Dependencies.Mvp.cicerone)
 
     api(Dependencies.coroutinesCore)
     api(Dependencies.coroutinesAndroid)

@@ -88,10 +88,6 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
         shotsAdapter.setLoadingMore(false)
     }
 
-    override fun openShotDetailsScreen(shotId: Long) {
-        //startActivity(ShotDetailsActivity.buildIntent(activity, shotId))
-    }
-
     override fun showNoNetworkLayout() {
         noNetworkLayout.visibility = View.VISIBLE
     }

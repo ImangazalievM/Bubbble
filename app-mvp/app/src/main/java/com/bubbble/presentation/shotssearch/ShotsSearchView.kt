@@ -1,13 +1,10 @@
 package com.bubbble.presentation.shotssearch
 
-import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.OneExecutionStateStrategy
-import moxy.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.mvp.BaseMvpView
-import moxy.viewstate.strategy.alias.OneExecution
+import moxy.viewstate.strategy.alias.AddToEndSingle
 
-@StateStrategyType(AddToEndSingleStrategy::class)
+@AddToEndSingle
 interface ShotsSearchView : BaseMvpView {
 
     fun showNewShots(newShots: List<Shot>)
@@ -27,8 +24,5 @@ interface ShotsSearchView : BaseMvpView {
     fun hideShotsLoadingMoreProgress()
 
     fun showLoadMoreError()
-
-    @OneExecution
-    fun openShotDetailsScreen(shotId: Long)
 
 }

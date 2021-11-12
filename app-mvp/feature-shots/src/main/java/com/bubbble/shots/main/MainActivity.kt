@@ -31,9 +31,6 @@ class MainActivity : BaseMvpActivity(), MainView {
     }
 
     @Inject
-    lateinit var navigationFactory: ShotsNavigationFactory
-
-    @Inject
     lateinit var presenterFactory: MainPresenter.Factory
 
     val presenter by moxyPresenter {
@@ -90,10 +87,6 @@ class MainActivity : BaseMvpActivity(), MainView {
             resources.getString(R.string.recently)
         )
         viewPager.adapter = shotsPagerAdapter
-    }
-
-    override fun openSearchScreen(searchQuery: String) {
-        startActivity(navigationFactory.shotsSearchScreen(this, searchQuery))
     }
 
 }

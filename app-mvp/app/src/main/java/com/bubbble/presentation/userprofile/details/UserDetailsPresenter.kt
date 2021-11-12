@@ -12,7 +12,7 @@ import dagger.assisted.AssistedInject
 @InjectViewState
 class UserDetailsPresenter @AssistedInject constructor(
     private val userDetailsInteractor: UserDetailsInteractor,
-    @Assisted  private val userId: Long
+    @Assisted  private val userName: String
 ) : BasePresenter<UserDetailsView>() {
 
     private lateinit var user: User
@@ -27,9 +27,9 @@ class UserDetailsPresenter @AssistedInject constructor(
     private fun loadUser() = launchSafe {
         viewState.showLoadingProgress()
         try {
-            this@UserDetailsPresenter.user = userDetailsInteractor.getUser(userId)
+            this@UserDetailsPresenter.user = userDetailsInteractor.getUser(userName)
             viewState.showUserInfo(user)
-        } catch (e: com.bubbble.core.network.NoNetworkException) {
+        } catch (e: NoNetworkException) {
             viewState.showNoNetworkLayout()
         } finally {
             viewState.hideLoadingProgress()
@@ -53,7 +53,7 @@ class UserDetailsPresenter @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(userId: Long): UserDetailsPresenter
+        fun create(userName: String): UserDetailsPresenter
     }
 
 }

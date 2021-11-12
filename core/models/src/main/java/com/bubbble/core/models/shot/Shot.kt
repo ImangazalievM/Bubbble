@@ -20,7 +20,8 @@ data class Shot(
 ) {
 
     data class User(
-        val name: String,
+        val displayName: String,
+        val userName: String,
         val avatarUrl: String,
         val userUrl: String,
         val type: UserType

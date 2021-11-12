@@ -6,6 +6,7 @@ data class ShotAdditionalRaw(
     val imageUrl: String,
     val shotUrl: String,
     val userName: String,
+    val userDisplayName: String,
     val userAvatarUrl: String,
     val userUrl: String,
     val userType: UserType

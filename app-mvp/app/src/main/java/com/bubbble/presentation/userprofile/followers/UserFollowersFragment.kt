@@ -25,8 +25,8 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     lateinit var presenterFactory: UserFollowersPresenter.Factory
 
     val presenter by moxyPresenter {
-        val userId = requireArguments().getLong(USER_ID_ARG)
-        presenterFactory.create(userId)
+        val userName = requireArguments().getString(USER_NAME)!!
+        presenterFactory.create(userName)
     }
 
     private val loadingLayout: View by lazy {
@@ -90,10 +90,6 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
         userFollowersAdapter.hideLoadingIndicator()
     }
 
-    override fun openUserDetailsScreen(userId: Long) {
-        startActivity(UserProfileActivity.buildIntent(activity, userId))
-    }
-
     override fun showNoNetworkLayout() {
         noNetworkLayout.visibility = View.VISIBLE
     }
@@ -107,13 +103,13 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     }
 
     companion object {
-        private const val USER_ID_ARG = "user_id"
+        private const val USER_NAME = "user_name"
 
         @JvmStatic
-        fun newInstance(userId: Long): UserFollowersFragment {
+        fun newInstance(userName: String): UserFollowersFragment {
             val fragment = UserFollowersFragment()
             val args = Bundle()
-            args.putLong(USER_ID_ARG, userId)
+            args.putString(USER_NAME, userName)
             fragment.arguments = args
             return fragment
         }

@@ -5,6 +5,8 @@ import com.bubbble.core.models.user.User
 import com.bubbble.core.network.NoNetworkException
 import com.bubbble.domain.userprofile.UserProfileInteractor
 import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.presentation.global.navigation.UserProfileScreen
+import com.bubbble.shotdetails.UserUrlParser
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -12,7 +14,8 @@ import dagger.assisted.AssistedInject
 @InjectViewState
 class UserProfilePresenter @AssistedInject constructor(
     private val userProfileInteractor: UserProfileInteractor,
-    @Assisted private val userId: Long
+    private val userUrlParser: UserUrlParser,
+    @Assisted private val userName: String
 ) : BasePresenter<UserProfileView>() {
 
     private lateinit var user: User
@@ -27,9 +30,9 @@ class UserProfilePresenter @AssistedInject constructor(
     private fun loadUser() = launchSafe {
         viewState.showLoadingProgress()
         try {
-            this@UserProfilePresenter.user = userProfileInteractor.getUser(userId)
+            this@UserProfilePresenter.user = userProfileInteractor.getUser(userName)
             viewState.showUser(user)
-        } catch (throwable: com.bubbble.core.network.NoNetworkException) {
+        } catch (throwable: NoNetworkException) {
             viewState.showNoNetworkLayout()
         } finally {
             viewState.hideLoadingProgress()
@@ -55,8 +58,13 @@ class UserProfilePresenter @AssistedInject constructor(
         viewState.openInBrowser(url!!)
     }
 
-    fun onUserSelected(userId: Long) {
-        viewState.openUserProfileScreen(userId)
+    fun onUserSelected(userUrl: String) {
+        val selectedUserName = userUrlParser.getUserName(userUrl)
+        if (selectedUserName != null) {
+            router.navigateTo(UserProfileScreen(selectedUserName))
+        } else {
+            //ToDo: handle it
+        }
     }
 
     override fun onBackPressed() {
@@ -65,7 +73,7 @@ class UserProfilePresenter @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(userId: Long): UserProfilePresenter
+        fun create(userName: String): UserProfilePresenter
     }
 
 }

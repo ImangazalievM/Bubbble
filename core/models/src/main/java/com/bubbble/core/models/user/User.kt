@@ -5,7 +5,7 @@ import java.util.*
 class User(
     val id: Long,
     val name: String,
-    val username: String,
+    val userName: String,
     val htmlUrl: String,
     val avatarUrl: String,
     val bio: String?,

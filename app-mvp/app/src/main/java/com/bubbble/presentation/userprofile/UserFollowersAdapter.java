@@ -62,7 +62,7 @@ public class UserFollowersAdapter extends LoadMoreAdapter<Follow> {
                     .transform(new GlideCircleTransform(context))
                     .crossFade()
                     .into(followerViewHolder.userAvatar);
-            followerViewHolder.userName.setText(user.getUsername());
+            followerViewHolder.userName.setText(user.getUserName());
             followerViewHolder.userLocation.setText(user.getLocation());
             followerViewHolder.userShotsCount.setText(String.valueOf(user.getShotsCount()));
             followerViewHolder.userShotsLabel.setText(context.getResources().getQuantityString(R.plurals.shots,

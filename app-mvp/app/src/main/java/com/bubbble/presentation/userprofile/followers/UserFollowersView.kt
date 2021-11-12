@@ -1,13 +1,10 @@
 package com.bubbble.presentation.userprofile.followers
 
-import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.OneExecutionStateStrategy
-import moxy.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.user.Follow
 import com.bubbble.coreui.mvp.BaseMvpView
-import moxy.viewstate.strategy.alias.OneExecution
+import moxy.viewstate.strategy.alias.AddToEndSingle
 
-@StateStrategyType(AddToEndSingleStrategy::class)
+@AddToEndSingle
 interface UserFollowersView : BaseMvpView {
 
     fun showNewFollowers(newFollowers: List<Follow>)
@@ -19,9 +16,6 @@ interface UserFollowersView : BaseMvpView {
     fun showFollowersLoadingMoreProgress()
 
     fun hideFollowersLoadingMoreProgress()
-
-    @OneExecution
-    fun openUserDetailsScreen(userId: Long)
 
     fun showNoNetworkLayout()
 

@@ -5,6 +5,7 @@ import moxy.InjectViewState
 import com.bubbble.domain.shotzoom.ShotZoomInteractor
 import com.bubbble.coreui.mvp.BasePresenter
 import com.bubbble.coreui.permissions.PermissionsManager
+import com.bubbble.presentation.global.navigation.AppSettingsScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,7 +15,7 @@ class ShotZoomPresenter @AssistedInject constructor(
     private val shotZoomInteractor: ShotZoomInteractor,
     private val permissionsManager: PermissionsManager,
     @Assisted("shotTitle") private val shotTitle: String,
-    @Assisted("shotUrl:") private val shotUrl: String,
+    @Assisted("shotUrl") private val shotUrl: String,
     @Assisted("imageUrl") private val imageUrl: String
 ) : BasePresenter<ShotZoomView>() {
 
@@ -51,7 +52,7 @@ class ShotZoomPresenter @AssistedInject constructor(
     }
 
     fun onAppSettingsButtonClicked() {
-        viewState.openAppSettingsScreen()
+        router.navigateTo(AppSettingsScreen())
     }
 
     private fun saveShotImage() = launchSafe {
@@ -71,7 +72,7 @@ class ShotZoomPresenter @AssistedInject constructor(
     interface Factory {
         fun create(
             @Assisted("shotTitle") shotTitle: String,
-            @Assisted("shotUrl:") shotUrl: String,
+            @Assisted("shotUrl") shotUrl: String,
             @Assisted("imageUrl") imageUrl: String
         ): ShotZoomPresenter
     }

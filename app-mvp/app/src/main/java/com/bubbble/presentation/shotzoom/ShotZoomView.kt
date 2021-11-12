@@ -1,12 +1,10 @@
 package com.bubbble.presentation.shotzoom
 
-import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.OneExecutionStateStrategy
-import moxy.viewstate.strategy.StateStrategyType
 import com.bubbble.coreui.mvp.BaseMvpView
+import moxy.viewstate.strategy.alias.AddToEndSingle
 import moxy.viewstate.strategy.alias.OneExecution
 
-@StateStrategyType(AddToEndSingleStrategy::class)
+@AddToEndSingle
 interface ShotZoomView : BaseMvpView {
 
     fun showShotImage(imageUrl: String)
@@ -24,8 +22,6 @@ interface ShotZoomView : BaseMvpView {
     fun showStorageAccessRationaleMessage()
 
     fun showAllowStorageAccessMessage()
-
-    fun openAppSettingsScreen()
 
     @OneExecution
     fun showShotSharing(shotTitle: String, url: String)

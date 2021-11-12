@@ -2,8 +2,10 @@ package com.bubbble.di
 
 import android.content.Context
 import android.content.Intent
+import com.bubbble.presentation.global.navigation.ShotsSearchScreen
 import com.bubbble.presentation.shotssearch.ShotsSearchActivity
 import com.bubbble.shots.api.ShotsNavigationFactory
+import com.github.terrakok.cicerone.Screen
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,13 +22,5 @@ class AppModule {
     fun applicationContext(
         @ApplicationContext context: Context
     ): Context = context
-
-    @Provides
-    @Singleton
-    fun shotsNavigationFactory() = object : ShotsNavigationFactory {
-        override fun shotsSearchScreen(context: Context, query: String): Intent {
-            return ShotsSearchActivity.buildIntent(context, query)
-        }
-    }
 
 }

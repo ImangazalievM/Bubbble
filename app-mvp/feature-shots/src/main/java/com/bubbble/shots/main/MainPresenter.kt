@@ -1,5 +1,7 @@
 package com.bubbble.shots.main
 
+import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.shots.api.ShotsNavigationFactory
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import moxy.InjectViewState
@@ -7,11 +9,11 @@ import moxy.MvpPresenter
 
 @InjectViewState
 class MainPresenter @AssistedInject constructor(
-
-) : MvpPresenter<MainView>() {
+    private val navigationFactory: ShotsNavigationFactory
+) : BasePresenter<MainView>() {
 
     fun onSearchQuery(searchQuery: String) {
-        viewState.openSearchScreen(searchQuery)
+        router.navigateTo(navigationFactory.shotsSearchScreen(searchQuery))
     }
 
     @AssistedFactory

@@ -1,13 +1,11 @@
 package com.bubbble.shots.shotslist
 
-import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.OneExecutionStateStrategy
-import moxy.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.mvp.BaseMvpView
+import moxy.viewstate.strategy.alias.AddToEndSingle
 import moxy.viewstate.strategy.alias.OneExecution
 
-@StateStrategyType(AddToEndSingleStrategy::class)
+@AddToEndSingle
 interface ShotsView : BaseMvpView {
 
     fun showNewShots(newShots: List<Shot>)
@@ -20,8 +18,6 @@ interface ShotsView : BaseMvpView {
     fun showShotsLoadingMoreProgress()
 
     fun hideShotsLoadingMoreProgress()
-
-    fun openShotDetailsScreen(shotId: Long)
 
     fun showNoNetworkLayout()
 

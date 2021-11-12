@@ -6,6 +6,7 @@ import com.bubbble.core.models.user.UserShotsParams
 import com.bubbble.core.network.NoNetworkException
 import com.bubbble.domain.userprofile.UserShotsInteractor
 import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.presentation.global.navigation.ShotDetailsScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,7 +15,7 @@ import java.util.*
 @InjectViewState
 class UserShotsPresenter @AssistedInject constructor(
     private val userShotsInteractor: UserShotsInteractor,
-    @Assisted private val userId: Long
+    @Assisted private val userName: String
 ) : BasePresenter<UserShotsView>() {
 
     private var currentMaxPage = 1
@@ -31,12 +32,12 @@ class UserShotsPresenter @AssistedInject constructor(
 
     private fun loadMoreShots(page: Int) = launchSafe {
         isShotsLoading = true
-        val userShotsRequestParams = UserShotsParams(userId, page, PAGE_SIZE)
+        val userShotsRequestParams = UserShotsParams(userName, page, PAGE_SIZE)
         try {
             val newShots = userShotsInteractor.getUserShots(userShotsRequestParams)
             shots.addAll(newShots)
             viewState.showNewShots(newShots)
-        } catch (throwable: com.bubbble.core.network.NoNetworkException) {
+        } catch (throwable: NoNetworkException) {
             if (isFirstLoading) {
                 viewState.showNoNetworkLayout()
             } else {
@@ -73,7 +74,7 @@ class UserShotsPresenter @AssistedInject constructor(
     }
 
     fun onShotClick(position: Int) {
-        viewState.openShotDetailsScreen(shots[position].id)
+        router.navigateTo(ShotDetailsScreen(shots[position].id))
     }
 
     companion object {
@@ -82,7 +83,7 @@ class UserShotsPresenter @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(userId: Long): UserShotsPresenter
+        fun create(userName: String): UserShotsPresenter
     }
 
 }

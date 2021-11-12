@@ -12,9 +12,9 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.reflect.KClass
 
-open class BasePresenter<V : MvpView> : MvpPresenter<V>(), CoroutineScope {
+open class BasePresenter<V : BaseMvpView> : MvpPresenter<V>(), CoroutineScope {
 
-    //protected val router by lazy { getGlobal<Navigator>() }
+    protected val router by lazy { coreUiEntrypoint.router }
     protected val errorHandler by lazy { coreUiEntrypoint.errorHandler }
     protected val resources by lazy { coreUiEntrypoint.resourcesManager }
     private val parentJob = Job()
@@ -30,41 +30,37 @@ open class BasePresenter<V : MvpView> : MvpPresenter<V>(), CoroutineScope {
     }
 
     open fun onBackPressed() {
-        //router.goBack()
+        router.exit()
     }
 
     protected fun launchSafe(
-            context: CoroutineContext = EmptyCoroutineContext,
-            showErrorMessage: Boolean = true,
-            handledErrorTypes: List<KClass<out Throwable>> = emptyList(),
-            errorHandler: (Throwable) -> Unit = {},
-            block: suspend CoroutineScope.() -> Unit
+        context: CoroutineContext = EmptyCoroutineContext,
+        showErrorMessage: Boolean = true,
+        handledErrorTypes: List<KClass<out Throwable>> = emptyList(),
+        errorHandler: (Throwable) -> Unit = {},
+        block: suspend CoroutineScope.() -> Unit
     ): Job = launch(context) {
         try {
             block()
         } catch (error: Exception) {
             this@BasePresenter.errorHandler.proceed(error, handledErrorTypes, errorHandler) {
-                //if (showErrorMessage && handledErrorTypes.isEmpty()) viewState.showMessage(it)
+                if (showErrorMessage && handledErrorTypes.isEmpty()) viewState.showMessage(it)
             }
         }
     }
 
     protected fun launchSafeNoProgress(
-            context: CoroutineContext = EmptyCoroutineContext,
-            showErrorMessage: Boolean = true,
-            block: suspend CoroutineScope.() -> Unit
+        context: CoroutineContext = EmptyCoroutineContext,
+        showErrorMessage: Boolean = true,
+        block: suspend CoroutineScope.() -> Unit
     ): Job = launch(context) {
         try {
             block()
         } catch (error: Exception) {
             errorHandler.proceed(error, emptyList(), {}) {
-                //if (showErrorMessage) viewState.showMessage(it)
+                if (showErrorMessage) viewState.showMessage(it)
             }
         }
-    }
-
-    fun onAppointmentSchedulingRatingChanged(rating: Int) {
-
     }
 
 }

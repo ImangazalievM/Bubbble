@@ -1,13 +1,11 @@
 package com.bubbble.presentation.userprofile.details
 
-import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.OneExecutionStateStrategy
-import moxy.viewstate.strategy.StateStrategyType
 import com.bubbble.core.models.user.User
 import com.bubbble.coreui.mvp.BaseMvpView
+import moxy.viewstate.strategy.alias.AddToEndSingle
 import moxy.viewstate.strategy.alias.OneExecution
 
-@StateStrategyType(AddToEndSingleStrategy::class)
+@AddToEndSingle
 interface UserDetailsView : BaseMvpView {
 
     fun showUserInfo(user: User)

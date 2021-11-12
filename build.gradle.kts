@@ -7,7 +7,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
-        classpath("org.jetbrains.kotlin:kotlin-android-extensions:1.5.21")
+        classpath("org.jetbrains.kotlin:kotlin-android-extensions:1.5.31")
         classpath("de.mannodermaus.gradle.plugins:android-junit5:1.8.0.0")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
     }
@@ -39,6 +39,15 @@ fun configProject(project: Project) {
     project.apply {
         scripts.forEach { scriptPath ->
             from(rootProject.file(scriptPath))
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency {
+        val requested = requested
+        if (requested.group == "org.jetbrains.kotlin" && requested.name == "kotlin-reflect") {
+            useVersion(Build.Versions.kotlin)
         }
     }
 }

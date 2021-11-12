@@ -177,14 +177,6 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
             .show()
     }
 
-    override fun openAppSettingsScreen() {
-        val intent = Intent()
-        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        val uri = Uri.fromParts("package", packageName, null)
-        intent.data = uri
-        startActivity(intent)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -201,11 +193,16 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
         private const val KEY_SHOT_URL = "shot_url"
         private const val KEY_IMAGE_URL = "image_url"
 
-        fun buildIntent(context: Context?, shot: Shot): Intent {
+        fun buildIntent(
+            context: Context,
+            title: String,
+            shotUrl: String,
+            imageUrl: String
+        ): Intent {
             val intent = Intent(context, ShotZoomActivity::class.java)
-            intent.putExtra(KEY_SHOT_TITLE, shot.title)
-            intent.putExtra(KEY_SHOT_URL, shot.shotUrl)
-            intent.putExtra(KEY_IMAGE_URL, shot.imageUrl)
+            intent.putExtra(KEY_SHOT_TITLE, title)
+            intent.putExtra(KEY_SHOT_URL, shotUrl)
+            intent.putExtra(KEY_IMAGE_URL, imageUrl)
             return intent
         }
     }

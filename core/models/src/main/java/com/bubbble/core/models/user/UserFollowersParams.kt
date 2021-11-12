@@ -1,7 +1,7 @@
 package com.bubbble.core.models.user
 
 class UserFollowersParams(
-    val userId: Long,
+    val userName: String,
     val page: Int,
     val pageSize: Int
 )

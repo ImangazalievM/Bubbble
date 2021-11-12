@@ -25,8 +25,8 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     lateinit var presenterFactory: UserShotsPresenter.Factory
 
     val presenter by moxyPresenter {
-        val userId = requireArguments().getLong(USER_ID_ARG)
-        presenterFactory.create(userId)
+        val userName = requireArguments().getString(USER_NAME)!!
+        presenterFactory.create(userName)
     }
 
     private val loadingLayout: View by lazy {
@@ -83,10 +83,6 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
         shotsAdapter.setLoadingMore(false)
     }
 
-    override fun openShotDetailsScreen(shotId: Long) {
-        startActivity(ShotDetailsActivity.buildIntent(activity, shotId))
-    }
-
     override fun showNoNetworkLayout() {
         noNetworkLayout.visibility = View.VISIBLE
     }
@@ -100,13 +96,13 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     }
 
     companion object {
-        private const val USER_ID_ARG = "user_id"
+        private const val USER_NAME = "user_name"
 
         @JvmStatic
-        fun newInstance(userId: Long): UserShotsFragment {
+        fun newInstance(userName: String): UserShotsFragment {
             val fragment = UserShotsFragment()
             val args = Bundle()
-            args.putLong(USER_ID_ARG, userId)
+            args.putString(USER_NAME, userName)
             fragment.arguments = args
             return fragment
         }

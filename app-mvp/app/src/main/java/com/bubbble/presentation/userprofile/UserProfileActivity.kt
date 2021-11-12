@@ -13,8 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager.widget.ViewPager
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.appbar.AppBarLayout
@@ -87,8 +85,8 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     lateinit var presenterFactory: UserProfilePresenter.Factory
 
     val presenter by moxyPresenter {
-        val userId = intent.getLongExtra(USER_ID, 0L)
-        presenterFactory.create(userId)
+        val userName = intent.getStringExtra(USER_NAME)!!
+        presenterFactory.create(userName)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -132,8 +130,8 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
             handleToolbarTitleVisibility(percentage)
         })
         userBio.setOnLinkClickListener { url: String -> presenter.onLinkClicked(url) }
-        userBio.setOnUserSelectedListener { useId: String ->
-            presenter.onUserSelected(useId.toLong())
+        userBio.setOnUserSelectedListener { userUrl: String ->
+            presenter.onUserSelected(userUrl)
         }
         followButton.setOnClickListener {
             Toast.makeText(
@@ -199,15 +197,15 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     private fun setupProfilePager(user: User) {
         val userProfilePagerAdapter = UserProfilePagerAdapter(supportFragmentManager)
         userProfilePagerAdapter.addFragment(
-            UserDetailsFragment.newInstance(user.id),
+            UserDetailsFragment.newInstance(user.userName),
             resources.getString(R.string.user_information)
         )
         userProfilePagerAdapter.addFragment(
-            UserShotsFragment.newInstance(user.id),
+            UserShotsFragment.newInstance(user.userName),
             resources.getQuantityString(R.plurals.shots, user.shotsCount, user.shotsCount)
         )
         userProfilePagerAdapter.addFragment(
-            UserFollowersFragment.newInstance(user.id),
+            UserFollowersFragment.newInstance(user.userName),
             resources.getQuantityString(
                 R.plurals.followers,
                 user.followersCount,
@@ -233,10 +231,6 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
         noNetworkLayout.visibility = View.GONE
     }
 
-    override fun openUserProfileScreen(userId: Long) {
-        startActivity(buildIntent(this, userId))
-    }
-
     override fun openInBrowser(url: String) {
         AppUtils.openInChromeTab(this, url)
     }
@@ -253,10 +247,11 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
         private const val PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f
         private const val PERCENTAGE_TO_HIDE_TITLE_DETAILS = -0.3f
         private const val ALPHA_ANIMATIONS_DURATION = 200
-        private const val USER_ID = "user_id"
-        fun buildIntent(context: Context?, userId: Long): Intent {
+        private const val USER_NAME = "user_name"
+
+        fun buildIntent(context: Context, userName: String): Intent {
             val intent = Intent(context, UserProfileActivity::class.java)
-            intent.putExtra(USER_ID, userId)
+            intent.putExtra(USER_NAME, userName)
             return intent
         }
 

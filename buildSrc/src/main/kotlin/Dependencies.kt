@@ -9,7 +9,7 @@ object Build {
         const val minSdk = 21
         const val targetSdk = 30
 
-        const val kotlin = "1.4.0"
+        const val kotlin = "1.5.31"
     }
 
     object Plugins {
@@ -49,11 +49,14 @@ object Dependencies {
     const val materialDrawer = "com.mikepenz:materialdrawer:5.9.4@aar"
     const val hashtagView = "com.github.greenfrvr:hashtag-view:1.3.1"
 
-    private const val moxyVersion = "2.2.2"
-    const val moxy = "com.github.moxy-community:moxy:$moxyVersion"
-    const val moxyCompiler = "com.github.moxy-community:moxy-compiler:$moxyVersion"
-    const val moxyAndroid = "com.github.moxy-community:moxy-androidx:$moxyVersion"
-    const val moxyKtx = "com.github.moxy-community:moxy-ktx:$moxyVersion"
+    object Mvp {
+        private const val moxyVersion = "2.2.2"
+        const val moxy = "com.github.moxy-community:moxy:$moxyVersion"
+        const val moxyCompiler = "com.github.moxy-community:moxy-compiler:$moxyVersion"
+        const val moxyAndroid = "com.github.moxy-community:moxy-androidx:$moxyVersion"
+        const val moxyKtx = "com.github.moxy-community:moxy-ktx:$moxyVersion"
+        const val cicerone = "com.github.terrakok:cicerone:7.1"
+    }
 
     const val gson = "com.google.code.gson:gson:2.8.8"
     const val okHttp = "com.squareup.okhttp3:okhttp:4.9.1"
@@ -61,16 +64,18 @@ object Dependencies {
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:2.9.0"
     const val jsoup = "org.jsoup:jsoup:1.7.2"
 
-    // Developer Tools
-    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:1.5"
-    const val leakCanaryNoOp =
-        "com.squareup.leakcanary:leakcanary-android-no-op:1.5"
+    object DevTools {
+        // Developer Tools
 
-    // Test dependencies
-    const val junit = "junit:junit:4.12"
-    const val hamcrest = "org.hamcrest:hamcrest-all:1.3"
-    const val mockito = "org.mockito:mockito-all:1.10.19"
-    const val robolectric = "org.robolectric:robolectric:3.1.2"
+        const val stetho = "com.facebook.stetho:stetho:1.5.1"
+        const val stethoOkHttp = "com.facebook.stetho:stetho-okhttp3:1.5.1"
+        const val okHttpLogging = "com.squareup.okhttp3:logging-interceptor:4.9.1"
+        const val ok2curl = "com.github.mrmike:ok2curl:0.6.0"
+
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:1.5"
+        const val leakCanaryNoOp =
+            "com.squareup.leakcanary:leakcanary-android-no-op:1.5"
+    }
 
     object Tests {
         const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:1.4.10"

@@ -6,6 +6,7 @@ import com.bubbble.core.models.user.UserFollowersParams
 import com.bubbble.core.network.NoNetworkException
 import com.bubbble.domain.userprofile.UserFollowersInteractor
 import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.presentation.global.navigation.UserProfileScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,7 +15,7 @@ import java.util.*
 @InjectViewState
 class UserFollowersPresenter @AssistedInject constructor(
     private val userFollowersInteractor: UserFollowersInteractor,
-    @Assisted private val userId: Long
+    @Assisted private val userName: String
 ) : BasePresenter<UserFollowersView>() {
 
     private var currentMaxPage = 1
@@ -29,12 +30,12 @@ class UserFollowersPresenter @AssistedInject constructor(
 
     private fun loadMoreFollowers(page: Int) = launchSafe {
         isFollowersLoading = true
-        val requestParams = UserFollowersParams(userId, page, PAGE_SIZE)
+        val requestParams = UserFollowersParams(userName, page, PAGE_SIZE)
         try {
             val newFollowers = userFollowersInteractor.getUserFollowers(requestParams)
             followers.addAll(newFollowers)
             viewState.showNewFollowers(newFollowers)
-        } catch (throwable: com.bubbble.core.network.NoNetworkException) {
+        } catch (throwable: NoNetworkException) {
             if (isFirstLoading) {
                 viewState.showNoNetworkLayout()
             } else {
@@ -73,7 +74,7 @@ class UserFollowersPresenter @AssistedInject constructor(
         println(followers[position])
         println(followers[position].follower)
         println(followers[position].follower.id)
-        viewState.openUserDetailsScreen(followers[position].follower.id)
+        router.navigateTo(UserProfileScreen(followers[position].follower.userName))
     }
 
     companion object {
@@ -82,7 +83,7 @@ class UserFollowersPresenter @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(userId: Long): UserFollowersPresenter
+        fun create(userName: String): UserFollowersPresenter
     }
 
 }

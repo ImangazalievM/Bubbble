@@ -34,13 +34,13 @@ dependencies {
     implementation(project(Modules.AppMvp.featureShots))
     implementation(project(Modules.AppMvp.featureShotDetails))
 
-    kapt(Dependencies.moxyCompiler)
+    kapt(Dependencies.Mvp.moxyCompiler)
 
     // Developer Tools
-    debugImplementation("com.facebook.stetho:stetho:1.5.1")
-    debugImplementation("com.facebook.stetho:stetho-okhttp3:1.5.1")
-    debugImplementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
-    debugImplementation("com.github.mrmike:ok2curl:0.6.0")
-    debugImplementation(Dependencies.leakCanary)
-    releaseImplementation(Dependencies.leakCanaryNoOp)
+    debugImplementation(Dependencies.DevTools.stetho)
+    debugImplementation(Dependencies.DevTools.stethoOkHttp)
+    debugImplementation(Dependencies.DevTools.okHttpLogging)
+    debugImplementation(Dependencies.DevTools.ok2curl)
+    debugImplementation(Dependencies.DevTools.leakCanary)
+    releaseImplementation(Dependencies.DevTools.leakCanaryNoOp)
 }

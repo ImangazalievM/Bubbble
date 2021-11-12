@@ -6,6 +6,7 @@ import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.feed.ShotsFeedParams
 import com.bubbble.core.network.NoNetworkException
 import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.shots.api.ShotsNavigationFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,6 +15,7 @@ import java.util.*
 @InjectViewState
 class ShotsPresenter @AssistedInject constructor(
     private val shotsInteractor: ShotsInteractor,
+    private val navigationFactory: ShotsNavigationFactory,
     @Assisted private val shotsSort: ShotsFeedParams.Sorting
 ) : BasePresenter<ShotsView>() {
 
@@ -85,7 +87,7 @@ class ShotsPresenter @AssistedInject constructor(
     }
 
     fun onShotClick(position: Int) {
-        viewState.openShotDetailsScreen(shots[position].id)
+        router.navigateTo(navigationFactory.shotDetailsScreen(shots[position].id))
     }
 
     companion object {

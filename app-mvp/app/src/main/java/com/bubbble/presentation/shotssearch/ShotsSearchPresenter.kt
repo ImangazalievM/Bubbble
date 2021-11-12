@@ -4,8 +4,10 @@ import com.bubbble.core.models.search.SearchParams
 import com.bubbble.core.models.search.SearchType
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotSortType
+import com.bubbble.core.network.NoNetworkException
 import com.bubbble.coreui.mvp.BasePresenter
 import com.bubbble.domain.shotssearch.ShotsSearchInteractor
+import com.bubbble.presentation.global.navigation.ShotDetailsScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -55,7 +57,7 @@ class ShotsSearchPresenter @AssistedInject constructor(
             }
             shots.addAll(newShots)
             viewState.showNewShots(newShots)
-        } catch (e: com.bubbble.core.network.NoNetworkException) {
+        } catch (e: NoNetworkException) {
             if (isFirstLoading) {
                 viewState.hideShotsLoadingProgress()
                 viewState.showNoNetworkLayout()
@@ -96,7 +98,7 @@ class ShotsSearchPresenter @AssistedInject constructor(
     }
 
     fun onShotClick(position: Int) {
-        viewState.openShotDetailsScreen(shots[position].id)
+        router.navigateTo(ShotDetailsScreen(shots[position].id))
     }
 
     companion object {

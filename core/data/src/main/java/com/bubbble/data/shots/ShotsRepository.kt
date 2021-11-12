@@ -32,11 +32,12 @@ class ShotsRepository @Inject constructor(
     }
 
     suspend fun getUserShots(requestParams: UserShotsParams): List<Shot> {
-        return dribbbleApi.getUserShots(
-            requestParams.userId,
-            requestParams.page,
-            requestParams.pageSize
-        )
+        TODO()
+        //return dribbbleApi.getUserShots(
+        //    requestParams.userName,
+        //    requestParams.page,
+        //    requestParams.pageSize
+        //)
     }
 
     suspend fun search(

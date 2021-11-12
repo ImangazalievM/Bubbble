@@ -6,6 +6,7 @@ import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotCommentsParams
 import com.bubbble.coreui.mvp.BasePresenter
 import com.bubbble.coreui.permissions.PermissionsManager
+import com.bubbble.shotdetails.api.ShotDetailsNavigationFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,6 +15,8 @@ import dagger.assisted.AssistedInject
 class ShotDetailsPresenter @AssistedInject constructor(
     private val shotDetailsInteractor: ShotDetailsInteractor,
     private val permissionsManager: PermissionsManager,
+    private val navigationFactory: ShotDetailsNavigationFactory,
+    private val userUrlParser: UserUrlParser,
     @Assisted private val shotId: Long
 ) : BasePresenter<ShotDetailsView>() {
 
@@ -80,7 +83,7 @@ class ShotDetailsPresenter @AssistedInject constructor(
     }
 
     fun onImageClicked() {
-        viewState.openShotImageScreen(shot)
+        router.navigateTo(navigationFactory.shotImageScreen(shot))
     }
 
     fun onLikeShotClicked() {}
@@ -105,7 +108,7 @@ class ShotDetailsPresenter @AssistedInject constructor(
     }
 
     fun onAppSettingsButtonClicked() {
-        viewState.openAppSettingsScreen()
+        router.navigateTo(navigationFactory.appSettingsScreen())
     }
 
     private fun saveShotImage() = launchSafe {
@@ -119,12 +122,16 @@ class ShotDetailsPresenter @AssistedInject constructor(
     }
 
     fun onShotAuthorProfileClicked() {
-        TODO()
-        //viewState.openUserProfileScreen(shot.user.id)
+        router.navigateTo(navigationFactory.userProfileScreen(shot.user.userName))
     }
 
-    fun onUserClick(userId: Long) {
-        viewState.openUserProfileScreen(userId)
+    fun onUserClick(userProfileUrl: String) {
+        val userName = userUrlParser.getUserName(userProfileUrl)
+        if (userName != null) {
+            router.navigateTo(navigationFactory.userProfileScreen(userName))
+        } else {
+            //ToDo: handle it
+        }
     }
 
     fun onLinkClicked(url: String) {

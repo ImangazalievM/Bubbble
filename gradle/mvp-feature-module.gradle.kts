@@ -9,5 +9,5 @@ baseScriptFrom(BuildScript.hiltConfig)
 
 val kapt by configurations
 dependencies {
-    kapt(Dependencies.moxyCompiler)
+    kapt(Dependencies.Mvp.moxyCompiler)
 }

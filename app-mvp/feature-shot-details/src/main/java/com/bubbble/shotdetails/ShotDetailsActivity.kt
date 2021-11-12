@@ -3,9 +3,7 @@ package com.bubbble.shotdetails
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
@@ -17,14 +15,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
-import com.bumptech.glide.request.RequestListener
-import com.google.android.material.snackbar.Snackbar
-import com.greenfrvr.hashtagview.HashtagView
 import com.bubbble.core.models.Comment
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpActivity
@@ -33,6 +23,12 @@ import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
 import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
 import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.shotdetails.comments.ShotCommentsAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.RequestListener
+import com.google.android.material.snackbar.Snackbar
+import com.greenfrvr.hashtagview.HashtagView
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
@@ -43,9 +39,6 @@ import javax.inject.Inject
 class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     override val layoutRes: Int = R.layout.activity_shot_details
-
-
-    private val userUrlParser = UserUrlParser()
 
     private val toolbar: Toolbar by lazy {
         findViewById(R.id.toolbar)
@@ -218,7 +211,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         //hashtagView.setData(shot.tags)
 
         //user info
-        userName.text = shot.user.name
+        userName.text = shot.user.displayName
         Glide.with(this)
             .load(shot.user.avatarUrl)
             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -300,28 +293,12 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
             .show()
     }
 
-    override fun openAppSettingsScreen() {
-        val intent = Intent()
-        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        val uri = Uri.fromParts("package", packageName, null)
-        intent.data = uri
-        startActivity(intent)
-    }
-
     override fun showShotSharing(shotTitle: String, shotUrl: String) {
         AppUtils.sharePlainText(this, String.format("%s - %s", shotTitle, shotUrl))
     }
 
     override fun openInBrowser(url: String) {
         AppUtils.openInChromeTab(this, url)
-    }
-
-    override fun openUserProfileScreen(userId: Long) {
-        //ToDo: startActivity(UserProfileActivity.buildIntent(this, userId))
-    }
-
-    override fun openShotImageScreen(shot: Shot) {
-        //ToDo: startActivity(ShotZoomActivity.buildIntent(this, shot))
     }
 
     override fun showNoNetworkLayout() {
@@ -337,14 +314,12 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     }
 
     private fun onUserUrlSelected(url: String) {
-        userUrlParser.parse(url)?.let {
-            presenter.onUserClick(it)
-        }
+        presenter.onUserClick(url)
     }
 
     companion object {
         private const val KEY_SHOT_ID = "shot_id"
-        fun buildIntent(context: Context?, shotId: Long): Intent {
+        fun buildIntent(context: Context, shotId: Long): Intent {
             val intent = Intent(context, ShotDetailsActivity::class.java)
             intent.putExtra(KEY_SHOT_ID, shotId)
             return intent

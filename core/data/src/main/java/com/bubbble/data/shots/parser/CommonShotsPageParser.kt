@@ -4,6 +4,7 @@ import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.UserType
 import com.bubbble.data.global.parsing.PageParser
 import com.google.gson.Gson
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.jsoup.Jsoup
 import java.util.*
 
@@ -37,7 +38,8 @@ abstract class CommonShotsPageParser<Params> constructor(
                 updatedAt = null,
                 shotUrl = baseUrl + shot.path,
                 user = Shot.User(
-                    name = info.userName,
+                    displayName = info.userDisplayName,
+                    userName = info.userName,
                     avatarUrl = info.userAvatarUrl,
                     userUrl = info.userUrl,
                     type = info.userType
@@ -72,9 +74,13 @@ abstract class CommonShotsPageParser<Params> constructor(
             val userInfoLink = userInfoBlock.getElement("a[rel=contact]")
             val shotImageUrl = it.getElement("figure.shot-thumbnail-placeholder > img")
                 .attr("src")
-            val userName = userInfoLink.getElement("span.display-name").text()
+            val userDisplayName = userInfoLink.getElement("span.display-name").text()
             val userAvatarUrl = userInfoLink.getElement("img.photo").attr("data-src")
-            val userUrl = baseUrl + userInfoLink.attr("href")
+            val userName = baseUrl + userInfoLink.attr("href")
+                .replaceFirst("/", "")
+            val userUrl = baseUrl.toHttpUrl().newBuilder()
+                .addPathSegment(userName)
+                .toString()
 
             val badgeText = userInfoBlock.getElementOrNull("span.badge")?.text()
             val userType = when (badgeText) {
@@ -85,6 +91,7 @@ abstract class CommonShotsPageParser<Params> constructor(
             shotId to ShotAdditionalRaw(
                 imageUrl = shotImageUrl,
                 shotUrl = shotUrl,
+                userDisplayName = userDisplayName,
                 userName = userName,
                 userAvatarUrl = userAvatarUrl,
                 userUrl = userUrl,
