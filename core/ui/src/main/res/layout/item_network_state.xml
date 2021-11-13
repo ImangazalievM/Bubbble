@@ -4,13 +4,17 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/loadMoreLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:visibility="gone">
 
         <ProgressBar
-            android:id="@+id/load_more_comments_progress"
+            android:id="@+id/loadMoreProgress"
             style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -19,29 +23,30 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/load_more_error_layout"
+        android:id="@+id/loadMoreErrorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp">
+        android:paddingBottom="16dp"
+        android:visibility="gone">
 
         <TextView
+            android:id="@+id/errorMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="16dp"
             android:text="@string/check_network_message"
             android:textAppearance="@style/AppTheme.DefaultTextTheme"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
         <Button
-            android:id="@+id/retry_button"
+            android:id="@+id/retryButton"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="16dp"
             android:text="@string/try_again_message"
             android:textColor="@color/pink_300"
             android:theme="@style/AppTheme.SpecialFlatButton" />

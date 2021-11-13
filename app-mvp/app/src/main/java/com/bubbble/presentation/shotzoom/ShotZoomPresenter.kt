@@ -20,7 +20,6 @@ class ShotZoomPresenter @AssistedInject constructor(
 ) : BasePresenter<ShotZoomView>() {
 
     override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
         showShot()
     }
 

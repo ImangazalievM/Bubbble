@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="check_network_message">Check network connection</string>
+    <string name="try_again_message">Try again</string>
+
+</resources>

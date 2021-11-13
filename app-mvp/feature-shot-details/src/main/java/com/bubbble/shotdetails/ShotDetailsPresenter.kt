@@ -27,7 +27,6 @@ class ShotDetailsPresenter @AssistedInject constructor(
     private var isCommentsLoading = false
 
     override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
 
         loadShot()
     }

@@ -32,7 +32,7 @@ public abstract class LoadMoreAdapter<T> extends HeaderFooterAdapter<T> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof LoadMoreViewHolder) {
             LoadMoreViewHolder loadMoreViewHolder = (LoadMoreViewHolder) holder;
-            loadMoreViewHolder.retryButton.setOnClickListener(v -> onRetryLoadMoreClick());
+           // loadMoreViewHolder.retryButton.setOnClickListener(v -> onRetryLoadMoreClick());
             loadMoreViewHolder.showError(loadingError);
         }
     }

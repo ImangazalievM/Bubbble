@@ -2,14 +2,19 @@ package com.bubbble.shots.shotslist
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.feed.ShotsFeedParams
+import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpFragment
-import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.shots.R
+import com.bubbble.ui.LoadingStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_shots.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
@@ -26,17 +31,10 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
         presenterFactory.create(ShotsFeedParams.Sorting.find(sortType)!!)
     }
 
-    private val loadingLayout: View by lazy {
-        requireView().findViewById(R.id.loading_layout)
-    }
-    private val noNetworkLayout: View by lazy {
-        requireView().findViewById(R.id.no_network_layout)
-    }
-    private val shotsRecyclerView: RecyclerView by lazy {
-        requireView().findViewById(R.id.shotsRecyclerView)
-    }
     private val shotsAdapter: ShotsAdapter by lazy {
-        ShotsAdapter(requireContext())
+        ShotsAdapter(ShotComparator) {
+            presenter.onShotClick(it)
+        }
     }
     private val shotsListLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(context)
@@ -45,60 +43,37 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViews(view)
-    }
-
-    private fun initViews(view: View) {
-        noNetworkLayout.findViewById<View>(R.id.retry_button)
-            .setOnClickListener { presenter.retryLoading() }
-        shotsRecyclerView.layoutManager = shotsListLayoutManager
-        shotsAdapter.setOnItemClickListener { position: Int ->
-            presenter.onShotClick(
-                position
-            )
-        }
-        shotsAdapter.setOnRetryLoadMoreListener { presenter.retryLoading() }
-        shotsRecyclerView.adapter = shotsAdapter
-        shotsRecyclerView.addOnScrollListener(object :
-            EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
-            override fun onLoadMore() {
-                presenter.onLoadMoreShotsRequest()
+        lifecycleScope.launch {
+            shotsAdapter.loadStateFlow.collectLatest { loadState ->
+                presenter.onListStateChanged(loadState)
             }
-        })
+        }
+        val loadingStateAdapter = LoadingStateAdapter {
+            presenter.retryLoading()
+        }
+        shotsList.adapter = shotsAdapter.withLoadStateFooter(loadingStateAdapter)
+        noNetworkLayout.findViewById<View>(R.id.retryButton)
+            .setOnClickListener { presenter.retryLoading() }
     }
 
-    override fun showNewShots(newShots: List<Shot>) {
-        shotsRecyclerView.visibility = View.VISIBLE
-        shotsAdapter.addItems(newShots)
+    override fun showPagingData(pagingData: PagingData<Shot>) {
+        lifecycleScope.launch {
+            shotsAdapter.submitData(pagingData)
+        }
     }
 
-    override fun showShotsLoadingProgress() {
-        loadingLayout.visibility = View.VISIBLE
+
+    override fun updateListState(
+        isProgressBarVisible: Boolean,
+        isRetryVisible: Boolean,
+        isErrorMsgVisible: Boolean
+    ) {
+        loadingLayout.isVisible = isProgressBarVisible
+        noNetworkLayout.isVisible = isRetryVisible
+        //ToDo: errorMsg.isVisible = isErrorMsgVisible
     }
 
-    override fun hideShotsLoadingProgress() {
-        loadingLayout.visibility = View.GONE
-    }
-
-    override fun showShotsLoadingMoreProgress() {
-        shotsAdapter.setLoadingMore(true)
-    }
-
-    override fun hideShotsLoadingMoreProgress() {
-        shotsAdapter.setLoadingMore(false)
-    }
-
-    override fun showNoNetworkLayout() {
-        noNetworkLayout.visibility = View.VISIBLE
-    }
-
-    override fun hideNoNetworkLayout() {
-        noNetworkLayout.visibility = View.GONE
-    }
-
-    override fun showLoadMoreError() {
-        shotsAdapter.setLoadingError(true)
-    }
+    override fun retryLoading() = shotsAdapter.retry()
 
     companion object {
         private const val SORT_TYPE_ARG = "sort"

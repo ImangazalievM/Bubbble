@@ -26,11 +26,13 @@ object Dependencies {
     }
 
     //android
-    const val supportAppCompat = "androidx.appcompat:appcompat:1.2.0"
-    const val supportDesign = "com.google.android.material:material:1.0.0"
-    const val supportCardView = "androidx.cardview:cardview:1.0.0"
+    const val androidxAppCompat = "androidx.appcompat:appcompat:1.2.0"
+    const val googleMaterial = "com.google.android.material:material:1.0.0"
+    const val androidxCardView = "androidx.cardview:cardview:1.0.0"
     const val supportAnnotations = "com.android.support:support-annotations:25.4.0"
     const val customTabs = "androidx.browser:browser:1.0.0"
+    const val androidxCoreKtx = "androidx.core:core-ktx:1.6.0"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.1"
 
     //architecture
     const val dagger = "com.google.dagger:dagger:2.40"
@@ -42,6 +44,9 @@ object Dependencies {
             Versions.kotlinCoroutineVersion
     const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:" +
             Versions.kotlinCoroutineVersion
+
+    const val paging = "androidx.paging:paging-runtime:3.0.1"
+    const val pagingCompose = "androidx.paging:paging-compose:1.0.0-alpha14"
 
     //ui
     const val glide = "com.github.bumptech.glide:glide:3.7.0"
@@ -88,6 +93,7 @@ object Dependencies {
         private const val kotestVersion = "4.6.3"
         const val kotestRunner = "io.kotest:kotest-runner-junit5:$kotestVersion"
         const val kotestCore = "io.kotest:kotest-assertions-core:$kotestVersion"
+
         //mocking
         const val mockk = "io.mockk:mockk:1.11.0"
 
@@ -117,6 +123,7 @@ object Modules {
         const val models = ":core:models"
         const val network = ":core:network"
         const val data = ":core:data"
+        const val ui = ":core:ui"
     }
 
     object AppMvp {

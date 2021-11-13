@@ -20,7 +20,6 @@ class UserDetailsPresenter @AssistedInject constructor(
         get() = ::user.isInitialized
 
     override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
         loadUser()
     }
 

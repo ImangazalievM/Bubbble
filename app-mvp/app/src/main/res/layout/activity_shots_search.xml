@@ -26,18 +26,19 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/shotsRecyclerView"
+            android:id="@+id/shotsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical"
-            android:visibility="gone" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:scrollbars="vertical"/>
 
         <include
-            android:id="@+id/loading_layout"
+            android:visibility="gone"
+            android:id="@+id/loadingLayout"
             layout="@layout/view_loading" />
 
         <include
-            android:id="@+id/no_network_layout"
+            android:id="@+id/noNetworkLayout"
             layout="@layout/view_network_error"
             android:visibility="gone" />
 

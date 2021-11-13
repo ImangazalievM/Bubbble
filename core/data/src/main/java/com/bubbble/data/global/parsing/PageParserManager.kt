@@ -1,6 +1,9 @@
 package com.bubbble.data.global.parsing
 
 import com.bubbble.data.di.DribbbleWebSite
+import com.bubbble.data.global.paging.PagingParams
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,12 +14,13 @@ class PageParserManager @Inject constructor(
     private val dribbbleUrl: String
 ) {
 
-    fun <Params, Data> parse(
+    suspend fun <Params, Data> parse(
         parser: PageParser<Params, Data>,
-        params: Params
-    ): Data {
-        val html = pageDownloader.download(parser.getUrl(dribbbleUrl, params))
-        return parser.parseHtml(html, dribbbleUrl)
+        params: Params,
+        pagingParams: PagingParams
+    ): Data = withContext(Dispatchers.IO) {
+        val html = pageDownloader.download(parser.getUrl(dribbbleUrl, params, pagingParams))
+        parser.parseHtml(html, dribbbleUrl)
     }
 
 }

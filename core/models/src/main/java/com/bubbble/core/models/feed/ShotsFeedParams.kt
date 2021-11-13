@@ -1,13 +1,11 @@
 package com.bubbble.core.models.feed
 
 class ShotsFeedParams(
-    val sort: Sorting,
-    val page: Int,
-    val pageSize: Int
+    val sort: Sorting?
 ) {
 
     enum class Sorting {
-        POPULAR, RECENT;
+        PERSONAL, POPULAR, RECENT;
 
         companion object {
             fun find(name: String) = values().firstOrNull {

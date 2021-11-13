@@ -23,7 +23,6 @@ class UserProfilePresenter @AssistedInject constructor(
         get() = ::user.isInitialized
 
     override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
         loadUser()
     }
 

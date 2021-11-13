@@ -1,11 +1,16 @@
 package com.bubbble.data.global.parsing
 
+import com.bubbble.data.global.paging.PagingParams
 import okhttp3.HttpUrl
 import org.jsoup.nodes.Element
 
 abstract class PageParser<Params, Data> {
 
-    abstract fun getUrl(dribbbleUrl: String, params: Params): HttpUrl
+    abstract fun getUrl(
+        baseUrl: String,
+        params: Params,
+        pagingParams: PagingParams
+    ): HttpUrl
 
     abstract fun parseHtml(html: String, baseUrl: String): Data
 

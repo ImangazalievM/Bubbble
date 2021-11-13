@@ -50,11 +50,16 @@ object BuildScript {
             Modules.AppMvp.featureUserProfile,
             mvpFeatureModuleConfig
         ),
-
+        //core
         module(
             Modules.Core.core,
             moduleConfig,
             hiltConfig
+        ),
+
+        module(
+            Modules.Core.ui,
+            moduleConfig
         ),
         module(
             Modules.Core.data,

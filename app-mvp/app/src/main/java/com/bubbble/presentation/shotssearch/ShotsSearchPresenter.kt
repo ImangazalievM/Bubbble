@@ -1,109 +1,63 @@
 package com.bubbble.presentation.shotssearch
 
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import com.bubbble.core.models.search.SearchParams
 import com.bubbble.core.models.search.SearchType
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotSortType
-import com.bubbble.core.network.NoNetworkException
 import com.bubbble.coreui.mvp.BasePresenter
-import com.bubbble.domain.shotssearch.ShotsSearchInteractor
+import com.bubbble.data.shots.ShotsRepository
 import com.bubbble.presentation.global.navigation.ShotDetailsScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.collectLatest
 import moxy.InjectViewState
-import java.util.*
 
 @InjectViewState
 class ShotsSearchPresenter @AssistedInject constructor(
-    private val shotsSearchInteractor: ShotsSearchInteractor,
+    private val shotsRepository: ShotsRepository,
     @Assisted private var searchQuery: String
 ) : BasePresenter<ShotsSearchView>() {
 
-    private val sort: ShotSortType = ShotSortType.POPULAR
-    private val shots: MutableList<Shot> = ArrayList()
-    private var currentMaxPage = 1
-    private var isShotsLoading = false
-    private val isFirstLoading: Boolean
-        get() = currentMaxPage == 1
+    private val shotsSort: ShotSortType = ShotSortType.POPULAR
 
     override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        startSearch(searchQuery)
-    }
 
-    private fun startSearch(searchQuery: String) {
-        this.searchQuery = searchQuery
-        viewState.showShotsLoadingProgress()
-        loadMoreShots(currentMaxPage)
-    }
-
-    private fun loadMoreShots(page: Int) = launchSafe {
-        try {
-            isShotsLoading = true
-            val shotsRequestParams = SearchParams(
-                searchQuery = searchQuery,
-                searchType = SearchType.SHOT,
-                sort = sort,
-                page = page,
-                pageSize = PAGE_SIZE
-
-            )
-            val newShots = shotsSearchInteractor.search(shotsRequestParams)
-            if (isFirstLoading) {
-                viewState.hideShotsLoadingProgress()
-            } else {
-                viewState.hideShotsLoadingMoreProgress()
-            }
-            shots.addAll(newShots)
-            viewState.showNewShots(newShots)
-        } catch (e: NoNetworkException) {
-            if (isFirstLoading) {
-                viewState.hideShotsLoadingProgress()
-                viewState.showNoNetworkLayout()
-            } else {
-                viewState.hideShotsLoadingMoreProgress()
-                viewState.showLoadMoreError()
-            }
-        } finally {
-            isShotsLoading = false
-        }
+        loadShots()
     }
 
     fun onNewSearchQuery(searchQuery: String) {
-        viewState.clearShotsList()
-        shots.clear()
-        startSearch(searchQuery)
+        this.searchQuery = searchQuery
+        loadShots()
+    }
+
+    fun onListStateChanged(loadState: CombinedLoadStates) {
+        viewState.updateListState(
+            isProgressBarVisible = loadState.refresh is LoadState.Loading,
+            isRetryVisible = loadState.refresh is LoadState.Error,
+            isErrorMsgVisible = loadState.refresh is LoadState.Error
+        )
     }
 
     fun retryLoading() {
-        if (isFirstLoading) {
-            viewState.hideNoNetworkLayout()
-            viewState.showShotsLoadingProgress()
-        } else {
-            viewState.showShotsLoadingMoreProgress()
-        }
-        loadMoreShots(currentMaxPage)
+        viewState.retryLoading()
     }
 
-    fun onLoadMoreShotsRequest() {
-        if (isShotsLoading) {
-            return
-        }
-        if (currentMaxPage < MAX_PAGE_NUMBER) {
-            viewState.showShotsLoadingMoreProgress()
-            currentMaxPage++
-            loadMoreShots(currentMaxPage)
-        }
+    fun onShotClick(shot: Shot) {
+        router.navigateTo(ShotDetailsScreen(shot.id))
     }
 
-    fun onShotClick(position: Int) {
-        router.navigateTo(ShotDetailsScreen(shots[position].id))
-    }
-
-    companion object {
-        private const val PAGE_SIZE = 20
-        private const val MAX_PAGE_NUMBER = 25
+    private fun loadShots() = launchSafe {
+        val requestParams = SearchParams(
+            searchQuery = searchQuery,
+            searchType = SearchType.SHOT,
+            sort = shotsSort,
+        )
+        shotsRepository.search(requestParams).collectLatest { pagingData ->
+            viewState.showPagingData(pagingData)
+        }
     }
 
     @AssistedFactory

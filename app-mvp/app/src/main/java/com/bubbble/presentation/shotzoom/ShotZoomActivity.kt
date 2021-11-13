@@ -3,16 +3,13 @@ package com.bubbble.presentation.shotzoom
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.bubbble.R
-import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.utils.AppUtils
 import com.bumptech.glide.Glide
@@ -38,7 +35,7 @@ class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
         findViewById(R.id.shot_zoom_container)
     }
     private val loadingLayout: View by lazy {
-        findViewById(R.id.loading_layout)
+        findViewById(R.id.loadingLayout)
     }
     private val errorLayout: View by lazy {
         findViewById(R.id.error_layout)

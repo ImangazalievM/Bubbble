@@ -23,7 +23,6 @@ class UserFollowersPresenter @AssistedInject constructor(
     private var isFollowersLoading = false
 
     override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
         viewState.showFollowersLoadingProgress()
         loadMoreFollowers(currentMaxPage)
     }

@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    >
+    android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/dribbble_lined_logo_pink_100dp"/>
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/dribbble_lined_logo_pink"
+        tools:layout_editor_absoluteX="156dp" />
 
     <TextView
-        android:textAppearance="@style/AppTheme.DefaultTextTheme"
-        android:layout_marginTop="15dp"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxWidth="300dp"
         android:text="@string/check_network_message"
-        android:textColor="@color/white"/>
+        android:textAppearance="@style/AppTheme.DefaultTextTheme"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/retryButton"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:layout_editor_absoluteX="172dp" />
 
     <Button
-        android:id="@+id/retry_button"
-        android:theme="@style/AppTheme.SpecialMaterialButton"
-        android:layout_marginTop="15dp"
+        android:id="@+id/retryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/try_again_message"/>
+        android:layout_marginTop="16dp"
+        android:text="@string/try_again_message"
+        android:theme="@style/AppTheme.SpecialMaterialButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="158dp" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

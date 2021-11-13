@@ -2,9 +2,6 @@
     <string name="popular">Популярные</string>
     <string name="recently">Недавние</string>
 
-    <string name="check_network_message">Пожалуйста, проверьте подключение к интернету</string>
-    <string name="try_again_message">Попробовать снова</string>
-
     <string name="share_using">Поделиться с помощью</string>
 
     <string name="unknown_error">Неизвестная ошибка</string>

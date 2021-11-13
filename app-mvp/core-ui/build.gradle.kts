@@ -5,10 +5,10 @@ plugins {
 dependencies {
     implementation(project(Modules.Core.di))
     api(project(Modules.Core.core))
+    api(project(Modules.Core.ui))
 
-    api(Dependencies.supportAppCompat)
-    api(Dependencies.supportDesign)
-    api(Dependencies.supportCardView)
+    api(Dependencies.constraintLayout)
+    api(Dependencies.androidxCardView)
     api(Dependencies.customTabs)
 
     api(Dependencies.glide)

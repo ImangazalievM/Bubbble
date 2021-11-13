@@ -4,14 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.shot.Shot
-import com.bubbble.shots.shotslist.ShotsAdapter
 import com.bubbble.coreui.ui.base.BaseMvpFragment
-import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
-import com.bubbble.shotdetails.ShotDetailsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -30,17 +25,17 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     }
 
     private val loadingLayout: View by lazy {
-        requireView().findViewById(R.id.loading_layout)
+        requireView().findViewById(R.id.loadingLayout)
     }
     private val noNetworkLayout: View by lazy {
-        requireView().findViewById(R.id.no_network_layout)
+        requireView().findViewById(R.id.noNetworkLayout)
     }
     private val shotsRecyclerView: RecyclerView by lazy {
-        requireView().findViewById(R.id.shotsRecyclerView)
+        requireView().findViewById(R.id.shotsList)
     }
-    private val shotsAdapter: ShotsAdapter by lazy {
-        ShotsAdapter(requireContext())
-    }
+    //private val shotsAdapter: ShotsAdapter by lazy {
+    //    //ShotsAdapter(requireContext())
+    //}
     private val shotsListLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(context)
     }
@@ -48,23 +43,23 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        noNetworkLayout.findViewById<View>(R.id.retry_button)
+        noNetworkLayout.findViewById<View>(R.id.retryButton)
         shotsRecyclerView.layoutManager = shotsListLayoutManager
-        shotsRecyclerView.adapter = shotsAdapter
-        shotsAdapter.setOnItemClickListener { position: Int ->
-            presenter.onShotClick(position)
-        }
-        shotsRecyclerView.addOnScrollListener(object :
-            EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
-            override fun onLoadMore() {
-                presenter.onLoadMoreShotsRequest()
-            }
-        })
+        //shotsRecyclerView.adapter = shotsAdapter
+      // shotsAdapter.setOnItemClickListener { position: Int ->
+      //     presenter.onShotClick(position)
+      // }
+      //  shotsRecyclerView.addOnScrollListener(object :
+      //      EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
+      //      override fun onLoadMore() {
+      //          presenter.onLoadMoreShotsRequest()
+      //      }
+      //  })
     }
 
     override fun showNewShots(newShots: List<Shot>) {
         shotsRecyclerView.visibility = View.VISIBLE
-        shotsAdapter.addItems(newShots)
+        ///shotsAdapter.addItems(newShots)
     }
 
     override fun showShotsLoadingProgress() {
@@ -76,11 +71,11 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     }
 
     override fun showShotsLoadingMoreProgress() {
-        shotsAdapter.setLoadingMore(true)
+       // shotsAdapter.setLoadingMore(true)
     }
 
     override fun hideShotsLoadingMoreProgress() {
-        shotsAdapter.setLoadingMore(false)
+        //shotsAdapter.setLoadingMore(false)
     }
 
     override fun showNoNetworkLayout() {
@@ -92,7 +87,7 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     }
 
     override fun showLoadMoreError() {
-        shotsAdapter.setLoadingError(true)
+       // shotsAdapter.setLoadingError(true)
     }
 
     companion object {

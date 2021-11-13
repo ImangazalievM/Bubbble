@@ -7,12 +7,12 @@ object Dribbble {
     const val URL = "https://dribbble.com"
 
     object Shots {
-        const val path = "$URL/shots/"
+        const val path = "shots"
 
-        enum class Type(val code: String) {
-            PERSONAL(""),
-            POPULAR("popular"),
-            RECENT("recent")
+        object Sort {
+            const val personal = ""
+            const val popular = "popular"
+            const val recent = "recent"
         }
 
         const val p_page = "page"

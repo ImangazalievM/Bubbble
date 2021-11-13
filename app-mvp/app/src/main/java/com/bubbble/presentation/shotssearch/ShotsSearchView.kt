@@ -1,5 +1,6 @@
 package com.bubbble.presentation.shotssearch
 
+import androidx.paging.PagingData
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.mvp.BaseMvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
@@ -7,22 +8,13 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 @AddToEndSingle
 interface ShotsSearchView : BaseMvpView {
 
-    fun showNewShots(newShots: List<Shot>)
+    fun showPagingData(pagingData: PagingData<Shot>)
 
-    fun clearShotsList()
+    fun updateListState(
+        isProgressBarVisible: Boolean,
+        isRetryVisible: Boolean,
+        isErrorMsgVisible: Boolean
+    )
 
-    fun showNoNetworkLayout()
-
-    fun hideNoNetworkLayout()
-
-    fun showShotsLoadingProgress()
-
-    fun hideShotsLoadingProgress()
-
-    fun showShotsLoadingMoreProgress()
-
-    fun hideShotsLoadingMoreProgress()
-
-    fun showLoadMoreError()
-
+    fun retryLoading()
 }

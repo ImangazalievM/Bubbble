@@ -25,7 +25,6 @@ class UserShotsPresenter @AssistedInject constructor(
         private get() = currentMaxPage == 1
 
     override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
         viewState.showShotsLoadingProgress()
         loadMoreShots(currentMaxPage)
     }

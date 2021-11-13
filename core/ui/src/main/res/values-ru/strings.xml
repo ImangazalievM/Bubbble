@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="check_network_message">Пожалуйста, проверьте подключение к интернету</string>
+    <string name="try_again_message">Попробовать снова</string>
+
+</resources>

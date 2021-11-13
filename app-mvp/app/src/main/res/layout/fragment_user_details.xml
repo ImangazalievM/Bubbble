@@ -190,11 +190,11 @@
         </LinearLayout>
 
         <include
-            android:id="@+id/loading_layout"
+            android:id="@+id/loadingLayout"
             layout="@layout/view_loading" />
 
         <include
-            android:id="@+id/no_network_layout"
+            android:id="@+id/noNetworkLayout"
             layout="@layout/view_network_error"
             android:visibility="gone" />
 

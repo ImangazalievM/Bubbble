@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bubbble.core.models.Comment
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpActivity
-import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
 import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
 import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
 import com.bubbble.coreui.utils.AppUtils
@@ -116,12 +115,12 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     private val commentsListLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(this)
     }
-    private val endlessRecyclerOnScrollListener =
-        object : EndlessRecyclerOnScrollListener(commentsListLayoutManager) {
-            override fun onLoadMore() {
-                presenter.onLoadMoreCommentsRequest()
-            }
-        }
+    //private val endlessRecyclerOnScrollListener =
+    //    object : EndlessRecyclerOnScrollListener(commentsListLayoutManager) {
+    //        override fun onLoadMore() {
+    //            presenter.onLoadMoreCommentsRequest()
+    //        }
+    //    }
 
     private val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH)
 
@@ -141,7 +140,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     }
 
     private fun initViews() {
-        noNetworkLayout.findViewById<View>(R.id.retry_button)
+        noNetworkLayout.findViewById<View>(R.id.retryButton)
             .setOnClickListener { presenter.retryLoading() }
         commentsList.layoutManager = commentsListLayoutManager
 
@@ -220,7 +219,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
         commentsList.adapter = commentsAdapter
         if (shot.commentsCount > 0) {
-            commentsList.addOnScrollListener(endlessRecyclerOnScrollListener)
+            //commentsList.addOnScrollListener(endlessRecyclerOnScrollListener)
         }
         showToolbarMenu()
     }

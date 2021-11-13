@@ -4,14 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import com.bubbble.R
 import com.bubbble.core.models.user.Follow
 import com.bubbble.presentation.userprofile.UserFollowersAdapter
 import com.bubbble.coreui.ui.base.BaseMvpFragment
-import com.bubbble.coreui.ui.commons.EndlessRecyclerOnScrollListener
-import com.bubbble.presentation.userprofile.UserProfileActivity
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -30,13 +26,13 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     }
 
     private val loadingLayout: View by lazy {
-        requireView().findViewById(R.id.loading_layout)
+        requireView().findViewById(R.id.loadingLayout)
     }
     private val noNetworkLayout: View by lazy {
-        requireView().findViewById(R.id.no_network_layout)
+        requireView().findViewById(R.id.noNetworkLayout)
     }
     private val followersRecyclerView: RecyclerView by lazy {
-        requireView().findViewById(R.id.shotsRecyclerView)
+        requireView().findViewById(R.id.shotsList)
     }
     private val userFollowersAdapter: UserFollowersAdapter by lazy {
         UserFollowersAdapter(context)
@@ -52,7 +48,7 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
 
     private fun initViews(view: View) {
 
-        noNetworkLayout.findViewById<View>(R.id.retry_button)
+        noNetworkLayout.findViewById<View>(R.id.retryButton)
             .setOnClickListener { presenter.retryLoading() }
         followersRecyclerView.layoutManager = followersListLayoutManager
         followersRecyclerView.adapter = userFollowersAdapter
@@ -61,12 +57,12 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
                 position
             )
         }
-        followersRecyclerView.addOnScrollListener(object :
-            EndlessRecyclerOnScrollListener(followersListLayoutManager) {
-            override fun onLoadMore() {
-                presenter.onLoadMoreFollowersRequest()
-            }
-        })
+       // followersRecyclerView.addOnScrollListener(object :
+       //     EndlessRecyclerOnScrollListener(followersListLayoutManager) {
+       //     override fun onLoadMore() {
+       //         presenter.onLoadMoreFollowersRequest()
+       //     }
+       // })
     }
 
     override fun showNewFollowers(newFollowers: List<Follow>) {

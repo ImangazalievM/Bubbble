@@ -1,76 +1,62 @@
 package com.bubbble.shots.shotslist
 
-import android.content.Context
-import android.util.Log
-import com.bubbble.coreui.ui.adapters.LoadMoreAdapter
-import com.bubbble.core.models.shot.Shot
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bubbble.ui.extensions.inflate
+import com.bubbble.core.models.shot.Shot
+import com.bubbble.coreui.ui.views.badgedimageview.BadgedImageView
 import com.bubbble.shots.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bubbble.coreui.ui.views.badgedimageview.BadgedImageView
 
 class ShotsAdapter(
-    private val context: Context
-) : LoadMoreAdapter<Shot?>(false, false) {
+    diffCallback: DiffUtil.ItemCallback<Shot>,
+    private val onItemClickListener: (Shot) -> Unit
+) : PagingDataAdapter<Shot, ShotsAdapter.ShotViewHolder>(diffCallback) {
 
-    private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-
-    private var onItemClickListener: ((Int) -> Unit)? = null
-
-    fun setOnItemClickListener(listener: ((Int) -> Unit)?) {
-        this.onItemClickListener = listener
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ShotViewHolder {
+        return ShotViewHolder(parent.inflate(R.layout.item_shot, false))
     }
 
-    override fun getItemViewHolder(
-        inflater: LayoutInflater,
-        parent: ViewGroup
-    ): RecyclerView.ViewHolder {
-        return ShotViewHolder(layoutInflater.inflate(R.layout.item_shot, parent, false))
-    }
+    override fun onBindViewHolder(holder: ShotViewHolder, position: Int) {
+        val item = getItem(position)
+        // Note that item may be null. ViewHolder must support binding a
+        // null item as a placeholder.
+        val shot = getItem(position)!!
+        val context = holder.itemView.context
+        Glide.with(context)
+            .load(shot.imageUrl)
+            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            .centerCrop()
+            .crossFade()
+            .into(holder.shotImage)
 
-    override fun getHeaderViewHolder(
-        inflater: LayoutInflater,
-        parent: ViewGroup
-    ): RecyclerView.ViewHolder? {
-        return null
-    }
+        val backgroundResId = when {
+            position % 3 == 0 -> R.color.grey_dark_100
+            position % 2 == 0 -> R.color.grey_dark_200
+            else -> R.color.grey_dark_300
+        }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        super.onBindViewHolder(holder, position)
-        if (holder is ShotViewHolder) {
-            val shot = getItem(position)!!
-            Glide.with(context)
-                .load(shot.imageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .centerCrop()
-                .crossFade()
-                .into(holder.shotImage)
+        holder.shotLayout.setBackgroundColor(
+            ContextCompat.getColor(context, backgroundResId)
+        )
 
-            val backgroundResId = when {
-                position % 3 == 0 -> R.color.grey_dark_100
-                position % 2 == 0 -> R.color.grey_dark_200
-                else -> R.color.grey_dark_300
-            }
-
-            holder.shotLayout.setBackgroundColor(
-                ContextCompat.getColor(context, backgroundResId)
-            )
-
-            holder.shotLayout.setOnClickListener {
-                onItemClickListener?.invoke(position)
-            }
-            if (shot.isAnimated) {
-                holder.shotImage.setBadge("GIF")
-            }
+        holder.itemView.setOnClickListener {
+            onItemClickListener.invoke(shot)
+        }
+        if (shot.isAnimated) {
+            holder.shotImage.setBadge("GIF")
         }
     }
 
-    private inner class ShotViewHolder constructor(itemView: View) :
+    inner class ShotViewHolder constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
         var shotLayout: View = itemView.findViewById(R.id.shot_layout)

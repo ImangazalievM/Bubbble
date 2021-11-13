@@ -3,6 +3,7 @@ include(":core:di")
 include(":core:models")
 include(":core:network")
 include(":core:data")
+include(":core:ui")
 
 //app-mvp
 include(":app-mvp:app")

@@ -51,9 +51,9 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
     }
 
     private fun initViews(view: View) {
-        loadingLayout = view.findViewById(R.id.loading_layout)
-        noNetworkLayout = view.findViewById(R.id.no_network_layout)
-        noNetworkLayout.findViewById<View>(R.id.retry_button)
+        loadingLayout = view.findViewById(R.id.loadingLayout)
+        noNetworkLayout = view.findViewById(R.id.noNetworkLayout)
+        noNetworkLayout.findViewById<View>(R.id.retryButton)
             .setOnClickListener { presenter.retryLoading() }
         userShotsButton = view.findViewById(R.id.user_shots_button)
         userLikesButton = view.findViewById(R.id.user_likes_button)

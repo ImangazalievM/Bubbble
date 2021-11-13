@@ -40,10 +40,10 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     override val layoutRes: Int = R.layout.activity_user_profile
 
     private val loadingLayout: View by lazy {
-        findViewById(R.id.loading_layout)
+        findViewById(R.id.loadingLayout)
     }
     private val noNetworkLayout: View by lazy {
-        findViewById(R.id.no_network_layout)
+        findViewById(R.id.noNetworkLayout)
     }
     private val appBarLayout: AppBarLayout by lazy {
         findViewById(R.id.app_bar_layout)
@@ -122,7 +122,7 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     }
 
     private fun initViews() {
-        noNetworkLayout.findViewById<View>(R.id.retry_button)
+        noNetworkLayout.findViewById<View>(R.id.retryButton)
             .setOnClickListener { presenter.retryLoading() }
         appBarLayout.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout: AppBarLayout, verticalOffset: Int ->
             val maxScroll = appBarLayout.totalScrollRange
