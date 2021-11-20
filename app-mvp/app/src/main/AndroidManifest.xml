@@ -26,7 +26,7 @@
 
         <activity android:name=".shotdetails.ShotDetailsActivity" />
 
-        <activity android:name=".presentation.shotzoom.ShotZoomActivity" />
+        <activity android:name=".shotdetails.shotzoom.ShotZoomActivity" />
 
         <activity
             android:name=".presentation.userprofile.UserProfileActivity"

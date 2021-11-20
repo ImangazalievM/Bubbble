@@ -1,11 +1,11 @@
-package com.bubbble.presentation.shotzoom
+package com.bubbble.shotdetails.shotzoom
 
 import com.bubbble.coreui.mvp.BaseMvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 import moxy.viewstate.strategy.alias.OneExecution
 
 @AddToEndSingle
-interface ShotZoomView : BaseMvpView {
+internal interface ShotZoomView : BaseMvpView {
 
     fun showShotImage(imageUrl: String)
 

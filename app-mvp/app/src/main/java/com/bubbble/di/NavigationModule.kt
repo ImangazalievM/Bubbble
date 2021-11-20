@@ -3,6 +3,7 @@ package com.bubbble.di
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.presentation.global.navigation.*
 import com.bubbble.shotdetails.api.ShotDetailsNavigationFactory
+import com.bubbble.shotdetails.api.ShotImageZoomScreen
 import com.bubbble.shots.api.ShotsNavigationFactory
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder

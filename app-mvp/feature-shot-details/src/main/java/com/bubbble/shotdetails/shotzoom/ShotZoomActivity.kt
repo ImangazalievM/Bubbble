@@ -1,4 +1,4 @@
-package com.bubbble.presentation.shotzoom
+package com.bubbble.shotdetails.shotzoom
 
 import android.content.Context
 import android.content.DialogInterface
@@ -9,9 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import com.bubbble.R
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.utils.AppUtils
+import com.bubbble.shotdetails.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.github.chrisbanes.photoview.PhotoView
@@ -21,7 +21,7 @@ import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
+internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
     override val layoutRes: Int = R.layout.activity_shot_zoom
 

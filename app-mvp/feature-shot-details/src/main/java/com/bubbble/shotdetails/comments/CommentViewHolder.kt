@@ -1,28 +1,17 @@
-package com.bubbble.shotdetails.comments;
+package com.bubbble.shotdetails.comments
 
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
+import com.bubbble.shotdetails.R
 
-import androidx.recyclerview.widget.RecyclerView;
+internal class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView;
-import com.bubbble.shotdetails.R;
-
-public class CommentViewHolder extends RecyclerView.ViewHolder {
-
-    public final TextView userName;
-    public final ImageView userAvatar;
-    public final DribbbleTextView commentText;
-    public final TextView likesCount;
-
-    public CommentViewHolder(View itemView) {
-        super(itemView);
-
-        userName = itemView.findViewById(R.id.user_name);
-        userAvatar = itemView.findViewById(R.id.user_avatar);
-        commentText = itemView.findViewById(R.id.text);
-        likesCount = itemView.findViewById(R.id.likes_count);
-    }
+    val userName: TextView = itemView.findViewById(R.id.user_name)
+    val userAvatar: ImageView = itemView.findViewById(R.id.user_avatar)
+    val commentText: DribbbleTextView = itemView.findViewById(R.id.text)
+    val likesCount: TextView = itemView.findViewById(R.id.likes_count)
 
 }

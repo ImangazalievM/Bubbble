@@ -1,9 +1,8 @@
-package com.bubbble.presentation.global.navigation
+package com.bubbble.shotdetails.api
 
 import android.content.Context
 import android.content.Intent
-import com.bubbble.presentation.shotssearch.ShotsSearchActivity
-import com.bubbble.presentation.shotzoom.ShotZoomActivity
+import com.bubbble.shotdetails.shotzoom.ShotZoomActivity
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 
 class ShotImageZoomScreen(

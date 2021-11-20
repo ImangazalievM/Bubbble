@@ -8,13 +8,13 @@
     <string name="open_in_browser">Открыть в браузере</string>
     <string name="share">Поделиться</string>
 
-    <string name="storage_access_title">Ошибка</string>
+    <string name="storage_access_error_title">Ошибка</string>
     <string name="storage_access_rationale_message">Bubbble не может работать без доступа к файлам на устройстве. Пожалуйста предоставьте доступ к файлам.</string>
     <string name="storage_access_message">Bubbble не может работать без доступа к файлам на устройстве. Чтобы включить этот доступ, откройте страницу Bubbbleа в системных настройках, и зайдите в раздел «Разрешения».</string>
     <string name="storage_access_ok_button">OK</string>
     <string name="storage_access_settings_button">Настройки</string>
 
-    <string name="image_saved_to_downloads_folder">Изображение сохранено в папку загрузок</string>>
+    <string name="image_saved_to_downloads_folder">Изображение сохранено в папку загрузок</string>
 
     <plurals name="likes">
         <item quantity="zero">нет лайков</item>
@@ -78,9 +78,6 @@
         <item quantity="other">%s проектов</item>
     </plurals>
 
-    <string name="unknown_error">Неизвестная ошибка</string>
-    <string name="network_error">Ошибка подключения к интернету</string>
-    <string name="ssl_error_check_device_time_message">Ошибка при подключении к серверу. Пожалуйста, проверьте время на вашем устройстве.</string>
-
-
+    <!--  Zoom  -->
+    <string name="an_error_occurred_while_loading_image">Произошла ошибка при загрузке изображения</string>
 </resources>

@@ -6,14 +6,19 @@ import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotCommentsParams
 import com.bubbble.coreui.mvp.BasePresenter
 import com.bubbble.coreui.permissions.PermissionsManager
+import com.bubbble.data.comments.CommentsRepository
+import com.bubbble.data.images.ImagesRepository
+import com.bubbble.data.shots.ShotsRepository
 import com.bubbble.shotdetails.api.ShotDetailsNavigationFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
 @InjectViewState
-class ShotDetailsPresenter @AssistedInject constructor(
-    private val shotDetailsInteractor: ShotDetailsInteractor,
+internal class ShotDetailsPresenter @AssistedInject constructor(
+    private val shotsRepository: ShotsRepository,
+    private val commentsRepository: CommentsRepository,
+    private val imagesRepository: ImagesRepository,
     private val permissionsManager: PermissionsManager,
     private val navigationFactory: ShotDetailsNavigationFactory,
     private val userUrlParser: UserUrlParser,
@@ -34,7 +39,7 @@ class ShotDetailsPresenter @AssistedInject constructor(
     private fun loadShot() = launchSafe {
         try {
             viewState.showLoadingProgress()
-            this@ShotDetailsPresenter.shot = shotDetailsInteractor.getShot(shotId)
+            this@ShotDetailsPresenter.shot = shotsRepository.getShot(shotId)
             viewState.hideLoadingProgress()
             viewState.showShot(shot)
             if (shot.commentsCount > 0) {
@@ -65,7 +70,7 @@ class ShotDetailsPresenter @AssistedInject constructor(
         isCommentsLoading = true
         val shotCommentsRequestParams = ShotCommentsParams(shotId, page, COMMENTS_PAGE_SIZE)
         val newComments = try {
-            shotDetailsInteractor.getShotComments(shotCommentsRequestParams)
+            commentsRepository.getComments(shotCommentsRequestParams)
         } finally {
             isCommentsLoading = false
         }
@@ -112,7 +117,7 @@ class ShotDetailsPresenter @AssistedInject constructor(
 
     private fun saveShotImage() = launchSafe {
         if (!isShotLoaded) return@launchSafe
-        shotDetailsInteractor.saveImage(shot.imageUrl)
+        imagesRepository.saveImage(shot.imageUrl)
         viewState.showImageSavedMessage()
     }
 

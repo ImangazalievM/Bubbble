@@ -7,7 +7,7 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 import moxy.viewstate.strategy.alias.OneExecution
 
 @AddToEndSingle
-interface ShotDetailsView : BaseMvpView {
+internal interface ShotDetailsView : BaseMvpView {
 
     fun showShot(shot: Shot)
 

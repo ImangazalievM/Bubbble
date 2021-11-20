@@ -13,16 +13,15 @@ import com.bubbble.shotdetails.ShotDescriptionViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
-class ShotCommentsAdapter(
+internal class ShotCommentsAdapter(
     private val context: Context,
     private val onLinkClick: (url: String) -> Unit,
     private val onUserUrlClick: (url: String) -> Unit,
     private val onUserClick: (userName: String) -> Unit,
-    description: View
+    private val description: View
 ) : LoadMoreAdapter<Comment?>(true, true) {
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-    private val description: View = description
     private var noComments: Boolean = false
 
     override fun getItemViewHolder(
@@ -52,22 +51,21 @@ class ShotCommentsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is CommentViewHolder) {
-            val commentViewHolder = holder
             val comment = getItem(position)
-            commentViewHolder.userName.text = comment!!.user.name
-            commentViewHolder.commentText.setHtmlText(comment.body)
-            commentViewHolder.likesCount.text = comment.likeCount.toString()
+            holder.userName.text = comment!!.user.name
+            holder.commentText.setHtmlText(comment.body)
+            holder.likesCount.text = comment.likeCount.toString()
             Glide.with(context)
                 .load(comment.user.avatarUrl)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .transform(GlideCircleTransform(context))
                 .crossFade()
-                .into(commentViewHolder.userAvatar)
-            commentViewHolder.userAvatar.setOnClickListener {
+                .into(holder.userAvatar)
+            holder.userAvatar.setOnClickListener {
                 onUserClick(comment.user.userName)
             }
-            commentViewHolder.commentText.setOnLinkClickListener { url: String -> onLinkClick(url) }
-            commentViewHolder.commentText.setOnUserSelectedListener { url: String ->
+            holder.commentText.setOnLinkClickListener { url: String -> onLinkClick(url) }
+            holder.commentText.setOnUserSelectedListener { url: String ->
                 onUserUrlClick(url)
             }
         }

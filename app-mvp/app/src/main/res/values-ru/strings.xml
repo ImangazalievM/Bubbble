@@ -14,7 +14,6 @@
     <string name="user_information">Информация</string>
     <string name="user_follow">Подписаться</string>
     <string name="an_error_occurred">Произошла ошибка</string>
-    <string name="an_error_occurred_while_loading_image">Произошла ошибка при загрузке изображения</string>4
     <string name="open_image_in_browser">Открыть в браузере</string>
 
     <string name="no_comments">Комментариев нет</string>

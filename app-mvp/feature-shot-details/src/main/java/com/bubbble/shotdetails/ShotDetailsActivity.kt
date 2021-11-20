@@ -35,7 +35,7 @@ import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
+internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     override val layoutRes: Int = R.layout.activity_shot_details
 
@@ -278,7 +278,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     override fun showStorageAccessRationaleMessage() {
         AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
-            .setTitle(R.string.storage_access_title)
+            .setTitle(R.string.storage_access_error_title)
             .setMessage(R.string.storage_access_rationale_message)
             .setPositiveButton(R.string.storage_access_ok_button) { dialog: DialogInterface?, which: Int -> presenter.onDownloadImageClicked() }
             .show()
@@ -286,7 +286,7 @@ class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     override fun showAllowStorageAccessMessage() {
         AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
-            .setTitle(R.string.storage_access_title)
+            .setTitle(R.string.storage_access_error_title)
             .setMessage(R.string.storage_access_message)
             .setPositiveButton(R.string.storage_access_settings_button) { dialog: DialogInterface?, which: Int -> presenter.onAppSettingsButtonClicked() }
             .show()

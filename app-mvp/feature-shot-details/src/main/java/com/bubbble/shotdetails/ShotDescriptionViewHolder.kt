@@ -1,13 +1,8 @@
-package com.bubbble.shotdetails;
+package com.bubbble.shotdetails
 
-import android.view.View;
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
-import androidx.recyclerview.widget.RecyclerView;
-
-public class ShotDescriptionViewHolder extends RecyclerView.ViewHolder {
-
-    public ShotDescriptionViewHolder(View itemView) {
-        super(itemView);
-    }
-
-}
+internal class ShotDescriptionViewHolder(
+    itemView: View
+) : RecyclerView.ViewHolder(itemView)
