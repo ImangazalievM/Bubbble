@@ -26,8 +26,8 @@
                     android:layout_below="@+id/user_image_container"
                     android:background="@color/grey_dark_200"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/padding_normal"
-                    android:paddingTop="@dimen/padding_normal">
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -46,7 +46,7 @@
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_shot_white_24dp"
+                                android:drawableLeft="@drawable/ic_shot"
                                 android:text="28 shots" />
                         </FrameLayout>
 
@@ -59,7 +59,7 @@
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_like_white_24dp"
+                                android:drawableLeft="@drawable/ic_like"
                                 android:text="156 likes" />
                         </FrameLayout>
 
@@ -126,7 +126,7 @@
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_folder_white_24dp"
+                                android:drawableLeft="@drawable/ic_folder"
                                 android:text="1 project" />
                         </FrameLayout>
                     </LinearLayout>
@@ -139,8 +139,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/padding_normal"
-                android:paddingTop="@dimen/padding_normal">
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
 
                 <FrameLayout
                     android:id="@+id/user_location_button"
@@ -152,7 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.5"
-                        android:drawableLeft="@drawable/ic_location_white_24dp"
+                        android:drawableLeft="@drawable/ic_location"
                         android:text="San Francisco" />
                 </FrameLayout>
 
@@ -166,7 +166,7 @@
                         style="@style/UserContactInfoItem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_twitter_white_24dp"
+                        android:drawableLeft="@drawable/ic_twitter"
                         android:text="\@Dribbble" />
                 </FrameLayout>
 
@@ -180,7 +180,7 @@
                         style="@style/UserContactInfoItem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_web_white_24dp"
+                        android:drawableLeft="@drawable/ic_web"
                         android:text="https://dribbble.com"
                         android:textSize="16sp" />
                 </FrameLayout>

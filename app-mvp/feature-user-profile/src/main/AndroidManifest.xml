@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bubbble.userprofile">
+
+    <application>
+        <activity
+            android:name=".presentation.userprofile.UserProfileActivity"
+            android:theme="@style/AppTheme.TranslucentStatusBarActivityTheme" />
+    </application>
+
+</manifest>

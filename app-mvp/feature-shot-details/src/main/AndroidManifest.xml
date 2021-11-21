@@ -2,4 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bubbble.shotdetails">
 
+    <application>
+        <activity android:name="com.bubbble.shotdetails.ShotDetailsActivity" />
+
+        <activity android:name="com.bubbble.shotdetails.shotzoom.ShotZoomActivity" />
+    </application>
+
 </manifest>

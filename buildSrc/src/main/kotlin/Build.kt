@@ -39,10 +39,6 @@ object BuildScript {
             mvpFeatureModuleConfig
         ),
         module(
-            Modules.AppMvp.featureShotZoom,
-            mvpFeatureModuleConfig
-        ),
-        module(
             Modules.AppMvp.featureShotSearch,
             mvpFeatureModuleConfig
         ),

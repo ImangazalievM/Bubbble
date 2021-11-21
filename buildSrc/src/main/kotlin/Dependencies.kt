@@ -131,7 +131,6 @@ object Modules {
         const val coreUi = ":app-mvp:core-ui"
         const val featureShots = ":app-mvp:feature-shots"
         const val featureShotDetails = ":app-mvp:feature-shot-details"
-        const val featureShotZoom = ":app-mvp:feature-shot-zoom"
         const val featureShotSearch = ":app-mvp:feature-shot-search"
         const val featureUserProfile = ":app-mvp:feature-user-profile"
     }

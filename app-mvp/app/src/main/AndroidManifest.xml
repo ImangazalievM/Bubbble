@@ -24,14 +24,6 @@
 
         <activity android:name=".presentation.shotssearch.ShotsSearchActivity" />
 
-        <activity android:name=".shotdetails.ShotDetailsActivity" />
-
-        <activity android:name=".shotdetails.shotzoom.ShotZoomActivity" />
-
-        <activity
-            android:name=".presentation.userprofile.UserProfileActivity"
-            android:theme="@style/AppTheme.TranslucentStatusBarActivityTheme" />
-
     </application>
 
 

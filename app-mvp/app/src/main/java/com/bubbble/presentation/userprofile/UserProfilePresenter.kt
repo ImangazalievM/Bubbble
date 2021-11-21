@@ -3,17 +3,17 @@ package com.bubbble.presentation.userprofile
 import moxy.InjectViewState
 import com.bubbble.core.models.user.User
 import com.bubbble.core.network.NoNetworkException
-import com.bubbble.domain.userprofile.UserProfileInteractor
 import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.data.global.UserUrlParser
+import com.bubbble.data.users.UsersRepository
 import com.bubbble.presentation.global.navigation.UserProfileScreen
-import com.bubbble.shotdetails.UserUrlParser
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
 @InjectViewState
 class UserProfilePresenter @AssistedInject constructor(
-    private val userProfileInteractor: UserProfileInteractor,
+    private val usersRepository: UsersRepository,
     private val userUrlParser: UserUrlParser,
     @Assisted private val userName: String
 ) : BasePresenter<UserProfileView>() {
@@ -29,7 +29,7 @@ class UserProfilePresenter @AssistedInject constructor(
     private fun loadUser() = launchSafe {
         viewState.showLoadingProgress()
         try {
-            this@UserProfilePresenter.user = userProfileInteractor.getUser(userName)
+            user = usersRepository.getUser(userName)
             viewState.showUser(user)
         } catch (throwable: NoNetworkException) {
             viewState.showNoNetworkLayout()

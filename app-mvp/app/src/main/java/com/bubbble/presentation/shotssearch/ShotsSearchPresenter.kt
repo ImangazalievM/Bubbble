@@ -8,7 +8,7 @@ import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotSortType
 import com.bubbble.coreui.mvp.BasePresenter
 import com.bubbble.data.shots.ShotsRepository
-import com.bubbble.presentation.global.navigation.ShotDetailsScreen
+import com.bubbble.shotdetails.api.ShotDetailsScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

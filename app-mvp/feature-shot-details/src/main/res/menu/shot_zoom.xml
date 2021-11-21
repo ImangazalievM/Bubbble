@@ -3,19 +3,19 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:icon="@drawable/ic_download_white_24dp"
+        android:icon="@drawable/ic_download"
         android:id="@+id/download_shot_image"
         android:title="@string/download_image"
         app:showAsAction="always"/>
 
     <item
-        android:icon="@drawable/ic_share_white_24dp"
+        android:icon="@drawable/ic_share"
         android:id="@+id/share_shot"
         android:title="@string/share"
         app:showAsAction="always"/>
 
     <item
-        android:icon="@drawable/ic_web_white_24dp"
+        android:icon="@drawable/ic_browser"
         android:id="@+id/open_in_browser"
         android:title="@string/open_in_browser"
         app:showAsAction="always"/>

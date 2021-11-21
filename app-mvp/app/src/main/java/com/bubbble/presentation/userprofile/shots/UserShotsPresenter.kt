@@ -4,9 +4,9 @@ import moxy.InjectViewState
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.user.UserShotsParams
 import com.bubbble.core.network.NoNetworkException
-import com.bubbble.domain.userprofile.UserShotsInteractor
 import com.bubbble.coreui.mvp.BasePresenter
-import com.bubbble.presentation.global.navigation.ShotDetailsScreen
+import com.bubbble.data.shots.ShotsRepository
+import com.bubbble.shotdetails.api.ShotDetailsScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,7 +14,7 @@ import java.util.*
 
 @InjectViewState
 class UserShotsPresenter @AssistedInject constructor(
-    private val userShotsInteractor: UserShotsInteractor,
+    private val shotsRepository: ShotsRepository,
     @Assisted private val userName: String
 ) : BasePresenter<UserShotsView>() {
 
@@ -22,7 +22,7 @@ class UserShotsPresenter @AssistedInject constructor(
     private val shots: MutableList<Shot> = ArrayList()
     private var isShotsLoading = false
     private val isFirstLoading: Boolean
-        private get() = currentMaxPage == 1
+        get() = currentMaxPage == 1
 
     override fun onFirstViewAttach() {
         viewState.showShotsLoadingProgress()
@@ -33,7 +33,7 @@ class UserShotsPresenter @AssistedInject constructor(
         isShotsLoading = true
         val userShotsRequestParams = UserShotsParams(userName, page, PAGE_SIZE)
         try {
-            val newShots = userShotsInteractor.getUserShots(userShotsRequestParams)
+            val newShots = shotsRepository.getUserShots(userShotsRequestParams)
             shots.addAll(newShots)
             viewState.showNewShots(newShots)
         } catch (throwable: NoNetworkException) {

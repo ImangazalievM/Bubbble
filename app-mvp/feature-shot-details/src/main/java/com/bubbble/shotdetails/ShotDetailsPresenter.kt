@@ -7,6 +7,7 @@ import com.bubbble.core.models.shot.ShotCommentsParams
 import com.bubbble.coreui.mvp.BasePresenter
 import com.bubbble.coreui.permissions.PermissionsManager
 import com.bubbble.data.comments.CommentsRepository
+import com.bubbble.data.global.UserUrlParser
 import com.bubbble.data.images.ImagesRepository
 import com.bubbble.data.shots.ShotsRepository
 import com.bubbble.shotdetails.api.ShotDetailsNavigationFactory

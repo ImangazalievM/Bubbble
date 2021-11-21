@@ -160,7 +160,7 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
     override fun showStorageAccessRationaleMessage() {
         AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
-            .setTitle(R.string.storage_access_title)
+            .setTitle(R.string.storage_access_error_title)
             .setMessage(R.string.storage_access_rationale_message)
             .setPositiveButton(R.string.storage_access_ok_button) { dialog: DialogInterface?, which: Int -> presenter.onDownloadImageClicked() }
             .show()
@@ -168,7 +168,7 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
     override fun showAllowStorageAccessMessage() {
         AlertDialog.Builder(this, R.style.AppTheme_MaterialDialogStyle)
-            .setTitle(R.string.storage_access_title)
+            .setTitle(R.string.storage_access_error_title)
             .setMessage(R.string.storage_access_message)
             .setPositiveButton(R.string.storage_access_settings_button) { dialog: DialogInterface?, which: Int -> presenter.onAppSettingsButtonClicked() }
             .show()

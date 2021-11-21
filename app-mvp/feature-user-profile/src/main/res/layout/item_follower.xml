@@ -20,7 +20,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginRight="16dp"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/avatar_placeholder" />
 
         <RelativeLayout
             android:id="@+id/header_container"

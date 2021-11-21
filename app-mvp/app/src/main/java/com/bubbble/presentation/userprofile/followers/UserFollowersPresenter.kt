@@ -1,20 +1,20 @@
 package com.bubbble.presentation.userprofile.followers
 
-import moxy.InjectViewState
 import com.bubbble.core.models.user.Follow
 import com.bubbble.core.models.user.UserFollowersParams
 import com.bubbble.core.network.NoNetworkException
-import com.bubbble.domain.userprofile.UserFollowersInteractor
 import com.bubbble.coreui.mvp.BasePresenter
+import com.bubbble.data.users.FollowersRepository
 import com.bubbble.presentation.global.navigation.UserProfileScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import moxy.InjectViewState
 import java.util.*
 
 @InjectViewState
 class UserFollowersPresenter @AssistedInject constructor(
-    private val userFollowersInteractor: UserFollowersInteractor,
+    private val followersRepository: FollowersRepository,
     @Assisted private val userName: String
 ) : BasePresenter<UserFollowersView>() {
 
@@ -31,7 +31,7 @@ class UserFollowersPresenter @AssistedInject constructor(
         isFollowersLoading = true
         val requestParams = UserFollowersParams(userName, page, PAGE_SIZE)
         try {
-            val newFollowers = userFollowersInteractor.getUserFollowers(requestParams)
+            val newFollowers = followersRepository.getUserFollowers(requestParams)
             followers.addAll(newFollowers)
             viewState.showNewFollowers(newFollowers)
         } catch (throwable: NoNetworkException) {
