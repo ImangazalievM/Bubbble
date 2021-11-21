@@ -1,7 +1,7 @@
 package com.bubbble.shotdetails
 
 import com.bubbble.core.models.Comment
-import com.bubbble.core.models.shot.Shot
+import com.bubbble.core.models.shot.ShotDetails
 import com.bubbble.coreui.mvp.BaseMvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 import moxy.viewstate.strategy.alias.OneExecution
@@ -9,15 +9,11 @@ import moxy.viewstate.strategy.alias.OneExecution
 @AddToEndSingle
 internal interface ShotDetailsView : BaseMvpView {
 
-    fun showShot(shot: Shot)
+    fun showShot(shot: ShotDetails)
 
-    fun showLoadingProgress()
+    fun showLoadingProgress(isVisible: Boolean)
 
-    fun hideLoadingProgress()
-
-    fun showNoNetworkLayout()
-
-    fun hideNoNetworkLayout()
+    fun showNoNetworkLayout(isVisible: Boolean)
 
     fun hideImageLoadingProgress()
 

@@ -2,10 +2,10 @@ package com.bubbble.core.models.shot
 
 import java.util.*
 
-data class Shot(
-    val id: Long,
-    val shotSlug: String,
+data class ShotDetails(
+    val urlSlug: String,
     val title: String,
+    val description: String,
     val imageUrl: String,
     val viewsCount: Int,
     val likesCount: Int,

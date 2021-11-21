@@ -14,11 +14,7 @@ class CommentsRepository @Inject constructor(
     suspend fun getComments(
         requestParams: ShotCommentsParams
     ): List<Comment> {
-        return dribbbleApi.getShotComments(
-            requestParams.shotId,
-            requestParams.page,
-            requestParams.pageSize
-        )
+       TODO()
     }
 
 }

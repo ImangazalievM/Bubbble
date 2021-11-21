@@ -73,7 +73,7 @@ class UserShotsPresenter @AssistedInject constructor(
     }
 
     fun onShotClick(position: Int) {
-        router.navigateTo(ShotDetailsScreen(shots[position].id))
+        router.navigateTo(ShotDetailsScreen(shots[position].shotSlug))
     }
 
     companion object {

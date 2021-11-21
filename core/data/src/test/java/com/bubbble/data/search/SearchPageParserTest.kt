@@ -13,7 +13,7 @@ class SearchPageParserTest : DescribeSpec({
     describe("shots getting") {
         context("shots") {
             val htmlText = readTextFile("html-responses/shots-list.html")
-            val shots = searchPageParser.parseHtml(htmlText, Dribbble.URL)
+            val shots = searchPageParser.parseHtml(htmlText, Dribbble.URL,)
             //val parseManager = ComponentHolder.component.pageParserManager()
             //parseManager.parse(searchPageParser, SearchParams(
             //    page = 1,

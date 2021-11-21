@@ -20,8 +20,8 @@ class FeedShotsParser @Inject constructor(
     ): HttpUrl {
         return Dribbble.URL.toHttpUrl()
             .newBuilder()
-            .addQueryParameter("page", pagingParams.page.toString())
-            .addQueryParameter("per_page", pagingParams.pageSize.toString())
+            .addQueryParameter(Dribbble.Shots.p_page, pagingParams.page.toString())
+            .addQueryParameter(Dribbble.Shots.p_page_size, pagingParams.pageSize.toString())
             .apply {
                 val sortCode = params.sort?.code
                 if (sortCode != null) {

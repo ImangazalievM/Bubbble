@@ -17,10 +17,11 @@ class PageParserManager @Inject constructor(
     suspend fun <Params, Data> parse(
         parser: PageParser<Params, Data>,
         params: Params,
-        pagingParams: PagingParams
+        pagingParams: PagingParams = PagingParams(1, 1)
     ): Data = withContext(Dispatchers.IO) {
-        val html = pageDownloader.download(parser.getUrl(dribbbleUrl, params, pagingParams))
-        parser.parseHtml(html, dribbbleUrl)
+        val pageUrl = parser.getUrl(dribbbleUrl, params, pagingParams)
+        val html = pageDownloader.download(pageUrl)
+        parser.parseHtml(html, dribbbleUrl, pageUrl.toString())
     }
 
 }

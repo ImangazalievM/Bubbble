@@ -37,13 +37,13 @@ open class BasePresenter<V : BaseMvpView> : MvpPresenter<V>(), CoroutineScope {
         context: CoroutineContext = EmptyCoroutineContext,
         showErrorMessage: Boolean = true,
         handledErrorTypes: List<KClass<out Throwable>> = emptyList(),
-        errorHandler: (Throwable) -> Unit = {},
+        customErrorHandler: (Throwable) -> Unit = {},
         block: suspend CoroutineScope.() -> Unit
     ): Job = launch(context) {
         try {
             block()
         } catch (error: Exception) {
-            this@BasePresenter.errorHandler.proceed(error, handledErrorTypes, errorHandler) {
+            errorHandler.proceed(error, handledErrorTypes, customErrorHandler) {
                 if (showErrorMessage && handledErrorTypes.isEmpty()) viewState.showMessage(it)
             }
         }

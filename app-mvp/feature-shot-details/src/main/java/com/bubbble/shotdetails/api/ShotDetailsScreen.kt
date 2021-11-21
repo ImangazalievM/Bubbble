@@ -6,10 +6,10 @@ import com.bubbble.shotdetails.ShotDetailsActivity
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 
 class ShotDetailsScreen(
-    private val shotId: Long
+    private val shotSlug: String
 ) : ActivityScreen {
 
     override fun createIntent(context: Context): Intent {
-        return ShotDetailsActivity.buildIntent(context, shotId)
+        return ShotDetailsActivity.buildIntent(context, shotSlug)
     }
 }

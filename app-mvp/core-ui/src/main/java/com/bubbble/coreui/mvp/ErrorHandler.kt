@@ -22,7 +22,7 @@ class ErrorHandler @Inject constructor(
             errorHandler: (Throwable) -> Unit = {},
             messageListener: (String) -> Unit = {}
     ) {
-        Log.e("MID", error.message, error)
+        Log.e("Bubbble", error.message, error)
         if (handledErrorTypes.contains(error::class)) {
             errorHandler(error)
         } else {

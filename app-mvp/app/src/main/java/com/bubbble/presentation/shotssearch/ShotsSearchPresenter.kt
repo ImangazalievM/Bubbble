@@ -46,7 +46,7 @@ class ShotsSearchPresenter @AssistedInject constructor(
     }
 
     fun onShotClick(shot: Shot) {
-        router.navigateTo(ShotDetailsScreen(shot.id))
+        router.navigateTo(ShotDetailsScreen(shot.shotSlug))
     }
 
     private fun loadShots() = launchSafe {

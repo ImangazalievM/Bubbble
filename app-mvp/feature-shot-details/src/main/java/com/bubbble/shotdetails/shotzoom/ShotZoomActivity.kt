@@ -102,12 +102,8 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
         showToolbarMenu()
     }
 
-    override fun showLoadingProgress() {
+    override fun showLoadingProgress(isVisible: Boolean) {
         loadingLayout.visibility = View.VISIBLE
-    }
-
-    override fun hideLoadingProgress() {
-        loadingLayout.visibility = View.GONE
     }
 
     private fun showToolbarMenu() {

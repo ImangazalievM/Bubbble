@@ -10,10 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/dribbble_lined_logo_pink"
-        tools:layout_editor_absoluteX="156dp" />
+        app:srcCompat="@drawable/dribbble_lined_logo_pink" />
 
     <TextView
         android:id="@+id/textView"
@@ -25,8 +26,9 @@
         android:textAppearance="@style/AppTheme.DefaultTextTheme"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/retryButton"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:layout_editor_absoluteX="172dp" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
         android:id="@+id/retryButton"
@@ -36,7 +38,8 @@
         android:text="@string/try_again_message"
         android:theme="@style/AppTheme.SpecialMaterialButton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout_editor_absoluteX="158dp" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 package com.bubbble.core.models.shot
 
 class ShotCommentsParams(
-    val shotId: Long,
+    val shotSlug: String,
     val page: Int,
     val pageSize: Int
 )

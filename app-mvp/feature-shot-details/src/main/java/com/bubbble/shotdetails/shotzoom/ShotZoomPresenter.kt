@@ -25,16 +25,16 @@ internal class ShotZoomPresenter @AssistedInject constructor(
     }
 
     private fun showShot() {
-        viewState.showLoadingProgress()
+        viewState.showLoadingProgress(true)
         viewState.showShotImage(imageUrl)
     }
 
     fun onImageLoadSuccess() {
-        viewState.hideLoadingProgress()
+        viewState.showLoadingProgress(false)
     }
 
     fun onImageLoadError() {
-        viewState.hideLoadingProgress()
+        viewState.showLoadingProgress(false)
         viewState.showErrorLayout()
     }
 

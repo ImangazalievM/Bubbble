@@ -36,14 +36,18 @@ class ShotsPresenter @AssistedInject constructor(
     }
 
     fun onShotClick(shot: Shot) {
-        router.navigateTo(navigationFactory.shotDetailsScreen(shot.id))
+        router.navigateTo(navigationFactory.shotDetailsScreen(shot.shotSlug))
     }
 
     fun onListStateChanged(loadState: CombinedLoadStates) {
+        val state = loadState.refresh
+        if (state is LoadState.Error) {
+            errorHandler.proceed(state.error)
+        }
         viewState.updateListState(
-            isProgressBarVisible = loadState.refresh is LoadState.Loading,
-            isRetryVisible = loadState.refresh is LoadState.Error,
-            isErrorMsgVisible = loadState.refresh is LoadState.Error
+            isProgressBarVisible = state is LoadState.Loading,
+            isRetryVisible = state is LoadState.Error,
+            isErrorMsgVisible = state is LoadState.Error
         )
     }
 

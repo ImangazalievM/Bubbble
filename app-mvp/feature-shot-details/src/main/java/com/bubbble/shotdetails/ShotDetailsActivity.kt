@@ -13,10 +13,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bubbble.core.models.Comment
-import com.bubbble.core.models.shot.Shot
+import com.bubbble.core.models.shot.ShotDetails
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
 import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
@@ -128,8 +129,8 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     lateinit var presenterFactory: ShotDetailsPresenter.Factory
 
     val presenter by moxyPresenter {
-        val shotId = intent.getLongExtra(KEY_SHOT_ID, -1)
-        presenterFactory.create(shotId)
+        val shotSlug = intent.getStringExtra(KEY_SHOT_SLUG)!!
+        presenterFactory.create(shotSlug)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -161,12 +162,12 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         shareShotButton.setOnClickListener { presenter.onShareShotClicked() }
     }
 
-    override fun showShot(shot: Shot) {
+    override fun showShot(shot: ShotDetails) {
         shotDetailContainer.visibility = View.VISIBLE
 
         //shot info
         title.text = shot.title
-        shotCreateDate.text = dateFormat.format(shot.createdAt)
+        //shotCreateDate.text = dateFormat.format(shot.createdAt)
         //ToDo:
         //if (shot.description != null) {
         //    description.setHtmlText(shot.description)
@@ -243,12 +244,8 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         }
     }
 
-    override fun showLoadingProgress() {
-        loadingLayout.visibility = View.VISIBLE
-    }
-
-    override fun hideLoadingProgress() {
-        loadingLayout.visibility = View.GONE
+    override fun showLoadingProgress(isVisible: Boolean) {
+        loadingLayout.isVisible = isVisible
     }
 
     override fun showNewComments(newComments: List<Comment>) {
@@ -300,12 +297,8 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
         AppUtils.openInChromeTab(this, url)
     }
 
-    override fun showNoNetworkLayout() {
-        noNetworkLayout.visibility = View.VISIBLE
-    }
-
-    override fun hideNoNetworkLayout() {
-        noNetworkLayout.visibility = View.GONE
+    override fun showNoNetworkLayout(isVisible: Boolean) {
+        noNetworkLayout.isVisible = isVisible
     }
 
     override fun hideImageLoadingProgress() {
@@ -317,10 +310,11 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     }
 
     companion object {
-        private const val KEY_SHOT_ID = "shot_id"
-        fun buildIntent(context: Context, shotId: Long): Intent {
+        private const val KEY_SHOT_SLUG = "shot_slug"
+
+        fun buildIntent(context: Context, shotSlug: String): Intent {
             val intent = Intent(context, ShotDetailsActivity::class.java)
-            intent.putExtra(KEY_SHOT_ID, shotId)
+            intent.putExtra(KEY_SHOT_SLUG, shotSlug)
             return intent
         }
     }

@@ -2,8 +2,8 @@ package com.bubbble.shotdetails
 
 import com.afollestad.assent.Permission
 import moxy.InjectViewState
-import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.ShotCommentsParams
+import com.bubbble.core.models.shot.ShotDetails
 import com.bubbble.coreui.mvp.BasePresenter
 import com.bubbble.coreui.permissions.PermissionsManager
 import com.bubbble.data.comments.CommentsRepository
@@ -23,10 +23,10 @@ internal class ShotDetailsPresenter @AssistedInject constructor(
     private val permissionsManager: PermissionsManager,
     private val navigationFactory: ShotDetailsNavigationFactory,
     private val userUrlParser: UserUrlParser,
-    @Assisted private val shotId: Long
+    @Assisted private val shotSlug: String
 ) : BasePresenter<ShotDetailsView>() {
 
-    private lateinit var shot: Shot
+    private lateinit var shot: ShotDetails
     private val isShotLoaded: Boolean
         get() = ::shot.isInitialized
     private var currentMaxCommentsPage = 1
@@ -38,19 +38,19 @@ internal class ShotDetailsPresenter @AssistedInject constructor(
     }
 
     private fun loadShot() = launchSafe {
+        viewState.showLoadingProgress(true)
         try {
-            viewState.showLoadingProgress()
-            this@ShotDetailsPresenter.shot = shotsRepository.getShot(shotId)
-            viewState.hideLoadingProgress()
+            shot = shotsRepository.getShot(shotSlug)
             viewState.showShot(shot)
             if (shot.commentsCount > 0) {
                 loadMoreComments(1)
             } else {
                 viewState.showNoComments()
             }
+        } catch (error: Exception) {
+            viewState.showNoNetworkLayout(true)
         } finally {
-            viewState.hideLoadingProgress()
-            viewState.showNoNetworkLayout()
+            viewState.showLoadingProgress(false)
         }
     }
 
@@ -63,13 +63,13 @@ internal class ShotDetailsPresenter @AssistedInject constructor(
     }
 
     fun retryLoading() {
-        viewState.hideNoNetworkLayout()
+        viewState.showNoNetworkLayout(false)
         loadShot()
     }
 
     private fun loadMoreComments(page: Int) = launchSafe {
         isCommentsLoading = true
-        val shotCommentsRequestParams = ShotCommentsParams(shotId, page, COMMENTS_PAGE_SIZE)
+        val shotCommentsRequestParams = ShotCommentsParams(shotSlug, page, COMMENTS_PAGE_SIZE)
         val newComments = try {
             commentsRepository.getComments(shotCommentsRequestParams)
         } finally {
@@ -88,7 +88,11 @@ internal class ShotDetailsPresenter @AssistedInject constructor(
     }
 
     fun onImageClicked() {
-        router.navigateTo(navigationFactory.shotImageScreen(shot))
+        router.navigateTo(navigationFactory.shotImageScreen(
+            title = shot.title,
+            shotUrl  = shot.shotUrl ,
+            imageUrl = shot.imageUrl
+        ))
     }
 
     fun onLikeShotClicked() {}
@@ -151,7 +155,7 @@ internal class ShotDetailsPresenter @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(shotId: Long): ShotDetailsPresenter
+        fun create(shotSlug: String): ShotDetailsPresenter
     }
 
 }

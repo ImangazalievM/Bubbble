@@ -9,9 +9,7 @@ internal interface ShotZoomView : BaseMvpView {
 
     fun showShotImage(imageUrl: String)
 
-    fun showLoadingProgress()
-
-    fun hideLoadingProgress()
+    fun showLoadingProgress(isVisible: Boolean)
 
     fun showErrorLayout()
 

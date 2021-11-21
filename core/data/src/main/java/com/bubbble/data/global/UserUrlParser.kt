@@ -1,9 +1,9 @@
-package com.bubbble.shotdetails
+package com.bubbble.data.global
 
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import javax.inject.Inject
 
-internal class UserUrlParser @Inject constructor() {
+class UserUrlParser @Inject constructor() {
 
     fun getUserName(url: String): String? {
         return url.toHttpUrlOrNull()

@@ -2,7 +2,9 @@ package com.bubbble.data.shots.parser
 
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.core.models.shot.UserType
+import com.bubbble.core.network.Dribbble
 import com.bubbble.data.global.parsing.PageParser
+import com.bubbble.data.global.parsing.ParsingRegex
 import com.google.gson.Gson
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.jsoup.Jsoup
@@ -12,7 +14,7 @@ abstract class CommonShotsPageParser<Params> constructor(
     private val gson: Gson
 ) : PageParser<Params, List<Shot>>() {
 
-    override fun parseHtml(html: String, baseUrl: String): List<Shot> {
+    override fun parseHtml(html: String, baseUrl: String, pageUrl: String): List<Shot> {
         val shots = parseShots(html)
         val shotAdditionalInfo = extractAdditionalShotsInfo(html, baseUrl)
         return bindShots(shots, shotAdditionalInfo, baseUrl)
@@ -25,18 +27,19 @@ abstract class CommonShotsPageParser<Params> constructor(
     ): List<Shot> {
         return shots.map { shot ->
             val info = shotAdditionalInfo[shot.id]!!
+            val shotSlug = shot.path.substringAfterLast("/")
+            val shotUrl = Dribbble.Shots.shotUrl(baseUrl, shotSlug)
             Shot(
                 id = shot.id,
+                shotSlug = shotSlug,
                 title = shot.title,
-                width = 100,
-                height = 100,
                 imageUrl = info.imageUrl,
                 viewsCount = shot.viewCountInt,
                 likesCount = shot.likesCountInt,
                 commentsCount = shot.commentsCountInt,
                 createdAt = null,
                 updatedAt = null,
-                shotUrl = baseUrl + shot.path,
+                shotUrl = shotUrl.toString(),
                 user = Shot.User(
                     displayName = info.userDisplayName,
                     userName = info.userName,
@@ -56,7 +59,7 @@ abstract class CommonShotsPageParser<Params> constructor(
         val shotsJsArray = shotsJsArrayMatchResult.groupValues[0]
             .replace(JS_SHOTS_VAR, "")
             .trim()
-        val shotsJson = shotsJsArray.replace(JS_OBJECT_KEY_REGEX.toRegex(), "\"\$1\"$2")
+        val shotsJson = shotsJsArray.replace(ParsingRegex.JS_OBJECT_KEY_REGEX.toRegex(), "\"\$1\"$2")
         return gson.fromJson(shotsJson, Array<ShotRaw>::class.java).toList()
     }
 
@@ -74,7 +77,7 @@ abstract class CommonShotsPageParser<Params> constructor(
             val userInfoLink = userInfoBlock.getElement("a[rel=contact]")
             val shotImageUrl = it.getElement("figure.shot-thumbnail-placeholder > img")
                 .attr("src")
-            val userDisplayName = userInfoLink.getElement("span.display-name").text()
+            val userDisplayName = userInfoLink.getText("span.display-name")
             val userAvatarUrl = userInfoLink.getElement("img.photo").attr("data-src")
             val userName = baseUrl + userInfoLink.attr("href")
                 .replaceFirst("/", "")
@@ -82,7 +85,7 @@ abstract class CommonShotsPageParser<Params> constructor(
                 .addPathSegment(userName)
                 .toString()
 
-            val badgeText = userInfoBlock.getElementOrNull("span.badge")?.text()
+            val badgeText = userInfoBlock.getText("span.badge")
             val userType = when (badgeText) {
                 "Team" -> UserType.TEAM
                 "Pro" -> UserType.PRO
@@ -101,14 +104,7 @@ abstract class CommonShotsPageParser<Params> constructor(
     }
 
     companion object {
-        private const val JS_OBJECT_REGEX =
-            "(\\{(?:(?>[^{}\"'\\/]+)|(?>\"(?:(?>[^\\\\\"]+)|\\\\.)*\")|(?>'(?:(?>[^\\\\']+)|\\\\.)*')|(?>\\/\\/.*\\n)|(?>\\/\\*.*?\\*\\/))*\\})"
-        private const val JS_OBJECT_REGEX_ORIG =
-            "(\\{(?:(?>[^{}\"'\\/]+)|(?>\"(?:(?>[^\\\\\"]+)|\\\\.)*\")|(?>'(?:(?>[^\\\\']+)|\\\\.)*')|(?>\\/\\/.*\\n)|(?>\\/\\*.*?\\*\\/)|(?-1))*\\})"
-        private const val JS_ARRAY_REGEX = "\\[($JS_OBJECT_REGEX(,?))*\\]"
         private const val JS_SHOTS_VAR = "var newestShots ="
-        private const val JS_SHOTS_REGEX = "$JS_SHOTS_VAR $JS_ARRAY_REGEX"
-        private const val JS_OBJECT_KEY_REGEX = "([a-z_]*)(\\:.*,?\\n)"
+        private const val JS_SHOTS_REGEX = "$JS_SHOTS_VAR ${ParsingRegex.JS_ARRAY_REGEX}"
     }
-
 }

@@ -12,10 +12,14 @@ abstract class PageParser<Params, Data> {
         pagingParams: PagingParams
     ): HttpUrl
 
-    abstract fun parseHtml(html: String, baseUrl: String): Data
+    abstract fun parseHtml(
+        html: String,
+        baseUrl: String,
+        pageUrl: String
+    ): Data
 
     fun Element.getText(selector: String): String {
-        return select(selector).first().child(0).text()
+        return select(selector).firstOrNull()?.text() ?: ""
     }
 
     fun Element.getElement(selector: String): Element {

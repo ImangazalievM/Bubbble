@@ -36,7 +36,7 @@ class NavigationModule {
     @Singleton
     fun shotsNavigationFactory() = object : ShotsNavigationFactory {
 
-        override fun shotDetailsScreen(shotId: Long): Screen = ShotDetailsScreen(shotId)
+        override fun shotDetailsScreen(shotSlug: String): Screen = ShotDetailsScreen(shotSlug)
 
         override fun shotsSearchScreen(query: String) = ShotsSearchScreen(query)
     }
@@ -47,10 +47,14 @@ class NavigationModule {
 
         override fun userProfileScreen(userName: String) = UserProfileScreen(userName)
 
-        override fun shotImageScreen(shot: Shot) = ShotImageZoomScreen(
-            title = shot.title,
-            shotUrl = shot.shotUrl,
-            imageUrl = shot.imageUrl
+        override fun shotImageScreen(
+            title: String,
+            shotUrl: String,
+            imageUrl: String
+        ) = ShotImageZoomScreen(
+            title = title,
+            shotUrl = shotUrl,
+            imageUrl = imageUrl
         )
 
         override fun appSettingsScreen() = AppSettingsScreen()
