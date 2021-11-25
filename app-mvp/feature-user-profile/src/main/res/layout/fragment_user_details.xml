@@ -38,11 +38,11 @@
                         android:orientation="vertical">
 
                         <FrameLayout
-                            android:id="@+id/user_shots_button"
+                            android:id="@+id/userShotsButton"
                             style="@style/UserInfoItemLayout">
 
                             <TextView
-                                android:id="@+id/user_shots_count"
+                                android:id="@+id/userShotsCount"
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -51,11 +51,11 @@
                         </FrameLayout>
 
                         <FrameLayout
-                            android:id="@+id/user_likes_button"
+                            android:id="@+id/userLikesButton"
                             style="@style/UserInfoItemLayout">
 
                             <TextView
-                                android:id="@+id/user_likes_count"
+                                android:id="@+id/userLikesCount"
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -64,11 +64,11 @@
                         </FrameLayout>
 
                         <FrameLayout
-                            android:id="@+id/user_buckets_button"
+                            android:id="@+id/userBucketsButton"
                             style="@style/UserInfoItemLayout">
 
                             <TextView
-                                android:id="@+id/user_buckets_count"
+                                android:id="@+id/userBucketsCount"
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -92,11 +92,11 @@
                         android:orientation="vertical">
 
                         <FrameLayout
-                            android:id="@+id/user_followers_button"
+                            android:id="@+id/userFollowersButton"
                             style="@style/UserInfoItemLayout">
 
                             <TextView
-                                android:id="@+id/user_followers_count"
+                                android:id="@+id/userFollowersCount"
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -105,11 +105,11 @@
                         </FrameLayout>
 
                         <FrameLayout
-                            android:id="@+id/user_followings_button"
+                            android:id="@+id/userFollowingsButton"
                             style="@style/UserInfoItemLayout">
 
                             <TextView
-                                android:id="@+id/user_followings_count"
+                                android:id="@+id/userFollowingsCount"
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -118,11 +118,11 @@
                         </FrameLayout>
 
                         <FrameLayout
-                            android:id="@+id/user_projects_button"
+                            android:id="@+id/userProjectsButton"
                             style="@style/UserInfoItemLayout">
 
                             <TextView
-                                android:id="@+id/user_projects_count"
+                                android:id="@+id/userProjectsCount"
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
                     style="@style/UserContactInfoItemLayout">
 
                     <TextView
-                        android:id="@+id/user_location"
+                        android:id="@+id/userLocation"
                         style="@style/UserContactInfoItem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -157,12 +157,12 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/user_twitter_button"
+                    android:id="@+id/userTwitterButton"
                     style="@style/UserContactInfoItemLayout"
                     android:visibility="gone">
 
                     <TextView
-                        android:id="@+id/user_twitter"
+                        android:id="@+id/userTwitter"
                         style="@style/UserContactInfoItem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -171,12 +171,12 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/user_website_button"
+                    android:id="@+id/userWebsiteButton"
                     style="@style/UserContactInfoItemLayout"
                     android:visibility="gone">
 
                     <TextView
-                        android:id="@+id/user_website"
+                        android:id="@+id/userWebsite"
                         style="@style/UserContactInfoItem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

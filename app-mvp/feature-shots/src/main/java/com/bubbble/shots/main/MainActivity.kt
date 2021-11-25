@@ -2,16 +2,13 @@ package com.bubbble.shots.main
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
-import androidx.viewpager.widget.ViewPager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bubbble.core.models.feed.ShotsFeedParams
-import com.google.android.material.tabs.TabLayout
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.SearchQueryListener
 import com.bubbble.shots.R
-import com.bubbble.shots.api.ShotsNavigationFactory
+import com.bubbble.shots.databinding.ActivityMainBinding
 import com.bubbble.shots.shotslist.ShotsFragment.Companion.newInstance
 import com.mikepenz.materialdrawer.DrawerBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,12 +20,7 @@ class MainActivity : BaseMvpActivity(), MainView {
 
     override val layoutRes: Int = R.layout.activity_main
 
-    private val shotsViewPager: ViewPager by lazy {
-        findViewById(R.id.shots_pager)
-    }
-    private val tabLayout: TabLayout by lazy {
-        findViewById(R.id.tabs)
-    }
+    private val binding: ActivityMainBinding by viewBinding()
 
     @Inject
     lateinit var presenterFactory: MainPresenter.Factory
@@ -40,17 +32,12 @@ class MainActivity : BaseMvpActivity(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val toolbar = initToolbar()
-        initDrawer(toolbar)
-        initViews()
-    }
+        binding.toolbar.setTitle(R.string.app_name)
+        binding.toolbar.inflateMenu(R.menu.main)
+        initOptionsMenu(binding.toolbar.menu)
 
-    private fun initToolbar(): Toolbar {
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        toolbar.setTitle(R.string.app_name)
-        toolbar.inflateMenu(R.menu.main)
-        initOptionsMenu(toolbar.menu)
-        return toolbar
+        setupViewPager()
+        binding.mainPagerTabs.setupWithViewPager(binding.shotsPager)
     }
 
     private fun initOptionsMenu(menu: Menu) {
@@ -64,19 +51,14 @@ class MainActivity : BaseMvpActivity(), MainView {
         })
     }
 
-    private fun initDrawer(toolbar: Toolbar) {
+    private fun initDrawer() {
         DrawerBuilder()
             .withActivity(this)
-            .withToolbar(toolbar)
+            .withToolbar(binding.toolbar)
             .build()
     }
 
-    private fun initViews() {
-        setupViewPager(shotsViewPager)
-        tabLayout.setupWithViewPager(shotsViewPager)
-    }
-
-    private fun setupViewPager(viewPager: ViewPager) {
+    private fun setupViewPager() {
         val shotsPagerAdapter = ShotsPagerAdapter(supportFragmentManager)
         shotsPagerAdapter.addFragment(
             newInstance(ShotsFeedParams.Sorting.POPULAR),
@@ -86,7 +68,7 @@ class MainActivity : BaseMvpActivity(), MainView {
             newInstance(ShotsFeedParams.Sorting.RECENT),
             resources.getString(R.string.recently)
         )
-        viewPager.adapter = shotsPagerAdapter
+        binding.shotsPager.adapter = shotsPagerAdapter
     }
 
 }

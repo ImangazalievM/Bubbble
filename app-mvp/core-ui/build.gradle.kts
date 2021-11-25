@@ -2,6 +2,10 @@ plugins {
     kotlin("kapt")
 }
 
+android {
+    buildFeatures.viewBinding = true
+}
+
 dependencies {
     implementation(project(Modules.Core.di))
     api(project(Modules.Core.core))
@@ -10,6 +14,7 @@ dependencies {
     api(Dependencies.constraintLayout)
     api(Dependencies.androidxCardView)
     api(Dependencies.customTabs)
+    api(Dependencies.viewBindingDelegate)
 
     api(Dependencies.glide)
     api(Dependencies.photoView)

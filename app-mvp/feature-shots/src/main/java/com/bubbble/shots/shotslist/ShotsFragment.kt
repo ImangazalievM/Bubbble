@@ -2,17 +2,18 @@ package com.bubbble.shots.shotslist
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bubbble.core.models.feed.ShotsFeedParams
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.shots.R
+import com.bubbble.shots.databinding.FragmentShotsBinding
 import com.bubbble.ui.LoadingStateAdapter
+import com.bubbble.ui.extensions.isVisible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_shots.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import moxy.ktx.moxyPresenter
@@ -31,13 +32,11 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
         presenterFactory.create(ShotsFeedParams.Sorting.find(sortType)!!)
     }
 
+    private val binding: FragmentShotsBinding by viewBinding()
     private val shotsAdapter: ShotsAdapter by lazy {
         ShotsAdapter(ShotComparator) {
             presenter.onShotClick(it)
         }
-    }
-    private val shotsListLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(context)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,8 +50,8 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
         val loadingStateAdapter = LoadingStateAdapter {
             presenter.retryLoading()
         }
-        shotsList.adapter = shotsAdapter.withLoadStateFooter(loadingStateAdapter)
-        noNetworkLayout.findViewById<View>(R.id.retryButton)
+        binding.shotsList.adapter = shotsAdapter.withLoadStateFooter(loadingStateAdapter)
+        binding.noNetworkLayout.retryButton
             .setOnClickListener { presenter.retryLoading() }
     }
 
@@ -68,8 +67,8 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
         isRetryVisible: Boolean,
         isErrorMsgVisible: Boolean
     ) {
-        loadingLayout.isVisible = isProgressBarVisible
-        noNetworkLayout.isVisible = isRetryVisible
+        binding.loadingLayout.isVisible = isProgressBarVisible
+        binding.noNetworkLayout.isVisible = isRetryVisible
         //ToDo: errorMsg.isVisible = isErrorMsgVisible
     }
 

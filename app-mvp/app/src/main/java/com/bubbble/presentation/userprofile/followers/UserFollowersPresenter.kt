@@ -21,9 +21,12 @@ class UserFollowersPresenter @AssistedInject constructor(
     private var currentMaxPage = 1
     private val followers: MutableList<Follow> = ArrayList()
     private var isFollowersLoading = false
+    private val isFirstLoading: Boolean
+        private get() = currentMaxPage == 1
+
 
     override fun onFirstViewAttach() {
-        viewState.showFollowersLoadingProgress()
+        viewState.showFollowersLoadingProgress(true)
         loadMoreFollowers(currentMaxPage)
     }
 
@@ -36,48 +39,37 @@ class UserFollowersPresenter @AssistedInject constructor(
             viewState.showNewFollowers(newFollowers)
         } catch (throwable: NoNetworkException) {
             if (isFirstLoading) {
-                viewState.showNoNetworkLayout()
+                viewState.showNoNetworkLayout(true)
             } else {
                 viewState.showLoadMoreError()
             }
         } finally {
-            viewState.hideFollowersLoadingProgress()
+            viewState.showFollowersLoadingProgress(false)
             isFollowersLoading = false
         }
     }
-
-    private val isFirstLoading: Boolean
-        private get() = currentMaxPage == 1
 
     fun onLoadMoreFollowersRequest() {
         if (isFollowersLoading) {
             return
         }
-        viewState.showFollowersLoadingMoreProgress()
+        viewState.showFollowersLoadingMoreProgress(true)
         currentMaxPage++
         loadMoreFollowers(currentMaxPage)
     }
 
     fun retryLoading() {
         if (isFirstLoading) {
-            viewState.hideNoNetworkLayout()
-            viewState.showFollowersLoadingProgress()
+            viewState.showNoNetworkLayout(false)
+            viewState.showFollowersLoadingProgress(true)
         } else {
-            viewState.showFollowersLoadingMoreProgress()
+            viewState.showFollowersLoadingMoreProgress(true)
         }
         loadMoreFollowers(currentMaxPage)
     }
 
-    fun onFollowerClick(position: Int) {
-        println(followers.size)
-        println(followers[position])
-        println(followers[position].follower)
-        println(followers[position].follower.id)
-        router.navigateTo(UserProfileScreen(followers[position].follower.userName))
-    }
-
-    companion object {
-        private const val PAGE_SIZE = 20
+    fun onFollowerClick(follow: Follow) {
+        router.navigateTo(UserProfileScreen(follow.follower.userName))
     }
 
     @AssistedFactory
@@ -85,4 +77,7 @@ class UserFollowersPresenter @AssistedInject constructor(
         fun create(userName: String): UserFollowersPresenter
     }
 
+    companion object {
+        private const val PAGE_SIZE = 20
+    }
 }

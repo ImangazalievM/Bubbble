@@ -3,7 +3,6 @@ import com.android.build.gradle.BaseExtension
 
 apply {
     plugin("kotlin-kapt")
-    plugin("kotlin-android-extensions")
 }
 baseScriptFrom(BuildScript.moduleConfig)
 baseScriptFrom(BuildScript.hiltConfig)

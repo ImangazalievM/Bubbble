@@ -27,19 +27,19 @@ class UserProfilePresenter @AssistedInject constructor(
     }
 
     private fun loadUser() = launchSafe {
-        viewState.showLoadingProgress()
+        viewState.showLoadingProgress(true)
         try {
             user = usersRepository.getUser(userName)
             viewState.showUser(user)
         } catch (throwable: NoNetworkException) {
-            viewState.showNoNetworkLayout()
+            viewState.showNoNetworkLayout(true)
         } finally {
-            viewState.hideLoadingProgress()
+            viewState.showLoadingProgress(false)
         }
     }
 
     fun retryLoading() {
-        viewState.hideNoNetworkLayout()
+        viewState.showNoNetworkLayout(false)
         loadUser()
     }
 

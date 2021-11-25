@@ -6,29 +6,24 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AlphaAnimation
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.viewpager.widget.ViewPager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.tabs.TabLayout
 import com.bubbble.R
 import com.bubbble.core.models.user.User
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.glide.GlideBlurTransformation
 import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
-import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
 import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.presentation.userprofile.details.UserDetailsFragment
 import com.bubbble.presentation.userprofile.followers.UserFollowersFragment
 import com.bubbble.presentation.userprofile.shots.UserShotsFragment
+import com.bubbble.ui.extensions.isVisible
+import com.bubbble.userprofile.databinding.ActivityUserProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -39,46 +34,7 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
 
     override val layoutRes: Int = R.layout.activity_user_profile
 
-    private val loadingLayout: View by lazy {
-        findViewById(R.id.loadingLayout)
-    }
-    private val noNetworkLayout: View by lazy {
-        findViewById(R.id.noNetworkLayout)
-    }
-    private val appBarLayout: AppBarLayout by lazy {
-        findViewById(R.id.app_bar_layout)
-    }
-    private val toolbarTitle: TextView by lazy {
-        findViewById(R.id.toolbar_title)
-    }
-    private val userAvatarContainer: RelativeLayout by lazy {
-        findViewById(R.id.header_image_container)
-    }
-    private val headerBackground: ImageView by lazy {
-        findViewById(R.id.header_background)
-    }
-    private val userAvatar: ImageView by lazy {
-        findViewById(R.id.user_avatar)
-    }
-    private val userName: TextView by lazy {
-        findViewById(R.id.user_name)
-    }
-    private val userBio: DribbbleTextView by lazy {
-        findViewById(R.id.user_bio)
-    }
-    private val followButton: TextView by lazy {
-        findViewById(R.id.user_follow_button)
-    }
-    private val userProfileViewPager: ViewPager by lazy {
-        findViewById(R.id.user_profile_pager)
-    }
-    private val userProfilePagerTabs: TabLayout by lazy {
-        findViewById(R.id.user_profile_pager_tabs)
-    }
-    private val userProfileContainer: CoordinatorLayout by lazy {
-        findViewById(R.id.user_profile_container)
-    }
-
+    private val binding: ActivityUserProfileBinding by viewBinding()
     private var isTheTitleVisible = false
 
     @Inject
@@ -97,10 +53,9 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setNavigationOnClickListener { finish() }
-        toolbar.inflateMenu(R.menu.user_profile)
-        toolbar.setOnMenuItemClickListener { item: MenuItem -> onMenuItemClick(item) }
+        binding.toolbar.setNavigationOnClickListener { finish() }
+        binding.toolbar.inflateMenu(R.menu.user_profile)
+        binding.toolbar.setOnMenuItemClickListener { item: MenuItem -> onMenuItemClick(item) }
     }
 
     private fun onMenuItemClick(item: MenuItem): Boolean {
@@ -122,49 +77,53 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     }
 
     private fun initViews() {
-        noNetworkLayout.findViewById<View>(R.id.retryButton)
+        binding.noNetworkLayout.retryButton
             .setOnClickListener { presenter.retryLoading() }
-        appBarLayout.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout: AppBarLayout, verticalOffset: Int ->
+        binding.appBarLayout.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout: AppBarLayout, verticalOffset: Int ->
             val maxScroll = appBarLayout.totalScrollRange
             val percentage = abs(verticalOffset).toFloat() / maxScroll.toFloat()
             handleToolbarTitleVisibility(percentage)
         })
-        userBio.setOnLinkClickListener { url: String -> presenter.onLinkClicked(url) }
-        userBio.setOnUserSelectedListener { userUrl: String ->
+        binding.userBio.setOnLinkClickListener { url: String -> presenter.onLinkClicked(url) }
+        binding.userBio.setOnUserSelectedListener { userUrl: String ->
             presenter.onUserSelected(userUrl)
         }
-        followButton.setOnClickListener {
+        binding.followButton.setOnClickListener {
             Toast.makeText(
                 this,
                 "Coming soon",
                 Toast.LENGTH_SHORT
             ).show()
         }
-        userProfilePagerTabs.setupWithViewPager(userProfileViewPager)
+        binding.userProfilePagerTabs.setupWithViewPager(binding.userProfilePager)
         initParallaxValues()
     }
 
     private fun initParallaxValues() {
         val headerBackgroundLp =
-            headerBackground.layoutParams as CollapsingToolbarLayout.LayoutParams
+            binding.headerBackground.layoutParams as CollapsingToolbarLayout.LayoutParams
         headerBackgroundLp.parallaxMultiplier = PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR
-        headerBackground.layoutParams = headerBackgroundLp
+        binding.headerBackground.layoutParams = headerBackgroundLp
         val userAvatarContainerContainerLp =
-            userAvatarContainer.layoutParams as CollapsingToolbarLayout.LayoutParams
+            binding.headerImageContainer.layoutParams as CollapsingToolbarLayout.LayoutParams
         userAvatarContainerContainerLp.parallaxMultiplier = PERCENTAGE_TO_HIDE_TITLE_DETAILS
-        userAvatarContainer.layoutParams = userAvatarContainerContainerLp
+        binding.headerImageContainer.layoutParams = userAvatarContainerContainerLp
     }
 
     private fun handleToolbarTitleVisibility(percentage: Float) {
         if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
             if (!isTheTitleVisible) {
-                startAlphaAnimation(toolbarTitle, ALPHA_ANIMATIONS_DURATION.toLong(), View.VISIBLE)
+                startAlphaAnimation(
+                    binding.toolbarTitle,
+                    ALPHA_ANIMATIONS_DURATION.toLong(),
+                    View.VISIBLE
+                )
                 isTheTitleVisible = true
             }
         } else {
             if (isTheTitleVisible) {
                 startAlphaAnimation(
-                    toolbarTitle,
+                    binding.toolbarTitle,
                     ALPHA_ANIMATIONS_DURATION.toLong(),
                     View.INVISIBLE
                 )
@@ -174,23 +133,23 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     }
 
     override fun showUser(user: User) {
-        userProfileContainer.visibility = View.VISIBLE
-        toolbarTitle.text = user.name
-        userName.text = user.name
+        binding.userProfileContainer.visibility = View.VISIBLE
+        binding.toolbarTitle.text = user.name
+        binding.userName.text = user.name
         if (user.bio.isNullOrEmpty()) {
-            userBio.visibility = View.VISIBLE
-            userBio.setHtmlText(user.bio)
+            binding.userBio.visibility = View.VISIBLE
+            binding.userBio.setHtmlText(user.bio)
         }
         Glide.with(this)
             .load(user.avatarUrl)
             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
             .transform(GlideCircleTransform(this))
-            .into(userAvatar)
+            .into(binding.userAvatar)
         Glide.with(this)
             .load(user.avatarUrl)
             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
             .bitmapTransform(GlideBlurTransformation(this, 25))
-            .into(headerBackground)
+            .into(binding.headerBackground)
         setupProfilePager(user)
     }
 
@@ -212,23 +171,15 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
                 user.followersCount
             )
         )
-        userProfileViewPager.adapter = userProfilePagerAdapter
+        binding.userProfilePager.adapter = userProfilePagerAdapter
     }
 
-    override fun showLoadingProgress() {
-        loadingLayout.visibility = View.VISIBLE
+    override fun showLoadingProgress(isVisible: Boolean) {
+        binding.loadingLayout.isVisible = isVisible
     }
 
-    override fun hideLoadingProgress() {
-        loadingLayout.visibility = View.GONE
-    }
-
-    override fun showNoNetworkLayout() {
-        noNetworkLayout.visibility = View.VISIBLE
-    }
-
-    override fun hideNoNetworkLayout() {
-        noNetworkLayout.visibility = View.GONE
+    override fun showNoNetworkLayout(isVisible: Boolean) {
+        binding.noNetworkLayout.isVisible = isVisible
     }
 
     override fun openInBrowser(url: String) {

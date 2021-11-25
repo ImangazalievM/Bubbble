@@ -2,13 +2,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/shot_zoom_container"
+    android:id="@+id/shotZoomContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
     <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/shot_image"
+        android:id="@+id/shotImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -17,7 +17,7 @@
         layout="@layout/view_loading"/>
 
     <RelativeLayout
-        android:id="@+id/error_layout"
+        android:id="@+id/errorLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

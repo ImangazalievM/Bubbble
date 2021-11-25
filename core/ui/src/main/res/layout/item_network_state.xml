@@ -37,7 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/check_network_message"
-            android:textAppearance="@style/AppTheme.DefaultTextTheme"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -48,9 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/try_again_message"
-            android:textColor="@color/pink_300"
-            android:theme="@style/AppTheme.SpecialFlatButton" />
-
+            android:textColor="@color/pink_300" />
     </LinearLayout>
-
 </FrameLayout>

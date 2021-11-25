@@ -17,7 +17,7 @@
             android:padding="12dp">
 
             <ImageView
-                android:id="@+id/user_avatar"
+                android:id="@+id/userAvatar"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@color/colorAccent"/>
@@ -29,7 +29,7 @@
                 android:paddingLeft="12dp">
 
                 <TextView
-                    android:id="@+id/user_name"
+                    android:id="@+id/userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="John Doe"

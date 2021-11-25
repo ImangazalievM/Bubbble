@@ -6,29 +6,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bubbble.core.models.Comment
 import com.bubbble.core.models.shot.ShotDetails
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
-import com.bubbble.coreui.ui.views.dribbbletextview.DribbbleTextView
 import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.shotdetails.comments.ShotCommentsAdapter
+import com.bubbble.shotdetails.databinding.ActivityShotDetailsBinding
+import com.bubbble.shotdetails.databinding.ItemShotDescriptionBinding
+import com.bubbble.ui.extensions.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.RequestListener
 import com.google.android.material.snackbar.Snackbar
-import com.greenfrvr.hashtagview.HashtagView
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
@@ -40,73 +36,13 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     override val layoutRes: Int = R.layout.activity_shot_details
 
-    private val toolbar: Toolbar by lazy {
-        findViewById(R.id.toolbar)
-    }
-    private val shotImage: ImageView by lazy {
-        findViewById(R.id.shot_image)
-    }
-    private val shotImageProgressBar: ProgressBar by lazy {
-        findViewById(R.id.shot_image_progress_bar)
-    }
-    private val shotDescription: View by lazy {
-        layoutInflater.inflate(
-            R.layout.item_shot_description,
-            commentsList,
-            false
-        )
-    }
-    private val shotDetailContainer by lazy {
-        findViewById<View>(R.id.shot_detail_container) as CoordinatorLayout
-    }
-    private val loadingLayout: View by lazy {
-        findViewById(R.id.loading_layout)
-    }
-    private val noNetworkLayout: View by lazy {
-        findViewById(R.id.no_network_layout)
-    }
-    private val commentsList: RecyclerView by lazy {
-        findViewById(R.id.shot_comments)
-    }
-    private val title: TextView by lazy {
-        shotDescription.findViewById(R.id.shot_title)
-    }
-    private val description: DribbbleTextView by lazy {
-        shotDescription.findViewById(R.id.shot_description)
-    }
-
-    private val userProfileLayout: View by lazy {
-        shotDescription.findViewById(R.id.user_profile_layout)
-    }
-    private val userName: TextView by lazy {
-        shotDescription.findViewById(R.id.user_name)
-    }
-    private val userAvatar: ImageView by lazy {
-        shotDescription.findViewById(R.id.user_avatar)
-    }
-    private val shotCreateDate: TextView by lazy {
-        shotDescription.findViewById(R.id.shot_create_date)
-    }
-    private val likesCount: TextView by lazy {
-        shotDescription.findViewById(R.id.shot_likes_count)
-    }
-    private val viewsCount: TextView by lazy {
-        shotDescription.findViewById(R.id.shot_views_count)
-    }
-    private val bucketsCount: TextView by lazy {
-        shotDescription.findViewById(R.id.shot_buckets_count)
-    }
-    private val shareShotButton: TextView by lazy {
-        shotDescription.findViewById(R.id.share_shot)
-    }
-    private val hashtagView: HashtagView by lazy {
-        shotDescription.findViewById(R.id.shot_tags)
-    }
+    private val binding: ActivityShotDetailsBinding by viewBinding()
+    private val shotDescriptionBinding: ItemShotDescriptionBinding by viewBinding()
 
     private val commentsAdapter: ShotCommentsAdapter by lazy {
         ShotCommentsAdapter(
             context = this,
-            description = shotDescription,
+            description = shotDescriptionBinding.root,
             onLinkClick = presenter::onLinkClicked,
             onUserUrlClick = { onUserUrlSelected(it) },
             onUserClick = presenter::onUserClick
@@ -136,37 +72,37 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        toolbar.setNavigationOnClickListener { finish() }
+        binding.toolbar.setNavigationOnClickListener { finish() }
         initViews()
     }
 
     private fun initViews() {
-        noNetworkLayout.findViewById<View>(R.id.retryButton)
+        binding.noNetworkLayout.retryButton
             .setOnClickListener { presenter.retryLoading() }
-        commentsList.layoutManager = commentsListLayoutManager
+        binding.shotComments.layoutManager = commentsListLayoutManager
 
-        shotImage.setOnClickListener { presenter.onImageClicked() }
-        userProfileLayout.setOnClickListener { presenter.onShotAuthorProfileClicked() }
-        description.setOnLinkClickListener { url: String? ->
+        binding.shotImage.setOnClickListener { presenter.onImageClicked() }
+        shotDescriptionBinding.userProfileLayout.setOnClickListener { presenter.onShotAuthorProfileClicked() }
+        shotDescriptionBinding.shotDescription.setOnLinkClickListener { url: String? ->
             presenter.onLinkClicked(
                 url!!
             )
         }
-        description.setOnUserSelectedListener(::onUserUrlSelected)
-        hashtagView.addOnTagClickListener { item: Any? ->
+        shotDescriptionBinding.shotDescription.setOnUserSelectedListener(::onUserUrlSelected)
+        shotDescriptionBinding.shotTags.addOnTagClickListener { item: Any? ->
             val tag = item as String?
             presenter.onTagClicked(tag!!)
             Toast.makeText(this, tag, Toast.LENGTH_SHORT).show()
         }
-        likesCount.setOnClickListener { presenter.onLikeShotClicked() }
-        shareShotButton.setOnClickListener { presenter.onShareShotClicked() }
+        shotDescriptionBinding.likesCount.setOnClickListener { presenter.onLikeShotClicked() }
+        shotDescriptionBinding.shareShotButton.setOnClickListener { presenter.onShareShotClicked() }
     }
 
     override fun showShot(shot: ShotDetails) {
-        shotDetailContainer.visibility = View.VISIBLE
+        binding.shotDetailsContainer.visibility = View.VISIBLE
 
         //shot info
-        title.text = shot.title
+        shotDescriptionBinding.shotTitle.text = shot.title
         //shotCreateDate.text = dateFormat.format(shot.createdAt)
         //ToDo:
         //if (shot.description != null) {
@@ -201,24 +137,24 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
                     return false
                 }
             })
-            .into(shotImage)
-        likesCount.text =
+            .into(binding.shotImage)
+        shotDescriptionBinding.likesCount.text =
             resources.getQuantityString(R.plurals.likes, shot.likesCount, shot.likesCount)
-        viewsCount.text =
+        shotDescriptionBinding.viewsCount.text =
             resources.getQuantityString(R.plurals.views, shot.viewsCount, shot.viewsCount)
         //bucketsCount.text =
         //    resources.getQuantityString(R.plurals.buckets, shot.bucketsCount, shot.bucketsCount)
         //hashtagView.setData(shot.tags)
 
         //user info
-        userName.text = shot.user.displayName
+        shotDescriptionBinding.userName.text = shot.user.displayName
         Glide.with(this)
             .load(shot.user.avatarUrl)
             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
             .transform(GlideCircleTransform(this))
-            .into(userAvatar)
+            .into(shotDescriptionBinding.userAvatar)
 
-        commentsList.adapter = commentsAdapter
+        binding.shotComments.adapter = commentsAdapter
         if (shot.commentsCount > 0) {
             //commentsList.addOnScrollListener(endlessRecyclerOnScrollListener)
         }
@@ -226,8 +162,8 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     }
 
     private fun showToolbarMenu() {
-        toolbar.inflateMenu(R.menu.shot_details)
-        toolbar.setOnMenuItemClickListener { item: MenuItem -> onToolbarItemSelected(item) }
+        binding.toolbar.inflateMenu(R.menu.shot_details)
+        binding.toolbar.setOnMenuItemClickListener { item: MenuItem -> onToolbarItemSelected(item) }
     }
 
     private fun onToolbarItemSelected(item: MenuItem): Boolean {
@@ -245,7 +181,7 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     }
 
     override fun showLoadingProgress(isVisible: Boolean) {
-        loadingLayout.isVisible = isVisible
+        binding.loadingLayout.root.isVisible = isVisible
     }
 
     override fun showNewComments(newComments: List<Comment>) {
@@ -266,7 +202,7 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
 
     override fun showImageSavedMessage() {
         Snackbar.make(
-            shotDetailContainer,
+            binding.shotDetailsContainer,
             R.string.image_saved_to_downloads_folder,
             Snackbar.LENGTH_LONG
         )
@@ -298,11 +234,11 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     }
 
     override fun showNoNetworkLayout(isVisible: Boolean) {
-        noNetworkLayout.isVisible = isVisible
+        binding.noNetworkLayout.isVisible = isVisible
     }
 
     override fun hideImageLoadingProgress() {
-        shotImageProgressBar.visibility = View.GONE
+        binding.shotImageProgressBar.visibility = View.GONE
     }
 
     private fun onUserUrlSelected(url: String) {

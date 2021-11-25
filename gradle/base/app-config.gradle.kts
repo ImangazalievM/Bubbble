@@ -1,9 +1,7 @@
 import com.android.build.gradle.BaseExtension
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
 
 apply {
     plugin("com.android.application")
-    plugin("kotlin-android-extensions")
     plugin("kotlin-kapt")
 }
 
@@ -20,8 +18,4 @@ configure<BaseExtension> {
     }
 
     buildFeatures.viewBinding = true
-}
-
-configure<AndroidExtensionsExtension>() {
-    isExperimental = true
 }

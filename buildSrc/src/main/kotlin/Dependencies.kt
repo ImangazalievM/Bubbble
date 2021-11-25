@@ -53,6 +53,7 @@ object Dependencies {
     const val photoView = "com.github.chrisbanes:PhotoView:2.1.3"
     const val materialDrawer = "com.mikepenz:materialdrawer:5.9.4@aar"
     const val hashtagView = "com.github.greenfrvr:hashtag-view:1.3.1"
+    const val viewBindingDelegate  = "com.github.kirich1409:viewbindingpropertydelegate:1.5.2"
 
     object Mvp {
         private const val moxyVersion = "2.2.2"

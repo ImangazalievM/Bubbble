@@ -10,13 +10,9 @@ interface UserDetailsView : BaseMvpView {
 
     fun showUserInfo(user: User)
 
-    fun showLoadingProgress()
+    fun showLoadingProgress(isVisible: Boolean)
 
-    fun hideLoadingProgress()
-
-    fun showNoNetworkLayout()
-
-    fun hideNoNetworkLayout()
+    fun showNoNetworkLayout(isVisible: Boolean)
 
     @OneExecution
     fun openInBrowser(url: String)

@@ -2,7 +2,6 @@ package com.bubbble.presentation.userprofile
 
 import com.bubbble.core.models.user.User
 import com.bubbble.coreui.mvp.BaseMvpView
-import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 import moxy.viewstate.strategy.alias.OneExecution
 
@@ -11,13 +10,9 @@ interface UserProfileView : BaseMvpView {
 
     fun showUser(user: User)
 
-    fun showLoadingProgress()
+    fun showLoadingProgress(isVisible: Boolean)
 
-    fun hideLoadingProgress()
-
-    fun showNoNetworkLayout()
-
-    fun hideNoNetworkLayout()
+    fun showNoNetworkLayout(isVisible: Boolean)
 
     @OneExecution
     fun openInBrowser(shotUrl: String)

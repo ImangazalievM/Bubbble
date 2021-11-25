@@ -24,19 +24,19 @@ class UserDetailsPresenter @AssistedInject constructor(
     }
 
     private fun loadUser() = launchSafe {
-        viewState.showLoadingProgress()
+        viewState.showLoadingProgress(true)
         try {
             user = usersRepository.getUser(userName)
             viewState.showUserInfo(user)
         } catch (e: NoNetworkException) {
-            viewState.showNoNetworkLayout()
+            viewState.showNoNetworkLayout(true)
         } finally {
-            viewState.hideLoadingProgress()
+            viewState.showLoadingProgress(false)
         }
     }
 
     fun retryLoading() {
-        viewState.hideNoNetworkLayout()
+        viewState.showNoNetworkLayout(false)
         loadUser()
     }
 
@@ -54,5 +54,4 @@ class UserDetailsPresenter @AssistedInject constructor(
     interface Factory {
         fun create(userName: String): UserDetailsPresenter
     }
-
 }

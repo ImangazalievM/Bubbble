@@ -3,10 +3,12 @@ package com.bubbble.presentation.userprofile.shots
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bubbble.R
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpFragment
+import com.bubbble.shots.databinding.FragmentShotsBinding
+import com.bubbble.ui.extensions.isVisible
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -24,15 +26,7 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
         presenterFactory.create(userName)
     }
 
-    private val loadingLayout: View by lazy {
-        requireView().findViewById(R.id.loadingLayout)
-    }
-    private val noNetworkLayout: View by lazy {
-        requireView().findViewById(R.id.noNetworkLayout)
-    }
-    private val shotsRecyclerView: RecyclerView by lazy {
-        requireView().findViewById(R.id.shotsList)
-    }
+    private val binding: FragmentShotsBinding by viewBinding()
     //private val shotsAdapter: ShotsAdapter by lazy {
     //    //ShotsAdapter(requireContext())
     //}
@@ -43,8 +37,8 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        noNetworkLayout.findViewById<View>(R.id.retryButton)
-        shotsRecyclerView.layoutManager = shotsListLayoutManager
+        binding.noNetworkLayout.retryButton
+        binding.shotsList.layoutManager = shotsListLayoutManager
         //shotsRecyclerView.adapter = shotsAdapter
       // shotsAdapter.setOnItemClickListener { position: Int ->
       //     presenter.onShotClick(position)
@@ -58,32 +52,20 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     }
 
     override fun showNewShots(newShots: List<Shot>) {
-        shotsRecyclerView.visibility = View.VISIBLE
+        binding.shotsList.visibility = View.VISIBLE
         ///shotsAdapter.addItems(newShots)
     }
 
-    override fun showShotsLoadingProgress() {
-        loadingLayout.visibility = View.VISIBLE
+    override fun showShotsLoadingProgress(isVisible: Boolean) {
+        binding.loadingLayout.isVisible = isVisible
     }
 
-    override fun hideShotsLoadingProgress() {
-        loadingLayout.visibility = View.GONE
+    override fun showShotsLoadingMoreProgress(isVisible: Boolean) {
+       // shotsAdapter.setLoadingMore(isVisible)
     }
 
-    override fun showShotsLoadingMoreProgress() {
-       // shotsAdapter.setLoadingMore(true)
-    }
-
-    override fun hideShotsLoadingMoreProgress() {
-        //shotsAdapter.setLoadingMore(false)
-    }
-
-    override fun showNoNetworkLayout() {
-        noNetworkLayout.visibility = View.VISIBLE
-    }
-
-    override fun hideNoNetworkLayout() {
-        noNetworkLayout.visibility = View.GONE
+    override fun showNoNetworkLayout(isVisible: Boolean) {
+        binding.noNetworkLayout.isVisible = isVisible
     }
 
     override fun showLoadMoreError() {

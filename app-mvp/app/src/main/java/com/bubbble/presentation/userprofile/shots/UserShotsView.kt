@@ -3,25 +3,17 @@ package com.bubbble.presentation.userprofile.shots
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.mvp.BaseMvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
-import moxy.viewstate.strategy.alias.OneExecution
 
 @AddToEndSingle
 interface UserShotsView : BaseMvpView {
 
     fun showNewShots(newShots: List<Shot>)
 
-    @OneExecution
-    fun showShotsLoadingProgress()
+    fun showShotsLoadingProgress(isVisible: Boolean)
 
-    fun hideShotsLoadingProgress()
+    fun showShotsLoadingMoreProgress(isVisible: Boolean)
 
-    fun showShotsLoadingMoreProgress()
-
-    fun hideShotsLoadingMoreProgress()
-
-    fun showNoNetworkLayout()
-
-    fun hideNoNetworkLayout()
+    fun showNoNetworkLayout(isVisible: Boolean)
 
     fun showLoadMoreError()
 

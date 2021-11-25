@@ -9,17 +9,11 @@ interface UserFollowersView : BaseMvpView {
 
     fun showNewFollowers(newFollowers: List<Follow>)
 
-    fun showFollowersLoadingProgress()
+    fun showFollowersLoadingProgress(isVisible: Boolean)
 
-    fun hideFollowersLoadingProgress()
+    fun showFollowersLoadingMoreProgress(isVisible: Boolean)
 
-    fun showFollowersLoadingMoreProgress()
-
-    fun hideFollowersLoadingMoreProgress()
-
-    fun showNoNetworkLayout()
-
-    fun hideNoNetworkLayout()
+    fun showNoNetworkLayout(isVisible: Boolean)
 
     fun showLoadMoreError()
 

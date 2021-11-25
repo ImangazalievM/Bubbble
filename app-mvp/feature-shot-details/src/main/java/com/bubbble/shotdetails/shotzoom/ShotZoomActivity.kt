@@ -6,15 +6,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.shotdetails.R
+import com.bubbble.shotdetails.databinding.ActivityShotZoomBinding
+import com.bubbble.ui.extensions.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
@@ -25,21 +25,8 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
     override val layoutRes: Int = R.layout.activity_shot_zoom
 
-    private val toolbar: Toolbar by lazy {
-        findViewById(R.id.toolbar)
-    }
-    private val shotImage: PhotoView by lazy {
-        findViewById(R.id.shot_image)
-    }
-    private val shotZoomContainer: ViewGroup by lazy {
-        findViewById(R.id.shot_zoom_container)
-    }
-    private val loadingLayout: View by lazy {
-        findViewById(R.id.loadingLayout)
-    }
-    private val errorLayout: View by lazy {
-        findViewById(R.id.error_layout)
-    }
+
+    private val binding: ActivityShotZoomBinding by viewBinding()
 
     @Inject
     lateinit var presenterFactory: ShotZoomPresenter.Factory
@@ -63,11 +50,11 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
     }
 
     private fun initToolbar() {
-        toolbar.setNavigationOnClickListener { finish() }
+        binding.toolbar.setNavigationOnClickListener { finish() }
     }
 
     private fun initViews() {
-        errorLayout.findViewById<View>(R.id.open_in_browser_button)
+        binding.errorLayout.findViewById<View>(R.id.open_in_browser_button)
             .setOnClickListener { presenter.onOpenInBrowserClicked() }
     }
 
@@ -98,26 +85,26 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
             //        return false
             //    }
             //})
-            .into(shotImage)
+            .into(binding.shotImage)
         showToolbarMenu()
     }
 
     override fun showLoadingProgress(isVisible: Boolean) {
-        loadingLayout.visibility = View.VISIBLE
+        binding.loadingLayout.isVisible = isVisible
     }
 
     private fun showToolbarMenu() {
-        toolbar.inflateMenu(R.menu.shot_zoom)
-        toolbar.setOnMenuItemClickListener { item: MenuItem -> onToolbarItenSelected(item) }
+        binding.toolbar.inflateMenu(R.menu.shot_zoom)
+        binding.toolbar.setOnMenuItemClickListener { item: MenuItem -> onToolbarItemSelected(item) }
     }
 
-    private fun onToolbarItenSelected(item: MenuItem): Boolean {
+    private fun onToolbarItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.download_shot_image -> {
                 presenter.onDownloadImageClicked()
                 true
             }
-            R.id.share_shot -> {
+            R.id.shareShotButton-> {
                 presenter.onShareShotClicked()
                 true
             }
@@ -138,16 +125,16 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
     }
 
     override fun showErrorLayout() {
-        errorLayout.visibility = View.VISIBLE
+        binding.errorLayout.visibility = View.VISIBLE
     }
 
     override fun hideErrorLayout() {
-        errorLayout.visibility = View.GONE
+        binding.errorLayout.visibility = View.GONE
     }
 
     override fun showImageSavedMessage() {
         Snackbar.make(
-            shotZoomContainer,
+            binding.shotZoomContainer,
             R.string.image_saved_to_downloads_folder,
             Snackbar.LENGTH_LONG
         )
@@ -199,5 +186,4 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
             return intent
         }
     }
-
 }
