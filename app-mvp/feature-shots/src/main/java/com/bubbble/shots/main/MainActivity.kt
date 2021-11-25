@@ -9,7 +9,7 @@ import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.SearchQueryListener
 import com.bubbble.shots.R
 import com.bubbble.shots.databinding.ActivityMainBinding
-import com.bubbble.shots.shotslist.ShotsFragment.Companion.newInstance
+import com.bubbble.shots.shotslist.ShotsFragment
 import com.mikepenz.materialdrawer.DrawerBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
@@ -61,11 +61,11 @@ class MainActivity : BaseMvpActivity(), MainView {
     private fun setupViewPager() {
         val shotsPagerAdapter = ShotsPagerAdapter(supportFragmentManager)
         shotsPagerAdapter.addFragment(
-            newInstance(ShotsFeedParams.Sorting.POPULAR),
+            ShotsFragment.newInstance(ShotsFeedParams.Sorting.POPULAR),
             resources.getString(R.string.popular)
         )
         shotsPagerAdapter.addFragment(
-            newInstance(ShotsFeedParams.Sorting.RECENT),
+            ShotsFragment.newInstance(ShotsFeedParams.Sorting.RECENT),
             resources.getString(R.string.recently)
         )
         binding.shotsPager.adapter = shotsPagerAdapter

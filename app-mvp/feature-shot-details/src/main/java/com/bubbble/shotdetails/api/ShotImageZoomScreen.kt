@@ -3,7 +3,9 @@ package com.bubbble.shotdetails.api
 import android.content.Context
 import android.content.Intent
 import com.bubbble.shotdetails.shotzoom.ShotZoomActivity
+import com.bubbble.ui.navigationargs.buildIntent
 import com.github.terrakok.cicerone.androidx.ActivityScreen
+import java.io.Serializable
 
 class ShotImageZoomScreen(
     private val title: String,
@@ -12,12 +14,19 @@ class ShotImageZoomScreen(
 ) : ActivityScreen {
 
     override fun createIntent(context: Context): Intent {
-        return ShotZoomActivity.buildIntent(
-            context = context,
-            title = title,
-            shotUrl = shotUrl,
-            imageUrl = imageUrl
+        return buildIntent<ShotZoomActivity>(
+            context, Data(
+                title = title,
+                shotUrl = shotUrl,
+                imageUrl = imageUrl
+            )
         )
     }
+
+    class Data(
+        val title: String,
+        val shotUrl: String,
+        val imageUrl: String
+    ) : Serializable
 
 }

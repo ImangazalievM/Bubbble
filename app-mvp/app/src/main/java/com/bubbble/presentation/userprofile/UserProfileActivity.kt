@@ -1,29 +1,29 @@
 package com.bubbble.presentation.userprofile
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.Toast
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.bubbble.R
 import com.bubbble.core.models.user.User
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.glide.GlideBlurTransformation
 import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
 import com.bubbble.coreui.utils.AppUtils
+import com.bubbble.presentation.global.navigation.UserProfileScreen
 import com.bubbble.presentation.userprofile.details.UserDetailsFragment
 import com.bubbble.presentation.userprofile.followers.UserFollowersFragment
 import com.bubbble.presentation.userprofile.shots.UserShotsFragment
 import com.bubbble.ui.extensions.isVisible
+import com.bubbble.ui.navigationargs.getScreenData
 import com.bubbble.userprofile.databinding.ActivityUserProfileBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -41,7 +41,7 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
     lateinit var presenterFactory: UserProfilePresenter.Factory
 
     val presenter by moxyPresenter {
-        val userName = intent.getStringExtra(USER_NAME)!!
+        val userName = getScreenData<UserProfileScreen.Data>().userName
         presenterFactory.create(userName)
     }
 
@@ -198,13 +198,6 @@ class UserProfileActivity : BaseMvpActivity(), UserProfileView {
         private const val PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f
         private const val PERCENTAGE_TO_HIDE_TITLE_DETAILS = -0.3f
         private const val ALPHA_ANIMATIONS_DURATION = 200
-        private const val USER_NAME = "user_name"
-
-        fun buildIntent(context: Context, userName: String): Intent {
-            val intent = Intent(context, UserProfileActivity::class.java)
-            intent.putExtra(USER_NAME, userName)
-            return intent
-        }
 
         fun startAlphaAnimation(v: View, duration: Long, visibility: Int) {
             val alphaAnimation =

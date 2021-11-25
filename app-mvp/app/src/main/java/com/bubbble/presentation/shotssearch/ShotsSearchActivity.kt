@@ -1,9 +1,6 @@
 package com.bubbble.presentation.shotssearch
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -14,9 +11,11 @@ import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.SearchQueryListener
 import com.bubbble.databinding.ActivityShotsSearchBinding
+import com.bubbble.presentation.global.navigation.ShotsSearchScreen
 import com.bubbble.shots.shotslist.ShotComparator
 import com.bubbble.shots.shotslist.ShotsAdapter
 import com.bubbble.ui.LoadingStateAdapter
+import com.bubbble.ui.navigationargs.getScreenData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -34,8 +33,8 @@ class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
     lateinit var presenterFactory: ShotsSearchPresenter.Factory
 
     val presenter by moxyPresenter {
-        val searchQuery = intent.getStringExtra(KEY_SEARCH_QUERY)!!
-        presenterFactory.create(searchQuery)
+        val data = getScreenData<ShotsSearchScreen.Data>()
+        presenterFactory.create(data.query)
     }
 
     private val shotsAdapter: ShotsAdapter by lazy {
@@ -99,13 +98,4 @@ class ShotsSearchActivity : BaseMvpActivity(), ShotsSearchView {
 
     override fun retryLoading() = shotsAdapter.retry()
 
-    companion object {
-        private const val KEY_SEARCH_QUERY = "key_search_query"
-
-        fun buildIntent(context: Context, searchQuery: String?): Intent {
-            val intent = Intent(context, ShotsSearchActivity::class.java)
-            intent.putExtra(KEY_SEARCH_QUERY, searchQuery)
-            return intent
-        }
-    }
 }

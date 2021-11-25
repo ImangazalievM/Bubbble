@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bubbble.core.models.feed.ShotsFeedParams
 import com.bubbble.core.models.shot.Shot
@@ -13,6 +12,8 @@ import com.bubbble.shots.R
 import com.bubbble.shots.databinding.FragmentShotsBinding
 import com.bubbble.ui.LoadingStateAdapter
 import com.bubbble.ui.extensions.isVisible
+import com.bubbble.ui.navigationargs.createFragment
+import com.bubbble.ui.navigationargs.getScreenData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -28,8 +29,8 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
     lateinit var presenterFactory: ShotsPresenter.Factory
 
     val presenter by moxyPresenter {
-        val sortType = requireArguments().getString(SORT_TYPE_ARG)!!
-        presenterFactory.create(ShotsFeedParams.Sorting.find(sortType)!!)
+        val sortType = getScreenData<ShotsScreenData>().sort
+        presenterFactory.create(sortType)
     }
 
     private val binding: FragmentShotsBinding by viewBinding()
@@ -78,12 +79,8 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
         private const val SORT_TYPE_ARG = "sort"
 
         @JvmStatic
-        fun newInstance(sort: ShotsFeedParams.Sorting): ShotsFragment {
-            val fragment = ShotsFragment()
-            val args = Bundle()
-            args.putString(SORT_TYPE_ARG, sort.name)
-            fragment.arguments = args
-            return fragment
-        }
+        fun newInstance(
+            sort: ShotsFeedParams.Sorting
+        ) = createFragment<ShotsFragment>(ShotsScreenData(sort))
     }
 }

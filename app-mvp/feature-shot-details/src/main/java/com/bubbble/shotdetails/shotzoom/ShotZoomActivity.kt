@@ -1,8 +1,6 @@
 package com.bubbble.shotdetails.shotzoom
 
-import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -11,8 +9,10 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.shotdetails.R
+import com.bubbble.shotdetails.api.ShotImageZoomScreen
 import com.bubbble.shotdetails.databinding.ActivityShotZoomBinding
 import com.bubbble.ui.extensions.isVisible
+import com.bubbble.ui.navigationargs.getScreenData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
@@ -25,22 +25,19 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
 
     override val layoutRes: Int = R.layout.activity_shot_zoom
 
-
-    private val binding: ActivityShotZoomBinding by viewBinding()
-
     @Inject
     lateinit var presenterFactory: ShotZoomPresenter.Factory
 
     val presenter by moxyPresenter {
-        val shotTitle = intent.getStringExtra(KEY_SHOT_TITLE)!!
-        val imageUrl = intent.getStringExtra(KEY_IMAGE_URL)!!
-        val shotUrl = intent.getStringExtra(KEY_SHOT_URL)!!
+        val data = getScreenData<ShotImageZoomScreen.Data>()
         presenterFactory.create(
-            shotTitle = shotTitle,
-            shotUrl = shotUrl,
-            imageUrl = imageUrl
+            shotTitle = data.title,
+            shotUrl = data.shotUrl,
+            imageUrl = data.imageUrl
         )
     }
+
+    private val binding: ActivityShotZoomBinding by viewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,26 +161,6 @@ internal class ShotZoomActivity : BaseMvpActivity(), ShotZoomView {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    companion object {
-
-        private const val KEY_SHOT_TITLE = "shot_title"
-        private const val KEY_SHOT_URL = "shot_url"
-        private const val KEY_IMAGE_URL = "image_url"
-
-        fun buildIntent(
-            context: Context,
-            title: String,
-            shotUrl: String,
-            imageUrl: String
-        ): Intent {
-            val intent = Intent(context, ShotZoomActivity::class.java)
-            intent.putExtra(KEY_SHOT_TITLE, title)
-            intent.putExtra(KEY_SHOT_URL, shotUrl)
-            intent.putExtra(KEY_IMAGE_URL, imageUrl)
-            return intent
         }
     }
 }

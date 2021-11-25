@@ -8,6 +8,8 @@ import com.bubbble.core.models.user.User
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.coreui.utils.AppUtils
 import com.bubbble.ui.extensions.isVisible
+import com.bubbble.ui.navigationargs.createFragment
+import com.bubbble.ui.navigationargs.getScreenData
 import com.bubbble.userprofile.databinding.FragmentUserDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
@@ -23,7 +25,7 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
     lateinit var presenterFactory: UserDetailsPresenter.Factory
 
     val presenter by moxyPresenter {
-        val userName = requireArguments().getString(USER_NAME)!!
+        val userName = getScreenData<UserDetailsScreenData>().userName
         presenterFactory.create(userName)
     }
 
@@ -87,14 +89,8 @@ class UserDetailsFragment : BaseMvpFragment(), UserDetailsView {
     }
 
     companion object {
-        private const val USER_NAME = "user_name"
-
-        fun newInstance(userName: String): UserDetailsFragment {
-            val fragment = UserDetailsFragment()
-            val args = Bundle()
-            args.putString(USER_NAME, userName)
-            fragment.arguments = args
-            return fragment
-        }
+        fun newInstance(
+            userName: String
+        ) = createFragment<UserDetailsFragment>(UserDetailsScreenData(userName))
     }
 }

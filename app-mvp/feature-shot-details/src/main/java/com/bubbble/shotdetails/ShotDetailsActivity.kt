@@ -1,8 +1,6 @@
 package com.bubbble.shotdetails
 
-import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -16,10 +14,12 @@ import com.bubbble.core.models.shot.ShotDetails
 import com.bubbble.coreui.ui.base.BaseMvpActivity
 import com.bubbble.coreui.ui.commons.glide.GlideCircleTransform
 import com.bubbble.coreui.utils.AppUtils
+import com.bubbble.shotdetails.api.ShotDetailsScreen
 import com.bubbble.shotdetails.comments.ShotCommentsAdapter
 import com.bubbble.shotdetails.databinding.ActivityShotDetailsBinding
 import com.bubbble.shotdetails.databinding.ItemShotDescriptionBinding
 import com.bubbble.ui.extensions.isVisible
+import com.bubbble.ui.navigationargs.getScreenData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
@@ -65,7 +65,7 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     lateinit var presenterFactory: ShotDetailsPresenter.Factory
 
     val presenter by moxyPresenter {
-        val shotSlug = intent.getStringExtra(KEY_SHOT_SLUG)!!
+        val shotSlug = getScreenData<ShotDetailsScreen.Data>().shotSlug
         presenterFactory.create(shotSlug)
     }
 
@@ -244,15 +244,4 @@ internal class ShotDetailsActivity : BaseMvpActivity(), ShotDetailsView {
     private fun onUserUrlSelected(url: String) {
         presenter.onUserClick(url)
     }
-
-    companion object {
-        private const val KEY_SHOT_SLUG = "shot_slug"
-
-        fun buildIntent(context: Context, shotSlug: String): Intent {
-            val intent = Intent(context, ShotDetailsActivity::class.java)
-            intent.putExtra(KEY_SHOT_SLUG, shotSlug)
-            return intent
-        }
-    }
-
 }

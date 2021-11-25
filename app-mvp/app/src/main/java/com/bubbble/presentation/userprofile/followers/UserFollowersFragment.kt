@@ -2,12 +2,18 @@ package com.bubbble.presentation.userprofile.followers
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bubbble.R
 import com.bubbble.core.models.user.Follow
 import com.bubbble.presentation.userprofile.UserFollowersAdapter
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.shots.databinding.FragmentFollowersBinding
+import com.bubbble.shots.shotslist.ShotsFragment
+import com.bubbble.shots.shotslist.ShotsScreenData
+import com.bubbble.ui.extensions.isVisible
+import com.bubbble.ui.navigationargs.createFragment
+import com.bubbble.ui.navigationargs.getScreenData
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -21,7 +27,7 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     lateinit var presenterFactory: UserFollowersPresenter.Factory
 
     val presenter by moxyPresenter {
-        val userName = requireArguments().getString(USER_NAME)!!
+        val userName = getScreenData<UserFollowersScreenData>().userName
         presenterFactory.create(userName)
     }
 
@@ -33,8 +39,9 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.noNetworkLayout.retryButton
-            .setOnClickListener { presenter.retryLoading() }
+        binding.noNetworkLayout.retryButton.setOnClickListener {
+            presenter.retryLoading()
+        }
         binding.followersList.adapter = userFollowersAdapter
         userFollowersAdapter.onItemClickListener = {
             presenter.onFollowerClick(it)
@@ -42,24 +49,20 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     }
 
     override fun showNewFollowers(newFollowers: List<Follow>) {
-        binding.followersList.visibility = View.VISIBLE
+        binding.followersList.isVisible = true
         userFollowersAdapter.addItems(newFollowers)
     }
 
     override fun showFollowersLoadingProgress(isVisible: Boolean) {
-        binding.loadingLayout.root.visibility = View.VISIBLE
+        binding.loadingLayout.isVisible = isVisible
     }
 
     override fun showFollowersLoadingMoreProgress(isVisible: Boolean) {
         userFollowersAdapter.showLoadingIndicator()
     }
 
-    override fun hideFollowersLoadingMoreProgress() {
-        userFollowersAdapter.hideLoadingIndicator()
-    }
-
-    override fun hideNoNetworkLayout() {
-        binding.noNetworkLayout.visibility = View.GONE
+    override fun showNoNetworkLayout(isVisible: Boolean) {
+        binding.noNetworkLayout.isVisible = isVisible
     }
 
     override fun showLoadMoreError() {
@@ -67,16 +70,10 @@ class UserFollowersFragment : BaseMvpFragment(), UserFollowersView {
     }
 
     companion object {
-        private const val USER_NAME = "user_name"
-
         @JvmStatic
-        fun newInstance(userName: String): UserFollowersFragment {
-            val fragment = UserFollowersFragment()
-            val args = Bundle()
-            args.putString(USER_NAME, userName)
-            fragment.arguments = args
-            return fragment
-        }
+        fun newInstance(
+            userName: String
+        ) = createFragment<UserFollowersFragment>(UserFollowersScreenData(userName))
     }
 
 }

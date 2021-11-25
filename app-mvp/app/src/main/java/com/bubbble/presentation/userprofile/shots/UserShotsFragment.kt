@@ -9,6 +9,8 @@ import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpFragment
 import com.bubbble.shots.databinding.FragmentShotsBinding
 import com.bubbble.ui.extensions.isVisible
+import com.bubbble.ui.navigationargs.createFragment
+import com.bubbble.ui.navigationargs.getScreenData
 import dagger.hilt.android.AndroidEntryPoint
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -22,11 +24,12 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     lateinit var presenterFactory: UserShotsPresenter.Factory
 
     val presenter by moxyPresenter {
-        val userName = requireArguments().getString(USER_NAME)!!
+        val userName = getScreenData<UserShotsScreenData>().userName
         presenterFactory.create(userName)
     }
 
     private val binding: FragmentShotsBinding by viewBinding()
+
     //private val shotsAdapter: ShotsAdapter by lazy {
     //    //ShotsAdapter(requireContext())
     //}
@@ -40,15 +43,15 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
         binding.noNetworkLayout.retryButton
         binding.shotsList.layoutManager = shotsListLayoutManager
         //shotsRecyclerView.adapter = shotsAdapter
-      // shotsAdapter.setOnItemClickListener { position: Int ->
-      //     presenter.onShotClick(position)
-      // }
-      //  shotsRecyclerView.addOnScrollListener(object :
-      //      EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
-      //      override fun onLoadMore() {
-      //          presenter.onLoadMoreShotsRequest()
-      //      }
-      //  })
+        // shotsAdapter.setOnItemClickListener { position: Int ->
+        //     presenter.onShotClick(position)
+        // }
+        //  shotsRecyclerView.addOnScrollListener(object :
+        //      EndlessRecyclerOnScrollListener(shotsListLayoutManager) {
+        //      override fun onLoadMore() {
+        //          presenter.onLoadMoreShotsRequest()
+        //      }
+        //  })
     }
 
     override fun showNewShots(newShots: List<Shot>) {
@@ -61,7 +64,7 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     }
 
     override fun showShotsLoadingMoreProgress(isVisible: Boolean) {
-       // shotsAdapter.setLoadingMore(isVisible)
+        // shotsAdapter.setLoadingMore(isVisible)
     }
 
     override fun showNoNetworkLayout(isVisible: Boolean) {
@@ -69,19 +72,13 @@ class UserShotsFragment : BaseMvpFragment(), UserShotsView {
     }
 
     override fun showLoadMoreError() {
-       // shotsAdapter.setLoadingError(true)
+        // shotsAdapter.setLoadingError(true)
     }
 
     companion object {
-        private const val USER_NAME = "user_name"
-
         @JvmStatic
-        fun newInstance(userName: String): UserShotsFragment {
-            val fragment = UserShotsFragment()
-            val args = Bundle()
-            args.putString(USER_NAME, userName)
-            fragment.arguments = args
-            return fragment
-        }
+        fun newInstance(
+            userName: String
+        ) = createFragment<UserShotsFragment>(UserShotsScreenData(userName))
     }
 }
