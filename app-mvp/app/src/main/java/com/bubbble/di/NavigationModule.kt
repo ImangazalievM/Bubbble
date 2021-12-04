@@ -1,11 +1,14 @@
 package com.bubbble.di
 
-import com.bubbble.core.models.shot.Shot
 import com.bubbble.presentation.global.navigation.*
 import com.bubbble.shotdetails.api.ShotDetailsNavigationFactory
 import com.bubbble.shotdetails.api.ShotDetailsScreen
 import com.bubbble.shotdetails.api.ShotImageZoomScreen
 import com.bubbble.shots.api.ShotsNavigationFactory
+import com.bubbble.shotsearch.api.ShotSearchNavigationFactory
+import com.bubbble.shotsearch.api.ShotsSearchScreen
+import com.bubbble.userprofile.api.UserProfileNavigationFactory
+import com.bubbble.userprofile.api.UserProfileScreen
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
@@ -60,4 +63,19 @@ class NavigationModule {
         override fun appSettingsScreen() = AppSettingsScreen()
     }
 
+    @Provides
+    @Singleton
+    fun shotSearchNavigationFactory() = object : ShotSearchNavigationFactory {
+        override fun shotDetailsScreen(
+            shotSlug: String
+        ) = ShotDetailsScreen(shotSlug)
+    }
+
+    @Provides
+    @Singleton
+    fun UserProfileNavigationFactory() = object : UserProfileNavigationFactory {
+        override fun shotDetailsScreen(
+            shotSlug: String
+        ) = ShotDetailsScreen(shotSlug)
+    }
 }

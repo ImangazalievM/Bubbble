@@ -39,7 +39,7 @@ object BuildScript {
             mvpFeatureModuleConfig
         ),
         module(
-            Modules.AppMvp.featureShotSearch,
+            Modules.AppMvp.featureShotsSearch,
             mvpFeatureModuleConfig
         ),
         module(
@@ -77,7 +77,6 @@ object BuildScript {
             Modules.Core.models,
             moduleConfig
         ),
-
         module(
             Modules.tests,
             moduleConfig,

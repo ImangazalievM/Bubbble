@@ -5,7 +5,6 @@
     <string name="copy">Копировать</string>
 
     <string name="download_image">Загрузить изображение</string>
-    <string name="open_in_browser">Открыть в браузере</string>
     <string name="share">Поделиться</string>
 
     <string name="storage_access_error_title">Ошибка</string>
@@ -41,41 +40,6 @@
         <item quantity="few">%s бакета</item>
         <item quantity="many">%s бакетов</item>
         <item quantity="other">%s бакетов</item>
-    </plurals>
-
-    <plurals name="shots">
-        <item quantity="zero">нет бакетов</item>
-        <item quantity="one">%s бакет</item>
-        <item quantity="two">%s бакета</item>
-        <item quantity="few">%s бакета</item>
-        <item quantity="many">%s бакетов</item>
-        <item quantity="other">%s бакетов</item>
-    </plurals>
-
-    <plurals name="followers">
-        <item quantity="zero">нет подписчиков</item>
-        <item quantity="one">%s подписчик</item>
-        <item quantity="two">%s подписчика</item>
-        <item quantity="few">%s подписчиков</item>
-        <item quantity="many">%s подписчиков</item>
-        <item quantity="other">%s подписчиков</item>
-    </plurals>
-
-    <plurals name="following">
-        <item quantity="zero">%s подписан</item>
-        <item quantity="one">%s подписан</item>
-        <item quantity="few">%s подписан</item>
-        <item quantity="many">%s подписан</item>
-        <item quantity="other">%s подписан</item>
-    </plurals>
-
-    <plurals name="projects">
-        <item quantity="zero">%s проектов</item>
-        <item quantity="one">%s проект</item>
-        <item quantity="two">%s проекта</item>
-        <item quantity="few">%s проектов</item>
-        <item quantity="many">%s проектов</item>
-        <item quantity="other">%s проектов</item>
     </plurals>
 
     <!--  Zoom  -->

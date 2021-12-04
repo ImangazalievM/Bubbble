@@ -8,12 +8,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bubbble.core.models.feed.ShotsFeedParams
 import com.bubbble.core.models.shot.Shot
 import com.bubbble.coreui.ui.base.BaseMvpFragment
+import com.bubbble.coreui.utils.ShotComparator
 import com.bubbble.shots.R
 import com.bubbble.shots.databinding.FragmentShotsBinding
-import com.bubbble.ui.LoadingStateAdapter
+import com.bubbble.coreui.ui.adapters.LoadingStateAdapter
+import com.bubbble.coreui.navigationargs.createFragment
+import com.bubbble.coreui.navigationargs.getScreenData
 import com.bubbble.ui.extensions.isVisible
-import com.bubbble.ui.navigationargs.createFragment
-import com.bubbble.ui.navigationargs.getScreenData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -76,8 +77,6 @@ class ShotsFragment : BaseMvpFragment(), ShotsView {
     override fun retryLoading() = shotsAdapter.retry()
 
     companion object {
-        private const val SORT_TYPE_ARG = "sort"
-
         @JvmStatic
         fun newInstance(
             sort: ShotsFeedParams.Sorting

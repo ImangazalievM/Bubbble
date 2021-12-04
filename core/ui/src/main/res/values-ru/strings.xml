@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="search">Поиск</string>
+    <string name="open_in_browser">Открыть в браузере</string>
+
     <string name="check_network_message">Пожалуйста, проверьте подключение к интернету</string>
     <string name="try_again_message">Попробовать снова</string>
+    <string name="an_error_occurred">Произошла ошибка</string>
 
+    <plurals name="following">
+        <item quantity="one">%s подписан</item>
+        <item quantity="few">%s подписан</item>
+        <item quantity="many">%s подписан</item>
+        <item quantity="other">%s подписан</item>
+    </plurals>
+
+    <plurals name="projects">
+        <item quantity="one">%s проект</item>
+        <item quantity="few">%s проектов</item>
+        <item quantity="many">%s проектов</item>
+        <item quantity="other">%s проектов</item>
+    </plurals>
 </resources>

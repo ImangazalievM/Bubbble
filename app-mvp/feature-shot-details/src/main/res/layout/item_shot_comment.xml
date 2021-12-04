@@ -66,7 +66,7 @@
                         android:id="@+id/likes_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_like_white_18dp"
+                        android:drawableLeft="@drawable/ic_like"
                         android:drawablePadding="6dp"
                         android:text="15"
                         android:textAppearance="@style/AppTheme.DefaultTextTheme"
@@ -93,7 +93,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_like_white_20dp"
+            android:drawableTop="@drawable/ic_like"
             android:text="@string/like"
             android:textAppearance="@style/AppTheme.DefaultTextTheme"/>
 
@@ -102,14 +102,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="64dp"
             android:layout_marginRight="64dp"
-            android:drawableTop="@drawable/ic_share_arrow_white_20dp"
+            android:drawableTop="@drawable/ic_share_arrow"
             android:text="@string/reply"
             android:textAppearance="@style/AppTheme.DefaultTextTheme"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_copy_white_24dp"
+            android:drawableTop="@drawable/ic_copy"
             android:text="@string/copy"
             android:textAppearance="@style/AppTheme.DefaultTextTheme"/>
     </LinearLayout>

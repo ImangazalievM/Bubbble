@@ -1,15 +1,18 @@
-include(":core:core")
-include(":core:di")
-include(":core:models")
-include(":core:network")
-include(":core:data")
-include(":core:ui")
+include(
+    ":core:core",
+    ":core:di",
+    ":core:models",
+    ":core:network",
+    ":core:data",
+    ":core:ui",
 
-//app-mvp
-include(":app-mvp:app")
-include(":app-mvp:core-ui")
-include(":app-mvp:feature-shots")
-include(":app-mvp:feature-shot-details")
-include(":app-mvp:feature-user-profile")
+    //app-mvp
+    ":app-mvp:app",
+    ":app-mvp:core-ui",
+    ":app-mvp:feature-shots",
+    ":app-mvp:feature-shots-search",
+    ":app-mvp:feature-shot-details",
+    ":app-mvp:feature-user-profile",
 
-include(":tests")
+    ":tests"
+)

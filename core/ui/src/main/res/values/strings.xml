@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="search">Search</string>
+    <string name="open_in_browser">Open in browser</string>
+
     <string name="check_network_message">Check network connection</string>
     <string name="try_again_message">Try again</string>
+    <string name="an_error_occurred">An error occurred</string>
+
+    <plurals name="following">
+        <item quantity="zero">%s following</item>
+        <item quantity="one">%s following</item>
+        <item quantity="other">%s following</item>
+    </plurals>
+
+    <plurals name="projects">
+        <item quantity="zero">%s projects</item>
+        <item quantity="one">%s project</item>
+        <item quantity="other">%s projects</item>
+    </plurals>
 
 </resources>

@@ -53,7 +53,7 @@ object Dependencies {
     const val photoView = "com.github.chrisbanes:PhotoView:2.1.3"
     const val materialDrawer = "com.mikepenz:materialdrawer:5.9.4@aar"
     const val hashtagView = "com.github.greenfrvr:hashtag-view:1.3.1"
-    const val viewBindingDelegate  = "com.github.kirich1409:viewbindingpropertydelegate:1.5.2"
+    const val viewBindingDelegate  = "com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta02"
 
     object Mvp {
         private const val moxyVersion = "2.2.2"
@@ -132,7 +132,7 @@ object Modules {
         const val coreUi = ":app-mvp:core-ui"
         const val featureShots = ":app-mvp:feature-shots"
         const val featureShotDetails = ":app-mvp:feature-shot-details"
-        const val featureShotSearch = ":app-mvp:feature-shot-search"
+        const val featureShotsSearch = ":app-mvp:feature-shots-search"
         const val featureUserProfile = ":app-mvp:feature-user-profile"
     }
 

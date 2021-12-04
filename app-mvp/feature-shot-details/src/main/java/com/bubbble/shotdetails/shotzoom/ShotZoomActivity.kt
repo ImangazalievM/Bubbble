@@ -12,7 +12,7 @@ import com.bubbble.shotdetails.R
 import com.bubbble.shotdetails.api.ShotImageZoomScreen
 import com.bubbble.shotdetails.databinding.ActivityShotZoomBinding
 import com.bubbble.ui.extensions.isVisible
-import com.bubbble.ui.navigationargs.getScreenData
+import com.bubbble.coreui.navigationargs.getScreenData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar

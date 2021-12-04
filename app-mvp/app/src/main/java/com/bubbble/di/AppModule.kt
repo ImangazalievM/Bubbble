@@ -1,11 +1,6 @@
 package com.bubbble.di
 
 import android.content.Context
-import android.content.Intent
-import com.bubbble.presentation.global.navigation.ShotsSearchScreen
-import com.bubbble.presentation.shotssearch.ShotsSearchActivity
-import com.bubbble.shots.api.ShotsNavigationFactory
-import com.github.terrakok.cicerone.Screen
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

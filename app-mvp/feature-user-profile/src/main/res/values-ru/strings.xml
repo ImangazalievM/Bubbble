@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="user_follow">Подписаться</string>
+    <string name="user_information">Информация</string>
+
+    <plurals name="buckets">
+        <item quantity="one">%s бакет</item>
+        <item quantity="few">%s бакета</item>
+        <item quantity="many">%s бакетов</item>
+        <item quantity="other">%s бакетов</item>
+    </plurals>
+
+    <plurals name="followers">
+        <item quantity="one">%s подписчик</item>
+        <item quantity="few">%s подписчиков</item>
+        <item quantity="many">%s подписчиков</item>
+        <item quantity="other">%s подписчиков</item>
+    </plurals>
+
+    <plurals name="likes">
+        <item quantity="one">%s лайк</item>
+        <item quantity="few">%s лайка</item>
+        <item quantity="many">%s лайков</item>
+        <item quantity="other">%s лайков</item>
+    </plurals>
 </resources>

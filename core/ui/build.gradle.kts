@@ -11,4 +11,6 @@ dependencies {
     api(Dependencies.androidxAppCompat)
     api(Dependencies.googleMaterial)
     api(Dependencies.paging)
+
+    api(project(Modules.Core.models))
 }

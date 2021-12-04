@@ -5,7 +5,6 @@
     <string name="copy">Copy</string>
 
     <string name="download_image">Download image</string>
-    <string name="open_in_browser">Open in browser</string>
     <string name="share">Share</string>
 
     <string name="storage_access_error_title">Error</string>
@@ -43,18 +42,6 @@
         <item quantity="zero">%s followers</item>
         <item quantity="one">%s follower</item>
         <item quantity="other">%s followers</item>
-    </plurals>
-
-    <plurals name="following">
-        <item quantity="zero">%s following</item>
-        <item quantity="one">%s following</item>
-        <item quantity="other">%s following</item>
-    </plurals>
-
-    <plurals name="projects">
-        <item quantity="zero">%s projects</item>
-        <item quantity="one">%s project</item>
-        <item quantity="other">%s projects</item>
     </plurals>
 
     <!--  Zoom  -->

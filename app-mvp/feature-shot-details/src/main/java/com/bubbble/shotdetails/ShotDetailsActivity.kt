@@ -19,7 +19,7 @@ import com.bubbble.shotdetails.comments.ShotCommentsAdapter
 import com.bubbble.shotdetails.databinding.ActivityShotDetailsBinding
 import com.bubbble.shotdetails.databinding.ItemShotDescriptionBinding
 import com.bubbble.ui.extensions.isVisible
-import com.bubbble.ui.navigationargs.getScreenData
+import com.bubbble.coreui.navigationargs.getScreenData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.GlideDrawable

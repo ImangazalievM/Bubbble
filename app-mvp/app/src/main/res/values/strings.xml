@@ -11,19 +11,9 @@
     <string name="load_failed_message">Load failed retry again!</string>
     <string name="empty_list">Has no items</string>
 
-    <string name="user_information">Information</string>
-    <string name="an_error_occurred">An error occurred</string>
     <string name="open_image_in_browser">Open in browser</string>
 
-
     <string name="no_comments">No comments</string>
-    <string name="search">Search</string>
-
-    <plurals name="likes">
-        <item quantity="zero">%s likes</item>
-        <item quantity="one">%s like</item>
-        <item quantity="other">%s likes</item>
-    </plurals>
 
     <plurals name="views">
         <item quantity="zero">%s views</item>
@@ -37,28 +27,9 @@
         <item quantity="other">%s buckets</item>
     </plurals>
 
-    <plurals name="shots">
-        <item quantity="zero">%s shots</item>
-        <item quantity="one">%s shot</item>
-        <item quantity="other">%s shots</item>
-    </plurals>
-
     <plurals name="followers">
         <item quantity="zero">%s followers</item>
         <item quantity="one">%s follower</item>
         <item quantity="other">%s followers</item>
     </plurals>
-
-    <plurals name="following">
-        <item quantity="zero">%s following</item>
-        <item quantity="one">%s following</item>
-        <item quantity="other">%s following</item>
-    </plurals>
-
-    <plurals name="projects">
-        <item quantity="zero">%s projects</item>
-        <item quantity="one">%s project</item>
-        <item quantity="other">%s projects</item>
-    </plurals>
-
 </resources>

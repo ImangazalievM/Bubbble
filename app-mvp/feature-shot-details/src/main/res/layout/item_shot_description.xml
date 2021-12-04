@@ -69,7 +69,7 @@
                     android:id="@+id/shotCreateDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_time_white_16dp"
+                    android:drawableLeft="@drawable/ic_time"
                     android:drawablePadding="4dp"
                     android:gravity="center"
                     android:maxLines="1"
@@ -109,13 +109,13 @@
             <TextView
                 android:id="@+id/likesCount"
                 style="@style/ShotInfoItem"
-                android:drawableLeft="@drawable/ic_like_white_20dp"
+                android:drawableLeft="@drawable/ic_like"
                 android:text="187 likes" />
 
             <TextView
                 android:id="@+id/shot_buckets_count"
                 style="@style/ShotInfoItem"
-                android:drawableLeft="@drawable/ic_bucket_white_20dp"
+                android:drawableLeft="@drawable/ic_bucket"
                 android:text="13 buckets" />
         </LinearLayout>
 
@@ -127,14 +127,14 @@
             <TextView
                 android:id="@+id/viewsCount"
                 style="@style/ShotInfoItem"
-                android:drawableLeft="@drawable/ic_view_white_20dp"
+                android:drawableLeft="@drawable/ic_view"
                 android:text="359 views" />
 
             <TextView
                 android:id="@+id/shareShotButton"
                 style="@style/ShotInfoItem"
                 android:background="?attr/selectableItemBackground"
-                android:drawableLeft="@drawable/ic_share_arrow_white_20dp"
+                android:drawableLeft="@drawable/ic_share_arrow"
                 android:text="@string/share" />
         </LinearLayout>
     </LinearLayout>
@@ -150,7 +150,7 @@
         app:rowGravity="left"
         app:rowDistribution="random"
         app:rowMode="stretch"
-        app:tagBackground="@drawable/shot_tag_bg"
+        app:tagBackground="@drawable/bg_shot_tag"
         app:tagForeground="@drawable/shot_tag_foreground"
         app:tagPaddingBottom="8dp"
         app:tagPaddingLeft="6dp"

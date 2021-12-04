@@ -129,7 +129,7 @@
                     android:gravity="top"
                     android:minHeight="?actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                    app:navigationIcon="@drawable/ic_arrow_back"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:titleMarginTop="13dp">
 

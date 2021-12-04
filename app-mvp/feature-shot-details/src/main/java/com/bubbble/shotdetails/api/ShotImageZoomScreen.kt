@@ -3,7 +3,7 @@ package com.bubbble.shotdetails.api
 import android.content.Context
 import android.content.Intent
 import com.bubbble.shotdetails.shotzoom.ShotZoomActivity
-import com.bubbble.ui.navigationargs.buildIntent
+import com.bubbble.coreui.navigationargs.buildIntent
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import java.io.Serializable
 

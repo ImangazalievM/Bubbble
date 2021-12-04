@@ -73,7 +73,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="?attr/selectableItemBackground"
-                                android:drawableLeft="@drawable/ic_bucket_white_20dp"
+                                android:drawableLeft="@drawable/ic_bucket"
                                 android:text="3 buckets" />
                         </FrameLayout>
                     </LinearLayout>
@@ -100,7 +100,7 @@
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_user_white_24dp"
+                                android:drawableLeft="@drawable/ic_user"
                                 android:text="257 followers" />
                         </FrameLayout>
 
@@ -113,7 +113,7 @@
                                 style="@style/UserInfoItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_user_lined_white_24dp"
+                                android:drawableLeft="@drawable/ic_user_lined"
                                 android:text="51 following" />
                         </FrameLayout>
 

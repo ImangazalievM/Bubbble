@@ -1,0 +1,17 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shot_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground">
+
+    <com.bubbble.coreui.ui.views.badgedimageview.BadgedImageView
+        android:id="@+id/shot_image"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        app:bubbble_badgeGravity="end|top"
+        app:badgePadding="12dp"
+        app:badgeColor="@android:color/white"
+        />
+
+</FrameLayout>

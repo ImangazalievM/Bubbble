@@ -32,6 +32,7 @@ dependencies {
     implementation(project(Modules.Core.data))
     implementation(project(Modules.AppMvp.coreUi))
     implementation(project(Modules.AppMvp.featureShots))
+    implementation(project(Modules.AppMvp.featureShotsSearch))
     implementation(project(Modules.AppMvp.featureShotDetails))
     implementation(project(Modules.AppMvp.featureUserProfile))
 
